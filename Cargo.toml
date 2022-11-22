@@ -1,0 +1,69 @@
+[workspace]
+members = [
+  "runtime_v8",
+  "runtime_v9",
+  "account_v8",
+  "account_v9",
+  "init_v8",
+  "init_v9",
+  "cron_v8",
+  "cron_v9",
+  "paych_v8",
+  "system_v8",
+  "system_v9",
+  "multisig_v8",
+  "multisig_v9",
+  "market_v8",
+  "market_v9",
+  "power_v8",
+  "reward_v8",
+  "paych_v9",
+  "power_v9",
+  "reward_v9",
+  "verifreg_v8",
+  "verifreg_v9",
+  "miner_v8",
+  "miner_v9",
+]
+resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1.0"
+base64 = "0.13"
+blake2b_simd = "1.0"
+bls-signatures = { version = "0.12", default-features = false, features = [
+  "blst",
+] }
+byteorder = "1.4.3"
+cid = { version = "0.8", default-features = false, features = ["std"] }
+frc42_dispatch = "1.0.0"
+frc46_token = "1.1.0"
+fvm_ipld_amt = "0.4"
+fvm_ipld_bitfield = "0.5"
+fvm_ipld_blockstore = "0.1"
+fvm_ipld_encoding = "0.2"
+fvm_ipld_hamt = "0.5"
+fvm_shared = "2.0"
+getrandom = { version = "0.2.5" }
+hex = "0.4"
+indexmap = { version = "1.9", features = ["serde-1"] }
+integer-encoding = { version = "3.0.3", default-features = false }
+itertools = "0.10"
+lazy_static = "1.4"
+libipld-core = "0.14"
+log = "0.4"
+multihash = "0.16"
+num = "0.4.0"
+num-derive = "0.3"
+num-traits = "0.2"
+paste = "1.0.9"
+rand = "0.8"
+regex = "1.6"
+serde = "1.0"
+serde_repr = "0.1.8"
+sha2 = "0.10.5"
+thiserror = "1.0"
+unsigned-varint = "0.7.1"
+
+fil_actors_runtime_v8 = { path = "./runtime_v8" }
+fil_actors_runtime_v9 = { path = "./runtime_v9" }
