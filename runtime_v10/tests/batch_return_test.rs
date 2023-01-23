@@ -1,4 +1,4 @@
-use fil_actors_runtime::{BatchReturn, BatchReturnGen};
+use fil_actors_runtime_v10::{BatchReturn, BatchReturnGen};
 use fvm_shared::error::ExitCode;
 
 #[test]

@@ -25,6 +25,7 @@ members = [
   "verifreg_v9",
   "miner_v8",
   "miner_v9",
+  "verifreg_v10",
 ]
 resolver = "2"
 
@@ -68,3 +69,4 @@ unsigned-varint = "0.7.1"
 
 fil_actors_runtime_v8 = { path = "./runtime_v8" }
 fil_actors_runtime_v9 = { path = "./runtime_v9" }
+fil_actors_runtime_v10 = { path = "./runtime_v10" }

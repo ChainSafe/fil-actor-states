@@ -9,9 +9,6 @@ pub use self::state::Claim;
 pub use self::state::State;
 pub use self::types::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v10::wasm_trampoline!(Actor);
-
 pub mod expiration;
 pub mod ext;
 pub mod state;
@@ -34,5 +31,11 @@ pub enum Method {
     GetClaims = 10,
     ExtendClaimTerms = 11,
     RemoveExpiredClaims = 12,
+    // Method numbers derived from FRC-0042 standards
+    AddVerifiedClientExported = frc42_dispatch::method_hash!("AddVerifiedClient"),
+    RemoveExpiredAllocationsExported = frc42_dispatch::method_hash!("RemoveExpiredAllocations"),
+    GetClaimsExported = frc42_dispatch::method_hash!("GetClaims"),
+    ExtendClaimTermsExported = frc42_dispatch::method_hash!("ExtendClaimTerms"),
+    RemoveExpiredClaimsExported = frc42_dispatch::method_hash!("RemoveExpiredClaims"),
     UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
 }
