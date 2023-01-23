@@ -2,6 +2,7 @@
 members = [
   "runtime_v8",
   "runtime_v9",
+  "runtime_v10",
   "account_v8",
   "account_v9",
   "init_v8",
