@@ -32,7 +32,11 @@ pub fn resolve_to_actor_id(
         return Ok(id);
     }
 
-    Err(actor_error!(illegal_argument, "failed to resolve or initialize address {}", address))
+    Err(actor_error!(
+        illegal_argument,
+        "failed to resolve or initialize address {}",
+        address
+    ))
 }
 
 // The lowest FRC-42 method number.
