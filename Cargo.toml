@@ -38,8 +38,8 @@ bls-signatures = { version = "0.12", default-features = false, features = [
 ] }
 byteorder = "1.4.3"
 cid = { version = "0.8", default-features = false, features = ["std"] }
-frc42_dispatch = "1.0.0"
-frc46_token = "1.1.0"
+frc42_dispatch = "3.0.0"
+frc46_token = "3.1.0"
 fvm_ipld_amt = "0.4"
 fvm_ipld_bitfield = "0.5"
 fvm_ipld_blockstore = "0.1"
