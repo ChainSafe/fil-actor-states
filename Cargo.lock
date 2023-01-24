@@ -599,6 +599,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "fil_actor_reward_v10"
+version = "10.0.0-alpha.1"
+dependencies = [
+ "fil_actors_runtime_v10",
+ "fvm_ipld_blockstore",
+ "fvm_ipld_encoding 0.2.3",
+ "fvm_shared",
+ "lazy_static",
+ "log",
+ "num-derive",
+ "num-traits",
+ "serde",
+]
+
+[[package]]
 name = "fil_actor_reward_v8"
 version = "8.0.0"
 dependencies = [
