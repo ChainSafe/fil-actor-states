@@ -12,6 +12,7 @@ members = [
   "paych_v8",
   "system_v8",
   "system_v9",
+  "system_v10",
   "multisig_v8",
   "multisig_v9",
   "market_v8",
