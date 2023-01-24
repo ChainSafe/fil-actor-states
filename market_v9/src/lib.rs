@@ -31,9 +31,6 @@ mod deal;
 mod state;
 mod types;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime::wasm_trampoline!(Actor);
-
 pub const NO_ALLOCATION_ID: u64 = 0;
 
 /// Market actor methods available

@@ -106,7 +106,10 @@ pub struct Dispatcher<F, A> {
 
 impl<F, A> Dispatcher<F, A> {
     const fn new(f: F) -> Self {
-        Dispatcher { func: f, _marker: PhantomData }
+        Dispatcher {
+            func: f,
+            _marker: PhantomData,
+        }
     }
 }
 
@@ -148,7 +151,9 @@ where
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
             None => maybe_into_block((self.func)(rt)?),
-            Some(_) => Err(ActorError::illegal_argument("method expects no arguments".into())),
+            Some(_) => Err(ActorError::illegal_argument(
+                "method expects no arguments".into(),
+            )),
         }
     }
 }
@@ -165,7 +170,9 @@ where
         args: &'de Option<IpldBlock>,
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
-            None => Err(ActorError::illegal_argument("method expects arguments".into())),
+            None => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
             Some(arg) => maybe_into_block((self.func)(rt, arg.deserialize()?)?),
         }
     }
@@ -204,9 +211,16 @@ fn test_dispatch() {
         .expect("failed to serialize arguments");
 
     // Correct dispatch
-    assert!(dispatch(&mut rt, with_arg, &arg).expect("failed to dispatch").is_none());
-    assert!(dispatch(&mut rt, without_arg, &None).expect("failed to dispatch").is_none());
-    assert_eq!(dispatch(&mut rt, with_arg_ret, &arg).expect("failed to dispatch"), arg);
+    assert!(dispatch(&mut rt, with_arg, &arg)
+        .expect("failed to dispatch")
+        .is_none());
+    assert!(dispatch(&mut rt, without_arg, &None)
+        .expect("failed to dispatch")
+        .is_none());
+    assert_eq!(
+        dispatch(&mut rt, with_arg_ret, &arg).expect("failed to dispatch"),
+        arg
+    );
 
     // Incorrect dispatch
     let _ = dispatch(&mut rt, with_arg, &None).expect_err("should have required an argument");

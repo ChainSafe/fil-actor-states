@@ -7,9 +7,6 @@ use fvm_ipld_encoding::Cbor;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime::wasm_trampoline!(Actor);
-
 /// System actor methods.
 #[derive(FromPrimitive)]
 #[repr(u64)]

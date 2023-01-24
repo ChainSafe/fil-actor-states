@@ -11,9 +11,6 @@ mod state;
 pub mod testing;
 mod types;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime::wasm_trampoline!(Actor);
-
 /// Init actor methods available
 #[derive(FromPrimitive)]
 #[repr(u64)]
