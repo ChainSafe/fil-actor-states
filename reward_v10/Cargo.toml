@@ -22,3 +22,6 @@ serde = { workspace = true }
 lazy_static = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
+
+[dev-dependencies]
+num = { workspace = true }

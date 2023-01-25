@@ -1,26 +1,12 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v10::runtime::{ActorCode, Runtime};
-use fil_actors_runtime_v10::{
-    actor_dispatch, actor_error, ActorError, BURNT_FUNDS_ACTOR_ADDR, EXPECTED_LEADERS_PER_EPOCH,
-    STORAGE_POWER_ACTOR_ADDR, SYSTEM_ACTOR_ADDR,
-};
-
-use fvm_ipld_encoding::ipld_block::IpldBlock;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser::BigIntDe;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::{METHOD_CONSTRUCTOR, METHOD_SEND};
-use log::{error, warn};
+use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::logic::*;
 pub use self::state::{Reward, State, VestingFunction};
 pub use self::types::*;
-
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v10::wasm_trampoline!(Actor);
 
 pub(crate) mod expneg;
 mod logic;
