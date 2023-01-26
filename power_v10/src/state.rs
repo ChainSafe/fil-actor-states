@@ -1,8 +1,6 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::ops::Neg;
-
 use anyhow::anyhow;
 use cid::Cid;
 use fil_actors_runtime_v10::runtime::Policy;
@@ -20,7 +18,7 @@ use fvm_shared::clock::ChainEpoch;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::error::ExitCode;
 use fvm_shared::sector::{RegisteredPoStProof, StoragePower};
-use fvm_shared::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
+use fvm_shared::smooth::FilterEstimate;
 use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
 use integer_encoding::VarInt;
 use lazy_static::lazy_static;
@@ -152,98 +150,6 @@ impl State {
         get_claim(&claims, miner).map(|s| s.cloned())
     }
 
-    pub(super) fn add_to_claim<BS: Blockstore>(
-        &mut self,
-        policy: &Policy,
-        claims: &mut Map<BS, Claim>,
-        miner: &Address,
-        power: &StoragePower,
-        qa_power: &StoragePower,
-    ) -> anyhow::Result<()> {
-        let old_claim = get_claim(claims, miner)?
-            .ok_or_else(|| actor_error!(not_found, "no claim for actor {}", miner))?;
-
-        self.total_qa_bytes_committed += qa_power;
-        self.total_bytes_committed += power;
-
-        let new_claim = Claim {
-            raw_byte_power: old_claim.raw_byte_power.clone() + power,
-            quality_adj_power: old_claim.quality_adj_power.clone() + qa_power,
-            window_post_proof_type: old_claim.window_post_proof_type,
-        };
-
-        let min_power: StoragePower =
-            consensus_miner_min_power(policy, old_claim.window_post_proof_type)?;
-        let prev_below: bool = old_claim.raw_byte_power < min_power;
-        let still_below: bool = new_claim.raw_byte_power < min_power;
-
-        if prev_below && !still_below {
-            // Just passed min miner size
-            self.miner_above_min_power_count += 1;
-            self.total_quality_adj_power += &new_claim.quality_adj_power;
-            self.total_raw_byte_power += &new_claim.raw_byte_power;
-        } else if !prev_below && still_below {
-            // just went below min miner size
-            self.miner_above_min_power_count -= 1;
-            self.total_quality_adj_power = self
-                .total_quality_adj_power
-                .checked_sub(&old_claim.quality_adj_power)
-                .expect("Negative nominal power");
-            self.total_raw_byte_power = self
-                .total_raw_byte_power
-                .checked_sub(&old_claim.raw_byte_power)
-                .expect("Negative raw byte power");
-        } else if !prev_below && !still_below {
-            // Was above the threshold, still above
-            self.total_quality_adj_power += qa_power;
-            self.total_raw_byte_power += power;
-        }
-
-        if new_claim.raw_byte_power.is_negative() {
-            return Err(anyhow!(actor_error!(
-                illegal_state,
-                "negative claimed raw byte power: {}",
-                new_claim.raw_byte_power
-            )));
-        }
-        if new_claim.quality_adj_power.is_negative() {
-            return Err(anyhow!(actor_error!(
-                illegal_state,
-                "negative claimed quality adjusted power: {}",
-                new_claim.quality_adj_power
-            )));
-        }
-        if self.miner_above_min_power_count < 0 {
-            return Err(anyhow!(actor_error!(
-                illegal_state,
-                "negative amount of miners lather than min: {}",
-                self.miner_above_min_power_count
-            )));
-        }
-
-        set_claim(claims, miner, new_claim)
-    }
-
-    pub(super) fn add_pledge_total(&mut self, amount: TokenAmount) {
-        self.total_pledge_collateral += amount;
-    }
-
-    pub(super) fn append_cron_event<BS: Blockstore>(
-        &mut self,
-        events: &mut Multimap<BS>,
-        epoch: ChainEpoch,
-        event: CronEvent,
-    ) -> anyhow::Result<()> {
-        if epoch < self.first_cron_epoch {
-            self.first_cron_epoch = epoch;
-        }
-
-        events.add(epoch_key(epoch), event).map_err(|e| {
-            e.downcast_wrap(format!("failed to store cron event at epoch {}", epoch))
-        })?;
-        Ok(())
-    }
-
     pub fn current_total_power(&self) -> (StoragePower, StoragePower) {
         if self.miner_above_min_power_count < CONSENSUS_MINER_MIN_MINERS {
             (
@@ -256,56 +162,6 @@ impl State {
                 self.total_quality_adj_power.clone(),
             )
         }
-    }
-
-    pub(super) fn update_smoothed_estimate(&mut self, delta: ChainEpoch) {
-        let filter_qa_power = AlphaBetaFilter::load(
-            &self.this_epoch_qa_power_smoothed,
-            &DEFAULT_ALPHA,
-            &DEFAULT_BETA,
-        );
-        self.this_epoch_qa_power_smoothed =
-            filter_qa_power.next_estimate(&self.this_epoch_quality_adj_power, delta);
-    }
-
-    /// Update stats on new miner creation. This is currently just used to update the miner count
-    /// when new added miner starts above the minimum.
-    pub(super) fn update_stats_for_new_miner(
-        &mut self,
-        policy: &Policy,
-        window_post_proof: RegisteredPoStProof,
-    ) -> anyhow::Result<()> {
-        let min_power = consensus_miner_min_power(policy, window_post_proof)?;
-
-        if !min_power.is_positive() {
-            self.miner_above_min_power_count += 1;
-        }
-        Ok(())
-    }
-
-    /// Validates that miner has
-    pub(super) fn validate_miner_has_claim<BS>(
-        &self,
-        store: &BS,
-        miner_addr: &Address,
-    ) -> Result<(), ActorError>
-    where
-        BS: Blockstore,
-    {
-        let claims = make_map_with_root::<_, Claim>(&self.claims, store).map_err(|e| {
-            e.downcast_default(ExitCode::USR_ILLEGAL_STATE, "failed to load claims")
-        })?;
-
-        if !claims.contains_key(&miner_addr.to_bytes()).map_err(|e| {
-            e.downcast_default(ExitCode::USR_ILLEGAL_STATE, "failed to look up claim")
-        })? {
-            return Err(actor_error!(
-                forbidden,
-                "unknown miner {} forbidden to interact with power actor",
-                miner_addr
-            ));
-        }
-        Ok(())
     }
 
     pub fn get_claim<BS: Blockstore>(
@@ -322,48 +178,6 @@ impl State {
         let claim = get_claim(&claims, miner)?;
         Ok(claim.cloned())
     }
-
-    pub(super) fn delete_claim<BS: Blockstore>(
-        &mut self,
-        policy: &Policy,
-        claims: &mut Map<BS, Claim>,
-        miner: &Address,
-    ) -> anyhow::Result<()> {
-        let (rbp, qap) =
-            match get_claim(claims, miner).map_err(|e| e.downcast_wrap("failed to get claim"))? {
-                None => {
-                    return Ok(());
-                }
-                Some(claim) => (
-                    claim.raw_byte_power.clone(),
-                    claim.quality_adj_power.clone(),
-                ),
-            };
-
-        // Subtract from stats to remove power
-        self.add_to_claim(policy, claims, miner, &rbp.neg(), &qap.neg())
-            .map_err(|e| e.downcast_wrap("failed to subtract miner power before deleting claim"))?;
-
-        claims
-            .delete(&miner.to_bytes())
-            .map_err(|e| e.downcast_wrap(format!("failed to delete claim for address {}", miner)))?
-            .ok_or_else(|| anyhow!("failed to delete claim for address: doesn't exist"))?;
-        Ok(())
-    }
-}
-
-pub(super) fn load_cron_events<BS: Blockstore>(
-    mmap: &Multimap<BS>,
-    epoch: ChainEpoch,
-) -> anyhow::Result<Vec<CronEvent>> {
-    let mut events = Vec::new();
-
-    mmap.for_each(&epoch_key(epoch), |_, v: &CronEvent| {
-        events.push(v.clone());
-        Ok(())
-    })?;
-
-    Ok(events)
 }
 
 /// Gets claim from claims map by address
