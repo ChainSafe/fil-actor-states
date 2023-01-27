@@ -7,6 +7,7 @@ members = [
   "account_v9",
   "init_v8",
   "init_v9",
+  "init_v10",
   "cron_v8",
   "cron_v9",
   "paych_v8",
