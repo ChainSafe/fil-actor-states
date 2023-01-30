@@ -17,14 +17,6 @@ pub struct BeneficiaryTerm {
 }
 
 impl BeneficiaryTerm {
-    pub fn default() -> BeneficiaryTerm {
-        BeneficiaryTerm {
-            quota: TokenAmount::zero(),
-            expiration: 0,
-            used_quota: TokenAmount::zero(),
-        }
-    }
-
     pub fn new(
         quota: TokenAmount,
         used_quota: TokenAmount,
@@ -46,6 +38,16 @@ impl BeneficiaryTerm {
             (&self.quota).sub(&self.used_quota).max(TokenAmount::zero())
         } else {
             TokenAmount::zero()
+        }
+    }
+}
+
+impl Default for BeneficiaryTerm {
+    fn default() -> BeneficiaryTerm {
+        BeneficiaryTerm {
+            quota: TokenAmount::zero(),
+            expiration: 0,
+            used_quota: TokenAmount::zero(),
         }
     }
 }
