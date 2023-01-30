@@ -1225,10 +1225,9 @@ impl State {
                     actor_error!(illegal_argument; "sector number greater than maximum").into(),
                 );
             }
-            let info: &SectorPreCommitOnChainInfo =
-                precommitted
-                    .get(&u64_key(sector_no))?
-                    .ok_or_else(|| actor_error!(not_found, "sector {} not found", sector_no))?;
+            let info: &SectorPreCommitOnChainInfo = precommitted
+                .get(&u64_key(sector_no))?
+                .ok_or_else(|| actor_error!(not_found, "sector {} not found", sector_no))?;
             precommits.push(info.clone());
         }
         Ok(precommits)
