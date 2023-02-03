@@ -21,7 +21,7 @@ fvm_actor_utils = "3.0.0"
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
-fvm_shared = { version = "2.0.0-alpha.2", default-features = false }
+fvm_shared = { workspace = true }
 indexmap = { workspace = true }
 integer-encoding = { workspace = true }
 num-derive = { workspace = true }
