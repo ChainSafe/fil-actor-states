@@ -15,6 +15,7 @@ members = [
   "system_v10",
   "multisig_v8",
   "multisig_v9",
+  "multisig_v10",
   "market_v8",
   "market_v9",
   "power_v8",
