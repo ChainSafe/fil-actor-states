@@ -21,6 +21,7 @@ members = [
   "reward_v8",
   "paych_v9",
   "power_v9",
+  "power_v10",
   "reward_v9",
   "reward_v10",
   "verifreg_v8",
