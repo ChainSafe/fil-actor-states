@@ -27,6 +27,3 @@ pub struct ConstructorParams {
     /// Entries is a set of actors (and corresponding methods) to call during EpochTick.
     pub entries: Vec<Entry>,
 }
-
-/// Cron actor
-pub struct Actor;
