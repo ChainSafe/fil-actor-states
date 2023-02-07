@@ -290,7 +290,7 @@ impl<BS> MockRuntime<BS> {
             store: Rc::new(store),
             in_transaction: Default::default(),
             expectations: Default::default(),
-            policy: Default::default(),
+            policy: Policy::mainnet(),
             circulating_supply: Default::default(),
         }
     }
