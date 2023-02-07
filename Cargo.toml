@@ -11,6 +11,7 @@ members = [
   "init_v10",
   "cron_v8",
   "cron_v9",
+  "cron_v10",
   "paych_v8",
   "system_v8",
   "system_v9",
