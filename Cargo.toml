@@ -21,6 +21,7 @@ members = [
   "multisig_v10",
   "market_v8",
   "market_v9",
+  "market_v10",
   "power_v8",
   "reward_v8",
   "paych_v9",
