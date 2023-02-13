@@ -21,6 +21,7 @@ members = [
   "multisig_v10",
   "market_v8",
   "market_v9",
+  "market_v10",
   "power_v8",
   "reward_v8",
   "paych_v9",
@@ -33,6 +34,7 @@ members = [
   "verifreg_v9",
   "miner_v8",
   "miner_v9",
+  "miner_v10",
   "verifreg_v10",
 ]
 resolver = "2"
@@ -48,11 +50,11 @@ byteorder = "1.4.3"
 cid = { version = "0.8", default-features = false, features = ["std"] }
 frc42_dispatch = "3.0.0"
 frc46_token = "3.1.0"
-fvm_ipld_amt = "0.4"
+fvm_ipld_amt = "0.5.1"
 fvm_ipld_bitfield = "0.5"
 fvm_ipld_blockstore = "0.1"
 fvm_ipld_encoding = "0.2"
-fvm_ipld_hamt = "0.5"
+fvm_ipld_hamt = "0.6.1"
 fvm_shared = "2.0"
 getrandom = { version = "0.2.5" }
 hex = "0.4"
