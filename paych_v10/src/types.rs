@@ -32,7 +32,7 @@ pub struct ConstructorParams {
 /// `to` to redeem payments on-chain in the future
 #[derive(Debug, Clone, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct SignedVoucher {
-    /// ChannelAddr is the address of the payment channel this signed voucher is valid for
+    /// `ChannelAddr` is the address of the payment channel this signed voucher is valid for
     pub channel_addr: Address,
     /// Min epoch before which the voucher cannot be redeemed
     pub time_lock_min: ChainEpoch,
@@ -50,7 +50,7 @@ pub struct SignedVoucher {
     pub nonce: u64,
     /// Amount voucher can be redeemed for
     pub amount: TokenAmount,
-    /// (optional) Can extend channel min_settle_height if needed
+    /// (optional) Can extend channel `min_settle_height` if needed
     pub min_settle_height: ChainEpoch,
 
     /// (optional) Set of lanes to be merged into `lane`
@@ -62,7 +62,7 @@ pub struct SignedVoucher {
 
 impl SignedVoucher {
     pub fn signing_bytes(&self) -> Result<Vec<u8>, Error> {
-        /// Helper struct to avoid cloning for serializing structure.
+        /// Helper structure to avoid cloning for serializing structure.
         #[derive(Serialize_tuple)]
         struct SignedVoucherSer<'a> {
             pub channel_addr: &'a Address,

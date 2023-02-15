@@ -14,7 +14,7 @@ use fvm_shared::MethodNum;
 use integer_encoding::VarInt;
 use serde::{Deserialize, Serialize};
 
-/// SignersMax is the maximum number of signers allowed in a multisig. If more
+/// `SignersMax` is the maximum number of signers allowed in a multisig. If more
 /// are required, please use a combining tree of multisigs.
 pub const SIGNERS_MAX: usize = 256;
 
@@ -46,12 +46,12 @@ pub struct Transaction {
     pub approved: Vec<Address>,
 }
 
-/// Data for a BLAKE2B-256 to be attached to methods referencing proposals via TXIDs.
+/// Data for a BLAKE2B-256 to be attached to methods referencing proposals via `TXID`s.
 /// Ensures the existence of a cryptographic reference to the original proposal. Useful
-/// for offline signers and for protection when reorgs change a multisig TXID.
+/// for offline signers and for protection when reorgs change a multisig `TXID`.
 ///
 /// Requester - The requesting multisig wallet member.
-/// All other fields - From the "Transaction" struct.
+/// All other fields - From the "Transaction" structure.
 #[derive(Serialize_tuple, Debug)]
 pub struct ProposalHashData<'a> {
     pub requester: Option<&'a Address>,
@@ -83,14 +83,14 @@ pub struct ProposeParams {
 /// Propose method call return.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct ProposeReturn {
-    /// TxnID is the ID of the proposed transaction.
+    /// `TxnID` is the ID of the proposed transaction.
     pub txn_id: TxnID,
     /// Applied indicates if the transaction was applied as opposed to proposed but not applied
     /// due to lack of approvals.
     pub applied: bool,
-    /// Code is the exitcode of the transaction, if Applied is false this field should be ignored.
+    /// Code is the exit-code of the transaction, if Applied is false this field should be ignored.
     pub code: ExitCode,
-    /// Ret is the return value of the transaction, if Applied is false this field should
+    /// `Ret` is the return value of the transaction, if Applied is false this field should
     /// be ignored.
     pub ret: RawBytes,
 }
@@ -114,9 +114,9 @@ pub struct ApproveReturn {
     /// Applied indicates if the transaction was applied as opposed to proposed but not applied
     /// due to lack of approvals
     pub applied: bool,
-    /// Code is the exitcode of the transaction, if Applied is false this field should be ignored.
+    /// Code is the exit-code of the transaction, if Applied is false this field should be ignored.
     pub code: ExitCode,
-    /// Ret is the return value of the transaction, if Applied is false this field should
+    /// `Ret` is the return value of the transaction, if Applied is false this field should
     /// be ignored.
     pub ret: RawBytes,
 }
@@ -124,14 +124,14 @@ pub struct ApproveReturn {
 impl Cbor for TxnIDParams {}
 impl Cbor for ApproveReturn {}
 
-/// Add signer params.
+/// Add signer parameters.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct AddSignerParams {
     pub signer: Address,
     pub increase: bool,
 }
 
-/// Remove signer params.
+/// Remove signer parameters.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveSignerParams {
     pub signer: Address,
@@ -140,7 +140,7 @@ pub struct RemoveSignerParams {
 
 impl Cbor for RemoveSignerParams {}
 
-/// Swap signer multisig method params
+/// Swap signer multisig method parameters
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct SwapSignerParams {
     pub from: Address,
@@ -155,7 +155,7 @@ pub struct ChangeNumApprovalsThresholdParams {
     pub new_threshold: u64,
 }
 
-/// Lock balance call params.
+/// Lock balance call parameters.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct LockBalanceParams {
     pub start_epoch: ChainEpoch,

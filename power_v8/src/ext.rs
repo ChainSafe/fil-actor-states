@@ -13,7 +13,7 @@ pub mod init {
 
     pub const EXEC_METHOD: u64 = 2;
 
-    /// Init actor Exec Params
+    /// Init actor `ExecParams`
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct ExecParams {
         pub code_cid: Cid,

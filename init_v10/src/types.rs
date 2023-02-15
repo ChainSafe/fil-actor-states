@@ -12,14 +12,14 @@ pub struct ConstructorParams {
     pub network_name: String,
 }
 
-/// Init actor Exec Params
+/// Init actor `ExecParams`
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct ExecParams {
     pub code_cid: Cid,
     pub constructor_params: RawBytes,
 }
 
-/// Init actor Exec Return value
+/// Init actor `ExecReturn` value
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct ExecReturn {
     /// ID based address for created actor
