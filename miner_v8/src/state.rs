@@ -39,24 +39,24 @@ const PRECOMMIT_EXPIRY_AMT_BITWIDTH: u32 = 6;
 pub const SECTORS_AMT_BITWIDTH: u32 = 5;
 
 /// Balance of Miner Actor should be greater than or equal to
-/// the sum of PreCommitDeposits and LockedFunds.
-/// It is possible for balance to fall below the sum of PCD, LF and
-/// InitialPledgeRequirements, and this is a bad state (IP Debt)
+/// the sum of `PreCommitDeposits` and `LockedFunds`.
+/// It is possible for balance to fall below the sum of `PCD`, LF and
+/// `InitialPledgeRequirements`, and this is a bad state (IP Debt)
 /// that limits a miner actor's behavior (i.e. no balance withdrawals)
-/// Excess balance as computed by st.GetAvailableBalance will be
+/// Excess balance as computed by `st.GetAvailableBalance` will be
 /// withdrawable or usable for pre-commit deposit or pledge lock-up.
 #[derive(Serialize_tuple, Deserialize_tuple, Clone)]
 pub struct State {
     /// Contains static info about this miner
     pub info: Cid,
 
-    /// Total funds locked as pre_commit_deposit
+    /// Total funds locked as `pre_commit_deposit`
     pub pre_commit_deposits: TokenAmount,
 
     /// Total rewards and added funds locked in vesting table
     pub locked_funds: TokenAmount,
 
-    /// VestingFunds (Vesting Funds schedule for the miner).
+    /// `VestingFunds` (Vesting Funds schedule for the miner).
     pub vesting_funds: Cid,
 
     /// Absolute value of debt this miner owes from unpaid fees.
@@ -66,11 +66,11 @@ pub struct State {
     pub initial_pledge: TokenAmount,
 
     /// Sectors that have been pre-committed but not yet proven.
-    /// Map, HAMT<SectorNumber, SectorPreCommitOnChainInfo>
+    /// Map, `HAMT<SectorNumber, SectorPreCommitOnChainInfo>`
     pub pre_committed_sectors: Cid,
 
-    // PreCommittedSectorsCleanUp maintains the state required to cleanup expired PreCommittedSectors.
-    pub pre_committed_sectors_cleanup: Cid, // BitFieldQueue (AMT[Epoch]*BitField)
+    // `PreCommittedSectorsCleanUp` maintains the state required to cleanup expired `PreCommittedSectors`.
+    pub pre_committed_sectors_cleanup: Cid, // `BitFieldQueue (AMT[Epoch]*BitField)`
 
     /// Allocated sector IDs. Sector IDs can never be reused once allocated.
     pub allocated_sectors: Cid, // BitField
@@ -79,18 +79,18 @@ pub struct State {
     ///
     /// Sectors are removed from this AMT when the partition to which the
     /// sector belongs is compacted.
-    pub sectors: Cid, // Array, AMT[SectorNumber]SectorOnChainInfo (sparse)
+    pub sectors: Cid, // Array, `AMT[SectorNumber]SectorOnChainInfo` (sparse)
 
     /// The first epoch in this miner's current proving period. This is the first epoch in which a PoSt for a
     /// partition at the miner's first deadline may arrive. Alternatively, it is after the last epoch at which
     /// a PoSt for the previous window is valid.
     /// Always greater than zero, this may be greater than the current epoch for genesis miners in the first
-    /// WPoStProvingPeriod epochs of the chain; the epochs before the first proving period starts are exempt from Window
+    /// `WPoStProvingPeriod` epochs of the chain; the epochs before the first proving period starts are exempt from Window
     /// PoSt requirements.
     /// Updated at the end of every period by a cron callback.
     pub proving_period_start: ChainEpoch,
 
-    /// Index of the deadline within the proving period beginning at ProvingPeriodStart that has not yet been
+    /// Index of the deadline within the proving period beginning at `ProvingPeriodStart` that has not yet been
     /// finalized.
     /// Updated at the end of each deadline window by a cron callback.
     pub current_deadline: u64,
@@ -657,8 +657,8 @@ impl State {
     }
 
     /// Returns an error if the target sector cannot be found, or some other bad state is reached.
-    /// Returns Ok(false) if the target sector is faulty, terminated, or unproven
-    /// Returns Ok(true) otherwise
+    /// Returns `Ok(false)` if the target sector is faulty, terminated, or unproven
+    /// Returns `Ok(true)` otherwise
     pub fn check_sector_active<BS: Blockstore>(
         &self,
         policy: &Policy,
@@ -916,7 +916,7 @@ impl State {
     /// Repays the full miner actor fee debt.  Returns the amount that must be
     /// burnt and an error if there are not sufficient funds to cover repayment.
     /// Miner state repays from unlocked funds and fails if unlocked funds are insufficient to cover fee debt.
-    /// FeeDebt will be zero after a successful call.
+    /// `FeeDebt` will be zero after a successful call.
     pub fn repay_debts(&mut self, curr_balance: &TokenAmount) -> anyhow::Result<TokenAmount> {
         let unlocked_balance = self.get_unlocked_balance(curr_balance)?;
         if unlocked_balance < self.fee_debt {
@@ -984,7 +984,7 @@ impl State {
         Ok(amount_unlocked)
     }
 
-    /// CheckVestedFunds returns the amount of vested funds that have vested before the provided epoch.
+    /// `CheckVestedFunds` returns the amount of vested funds that have vested before the provided epoch.
     pub fn check_vested_funds<BS: Blockstore>(
         &self,
         store: &BS,
@@ -1008,7 +1008,7 @@ impl State {
         Ok(unlocked_balance)
     }
 
-    /// Unclaimed funds. Actor balance - (locked funds, precommit deposit, ip requirement)
+    /// Unclaimed funds. Actor balance - (locked funds, pre-commit deposit, IP requirement)
     /// Can go negative if the miner is in IP debt.
     pub fn get_available_balance(
         &self,
@@ -1241,8 +1241,8 @@ pub struct AdvanceDeadlineResult {
     /// Power of new faults and failed recoveries
     pub detected_faulty_power: PowerPair,
     /// Total faulty power after detecting faults (before expiring sectors)
-    /// Note that failed recovery power is included in both PreviouslyFaultyPower and
-    /// DetectedFaultyPower, so TotalFaultyPower is not simply their sum.
+    /// Note that failed recovery power is included in both `PreviouslyFaultyPower` and
+    /// `DetectedFaultyPower`, so `TotalFaultyPower` is not simply their sum.
     pub total_faulty_power: PowerPair,
 }
 

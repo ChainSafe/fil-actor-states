@@ -13,17 +13,17 @@ use serde::{Deserialize, Serialize};
 pub struct DeadlineInfo {
     /// Epoch at which this info was calculated.
     pub current_epoch: ChainEpoch,
-    /// First epoch of the proving period (<= CurrentEpoch).
+    /// First epoch of the proving period `(<= CurrentEpoch)`.
     pub period_start: ChainEpoch,
-    /// Current deadline index, in [0..WPoStProvingPeriodDeadlines).
+    /// Current deadline index, in `[0..WPoStProvingPeriodDeadlines)`.
     pub index: u64,
-    /// First epoch from which a proof may be submitted (>= CurrentEpoch).
+    /// First epoch from which a proof may be submitted `(>= CurrentEpoch)`.
     pub open: ChainEpoch,
-    /// First epoch from which a proof may no longer be submitted (>= Open).
+    /// First epoch from which a proof may no longer be submitted `(>= Open)`.
     pub close: ChainEpoch,
-    /// Epoch at which to sample the chain for challenge (< Open).
+    /// Epoch at which to sample the chain for challenge `(< Open)`.
     pub challenge: ChainEpoch,
-    /// First epoch at which a fault declaration is rejected (< Open).
+    /// First epoch at which a fault declaration is rejected `(< Open)`.
     pub fault_cutoff: ChainEpoch,
 
     // Protocol parameters (This is intentionally included in the JSON response for deadlines)

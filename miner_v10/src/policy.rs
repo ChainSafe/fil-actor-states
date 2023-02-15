@@ -42,7 +42,7 @@ pub fn load_partitions_sectors_max(policy: &Policy, partition_sector_count: u64)
     )
 }
 
-/// Prefix for sealed sector CIDs (CommR).
+/// Prefix for sealed sector CIDs (`CommR`).
 pub fn is_sealed_sector(c: &Cid) -> bool {
     // TODO: Move FIL_COMMITMENT etc, into a better place
     c.version() == Version::V1
@@ -94,8 +94,8 @@ pub fn seal_proof_sector_maximum_lifetime(proof: RegisteredSealProof) -> Option<
 pub const MIN_SECTOR_EXPIRATION: i64 = 180 * EPOCHS_IN_DAY;
 
 /// `DealWeight` and `VerifiedDealWeight` are spacetime occupied by regular deals and verified deals in a sector.
-/// Sum of DealWeight and `VerifiedDealWeight` should be less than or equal to total `SpaceTime` of a sector.
-/// Sectors full of VerifiedDeals will have a `SectorQuality` of `VerifiedDealWeightMultiplier`/`QualityBaseMultiplier`.
+/// Sum of `DealWeight` and `VerifiedDealWeight` should be less than or equal to total `SpaceTime` of a sector.
+/// Sectors full of `VerifiedDeals` will have a `SectorQuality` of `VerifiedDealWeightMultiplier`/`QualityBaseMultiplier`.
 /// Sectors full of Deals will have a `SectorQuality` of `DealWeightMultiplier`/`QualityBaseMultiplier`.
 /// Sectors with neither will have a `SectorQuality` of `QualityBaseMultiplier`/`QualityBaseMultiplier`.
 /// `SectorQuality` of a sector is a weighted average of multipliers based on their proportions.
