@@ -223,8 +223,8 @@ pub fn pledge_penalty_for_invalid_windowpost(
     ) + &*BASE_PENALTY_FOR_DISPUTED_WINDOW_POST
 }
 
-/// Computes the PreCommit deposit given sector qa weight and current network conditions.
-/// PreCommit Deposit = BR(PreCommitDepositProjectionPeriod)
+/// Computes the `PreCommit` deposit given sector QA weight and current network conditions.
+/// `PreCommit Deposit = BR(PreCommitDepositProjectionPeriod)`
 pub fn pre_commit_deposit_for_power(
     reward_estimate: &FilterEstimate,
     network_qa_power_estimate: &FilterEstimate,
@@ -244,11 +244,11 @@ pub fn pre_commit_deposit_for_power(
 /// - storage pledge, aka IP base: a multiple of the reward expected to be earned by newly-committed power
 /// - consensus pledge, aka additional IP: a pro-rata fraction of the circulating money supply
 ///
-/// IP = IPBase(t) + AdditionalIP(t)
-/// IPBase(t) = BR(t, InitialPledgeProjectionPeriod)
-/// AdditionalIP(t) = LockTarget(t)*PledgeShare(t)
-/// LockTarget = (LockTargetFactorNum / LockTargetFactorDenom) * FILCirculatingSupply(t)
-/// PledgeShare(t) = sectorQAPower / max(BaselinePower(t), NetworkQAPower(t))
+/// `IP = IPBase(t) + AdditionalIP(t)`
+/// `IPBase(t) = BR(t, InitialPledgeProjectionPeriod)`
+/// `AdditionalIP(t) = LockTarget(t)*PledgeShare(t)`
+/// `LockTarget = (LockTargetFactorNum / LockTargetFactorDenom) * FILCirculatingSupply(t)`
+/// `PledgeShare(t) = sectorQAPower / max(BaselinePower(t), NetworkQAPower(t))`
 pub fn initial_pledge_for_power(
     qa_power: &StoragePower,
     baseline_power: &StoragePower,

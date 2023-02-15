@@ -32,7 +32,7 @@ pub type AddVerifierParams = VerifierParams;
 
 pub type AddVerifierClientParams = VerifierParams;
 
-/// DataCap is an integer number of bytes.
+/// `DataCap` is an integer number of bytes.
 /// We can introduce policy changes and replace this in the future.
 pub type DataCap = StoragePower;
 
@@ -186,8 +186,8 @@ pub struct ClaimExtensionRequest {
 }
 impl Cbor for ClaimExtensionRequest {}
 
-/// Operator-data payload for a datacap token transfer receiver hook specifying an allocation.
-/// The implied client is the sender of the datacap.
+/// Operator-data payload for a `Datacap` token transfer receiver hook specifying an allocation.
+/// The implied client is the sender of the `Datacap`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationRequests {
     pub allocations: Vec<AllocationRequest>,
@@ -195,7 +195,7 @@ pub struct AllocationRequests {
 }
 impl Cbor for AllocationRequests {}
 
-/// Recipient data payload in response to a datacap token transfer.
+/// Recipient data payload in response to a `Datacap` token transfer.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationsResponse {
     // Result for each allocation request.

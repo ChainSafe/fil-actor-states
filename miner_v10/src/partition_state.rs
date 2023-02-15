@@ -37,30 +37,30 @@ pub struct Partition {
     /// the faulty sector bitfield.
     pub unproven: BitField,
     /// Subset of sectors detected/declared faulty and not yet recovered (excl. from PoSt).
-    /// Faults ∩ Terminated = ∅
+    /// `Faults ∩ Terminated = ∅`
     pub faults: BitField,
     /// Subset of faulty sectors expected to recover on next PoSt
-    /// Recoveries ∩ Terminated = ∅
+    /// `Recoveries ∩ Terminated = ∅`
     pub recoveries: BitField,
     /// Subset of sectors terminated but not yet removed from partition (excl. from PoSt)
     pub terminated: BitField,
     /// Maps epochs sectors that expire in or before that epoch.
     /// An expiration may be an "on-time" scheduled expiration, or early "faulty" expiration.
     /// Keys are quantized to last-in-deadline epochs.
-    pub expirations_epochs: Cid, // AMT[ChainEpoch]ExpirationSet
+    pub expirations_epochs: Cid, // `AMT[ChainEpoch]ExpirationSet`
     /// Subset of terminated that were before their committed expiration epoch, by termination epoch.
     /// Termination fees have not yet been calculated or paid and associated deals have not yet been
     /// canceled but effective power has already been adjusted.
     /// Not quantized.
-    pub early_terminated: Cid, // AMT[ChainEpoch]BitField
+    pub early_terminated: Cid, // `AMT[ChainEpoch]BitField`
 
     /// Power of not-yet-terminated sectors (incl faulty & unproven).
     pub live_power: PowerPair,
     /// Power of yet-to-be-proved sectors (never faulty).
     pub unproven_power: PowerPair,
-    /// Power of currently-faulty sectors. FaultyPower <= LivePower.
+    /// Power of currently-faulty sectors. `FaultyPower <= LivePower`.
     pub faulty_power: PowerPair,
-    /// Power of expected-to-recover sectors. RecoveringPower <= FaultyPower.
+    /// Power of expected-to-recover sectors. `RecoveringPower <= FaultyPower`.
     pub recovering_power: PowerPair,
 }
 

@@ -731,7 +731,7 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
     }
 
     /// Traverses the entire queue with a callback function that may mutate entries.
-    /// Iff the function returns that it changed an entry, the new entry will be re-written in the queue. Any changed
+    /// If the function returns that it changed an entry, the new entry will be re-written in the queue. Any changed
     /// entries that become empty are removed after iteration completes.
     fn iter_while_mut(
         &mut self,

@@ -60,7 +60,7 @@ pub type Array<'bs, V, BS> = Amt<V, &'bs BS>;
 /// Deal weight
 pub type DealWeight = BigInt;
 
-/// Create a hamt with a custom bitwidth.
+/// Create a HAMT with a custom bitwidth.
 #[inline]
 pub fn make_empty_map<BS, V>(store: &'_ BS, bitwidth: u32) -> Map<'_, BS, V>
 where

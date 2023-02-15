@@ -30,7 +30,7 @@ pub enum Label {
     Bytes(Vec<u8>),
 }
 
-/// Serialize the Label like an untagged enum.
+/// Serialize the Label like an untagged enumerable.
 impl Serialize for Label {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -58,7 +58,7 @@ impl TryFrom<Ipld> for Label {
     }
 }
 
-/// Deserialize the Label like an untagged enum.
+/// Deserialize the Label like an untagged enumerable.
 impl<'de> Deserialize<'de> for Label {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -88,9 +88,9 @@ impl Label {
 /// when the storage deal stops counting towards power. In the current iteration,
 /// it will be released when the sector containing the storage deals expires,
 /// even though some storage deals can expire earlier than the sector does.
-/// Collaterals are denominated in PerEpoch to incur a cost for self dealing or
+/// Collaterals are denominated in `PerEpoch` to incur a cost for self dealing or
 /// minimal deals that last for a long time.
-/// Note: ClientCollateralPerEpoch may not be needed and removed pending future confirmation.
+/// Note: `ClientCollateralPerEpoch` may not be needed and removed pending future confirmation.
 /// There will be a Minimum value for both client and provider deal collateral.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct DealProposal {
@@ -131,7 +131,7 @@ impl DealProposal {
     }
 }
 
-/// ClientDealProposal is a DealProposal signed by a client
+/// `ClientDealProposal` is a `DealProposal` signed by a client
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClientDealProposal {
     pub proposal: DealProposal,

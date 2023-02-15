@@ -14,32 +14,32 @@ use num_derive::FromPrimitive;
 use super::logic::*;
 
 lazy_static! {
-    /// 36.266260308195979333 FIL
+    /// 36.266260308195979333 `FIL`
     pub static ref INITIAL_REWARD_POSITION_ESTIMATE: TokenAmount = TokenAmount::from_atto(36266260308195979333u128);
-    /// -1.0982489*10^-7 FIL per epoch.  Change of simple minted tokens between epochs 0 and 1.
+    /// -1.0982489*10^-7 `FIL` per epoch.  Change of simple minted tokens between epochs 0 and 1.
     pub static ref INITIAL_REWARD_VELOCITY_ESTIMATE: TokenAmount = TokenAmount::from_atto(-109897758509i64);
 }
 
 /// Reward actor state
 #[derive(Serialize_tuple, Deserialize_tuple, Default, Debug, Clone)]
 pub struct State {
-    /// Target CumsumRealized needs to reach for EffectiveNetworkTime to increase
+    /// Target `CumsumRealized` needs to reach for `EffectiveNetworkTime` to increase
     /// Expressed in byte-epochs.
     #[serde(with = "bigint_ser")]
     pub cumsum_baseline: Spacetime,
 
-    /// CumsumRealized is cumulative sum of network power capped by BaselinePower(epoch).
+    /// `CumsumRealized` is cumulative sum of network power capped by `BaselinePower(epoch)`.
     /// Expressed in byte-epochs.
     #[serde(with = "bigint_ser")]
     pub cumsum_realized: Spacetime,
 
     /// Ceiling of real effective network time `theta` based on
-    /// CumsumBaselinePower(theta) == CumsumRealizedPower
+    /// `CumsumBaselinePower(theta) == CumsumRealizedPower`
     /// Theta captures the notion of how much the network has progressed in its baseline
     /// and in advancing network time.
     pub effective_network_time: ChainEpoch,
 
-    /// EffectiveBaselinePower is the baseline power at the EffectiveNetworkTime epoch.
+    /// `EffectiveBaselinePower` is the baseline power at the `EffectiveNetworkTime` epoch.
     #[serde(with = "bigint_ser")]
     pub effective_baseline_power: StoragePower,
 

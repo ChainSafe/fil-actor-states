@@ -30,7 +30,7 @@ pub const CRON_EVENT_WORKER_KEY_CHANGE: CronEvent = 0;
 pub const CRON_EVENT_PROVING_DEADLINE: CronEvent = 1;
 pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
-/// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
+/// Storage miner actor constructor parameters are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct MinerConstructorParams {
