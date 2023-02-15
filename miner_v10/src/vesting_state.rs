@@ -19,7 +19,7 @@ pub struct VestingFund {
 }
 
 /// Represents the vesting table state for the miner.
-/// It is a slice of (VestingEpoch, VestingAmount).
+/// It is a slice of `(VestingEpoch, VestingAmount)`.
 /// The slice will always be sorted by the `VestingEpoch`.
 #[derive(Serialize_tuple, Deserialize_tuple, Default)]
 pub struct VestingFunds {

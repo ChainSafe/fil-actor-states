@@ -15,7 +15,7 @@ use libipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 
-/// Cid prefix for piece Cids
+/// Cid prefix for piece `Cid`s
 pub fn is_piece_cid(c: &Cid) -> bool {
     // TODO: Move FIL_COMMITMENT etc, into a better place
     c.version() == Version::V1

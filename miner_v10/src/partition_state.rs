@@ -106,7 +106,7 @@ impl Partition {
         &(&self.live_power - &self.faulty_power) - &self.unproven_power
     }
 
-    /// AddSectors adds new sectors to the partition.
+    /// `AddSectors` adds new sectors to the partition.
     /// The sectors are "live", neither faulty, recovering, nor terminated.
     /// Each new sector's expiration is scheduled shortly after its target expiration epoch.
     pub fn add_sectors<BS: Blockstore>(
@@ -204,7 +204,7 @@ impl Partition {
     /// terminated sectors are skipped, and recovering sectors are reverted to
     /// faulty.
     ///
-    /// - New faults are added to the Faults bitfield and the FaultyPower is increased.
+    /// - New faults are added to the Faults bitfield and the `FaultyPower` is increased.
     /// - The sectors' expirations are rescheduled to the fault expiration epoch, as "early" (if not expiring earlier).
     ///
     /// Returns the power of the now-faulty sectors.
@@ -264,7 +264,7 @@ impl Partition {
     }
 
     /// Removes sector numbers from faults and thus from recoveries.
-    /// The sectors are removed from the Faults and Recovering bitfields, and FaultyPower and RecoveringPower reduced.
+    /// The sectors are removed from the Faults and Recovering bitfields, and `FaultyPower` and `RecoveringPower` reduced.
     /// The sectors are re-scheduled for expiration shortly after their target expiration epoch.
     /// Returns the power of the now-recovered sectors.
     pub fn recover_faults<BS: Blockstore>(
@@ -361,13 +361,13 @@ impl Partition {
         // No change to unproven power.
     }
 
-    /// RescheduleExpirations moves expiring sectors to the target expiration,
+    /// `RescheduleExpirations` moves expiring sectors to the target expiration,
     /// skipping any sectors it can't find.
     ///
     /// The power of the rescheduled sectors is assumed to have not changed since
     /// initial scheduling.
     ///
-    /// Note: see the docs on State.RescheduleSectorExpirations for details on why we
+    /// Note: see the docs on `State.RescheduleSectorExpirations` for details on why we
     /// skip sectors/partitions we can't find.
     pub fn reschedule_expirations<BS: Blockstore>(
         &mut self,
@@ -402,7 +402,7 @@ impl Partition {
     /// Replaces a number of "old" sectors with new ones.
     /// The old sectors must not be faulty or terminated.
     /// If the same sector is both removed and added, this permits rescheduling *with a change in power*,
-    /// unlike RescheduleExpirations.
+    /// unlike `RescheduleExpirations`.
     /// Returns the delta to power and pledge requirement.
     pub fn replace_sectors<BS: Blockstore>(
         &mut self,
@@ -539,7 +539,7 @@ impl Partition {
         Ok(removed)
     }
 
-    /// PopExpiredSectors traverses the expiration queue up to and including some epoch, and marks all expiring
+    /// `PopExpiredSectors` traverses the expiration queue up to and including some epoch, and marks all expiring
     /// sectors as terminated.
     /// Returns the expired sector aggregates.
     pub fn pop_expired_sectors<BS: Blockstore>(

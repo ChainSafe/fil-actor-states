@@ -12,7 +12,7 @@ use fvm_shared::address::{Address, Protocol};
 use fvm_shared::error::ExitCode;
 use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
 
-/// State is reponsible for creating
+/// State is responsible for creating
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]
 pub struct State {
     pub address_map: Cid,

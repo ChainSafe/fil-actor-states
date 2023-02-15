@@ -15,7 +15,7 @@ use libipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 
-/// Cid prefix for piece Cids
+/// Cid prefix for piece `Cid`s
 pub fn is_piece_cid(c: &Cid) -> bool {
     // TODO: Move FIL_COMMITMENT etc, into a better place
     c.version() == Version::V1
@@ -88,7 +88,7 @@ impl Label {
 /// when the storage deal stops counting towards power. In the current iteration,
 /// it will be released when the sector containing the storage deals expires,
 /// even though some storage deals can expire earlier than the sector does.
-/// Collaterals are denominated in PerEpoch to incur a cost for self dealing or
+/// Collaterals are denominated in `PerEpoch` to incur a cost for self dealing or
 /// minimal deals that last for a long time.
 /// Note: `ClientCollateralPerEpoch` may not be needed and removed pending future confirmation.
 /// There will be a Minimum value for both client and provider deal collateral.

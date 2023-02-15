@@ -64,11 +64,11 @@ pub struct State {
     pub deal_ops_by_epoch: Cid,
     pub last_cron: ChainEpoch,
 
-    /// Total Client Collateral that is locked -> unlocked when deal is terminated
+    /// Total Client Collateral that is locked unlocked when deal is terminated
     pub total_client_locked_collateral: TokenAmount,
-    /// Total Provider Collateral that is locked -> unlocked when deal is terminated
+    /// Total Provider Collateral that is locked unlocked when deal is terminated
     pub total_provider_locked_collateral: TokenAmount,
-    /// Total storage fee that is locked in escrow -> unlocked when payments are made
+    /// Total storage fee that is locked in escrow unlocked when payments are made
     pub total_client_storage_fee: TokenAmount,
 
     /// Verified registry allocation IDs for deals that are not yet activated.
