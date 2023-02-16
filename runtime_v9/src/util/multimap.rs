@@ -9,21 +9,21 @@ use serde::Serialize;
 
 use crate::{make_empty_map, make_map_with_root_and_bitwidth, Array, BytesKey, Map};
 
-/// Multimap stores multiple values per key in a Hamt of Amts.
+/// `Multimap` stores multiple values per key in a HAMT of `Amt`s.
 /// The order of insertion of values for each key is retained.
 pub struct Multimap<'a, BS>(Map<'a, BS, Cid>, u32);
 impl<'a, BS> Multimap<'a, BS>
 where
     BS: Blockstore,
 {
-    /// Initializes a new empty multimap.
-    /// The outer_bitwidth is the width of the HAMT and the
-    /// inner_bitwidth is the width of the AMTs inside of it.
+    /// Initializes a new empty `Multimap`.
+    /// The `outer_bitwidth` is the width of the HAMT and the
+    /// `inner_bitwidth` is the width of the `AMT`s inside of it.
     pub fn new(bs: &'a BS, outer_bitwidth: u32, inner_bitwidth: u32) -> Self {
         Self(make_empty_map(bs, outer_bitwidth), inner_bitwidth)
     }
 
-    /// Initializes a multimap from a root Cid
+    /// Initializes a `Multimap` from a root Cid
     pub fn from_root(
         bs: &'a BS,
         cid: &Cid,
@@ -36,7 +36,7 @@ where
         ))
     }
 
-    /// Retrieve root from the multimap.
+    /// Retrieve root from the `Multimap`.
     #[inline]
     pub fn root(&mut self) -> Result<Cid, Error> {
         self.0.flush()
@@ -56,15 +56,15 @@ where
         arr.set(arr.count(), value)
             .map_err(|e| anyhow::anyhow!(e))?;
 
-        // flush to get new array root to put in hamt
+        // flush to get new array root to put in HAMT
         let new_root = arr.flush().map_err(|e| anyhow::anyhow!(e))?;
 
-        // Set hamt node to array root
+        // Set HAMT node to array root
         self.0.set(key, new_root)?;
         Ok(())
     }
 
-    /// Gets the Array of value type `V` using the multimap store.
+    /// Gets the Array of value type `V` using the `Multimap` store.
     #[inline]
     pub fn get<V>(&self, key: &[u8]) -> Result<Option<Array<'a, V, BS>>, Error>
     where
@@ -102,7 +102,7 @@ where
         Ok(())
     }
 
-    /// Iterates through all arrays in the multimap
+    /// Iterates through all arrays in the multi-map
     pub fn for_all<F, V>(&self, mut f: F) -> Result<(), Error>
     where
         V: Serialize + DeserializeOwned,

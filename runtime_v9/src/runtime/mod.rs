@@ -31,23 +31,23 @@ pub trait MessageInfo {
     fn receiver(&self) -> Address;
 
     /// The value attached to the message being processed, implicitly
-    /// added to current_balance() before method invocation.
+    /// added to `current_balance()` before method invocation.
     fn value_received(&self) -> TokenAmount;
 }
 
 /// Pure functions implemented as primitives by the runtime.
 pub trait Primitives {
-    /// Hashes input data using blake2b with 256 bit output.
+    /// Hashes input data using `blake2b` with 256 bit output.
     fn hash_blake2b(&self, data: &[u8]) -> [u8; 32];
 
-    /// Computes an unsealed sector CID (CommD) from its constituent piece CIDs (CommPs) and sizes.
+    /// Computes an unsealed sector CID (`CommD`) from its constituent piece CIDs (`CommP`s) and sizes.
     fn compute_unsealed_sector_cid(
         &self,
         proof_type: RegisteredSealProof,
         pieces: &[PieceInfo],
     ) -> Result<Cid, anyhow::Error>;
 
-    /// Verifies that a signature is valid for an address and plaintext.
+    /// Verifies that a signature is valid for an address and plain text.
     fn verify_signature(
         &self,
         signature: &Signature,
@@ -56,7 +56,7 @@ pub trait Primitives {
     ) -> Result<(), anyhow::Error>;
 }
 
-/// filcrypto verification primitives provided by the runtime
+/// `filcrypto` verification primitives provided by the runtime
 pub trait Verifier {
     /// Verifies a sector seal proof.
     fn verify_seal(&self, vi: &SealVerifyInfo) -> Result<(), anyhow::Error>;
@@ -71,8 +71,8 @@ pub trait Verifier {
     /// - at least one of the headers appears in the current chain at or after epoch `earliest`
     /// - the headers provide evidence of a fault (see the spec for the different fault types).
     /// The parameters are all serialized block headers. The third "extra" parameter is consulted only for
-    /// the "parent grinding fault", in which case it must be the sibling of h1 (same parent tipset) and one of the
-    /// blocks in the parent of h2 (i.e. h2's grandparent).
+    /// the "parent grinding fault", in which case it must be the sibling of `h1` (same parent tipset) and one of the
+    /// blocks in the parent of `h2` (i.e. `h2`'s grandparent).
     /// Returns nil and an error if the headers don't prove a fault.
     fn verify_consensus_fault(
         &self,

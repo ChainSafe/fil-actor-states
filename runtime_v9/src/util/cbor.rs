@@ -29,7 +29,7 @@ pub fn deserialize<O: de::DeserializeOwned>(v: &RawBytes, desc: &str) -> Result<
         .map_err(|e| ActorError::serialization(format!("failed to deserialize {}: {}", desc, e)))
 }
 
-/// Deserialises CBOR-encoded bytes as a method parameters object.
+/// Deserializes CBOR-encoded bytes as a method parameters object.
 pub fn deserialize_params<O: de::DeserializeOwned>(params: &RawBytes) -> Result<O, ActorError> {
     deserialize(params, "method parameters")
 }
