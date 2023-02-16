@@ -36,7 +36,7 @@ lazy_static! {
     .unwrap();
 }
 
-/// expneg accepts x in Q.128 format and computes e^-x.
+/// `expneg` accepts x in Q.128 format and computes e^-x.
 /// It is most precise within [0, 1.725) range, where error is less than 3.4e-30.
 /// Over the [0, 5) range its error is less than 4.6e-15.
 /// Output is in Q.128 format.

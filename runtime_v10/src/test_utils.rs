@@ -101,7 +101,7 @@ lazy_static::lazy_static! {
 
 const IPLD_RAW: u64 = 0x55;
 
-/// Returns an identity CID for bz.
+/// Returns an identity CID for `bz`.
 pub fn make_identity_cid(bz: &[u8]) -> Cid {
     Cid::new_v1(
         IPLD_RAW,

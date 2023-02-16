@@ -37,7 +37,7 @@ use crate::{actor_error, ActorError, Runtime};
 
 use super::EMPTY_ARR_CID;
 
-/// A runtime that bridges to the FVM environment through the FVM SDK.
+/// A runtime that bridges to the `FVM` environment through the `FVM SDK`.
 pub struct FvmRuntime<B = ActorBlockstore> {
     blockstore: B,
     /// Indicates whether we are in a state transaction. During such, sending
@@ -77,7 +77,7 @@ impl<B> FvmRuntime<B> {
     }
 }
 
-/// A stub MessageInfo implementation performing FVM syscalls to obtain its fields.
+/// A stub `MessageInfo` implementation performing FVM syscalls to obtain its fields.
 struct FvmMessage;
 
 impl MessageInfo for FvmMessage {
@@ -547,8 +547,8 @@ where
 /// 2.  Obtains the method number for the invocation.
 /// 3.  Creates an FVM runtime shim.
 /// 4.  Invokes the target method.
-/// 5a. In case of error, aborts the execution with the emitted exit code, or
-/// 5b. In case of success, stores the return data as a block and returns the latter.
+/// 5 a. In case of error, aborts the execution with the emitted exit code, or
+/// 5 b. In case of success, stores the return data as a block and returns the latter.
 pub fn trampoline<C: ActorCode>(params: u32) -> u32 {
     init_logging();
 
@@ -589,12 +589,12 @@ pub fn trampoline<C: ActorCode>(params: u32) -> u32 {
 /// If debugging is enabled in the VM, installs a logger that sends messages to the FVM log syscall.
 /// Messages are prefixed with "[LEVEL] ".
 /// If debugging is not enabled, no logger will be installed which means that log!() and
-/// similar calls will be dropped without either formatting args or making a syscall.
+/// similar calls will be dropped without either formatting arguments or making a syscall.
 /// Note that, when debugging, the log syscalls will charge gas that wouldn't be charged
 /// when debugging is not enabled.
 ///
-/// Note: this is similar to fvm::debug::init_logging() from the FVM SDK, but
-/// that doesn't work (at FVM SDK v2.2).
+/// Note: this is similar to `fvm::debug::init_logging()` from the FVM SDK, but
+/// that doesn't work (at `FVM SDK v2.2`).
 fn init_logging() {
     struct Logger;
 

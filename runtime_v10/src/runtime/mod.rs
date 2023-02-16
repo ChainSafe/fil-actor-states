@@ -42,7 +42,7 @@ pub(crate) mod empty;
 pub use empty::EMPTY_ARR_CID;
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 
-/// Runtime is the VM's internal runtime object.
+/// Runtime is the `VM`'s internal runtime object.
 /// this is everything that is accessible to actors, beyond parameters.
 pub trait Runtime: Primitives + Verifier + RuntimePolicy {
     type Blockstore: Blockstore;
@@ -79,7 +79,7 @@ pub trait Runtime: Primitives + Verifier + RuntimePolicy {
 
     /// Randomness returns a (pseudo)random byte array drawing from the latest
     /// ticket chain from a given epoch and incorporating requisite entropy.
-    /// This randomness is fork dependant but also biasable because of this.
+    /// This randomness is fork dependent but also biasable because of this.
     fn get_randomness_from_tickets(
         &self,
         personalization: DomainSeparationTag,
@@ -102,7 +102,7 @@ pub trait Runtime: Primitives + Verifier + RuntimePolicy {
     /// NOTE: we should also limit this to being invoked during the constructor method
     fn create<T: Serialize>(&mut self, obj: &T) -> Result<(), ActorError>;
 
-    /// Loads a readonly copy of the state of the receiver into the argument.
+    /// Loads a read-only copy of the state of the receiver into the argument.
     fn state<T: DeserializeOwned>(&self) -> Result<T, ActorError>;
 
     /// Loads a mutable copy of the state of the receiver, passes it to `f`,
@@ -137,7 +137,7 @@ pub trait Runtime: Primitives + Verifier + RuntimePolicy {
     /// Computes an address for a new actor. The returned address is intended to uniquely refer to
     /// the actor even in the event of a chain re-org (whereas an ID-address might refer to a
     /// different actor after messages are re-ordered).
-    /// Always an ActorExec address.
+    /// Always an `ActorExec` address.
     fn new_actor_address(&mut self) -> Result<Address, ActorError>;
 
     /// Creates an actor with code `codeID` and address `address`, with empty state.
@@ -149,10 +149,10 @@ pub trait Runtime: Primitives + Verifier + RuntimePolicy {
     /// May only be called by the actor itself.
     fn delete_actor(&mut self, beneficiary: &Address) -> Result<(), ActorError>;
 
-    /// Returns whether the specified CodeCID belongs to a built-in actor.
+    /// Returns whether the specified `CodeCID` belongs to a built-in actor.
     fn resolve_builtin_actor_type(&self, code_id: &Cid) -> Option<Type>;
 
-    /// Returns the CodeCID for a built-in actor type. The kernel will abort
+    /// Returns the `CodeCID` for a built-in actor type. The kernel will abort
     /// if the supplied type is invalid.
     fn get_code_cid_for_type(&self, typ: Type) -> Cid;
 
@@ -166,7 +166,7 @@ pub trait Runtime: Primitives + Verifier + RuntimePolicy {
     /// - deal collateral locked by the storage market actor
     fn total_fil_circ_supply(&self) -> TokenAmount;
 
-    /// ChargeGas charges specified amount of `gas` for execution.
+    /// `ChargeGas` charges specified amount of `gas` for execution.
     /// `name` provides information about gas charging point
     fn charge_gas(&mut self, name: &'static str, compute: i64);
 
@@ -183,23 +183,23 @@ pub trait MessageInfo {
     fn receiver(&self) -> Address;
 
     /// The value attached to the message being processed, implicitly
-    /// added to current_balance() before method invocation.
+    /// added to `current_balance()` before method invocation.
     fn value_received(&self) -> TokenAmount;
 }
 
 /// Pure functions implemented as primitives by the runtime.
 pub trait Primitives {
-    /// Hashes input data using blake2b with 256 bit output.
+    /// Hashes input data using BLAKE2b with 256 bit output.
     fn hash_blake2b(&self, data: &[u8]) -> [u8; 32];
 
-    /// Computes an unsealed sector CID (CommD) from its constituent piece CIDs (CommPs) and sizes.
+    /// Computes an unsealed sector CID (`CommD`) from its constituent piece CIDs (`CommPs`) and sizes.
     fn compute_unsealed_sector_cid(
         &self,
         proof_type: RegisteredSealProof,
         pieces: &[PieceInfo],
     ) -> Result<Cid, anyhow::Error>;
 
-    /// Verifies that a signature is valid for an address and plaintext.
+    /// Verifies that a signature is valid for an address and plain text.
     fn verify_signature(
         &self,
         signature: &Signature,
@@ -208,7 +208,7 @@ pub trait Primitives {
     ) -> Result<(), anyhow::Error>;
 }
 
-/// filcrypto verification primitives provided by the runtime
+/// `filcrypto` verification primitives provided by the runtime
 pub trait Verifier {
     /// Verifies a sector seal proof.
     fn verify_seal(&self, vi: &SealVerifyInfo) -> Result<(), anyhow::Error>;
@@ -223,8 +223,8 @@ pub trait Verifier {
     /// - at least one of the headers appears in the current chain at or after epoch `earliest`
     /// - the headers provide evidence of a fault (see the spec for the different fault types).
     /// The parameters are all serialized block headers. The third "extra" parameter is consulted only for
-    /// the "parent grinding fault", in which case it must be the sibling of h1 (same parent tipset) and one of the
-    /// blocks in the parent of h2 (i.e. h2's grandparent).
+    /// the "parent grinding fault", in which case it must be the sibling of `h1` (same parent tipset) and one of the
+    /// blocks in the parent of `h2` (i.e. `h2`'s grandparent).
     /// Returns nil and an error if the headers don't prove a fault.
     fn verify_consensus_fault(
         &self,

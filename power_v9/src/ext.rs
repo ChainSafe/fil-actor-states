@@ -13,14 +13,14 @@ pub mod init {
 
     pub const EXEC_METHOD: u64 = 2;
 
-    /// Init actor Exec Params
+    /// Init actor `ExecParams`
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct ExecParams {
         pub code_cid: Cid,
         pub constructor_params: RawBytes,
     }
 
-    /// Init actor Exec Return value
+    /// Init actor `ExecReturn` value
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct ExecReturn {
         /// ID based address for created actor

@@ -43,7 +43,7 @@ pub struct State {
     #[serde(with = "bigint_ser")]
     pub effective_baseline_power: StoragePower,
 
-    /// The reward to be paid in per WinCount to block producers.
+    /// The reward to be paid in per `WinCount` to block producers.
     /// The actual reward total paid out depends on the number of winners in any round.
     /// This value is recomputed every non-null epoch and used in the next non-null epoch.
     pub this_epoch_reward: TokenAmount,
@@ -136,7 +136,7 @@ impl State {
     }
 }
 
-/// Defines vestion function type for reward actor.
+/// Defines vesting function type for reward actor.
 #[derive(Clone, Debug, PartialEq, Eq, Copy, FromPrimitive, Serialize_repr, Deserialize_repr)]
 #[repr(u8)]
 pub enum VestingFunction {
