@@ -1,8 +1,3 @@
-
-install-deps:
-	apt-get update -y
-	apt-get install --no-install-recommends -y build-essential
-
 install-lint-tools:
 	cargo install --locked taplo-cli
 	cargo install --locked cargo-audit
@@ -42,4 +37,4 @@ clean:
 	@cargo clean
 	@echo "Done cleaning."
 
-.PHONY: clean clean-all lint lint-clippy install-lint-tools install-deps
+.PHONY: clean clean-all lint lint-clippy install-lint-tools
