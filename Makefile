@@ -1,7 +1,7 @@
 
 install-deps:
 	apt-get update -y
-	apt-get install --no-install-recommends -y build-essential clang ocl-icd-opencl-dev
+	apt-get install --no-install-recommends -y build-essential
 
 install-lint-tools:
 	cargo install --locked taplo-cli
