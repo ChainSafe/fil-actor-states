@@ -39,40 +39,7 @@ fmt:
 
 clean:
 	@echo "Cleaning local packages..."
-	@cargo clean -p fil_actors_runtime_v8
-	@cargo clean -p fil_actors_runtime_v9
-	@cargo clean -p fil_actors_runtime_v10
-	@cargo clean -p fil_actor_account_v8
-	@cargo clean -p fil_actor_account_v9
-	@cargo clean -p fil_actor_account_v10
-	@cargo clean -p fil_actor_init_v8
-	@cargo clean -p fil_actor_init_v9
-	@cargo clean -p fil_actor_init_v10
-	@cargo clean -p fil_actor_cron_v8
-	@cargo clean -p fil_actor_cron_v9
-	@cargo clean -p fil_actor_cron_v10
-	@cargo clean -p fil_actor_paych_v8
-	@cargo clean -p fil_actor_system_v8
-	@cargo clean -p fil_actor_system_v9
-	@cargo clean -p fil_actor_system_v10
-	@cargo clean -p fil_actor_multisig_v8
-	@cargo clean -p fil_actor_multisig_v9
-	@cargo clean -p fil_actor_multisig_v10
-	@cargo clean -p fil_actor_market_v8
-	@cargo clean -p fil_actor_market_v9
-	@cargo clean -p fil_actor_power_v8
-	@cargo clean -p fil_actor_reward_v8
-	@cargo clean -p fil_actor_paych_v9
-	@cargo clean -p fil_actor_paych_v10
-	@cargo clean -p fil_actor_power_v9
-	@cargo clean -p fil_actor_power_v10
-	@cargo clean -p fil_actor_reward_v9
-	@cargo clean -p fil_actor_reward_v10
-	@cargo clean -p fil_actor_verifreg_v8
-	@cargo clean -p fil_actor_verifreg_v9
-	@cargo clean -p fil_actor_miner_v8
-	@cargo clean -p fil_actor_miner_v9
-	@cargo clean -p fil_actor_verifreg_v10
+	@cargo clean
 	@echo "Done cleaning."
 
 .PHONY: clean clean-all lint lint-clippy install-lint-tools install-deps
