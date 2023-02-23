@@ -33,6 +33,7 @@ serde_repr = { workspace = true }
 sha2 = { workspace = true }
 thiserror = { workspace = true }
 unsigned-varint = { workspace = true }
+fil_actors_runtime_v10 = { path = "../runtime_v10" }
 
 [dev-dependencies]
 hex = { workspace = true }
