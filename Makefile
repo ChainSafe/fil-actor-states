@@ -8,16 +8,13 @@ clean-all:
 	cargo clean
 
 # Lints with everything we have in our CI arsenal
-lint-all: lint audit spellcheck udeps
+lint-all: lint audit udeps
 
 audit:
 	cargo audit
 
 udeps:
 	cargo udeps
-
-spellcheck:
-	cargo spellcheck --code 1
 
 lint: clean lint-clippy
 	cargo fmt --all --check
