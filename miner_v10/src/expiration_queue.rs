@@ -25,7 +25,7 @@ use super::{power_for_sector, PowerPair, SectorOnChainInfo};
 /// It would be a bit better to derive this number from an enumeration over all partition sizes.
 const ENTRY_SECTORS_MAX: u64 = 10_000;
 
-/// ExpirationSet is a collection of sector numbers that are expiring, either due to
+/// `ExpirationSet` is a collection of sector numbers that are expiring, either due to
 /// expected "on-time" expiration at the end of their life, or unexpected "early" termination
 /// due to being faulty for too long consecutively.
 /// Note that there is not a direct correspondence between on-time sectors and active power;
@@ -149,7 +149,7 @@ impl ExpirationSet {
 }
 
 /// A queue of expiration sets by epoch, representing the on-time or early termination epoch for a collection of sectors.
-/// Wraps an AMT[ChainEpoch]*ExpirationSet.
+/// Wraps an `AMT[ChainEpoch]*ExpirationSet`.
 /// Keys in the queue are quantized (upwards), modulo some offset, to reduce the cardinality of keys.
 pub struct ExpirationQueue<'db, BS> {
     pub amt: Array<'db, ExpirationSet, BS>,
@@ -159,7 +159,7 @@ pub struct ExpirationQueue<'db, BS> {
 impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
     /// Loads a queue root.
     ///
-    /// Epochs provided to subsequent method calls will be quantized upwards to quanta mod offsetSeed before being
+    /// Epochs provided to subsequent method calls will be quantized upwards to quanta mod `offsetSeed` before being
     /// written to/read from queue entries.
     pub fn new(store: &'db BS, root: &Cid, quant: QuantSpec) -> Result<Self, AmtError> {
         Ok(Self {
@@ -731,7 +731,7 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
     }
 
     /// Traverses the entire queue with a callback function that may mutate entries.
-    /// Iff the function returns that it changed an entry, the new entry will be re-written in the queue. Any changed
+    /// If the function returns that it changed an entry, the new entry will be re-written in the queue. Any changed
     /// entries that become empty are removed after iteration completes.
     fn iter_while_mut(
         &mut self,

@@ -18,7 +18,7 @@ mod types;
 
 // * Updated to specs-actors commit: 999e57a151cc7ada020ca2844b651499ab8c0dec (v3.0.1)
 
-/// GasOnSubmitVerifySeal is amount of gas charged for SubmitPoRepForBulkVerify
+/// `GasOnSubmitVerifySeal` is amount of gas charged for `SubmitPoRepForBulkVerify`
 /// This number is empirically determined
 pub mod detail {
     pub const GAS_ON_SUBMIT_VERIFY_SEAL: i64 = 34721049;

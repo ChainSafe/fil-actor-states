@@ -11,7 +11,7 @@ pub struct StateSummary {
     pub redeemed: TokenAmount,
 }
 
-/// Checks internal invariants of paych state
+/// Checks internal `invariants` of `paych` state
 pub fn check_state_invariants<BS: Blockstore>(
     state: &State,
     store: &BS,

@@ -22,7 +22,7 @@ pub type AddVerifierParams = VerifierParams;
 
 pub type AddVerifierClientParams = VerifierParams;
 
-/// DataCap is an integer number of bytes.
+/// `DataCap` is an integer number of bytes.
 /// We can introduce policy changes and replace this in the future.
 pub type DataCap = StoragePower;
 

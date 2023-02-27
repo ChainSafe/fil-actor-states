@@ -82,7 +82,7 @@ where
         Ok(sub)
     }
 
-    /// Subtracts value from a balance, and errors if full amount was not substracted.
+    /// Subtracts value from a balance, and errors if full amount was not subtracted.
     pub fn must_subtract(&mut self, key: &Address, req: &TokenAmount) -> Result<(), HamtError> {
         let prev = self.get(key)?;
 

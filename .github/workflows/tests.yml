@@ -37,3 +37,35 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+
+  lint-all:
+    name: All lint checks (lint audit spellcheck udeps)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v3
+      - name: Apt Dependencies
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: |
+            sudo make install-deps
+            sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
+      - uses: hanabi1224/cache-cargo-bin-action@v1.0.0
+      - name: Install Lint tools
+        run: make install-lint-tools
+        env:
+          RUSTFLAGS: "-Cstrip=symbols"
+      - name: Setup sccache
+        uses: hanabi1224/sccache-action@v1.2.0
+        timeout-minutes: ${{ fromJSON(env.CACHE_TIMEOUT_MINUTES) }}
+        continue-on-error: true
+        with:
+          release-name: v0.3.1
+          cache-key: ${{ runner.os }}-sccache-lints-${{ hashFiles('rust-toolchain.toml') }}
+          cache-update: ${{ github.event_name != 'pull_request' }}
+      - run: make lint-all
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"

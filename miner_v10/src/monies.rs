@@ -42,7 +42,7 @@ const LOCKED_REWARD_FACTOR_DENOM: u32 = 4;
 
 lazy_static! {
     /// Cap on initial pledge requirement for sectors during the Space Race network.
-    /// The target is 1 FIL (10**18 attoFIL) per 32GiB.
+    /// The target is 1 FIL (10**18 attoFIL) per 32 GiB.
     /// This does not divide evenly, so the result is fractionally smaller.
     static ref INITIAL_PLEDGE_MAX_PER_BYTE: TokenAmount =
         TokenAmount::from_whole(1).div_floor(32i64 << 30);
@@ -77,9 +77,9 @@ const CONSENSUS_FAULT_FACTOR: u64 = 5;
 
 /// The projected block reward a sector would earn over some period.
 /// Also known as "BR(t)".
-/// BR(t) = ProjectedRewardFraction(t) * SectorQualityAdjustedPower
-/// ProjectedRewardFraction(t) is the sum of estimated reward over estimated total power
-/// over all epochs in the projection period [t t+projectionDuration]
+/// `BR(t) = ProjectedRewardFraction(t) * SectorQualityAdjustedPower`
+/// `ProjectedRewardFraction(t)` is the sum of estimated reward over estimated total power
+/// over all epochs in the projection period `[t t+projectionDuration]`
 pub fn expected_reward_for_power(
     reward_estimate: &FilterEstimate,
     network_qa_power_estimate: &FilterEstimate,
@@ -157,7 +157,7 @@ pub fn pledge_penalty_for_continued_fault(
 }
 
 /// This is the SP(t) penalty for a newly faulty sector that has not been declared.
-/// SP(t) = UndeclaredFaultFactor * BR(t)
+/// `SP(t) = UndeclaredFaultFactor * BR(t)`
 pub fn pledge_penalty_for_termination_lower_bound(
     reward_estimate: &FilterEstimate,
     network_qa_power_estimate: &FilterEstimate,
@@ -172,7 +172,7 @@ pub fn pledge_penalty_for_termination_lower_bound(
 }
 
 /// Penalty to locked pledge collateral for the termination of a sector before scheduled expiry.
-/// SectorAge is the time between the sector's activation and termination.
+/// `SectorAge` is the time between the sector's activation and termination.
 #[allow(clippy::too_many_arguments)]
 pub fn pledge_penalty_for_termination(
     day_reward: &TokenAmount,
@@ -184,8 +184,8 @@ pub fn pledge_penalty_for_termination(
     replaced_day_reward: &TokenAmount,
     replaced_sector_age: ChainEpoch,
 ) -> TokenAmount {
-    // max(SP(t), BR(StartEpoch, 20d) + BR(StartEpoch, 1d) * terminationRewardFactor * min(SectorAgeInDays, 140))
-    // and sectorAgeInDays = sectorAge / EpochsInDay
+    // `max(SP(t)`, `BR(StartEpoch, 20d) + BR(StartEpoch, 1d) * terminationRewardFactor * min(SectorAgeInDays, 140))`
+    // and `sectorAgeInDays = sectorAge / EpochsInDay`
     let lifetime_cap = TERMINATION_LIFETIME_CAP * EPOCHS_IN_DAY;
     let capped_sector_age = std::cmp::min(sector_age, lifetime_cap);
 
@@ -223,8 +223,8 @@ pub fn pledge_penalty_for_invalid_windowpost(
     ) + &*BASE_PENALTY_FOR_DISPUTED_WINDOW_POST
 }
 
-/// Computes the PreCommit deposit given sector qa weight and current network conditions.
-/// PreCommit Deposit = BR(PreCommitDepositProjectionPeriod)
+/// Computes the `PreCommit` deposit given sector QA weight and current network conditions.
+/// `PreCommit Deposit = BR(PreCommitDepositProjectionPeriod)`
 pub fn pre_commit_deposit_for_power(
     reward_estimate: &FilterEstimate,
     network_qa_power_estimate: &FilterEstimate,
@@ -244,11 +244,11 @@ pub fn pre_commit_deposit_for_power(
 /// - storage pledge, aka IP base: a multiple of the reward expected to be earned by newly-committed power
 /// - consensus pledge, aka additional IP: a pro-rata fraction of the circulating money supply
 ///
-/// IP = IPBase(t) + AdditionalIP(t)
-/// IPBase(t) = BR(t, InitialPledgeProjectionPeriod)
-/// AdditionalIP(t) = LockTarget(t)*PledgeShare(t)
-/// LockTarget = (LockTargetFactorNum / LockTargetFactorDenom) * FILCirculatingSupply(t)
-/// PledgeShare(t) = sectorQAPower / max(BaselinePower(t), NetworkQAPower(t))
+/// `IP = IPBase(t) + AdditionalIP(t)`
+/// `IPBase(t) = BR(t, InitialPledgeProjectionPeriod)`
+/// `AdditionalIP(t) = LockTarget(t)*PledgeShare(t)`
+/// `LockTarget = (LockTargetFactorNum / LockTargetFactorDenom) * FILCirculatingSupply(t)`
+/// `PledgeShare(t) = sectorQAPower / max(BaselinePower(t), NetworkQAPower(t))`
 pub fn initial_pledge_for_power(
     qa_power: &StoragePower,
     baseline_power: &StoragePower,

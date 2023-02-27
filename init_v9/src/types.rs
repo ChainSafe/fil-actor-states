@@ -12,7 +12,7 @@ pub struct ConstructorParams {
     pub network_name: String,
 }
 
-/// Init actor Exec Params
+/// Init actor `ExecParams`
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct ExecParams {
     pub code_cid: Cid,

@@ -8,7 +8,7 @@ use fvm_shared::HAMT_BIT_WIDTH;
 
 use crate::{make_empty_map, make_map_with_root, BytesKey, Map};
 
-/// Set is a Hamt with empty values for the purpose of acting as a hash set.
+/// Set is a HAMT with empty values for the purpose of acting as a hash set.
 #[derive(Debug)]
 pub struct Set<'a, BS>(Map<'a, BS, ()>);
 
@@ -22,12 +22,12 @@ impl<'a, BS> Set<'a, BS>
 where
     BS: Blockstore,
 {
-    /// Initializes a new empty Set with the default bitwidth.
+    /// Initializes a new empty Set with the default bit-width.
     pub fn new(bs: &'a BS) -> Self {
         Self(make_empty_map(bs, HAMT_BIT_WIDTH))
     }
 
-    /// Initializes a new empty Set given a bitwidth.
+    /// Initializes a new empty Set given a bit-width.
     pub fn new_set_with_bitwidth(bs: &'a BS, bitwidth: u32) -> Self {
         Self(make_empty_map(bs, bitwidth))
     }
@@ -46,7 +46,7 @@ where
     /// Adds key to the set.
     #[inline]
     pub fn put(&mut self, key: BytesKey) -> Result<(), Error> {
-        // Set hamt node to array root
+        // Set HAMT node to array root
         self.0.set(key, ())?;
         Ok(())
     }
@@ -71,7 +71,7 @@ where
     where
         F: FnMut(&BytesKey) -> anyhow::Result<()>,
     {
-        // Calls the for each function on the hamt with ignoring the value
+        // Calls the for each function on the HAMT with ignoring the value
         self.0.for_each(|s, _: &()| f(s))
     }
 

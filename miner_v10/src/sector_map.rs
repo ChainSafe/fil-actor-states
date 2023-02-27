@@ -99,7 +99,7 @@ impl DeadlineSectorMap {
         )
     }
 
-    /// Returns a sorted vec of deadlines in the map.
+    /// Returns a sorted vector of deadlines in the map.
     pub fn deadlines(&self) -> impl Iterator<Item = u64> + '_ {
         self.0.keys().copied()
     }
@@ -157,7 +157,7 @@ impl PartitionSectorMap {
         Ok((self.0.len() as u64, sectors))
     }
 
-    /// Returns a sorted vec of partitions in the map.
+    /// Returns a sorted vector of partitions in the map.
     pub fn partitions(&self) -> impl Iterator<Item = u64> + '_ {
         self.0.keys().copied()
     }

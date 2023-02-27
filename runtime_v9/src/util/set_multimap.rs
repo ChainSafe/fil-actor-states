@@ -13,7 +13,7 @@ use fvm_shared::HAMT_BIT_WIDTH;
 use super::Set;
 use crate::{make_empty_map, make_map_with_root, parse_uint_key, u64_key, Map};
 
-/// SetMultimap is a hamt with values that are also a hamt but are of the set variant.
+/// `SetMultimap` is a HAMT with values that are also a HAMT but are of the set variant.
 /// This allows hash sets to be indexable by an address.
 pub struct SetMultimap<'a, BS>(pub Map<'a, BS, Cid>);
 
@@ -21,23 +21,23 @@ impl<'a, BS> SetMultimap<'a, BS>
 where
     BS: Blockstore,
 {
-    /// Initializes a new empty SetMultimap.
+    /// Initializes a new empty `SetMultimap`.
     pub fn new(bs: &'a BS) -> Self {
         Self(make_empty_map(bs, HAMT_BIT_WIDTH))
     }
 
-    /// Initializes a SetMultimap from a root Cid.
+    /// Initializes a `SetMultimap` from a root Cid.
     pub fn from_root(bs: &'a BS, cid: &Cid) -> Result<Self, Error> {
         Ok(Self(make_map_with_root(cid, bs)?))
     }
 
-    /// Retrieve root from the SetMultimap.
+    /// Retrieve root from the `SetMultimap`.
     #[inline]
     pub fn root(&mut self) -> Result<Cid, Error> {
         self.0.flush()
     }
 
-    /// Puts the DealID in the hash set of the key.
+    /// Puts the `DealID` in the hash set of the key.
     pub fn put(&mut self, key: ChainEpoch, value: DealID) -> Result<(), Error> {
         // Get construct amt from retrieved cid or create new
         let mut set = self.get(key)?.unwrap_or_else(|| Set::new(self.0.store()));
@@ -47,12 +47,12 @@ where
         // Save and calculate new root
         let new_root = set.root()?;
 
-        // Set hamt node to set new root
+        // Set HAMT node to set new root
         self.0.set(u64_key(key as u64), new_root)?;
         Ok(())
     }
 
-    /// Puts slice of DealIDs in the hash set of the key.
+    /// Puts slice of `DealID`s in the hash set of the key.
     pub fn put_many(&mut self, key: ChainEpoch, values: &[DealID]) -> Result<(), Error> {
         // Get construct amt from retrieved cid or create new
         let mut set = self.get(key)?.unwrap_or_else(|| Set::new(self.0.store()));
@@ -64,7 +64,7 @@ where
         // Save and calculate new root
         let new_root = set.root()?;
 
-        // Set hamt node to set new root
+        // Set HAMT node to set new root
         self.0.set(u64_key(key as u64), new_root)?;
         Ok(())
     }
@@ -78,7 +78,7 @@ where
         }
     }
 
-    /// Removes a DealID from a key hash set.
+    /// Removes a `DealID` from a key hash set.
     #[inline]
     pub fn remove(&mut self, key: ChainEpoch, v: DealID) -> Result<(), Error> {
         // Get construct amt from retrieved cid and return if no set exists
@@ -104,7 +104,7 @@ where
         Ok(())
     }
 
-    /// Iterates through keys and converts them to a DealID to call a function on each.
+    /// Iterates through keys and converts them to a `DealID` to call a function on each.
     pub fn for_each<F>(&self, key: ChainEpoch, mut f: F) -> Result<(), Error>
     where
         F: FnMut(DealID) -> Result<(), Error>,

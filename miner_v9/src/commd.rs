@@ -5,7 +5,7 @@ use fvm_shared::sector::RegisteredSealProof;
 use multihash::Multihash;
 use serde::{Deserialize, Serialize};
 
-/// CompactCommD represents a Cid with compact representation of context dependant zero value
+/// `CompactCommD` represents a Cid with compact representation of context dependent zero value
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone, Default)]
 #[serde(transparent)]
 pub struct CompactCommD(pub Option<Cid>);
@@ -22,7 +22,7 @@ impl CompactCommD {
     }
 }
 
-/// Prefix for unsealed sector CIDs (CommD).
+/// Prefix for unsealed sector CIDs (`CommD`).
 pub fn is_unsealed_sector(c: &Cid) -> bool {
     c.version() == Version::V1
         && c.codec() == FIL_COMMITMENT_UNSEALED
