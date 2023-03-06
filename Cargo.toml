@@ -36,6 +36,7 @@ members = [
   "miner_v9",
   "miner_v10",
   "verifreg_v10",
+  "fil_actor_interface",
 ]
 resolver = "2"
 
@@ -50,6 +51,7 @@ byteorder = "1.4.3"
 cid = { version = "0.8", default-features = false, features = ["std"] }
 frc42_dispatch = "3.0.0"
 frc46_token = "3.1.0"
+fvm = "~2.2"
 fvm_ipld_amt = "0.5.1"
 fvm_ipld_bitfield = "0.5"
 fvm_ipld_blockstore = "0.1"
@@ -62,6 +64,7 @@ indexmap = { version = "1.9", features = ["serde-1"] }
 integer-encoding = { version = "3.0.3", default-features = false }
 itertools = "0.10"
 lazy_static = "1.4"
+libp2p = { version = "0.51", default-features = false }
 libipld-core = "0.14"
 log = "0.4"
 multihash = "0.16"
