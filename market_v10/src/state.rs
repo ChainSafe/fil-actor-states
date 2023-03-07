@@ -35,16 +35,16 @@ pub enum Reason {
 #[derive(Clone, Default, Serialize_tuple, Deserialize_tuple, Debug)]
 pub struct State {
     /// Proposals are deals that have been proposed and not yet cleaned up after expiry or termination.
-    /// Array<DealID, DealProposal>
+    /// `Array<DealID, DealProposal>`
     pub proposals: Cid,
 
     // States contains state for deals that have been activated and not yet cleaned up after expiry or termination.
     // After expiration, the state exists until the proposal is cleaned up too.
     // Invariant: keys(States) ⊆ keys(Proposals).
-    /// Array<DealID, DealState>
+    /// `Array<DealID, DealState>`
     pub states: Cid,
 
-    /// PendingProposals tracks dealProposals that have not yet reached their deal start date.
+    /// `PendingProposals` tracks `dealProposals` that have not yet reached their deal start date.
     /// We track them here to ensure that miners can't publish the same deal proposal twice
     pub pending_proposals: Cid,
 
@@ -60,15 +60,15 @@ pub struct State {
     pub next_id: DealID,
 
     /// Metadata cached for efficient iteration over deals.
-    /// SetMultimap<Address>
+    /// `SetMultimap<Address>`
     pub deal_ops_by_epoch: Cid,
     pub last_cron: ChainEpoch,
 
-    /// Total Client Collateral that is locked -> unlocked when deal is terminated
+    /// Total Client Collateral that is locked unlocked when deal is terminated
     pub total_client_locked_collateral: TokenAmount,
-    /// Total Provider Collateral that is locked -> unlocked when deal is terminated
+    /// Total Provider Collateral that is locked unlocked when deal is terminated
     pub total_provider_locked_collateral: TokenAmount,
-    /// Total storage fee that is locked in escrow -> unlocked when payments are made
+    /// Total storage fee that is locked in escrow unlocked when payments are made
     pub total_client_storage_fee: TokenAmount,
 
     /// Verified registry allocation IDs for deals that are not yet activated.

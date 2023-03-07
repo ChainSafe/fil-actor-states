@@ -30,7 +30,7 @@ pub const CRON_EVENT_WORKER_KEY_CHANGE: CronEvent = 0;
 pub const CRON_EVENT_PROVING_DEADLINE: CronEvent = 1;
 pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
-/// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
+/// Storage miner actor constructor parameters are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct MinerConstructorParams {
@@ -208,7 +208,7 @@ pub struct DeclareFaultsParams {
 
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct FaultDeclaration {
-    /// The deadline to which the faulty sectors are assigned, in range [0..WPoStPeriodDeadlines)
+    /// The deadline to which the faulty sectors are assigned, in range `[0..WPoStPeriodDeadlines)`
     pub deadline: u64,
     /// Partition index within the deadline containing the faulty sectors.
     pub partition: u64,
@@ -223,7 +223,7 @@ pub struct DeclareFaultsRecoveredParams {
 
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct RecoveryDeclaration {
-    /// The deadline to which the recovered sectors are assigned, in range [0..WPoStPeriodDeadlines)
+    /// The deadline to which the recovered sectors are assigned, in range `[0..WPoStPeriodDeadlines)`
     pub deadline: u64,
     /// Partition index within the deadline containing the recovered sectors.
     pub partition: u64,
@@ -274,13 +274,13 @@ pub struct WorkerKeyChange {
 pub struct PreCommitSectorParams {
     pub seal_proof: RegisteredSealProof,
     pub sector_number: SectorNumber,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub seal_rand_epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
     pub expiration: ChainEpoch,
     /// Deprecated:
-    /// Whether to replace a "committed capacity" no-deal sector (requires non-empty DealIDs)
+    /// Whether to replace a "committed capacity" no-deal sector (requires non-empty `DealID`s)
     pub replace_capacity: bool,
     /// Deprecated:
     /// The committed capacity sector to replace, and its deadline/partition location
@@ -303,12 +303,12 @@ pub struct PreCommitSectorBatchParams2 {
 pub struct SectorPreCommitInfo {
     pub seal_proof: RegisteredSealProof,
     pub sector_number: SectorNumber,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub seal_rand_epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
     pub expiration: ChainEpoch,
-    /// CommD
+    /// `CommD`
     pub unsealed_cid: CompactCommD,
 }
 
@@ -326,7 +326,7 @@ pub struct SectorOnChainInfo {
     pub sector_number: SectorNumber,
     /// The seal proof type implies the PoSt proofs
     pub seal_proof: RegisteredSealProof,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub deal_ids: Vec<DealID>,
     /// Epoch during which the sector proof was accepted
@@ -349,7 +349,7 @@ pub struct SectorOnChainInfo {
     pub replaced_sector_age: ChainEpoch,
     /// Day reward of sector this sector replace or zero
     pub replaced_day_reward: TokenAmount,
-    /// The original SealedSectorCID, only gets set on the first ReplicaUpdate
+    /// The original `SealedSectorCID`, only gets set on the first `ReplicaUpdate`
     pub sector_key_cid: Option<Cid>,
     // Flag for QA power mechanism introduced in fip 0045
     pub simple_qa_power: bool,

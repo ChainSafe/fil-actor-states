@@ -31,7 +31,7 @@ impl BeneficiaryTerm {
 
     /// Get the amount that the beneficiary has not yet withdrawn
     /// return 0 when expired
-    /// return 0 when the usedQuota >= Quota for safe
+    /// return 0 when the `usedQuota >= Quota` for safe
     /// otherwise Return quota-used_quota
     pub fn available(&self, cur: ChainEpoch) -> TokenAmount {
         if self.expiration > cur {

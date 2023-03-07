@@ -14,7 +14,7 @@ pub struct RuntimeHasherWrapper(pub Vec<u8>);
 
 impl Hasher for RuntimeHasherWrapper {
     fn finish(&self) -> u64 {
-        // u64 hash not used in hamt
+        // u64 hash not used in HAMT
         0
     }
 

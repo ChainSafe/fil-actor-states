@@ -11,7 +11,7 @@ use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::clock::{ChainEpoch, QuantSpec};
 use itertools::Itertools;
 
-/// Wrapper for working with an AMT[ChainEpoch]*Bitfield functioning as a queue, bucketed by epoch.
+/// Wrapper for working with an `AMT[ChainEpoch]*Bitfield` functioning as a queue, bucketed by epoch.
 /// Keys in the queue are quantized (upwards), modulo some offset, to reduce the cardinality of keys.
 pub struct BitFieldQueue<'db, BS> {
     pub amt: Array<'db, BitField, BS>,

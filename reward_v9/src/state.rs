@@ -25,41 +25,41 @@ lazy_static! {
 /// Reward actor state
 #[derive(Serialize_tuple, Deserialize_tuple, Default, Debug, Clone)]
 pub struct State {
-    /// Target CumsumRealized needs to reach for EffectiveNetworkTime to increase
+    /// Target `CumsumRealized` needs to reach for `EffectiveNetworkTime` to increase
     /// Expressed in byte-epochs.
     #[serde(with = "bigint_ser")]
     pub cumsum_baseline: Spacetime,
 
-    /// CumsumRealized is cumulative sum of network power capped by BaselinePower(epoch).
+    /// `CumsumRealized` is cumulative sum of network power capped by `BaselinePower(epoch)`.
     /// Expressed in byte-epochs.
     #[serde(with = "bigint_ser")]
     pub cumsum_realized: Spacetime,
 
     /// Ceiling of real effective network time `theta` based on
-    /// CumsumBaselinePower(theta) == CumsumRealizedPower
+    /// `CumsumBaselinePower(theta) == CumsumRealizedPower`
     /// Theta captures the notion of how much the network has progressed in its baseline
     /// and in advancing network time.
     pub effective_network_time: ChainEpoch,
 
-    /// EffectiveBaselinePower is the baseline power at the EffectiveNetworkTime epoch.
+    /// `EffectiveBaselinePower` is the baseline power at the `EffectiveNetworkTime` epoch.
     #[serde(with = "bigint_ser")]
     pub effective_baseline_power: StoragePower,
 
-    /// The reward to be paid in per WinCount to block producers.
+    /// The reward to be paid in per `WinCount` to block producers.
     /// The actual reward total paid out depends on the number of winners in any round.
     /// This value is recomputed every non-null epoch and used in the next non-null epoch.
     pub this_epoch_reward: TokenAmount,
     /// Smoothed `this_epoch_reward`.
     pub this_epoch_reward_smoothed: FilterEstimate,
 
-    /// The baseline power the network is targeting at st.Epoch.
+    /// The baseline power the network is targeting at `st.Epoch`.
     #[serde(with = "bigint_ser")]
     pub this_epoch_baseline_power: StoragePower,
 
     /// Epoch tracks for which epoch the Reward was computed.
     pub epoch: ChainEpoch,
 
-    // TotalStoragePowerReward tracks the total FIL awarded to block miners
+    // `TotalStoragePowerReward` tracks the total FIL awarded to block miners
     pub total_storage_power_reward: TokenAmount,
 
     // Simple and Baseline totals are constants used for computing rewards.
@@ -140,7 +140,7 @@ impl State {
 
 impl Cbor for State {}
 
-/// Defines vestion function type for reward actor.
+/// Defines vesting function type for reward actor.
 #[derive(Clone, Debug, PartialEq, Eq, Copy, FromPrimitive, Serialize_repr, Deserialize_repr)]
 #[repr(u8)]
 pub enum VestingFunction {

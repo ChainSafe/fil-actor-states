@@ -12,7 +12,7 @@ use crate::ActorError;
 /// Trait to allow multiple error types to be able to be downcasted into an `ActorError`.
 pub trait ActorDowncast {
     /// Downcast a dynamic std Error into an `ActorError`. If the error cannot be downcasted
-    /// into an ActorError automatically, use the provided `ExitCode` to generate a new error.
+    /// into an `ActorError` automatically, use the provided `ExitCode` to generate a new error.
     fn downcast_default(self, default_exit_code: ExitCode, msg: impl AsRef<str>) -> ActorError;
 
     /// Wrap the error with a message, without overwriting an exit code.

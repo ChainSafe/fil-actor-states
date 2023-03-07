@@ -10,7 +10,7 @@ use fvm_shared::clock::ChainEpoch;
 use fvm_shared::econ::TokenAmount;
 
 /// A given payment channel actor is established by `from`
-/// to enable off-chain microtransactions to `to` address
+/// to enable off-chain micro-transactions to `to` address
 /// to be reconciled and tallied on chain.
 #[derive(Debug, Serialize_tuple, Deserialize_tuple, Clone)]
 pub struct State {

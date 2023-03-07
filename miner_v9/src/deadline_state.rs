@@ -319,7 +319,7 @@ impl Deadline {
         Ok(())
     }
 
-    /// PopExpiredSectors terminates expired sectors from all partitions.
+    /// `PopExpiredSectors` terminates expired sectors from all partitions.
     /// Returns the expired sector aggregates.
     pub fn pop_expired_sectors<BS: Blockstore>(
         &mut self,
@@ -635,7 +635,7 @@ impl Deadline {
         Ok(power_lost)
     }
 
-    /// RemovePartitions removes the specified partitions, shifting the remaining
+    /// `RemovePartitions` removes the specified partitions, shifting the remaining
     /// ones to the left, and returning the live and dead sectors they contained.
     ///
     /// Returns an error if any of the partitions contained faulty sectors or early
@@ -1135,7 +1135,7 @@ impl Deadline {
     /// Processes a series of posts, recording proven partitions and marking skipped
     /// sectors as faulty.
     ///
-    /// It returns a PoStResult containing the list of proven and skipped sectors and
+    /// It returns a `PoStResult` containing the list of proven and skipped sectors and
     /// changes to power (newly faulty power, power that should have been proven
     /// recovered but wasn't, and newly recovered power).
     ///
@@ -1336,13 +1336,13 @@ impl Deadline {
         Ok((post.partitions, post.proofs))
     }
 
-    /// RescheduleSectorExpirations reschedules the expirations of the given sectors
+    /// `RescheduleSectorExpirations` reschedules the expirations of the given sectors
     /// to the target epoch, skipping any sectors it can't find.
     ///
     /// The power of the rescheduled sectors is assumed to have not changed since
     /// initial scheduling.
     ///
-    /// Note: see the docs on State.RescheduleSectorExpirations for details on why we
+    /// Note: see the docs on `State.RescheduleSectorExpirations` for details on why we
     /// skip sectors/partitions we can't find.
     pub fn reschedule_sector_expirations<BS: Blockstore>(
         &mut self,

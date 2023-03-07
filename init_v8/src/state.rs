@@ -13,7 +13,7 @@ use fvm_ipld_hamt::Error as HamtError;
 use fvm_shared::address::{Address, Protocol};
 use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
 
-/// State is reponsible for creating
+/// State is responsible for creating
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     pub address_map: Cid,
@@ -50,7 +50,7 @@ impl State {
         Ok(id)
     }
 
-    /// ResolveAddress resolves an address to an ID-address, if possible.
+    /// `ResolveAddress` resolves an address to an ID-address, if possible.
     /// If the provided address is an ID address, it is returned as-is.
     /// This means that mapped ID-addresses (which should only appear as values, not keys) and
     /// singleton actor addresses (which are not in the map) pass through unchanged.

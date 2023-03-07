@@ -24,6 +24,6 @@ pub enum Method {
 /// of actors and methods to call on each epoch
 #[derive(Default, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct ConstructorParams {
-    /// Entries is a set of actors (and corresponding methods) to call during EpochTick.
+    /// Entries is a set of actors (and corresponding methods) to call during `EpochTick`.
     pub entries: Vec<Entry>,
 }

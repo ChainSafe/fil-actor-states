@@ -27,9 +27,9 @@ use num_traits::Signed;
 use super::{CONSENSUS_MINER_MIN_MINERS, CRON_QUEUE_AMT_BITWIDTH, CRON_QUEUE_HAMT_BITWIDTH};
 
 lazy_static! {
-    /// genesis power in bytes = 750,000 GiB
+    /// genesis power in `bytes = 750,000 GiB`
     pub static ref INITIAL_QA_POWER_ESTIMATE_POSITION: StoragePower = StoragePower::from(750_000) * (1 << 30);
-    /// max chain throughput in bytes per epoch = 120 ProveCommits / epoch = 3,840 GiB
+    /// max chain throughput in bytes per `epoch = 120 `ProveCommits` / epoch = 3,840 GiB`
     pub static ref INITIAL_QA_POWER_ESTIMATE_VELOCITY: StoragePower = StoragePower::from(3_840) * (1 << 30);
 }
 
