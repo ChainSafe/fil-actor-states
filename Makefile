@@ -6,7 +6,7 @@ install-lint-tools:
 
 install-deps:
 	apt-get update -y
-	apt-get install --no-install-recommends -y protobuf-compiler
+	apt-get install --no-install-recommends -y ocl-icd-opencl-dev protobuf-compiler
 
 clean-all:
 	cargo clean
