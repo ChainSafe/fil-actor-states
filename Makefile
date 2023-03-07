@@ -4,6 +4,10 @@ install-lint-tools:
 	cargo install --locked cargo-spellcheck
 	cargo install --locked cargo-udeps
 
+install-deps:
+	apt-get update -y
+	apt-get install --no-install-recommends -y protobuf-compiler
+
 clean-all:
 	cargo clean
 
