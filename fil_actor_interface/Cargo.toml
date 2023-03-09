@@ -1,0 +1,41 @@
+[package]
+name = "fil_actor_interface"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/ChainSafe/fil-actor-states"
+version = "0.6.0"
+authors = ["ChainSafe Systems <info@chainsafe.io>"]
+edition = "2021"
+
+[dependencies]
+fil_actor_account_v8 = { path = "../account_v8" }
+fil_actor_account_v9 = { path = "../account_v9" }
+fil_actor_account_v10 = { path = "../account_v10" }
+fil_actor_cron_v8 = { path = "../cron_v8" }
+fil_actor_init_v8 = { path = "../init_v8" }
+fil_actor_init_v9 = { path = "../init_v9" }
+fil_actor_init_v10 = { path = "../init_v10" }
+fil_actor_market_v8 = { path = "../market_v8" }
+fil_actor_market_v9 = { path = "../market_v9" }
+fil_actor_market_v10 = { path = "../market_v10" }
+fil_actor_miner_v8 = { path = "../miner_v8" }
+fil_actor_miner_v9 = { path = "../miner_v9" }
+fil_actor_miner_v10 = { path = "../miner_v10" }
+fil_actor_power_v8 = { path = "../power_v8" }
+fil_actor_power_v9 = { path = "../power_v9" }
+fil_actor_power_v10 = { path = "../power_v10" }
+fil_actor_reward_v8 = { path = "../reward_v8" }
+fil_actor_reward_v9 = { path = "../reward_v9" }
+fil_actor_reward_v10 = { path = "../reward_v10" }
+fil_actors_runtime_v10.workspace = true
+fil_actors_runtime_v9.workspace = true
+
+anyhow.workspace = true
+cid.workspace = true
+fvm.workspace = true
+fvm_ipld_bitfield.workspace = true
+fvm_ipld_blockstore.workspace = true
+fvm_ipld_encoding.workspace = true
+fvm_shared = { workspace = true, default-features = false }
+libp2p = { workspace = true, default-features = false }
+num.workspace = true
+serde = { workspace = true, features = ["derive"] }
