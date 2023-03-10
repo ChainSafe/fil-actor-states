@@ -49,7 +49,7 @@ pub fn is_v10_init_cid(cid: &Cid) -> bool {
 }
 
 /// Init actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_init_v8::State),

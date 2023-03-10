@@ -17,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(3);
 pub type Method = fil_actor_cron_v8::Method;
 
 /// Cron actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_cron_v8::State),

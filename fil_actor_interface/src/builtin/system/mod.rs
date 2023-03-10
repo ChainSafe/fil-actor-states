@@ -17,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(0);
 pub type Method = fil_actor_system_v8::Method;
 
 /// System actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_system_v8::State),

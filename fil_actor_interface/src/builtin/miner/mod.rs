@@ -58,7 +58,7 @@ pub fn is_v10_miner_cid(cid: &Cid) -> bool {
 }
 
 /// Miner actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     // V7(fil_actor_miner_v7::State),

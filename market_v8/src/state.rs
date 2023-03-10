@@ -16,7 +16,7 @@ use fvm_shared::HAMT_BIT_WIDTH;
 use super::types::*;
 
 /// Market actor state
-#[derive(Clone, Default, Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Default, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     /// Proposals are deals that have been proposed and not yet cleaned up after expiry or termination.
     /// `Array<DealID, DealProposal>`

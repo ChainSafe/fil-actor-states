@@ -49,7 +49,7 @@ pub fn is_v10_reward_cid(cid: &Cid) -> bool {
 }
 
 /// Reward actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_reward_v8::State),

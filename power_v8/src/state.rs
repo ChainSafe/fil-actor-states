@@ -34,7 +34,7 @@ lazy_static! {
 }
 
 /// Storage power actor state
-#[derive(Default, Serialize_tuple, Deserialize_tuple)]
+#[derive(Default, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     #[serde(with = "bigint_ser")]
     pub total_raw_byte_power: StoragePower,
