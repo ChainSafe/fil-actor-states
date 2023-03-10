@@ -11,6 +11,8 @@ fil_actor_account_v8 = { path = "../account_v8" }
 fil_actor_account_v9 = { path = "../account_v9" }
 fil_actor_account_v10 = { path = "../account_v10" }
 fil_actor_cron_v8 = { path = "../cron_v8" }
+fil_actor_cron_v9 = { path = "../cron_v9" }
+fil_actor_cron_v10 = { path = "../cron_v10" }
 fil_actor_init_v8 = { path = "../init_v8" }
 fil_actor_init_v9 = { path = "../init_v9" }
 fil_actor_init_v10 = { path = "../init_v10" }
