@@ -13,7 +13,7 @@ use crate::io::get_obj;
 pub type Method = fil_actor_multisig_v8::Method;
 
 /// Multisig actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_multisig_v8::State),

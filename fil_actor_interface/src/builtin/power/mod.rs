@@ -52,7 +52,7 @@ pub fn is_v10_power_cid(cid: &Cid) -> bool {
 }
 
 /// Power actor state.
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
     V8(fil_actor_power_v8::State),

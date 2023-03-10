@@ -17,7 +17,7 @@ pub enum Method {
 }
 
 /// System actor state.
-#[derive(Default, Deserialize_tuple, Serialize_tuple)]
+#[derive(Default, Debug, Deserialize_tuple, Serialize_tuple)]
 pub struct State {
     // builtin actor registry: Vec<(String, Cid)>
     pub builtin_actors: Cid,
