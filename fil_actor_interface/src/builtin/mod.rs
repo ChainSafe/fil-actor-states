@@ -7,6 +7,7 @@ pub mod ethaccount;
 pub mod init;
 pub mod market;
 pub mod miner;
+pub mod multisig;
 pub mod placeholder;
 pub mod power;
 pub mod reward;

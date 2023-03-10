@@ -77,6 +77,9 @@ impl State {
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
-        Err(anyhow::anyhow!("Unknown multisig actor code {}", actor.code))
+        Err(anyhow::anyhow!(
+            "Unknown multisig actor code {}",
+            actor.code
+        ))
     }
 }
