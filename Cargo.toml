@@ -36,6 +36,7 @@ members = [
   "miner_v9",
   "miner_v10",
   "verifreg_v10",
+  "datacap_v10",
   "fil_actor_interface",
 ]
 resolver = "2"
@@ -79,6 +80,7 @@ serde_repr = "0.1.8"
 sha2 = "0.10.5"
 thiserror = "1.0"
 unsigned-varint = "0.7.1"
+fvm_actor_utils = "4.0.2"
 
 fil_actors_runtime_v8 = { path = "./runtime_v8" }
 fil_actors_runtime_v9 = { path = "./runtime_v9" }
