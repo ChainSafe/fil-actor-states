@@ -46,7 +46,7 @@ pub fn is_v10_market_cid(cid: &Cid) -> bool {
         // calibnet v10
         Cid::try_from("bafk2bzacecclsfboql3iraf3e66pzuh3h7qp3vgmfurqz26qh5g5nrexjgknc").unwrap(),
         // mainnet v10
-        Cid::try_from("bafk2bzacedalaigmokrtimabt7y7bkok5nd2j5gmifdahht3dsz5ulj7vxdgu").unwrap(),
+        Cid::try_from("bafk2bzaceclejwjtpu2dhw3qbx6ow7b4pmhwa7ocrbbiqwp36sq5yeg6jz2bc").unwrap(),
     ];
     known_cids.contains(cid)
 }

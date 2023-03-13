@@ -52,7 +52,7 @@ pub fn is_v10_miner_cid(cid: &Cid) -> bool {
         // calibnet v10
         Cid::try_from("bafk2bzacedu4chbl36rilas45py4vhqtuj6o7aa5stlvnwef3kshgwcsmha6y").unwrap(),
         // mainnet v10
-        Cid::try_from("bafk2bzacecpq5wjp3frz3b4cd2pozegi7sykgcawnaowjm6ddyai2epbphxvw").unwrap(),
+        Cid::try_from("bafk2bzaced4h7noksockro7glnssz2jnmo2rpzd7dvnmfs4p24zx3h6gtx47s").unwrap(),
     ];
     known_cids.contains(cid)
 }
