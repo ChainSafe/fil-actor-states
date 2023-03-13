@@ -43,7 +43,7 @@ pub fn is_v10_init_cid(cid: &Cid) -> bool {
         // calibnet v10
         Cid::try_from("bafk2bzacedhxbcglnonzruxf2jpczara73eh735wf2kznatx2u4gsuhgqwffq").unwrap(),
         // mainnet v10
-        Cid::try_from("bafk2bzacebb3l4gw6hfszizw5zwho3pfpnmgrmxqm4ie42dgn62325lo4vwc2").unwrap(),
+        Cid::try_from("bafk2bzaced2f5rhir3hbpqbz5ght7ohv2kgj42g5ykxrypuo2opxsup3ykwl6").unwrap(),
     ];
     known_cids.contains(cid)
 }
