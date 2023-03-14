@@ -1294,17 +1294,9 @@ dependencies = [
 name = "fil_actor_eam_v10"
 version = "10.0.0"
 dependencies = [
- "anyhow",
- "cid",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.0.0",
- "log",
- "multihash 0.16.3",
  "num-derive",
  "num-traits",
- "serde",
- "serde_tuple",
 ]
 
 [[package]]
