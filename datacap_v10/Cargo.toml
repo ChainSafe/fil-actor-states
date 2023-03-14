@@ -15,10 +15,8 @@ crate-type = ["cdylib", "lib"]
 
 [dependencies]
 fil_actors_runtime_v10 = { workspace = true }
-cid = { workspace = true }
 frc42_dispatch = { workspace = true }
 frc46_token = { workspace = true }
-fvm_actor_utils = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }

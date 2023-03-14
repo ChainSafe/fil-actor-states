@@ -1279,11 +1279,9 @@ dependencies = [
 name = "fil_actor_datacap_v10"
 version = "10.0.0"
 dependencies = [
- "cid",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "frc46_token",
- "fvm_actor_utils 4.0.2",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1830,7 +1828,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "frc46_token",
- "fvm_actor_utils 3.0.0",
+ "fvm_actor_utils",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
@@ -2153,7 +2151,7 @@ dependencies = [
  "anyhow",
  "cid",
  "frc42_dispatch",
- "fvm_actor_utils 3.0.0",
+ "fvm_actor_utils",
  "fvm_ipld_amt 0.4.2",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
@@ -2338,25 +2336,6 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_sdk 2.2.0",
  "fvm_shared 2.0.0",
- "num-traits",
- "serde",
- "serde_tuple",
- "thiserror",
-]
-
-[[package]]
-name = "fvm_actor_utils"
-version = "4.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b37f347ddbb46adeba750a8bbc499d5b7f83610d977615b4bcd83b84081b8721"
-dependencies = [
- "anyhow",
- "cid",
- "frc42_dispatch",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_sdk 3.0.0",
- "fvm_shared 3.0.0",
  "num-traits",
  "serde",
  "serde_tuple",

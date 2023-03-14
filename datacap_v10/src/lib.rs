@@ -1,7 +1,6 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use frc46_token::token::TOKEN_PRECISION;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
@@ -10,8 +9,6 @@ pub use self::types::*;
 
 mod state;
 mod types;
-
-pub const DATACAP_GRANULARITY: u64 = TOKEN_PRECISION;
 
 /// Datacap actor methods available
 #[derive(FromPrimitive)]
