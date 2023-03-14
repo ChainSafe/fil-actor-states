@@ -10,7 +10,6 @@ pub use types::*;
 
 #[doc(hidden)]
 pub mod ext;
-pub(crate) mod reader;
 mod state;
 mod types;
 
