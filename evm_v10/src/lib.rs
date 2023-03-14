@@ -8,8 +8,6 @@ use num_derive::FromPrimitive;
 
 pub use types::*;
 
-#[doc(hidden)]
-pub mod ext;
 mod state;
 mod types;
 

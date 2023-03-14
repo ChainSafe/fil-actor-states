@@ -9,7 +9,6 @@ pub use self::state::State;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 pub const DATACAP_GRANULARITY: u64 = TOKEN_PRECISION;

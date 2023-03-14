@@ -3,7 +3,6 @@
 
 use fvm_shared::METHOD_CONSTRUCTOR;
 
-pub mod ext;
 use num_derive::FromPrimitive;
 
 #[derive(FromPrimitive)]
