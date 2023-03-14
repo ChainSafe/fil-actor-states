@@ -38,6 +38,7 @@ members = [
   "verifreg_v10",
   "datacap_v10",
   "eam_v10",
+  "evm_v10",
   "fil_actor_interface",
 ]
 resolver = "2"
