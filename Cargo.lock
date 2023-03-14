@@ -1315,6 +1315,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "fil_actor_ethaccount_v10"
+version = "10.0.0"
+dependencies = [
+ "fvm_ipld_encoding 0.3.3",
+ "fvm_shared 2.0.0",
+ "num-derive",
+ "num-traits",
+ "serde",
+]
+
+[[package]]
 name = "fil_actor_evm_v10"
 version = "10.0.0"
 dependencies = [
