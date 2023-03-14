@@ -22,4 +22,4 @@ cid = { workspace = true }
 fvm_ipld_encoding = "0.3.3"
 hex-literal = { workspace = true }
 frc42_dispatch = { workspace = true }
-fil_actors_evm_shared_v10 = { workspace = true }
+fil_actors_evm_shared_v10 = { path = "./shared_v10" }

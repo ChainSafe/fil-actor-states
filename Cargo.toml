@@ -41,6 +41,7 @@ members = [
   "evm_v10",
   "ethaccount_v10",
   "fil_actor_interface",
+  "evm_v10/shared_v10",
 ]
 resolver = "2"
 
@@ -85,7 +86,6 @@ thiserror = "1.0"
 unsigned-varint = "0.7.1"
 serde_tuple = "0.5"
 hex-literal = "0.3.4"
-fil_actors_evm_shared_v10 = { version = "10.0.0", path = "./evm_v10/shared_v10" }
 uint = { version = "0.9.3", default-features = false }
 
 fil_actors_runtime_v8 = { path = "./runtime_v8" }
