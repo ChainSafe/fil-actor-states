@@ -29,4 +29,4 @@ multihash = { workspace = true }
 hex = { workspace = true }
 hex-literal = { workspace = true }
 frc42_dispatch = { workspace = true }
-fil_actors_evm_shared_v10 = { version = "10.0.0", path = "shared_v10" }
+fil_actors_evm_shared_v10 = { workspace = true }
