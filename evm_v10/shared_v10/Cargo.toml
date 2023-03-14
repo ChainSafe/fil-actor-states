@@ -5,7 +5,7 @@ version = "10.0.0"
 license = "MIT OR Apache-2.0"
 authors = ["Protocol Labs", "Filecoin Core Devs"]
 edition = "2021"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm", "evm"]
 
 [dependencies]
@@ -13,5 +13,5 @@ serde = { workspace = true }
 fvm_shared = { version = "3.0.0", default-features = false }
 fil_actors_runtime_v10 = { workspace = true }
 fvm_ipld_encoding = "0.3.3"
-uint = { version = "0.9.3", default-features = false }
+uint = { workspace = true }
 hex = { workspace = true }
