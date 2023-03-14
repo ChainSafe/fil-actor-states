@@ -36,7 +36,12 @@ members = [
   "miner_v9",
   "miner_v10",
   "verifreg_v10",
+  "datacap_v10",
+  "eam_v10",
+  "evm_v10",
+  "ethaccount_v10",
   "fil_actor_interface",
+  "evm_v10/shared_v10",
 ]
 resolver = "2"
 
@@ -79,6 +84,9 @@ serde_repr = "0.1.8"
 sha2 = "0.10.5"
 thiserror = "1.0"
 unsigned-varint = "0.7.1"
+serde_tuple = "0.5"
+hex-literal = "0.3.4"
+uint = { version = "0.9.3", default-features = false }
 
 fil_actors_runtime_v8 = { path = "./runtime_v8" }
 fil_actors_runtime_v9 = { path = "./runtime_v9" }
