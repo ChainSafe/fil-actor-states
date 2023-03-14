@@ -1314,22 +1314,15 @@ dependencies = [
 name = "fil_actor_evm_v10"
 version = "10.0.0"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_evm_shared_v10",
- "fil_actors_runtime_v10",
  "frc42_dispatch",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.0.0",
- "hex",
  "hex-literal",
- "log",
- "multihash 0.16.3",
  "num-derive",
  "num-traits",
  "serde",
- "serde_tuple",
 ]
 
 [[package]]
