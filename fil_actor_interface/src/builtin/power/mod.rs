@@ -46,7 +46,7 @@ pub fn is_v10_power_cid(cid: &Cid) -> bool {
         // calibnet v10
         Cid::try_from("bafk2bzacedu3c67spbf2dmwo77ymkjel6i2o5gpzyksgu2iuwu2xvcnxgfdjg").unwrap(),
         // mainnet v10
-        Cid::try_from("bafk2bzacedfxlpyj5uxlh5uuhl55lazmhm7q6pr3qoywxb25qrytbptpy7zb6").unwrap(),
+        Cid::try_from("bafk2bzacec4ay4crzo73ypmh7o3fjendhbqrxake46bprabw67fvwjz5q6ixq").unwrap(),
     ];
     known_cids.contains(cid)
 }
