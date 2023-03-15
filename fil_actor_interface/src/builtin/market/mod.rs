@@ -20,7 +20,7 @@ pub const ADDRESS: Address = Address::new_id(5);
 pub type Method = fil_actor_market_v8::Method;
 
 pub fn is_v8_market_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6").unwrap(),
         // mainnet
@@ -32,7 +32,7 @@ pub fn is_v8_market_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_market_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzacebkfcnc27d3agm2bhzzbvvtbqahmvy2b2nf5xyj4aoxehow3bules").unwrap(),
         // mainnet v9
@@ -42,7 +42,7 @@ pub fn is_v9_market_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_market_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacecclsfboql3iraf3e66pzuh3h7qp3vgmfurqz26qh5g5nrexjgknc").unwrap(),
         // mainnet v10

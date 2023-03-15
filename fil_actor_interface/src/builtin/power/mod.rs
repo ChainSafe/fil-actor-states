@@ -20,7 +20,7 @@ pub const ADDRESS: Address = Address::new_id(4);
 pub type Method = fil_actor_power_v8::Method;
 
 pub fn is_v8_power_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzacecpwr4mynn55bg5hrlns3osvg7sty3rca6zlai3vl52vbbjk7ulfa").unwrap(),
         // mainnet
@@ -32,7 +32,7 @@ pub fn is_v8_power_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_power_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzaceburxajojmywawjudovqvigmos4dlu4ifdikogumhso2ca2ccaleo").unwrap(),
         // mainnet v9
@@ -42,7 +42,7 @@ pub fn is_v9_power_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_power_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacedu3c67spbf2dmwo77ymkjel6i2o5gpzyksgu2iuwu2xvcnxgfdjg").unwrap(),
         // mainnet v10

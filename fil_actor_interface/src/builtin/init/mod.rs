@@ -17,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(1);
 pub type Method = fil_actor_init_v8::Method;
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzaceadyfilb22bcvzvnpzbg2lyg6npmperyq6es2brvzjdh5rmywc4ry").unwrap(),
         // mainnet
@@ -29,7 +29,7 @@ pub fn is_v8_init_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_init_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzaceczqxpivlxifdo5ohr2rx5ny4uyvssm6tkf7am357xm47x472yxu2").unwrap(),
         // mainnet v9
@@ -39,7 +39,7 @@ pub fn is_v9_init_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_init_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacedhxbcglnonzruxf2jpczara73eh735wf2kznatx2u4gsuhgqwffq").unwrap(),
         // mainnet v10

@@ -3,7 +3,7 @@
 use cid::Cid;
 
 pub fn is_v10_placeholder_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro").unwrap(),
         // mainnet v10
