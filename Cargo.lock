@@ -1387,6 +1387,7 @@ dependencies = [
  "fil_actor_cron_v10",
  "fil_actor_cron_v8",
  "fil_actor_cron_v9",
+ "fil_actor_datacap_v10",
  "fil_actor_init_v10",
  "fil_actor_init_v8",
  "fil_actor_init_v9",

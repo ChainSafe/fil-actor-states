@@ -3,6 +3,7 @@
 
 pub mod account;
 pub mod cron;
+pub mod datacap;
 pub mod ethaccount;
 pub mod init;
 pub mod market;

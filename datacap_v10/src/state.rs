@@ -11,7 +11,7 @@ use fvm_shared::ActorID;
 
 use fil_actors_runtime_v10::{ActorError, AsActorError};
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     pub governor: Address,
     pub token: token::state::TokenState,
