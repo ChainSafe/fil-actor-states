@@ -20,7 +20,7 @@ pub enum State {
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzaceccmwmnb42pn7y7skbjwjur7b2eqxuw4lvm3he2xpvudjzluss4os").unwrap(),
         // mainnet v10

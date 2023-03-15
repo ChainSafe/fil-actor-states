@@ -26,7 +26,7 @@ pub enum State {
 }
 
 pub fn is_v8_system_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzaceaqrkllksxv2jsfgjvmuewx5vbzrammw5mdscod6gkdr3ijih2q64").unwrap(),
         // mainnet v8
@@ -38,7 +38,7 @@ pub fn is_v8_system_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_system_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzaceaue3nzucbom3tcclgyaahy3iwvbqejsxrohiquakvvsjgbw3shac").unwrap(),
         // mainnet v9
@@ -50,7 +50,7 @@ pub fn is_v9_system_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_system_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacea4mtukm5zazygkdbgdf26cpnwwif5n2no7s6tknpxlwy6fpq3mug").unwrap(),
         // mainnet v10
