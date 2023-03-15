@@ -5,6 +5,7 @@ pub mod account;
 pub mod cron;
 pub mod datacap;
 pub mod ethaccount;
+pub mod evm;
 pub mod init;
 pub mod market;
 pub mod miner;
