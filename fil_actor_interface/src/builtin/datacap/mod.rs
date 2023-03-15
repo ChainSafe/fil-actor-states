@@ -25,8 +25,6 @@ pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
         Cid::try_from("bafk2bzaceaot6tv6p4cat3cg5fknq22htosw3p5rwyijmdsraatwqyc4qyero").unwrap(),
         // mainnet v10
         Cid::try_from("bafk2bzacealj5uk7wixhvk7l5tnredtelralwnceafqq34nb2lbylhtuyo64u").unwrap(),
-        // devnet v10
-        Cid::try_from("bafk2bzaceagg4qklzhhg5oj4shwqpoeykeyxus7xhj2abuot2tycdwsf2oaaa").unwrap(),
     ];
     known_cids.contains(cid)
 }
