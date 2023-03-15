@@ -17,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(2);
 pub type Method = fil_actor_reward_v8::Method;
 
 pub fn is_v8_reward_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzaceayah37uvj7brl5no4gmvmqbmtndh5raywuts7h6tqbgbq2ge7dhu").unwrap(),
         // mainnet
@@ -27,7 +27,7 @@ pub fn is_v8_reward_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_reward_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzacebpptqhcw6mcwdj576dgpryapdd2zfexxvqzlh3aoc24mabwgmcss").unwrap(),
         // mainnet v9
@@ -37,7 +37,7 @@ pub fn is_v9_reward_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_reward_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacea3yo22x4dsh4axioshrdp42eoeugef3tqtmtwz5untyvth7uc73o").unwrap(),
         // mainnet v10

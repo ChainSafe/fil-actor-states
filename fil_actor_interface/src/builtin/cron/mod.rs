@@ -26,7 +26,7 @@ pub enum State {
 }
 
 pub fn is_v8_cron_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzaceaxlezmclw5ugldhhtfgvn7yztux45scqik3ez4yhwiqhg5ssib44").unwrap(),
         // mainnet v8
@@ -36,7 +36,7 @@ pub fn is_v8_cron_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_cron_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzaceb7hxmudhvkizszbmmf2ur2qfnfxfkok3xmbrlifylx6huw4bb3s4").unwrap(),
         // mainnet v9
@@ -46,7 +46,7 @@ pub fn is_v9_cron_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_cron_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacecw2yjb6ysieffa7lk7xd32b3n4ssowvafolt7eq52lp6lk4lkhji").unwrap(),
         // mainnet v10

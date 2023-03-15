@@ -22,7 +22,7 @@ pub enum State {
 }
 
 pub fn is_v8_account_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzacecruossn66xqbeutqx5r4k2kjzgd43frmwd4qkw6haez44ubvvpxo").unwrap(),
         // mainnet
@@ -32,7 +32,7 @@ pub fn is_v8_account_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_account_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzaceavfgpiw6whqigmskk74z4blm22nwjfnzxb4unlqz2e4wg3c5ujpw").unwrap(),
         // mainnet v9
@@ -42,7 +42,7 @@ pub fn is_v9_account_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_account_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacebhfuz3sv7duvk653544xsxhdn4lsmy7ol7k6gdgancyctvmd7lnq").unwrap(),
         // mainnet v10

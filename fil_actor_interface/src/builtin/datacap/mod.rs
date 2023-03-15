@@ -20,7 +20,7 @@ pub enum State {
 }
 
 pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzaceaot6tv6p4cat3cg5fknq22htosw3p5rwyijmdsraatwqyc4qyero").unwrap(),
         // mainnet v10

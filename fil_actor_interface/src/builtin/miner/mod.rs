@@ -26,7 +26,7 @@ use crate::{io::get_obj, power::Claim};
 pub type Method = fil_actor_miner_v8::Method;
 
 pub fn is_v8_miner_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzacea6rabflc7kpwr6y4lzcqsnuahr4zblyq3rhzrrsfceeiw2lufrb4").unwrap(),
         // mainnet
@@ -36,7 +36,7 @@ pub fn is_v8_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_miner_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzacebz4na3nq4gmumghegtkaofrv4nffiihd7sxntrryfneusqkuqodm").unwrap(),
         // mainnet v9
@@ -46,7 +46,7 @@ pub fn is_v9_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_miner_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacedu4chbl36rilas45py4vhqtuj6o7aa5stlvnwef3kshgwcsmha6y").unwrap(),
         // mainnet v10

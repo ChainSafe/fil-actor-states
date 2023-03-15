@@ -22,7 +22,7 @@ pub enum State {
 }
 
 pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v8
         Cid::try_from("bafk2bzacec66wmb4kohuzvuxsulhcgiwju7sqkldwfpmmgw7dbbwgm5l2574q").unwrap(),
         // mainnet v8
@@ -32,7 +32,7 @@ pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v9
         Cid::try_from("bafk2bzacec6gmi7ucukr3bk67akaxwngohw3lsg3obvdazhmfhdzflkszk3tg").unwrap(),
         // mainnet v9
@@ -42,7 +42,7 @@ pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = vec![
+    let known_cids = [
         // calibnet v10
         Cid::try_from("bafk2bzacebv5gdlte2pyovmz6s37me6x2rixaa6a33w6lgqdohmycl23snvwm").unwrap(),
         // mainnet v10
