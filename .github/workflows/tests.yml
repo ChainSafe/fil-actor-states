@@ -34,24 +34,6 @@ jobs:
           command: fmt
           args: --all -- --check
 
-  clippy:
-    name: clippy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - run: rustup component add clippy
-      - name: Apt Dependencies
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo make install-deps
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
-
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
     runs-on: ubuntu-latest
