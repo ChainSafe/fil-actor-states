@@ -8,9 +8,6 @@ install-deps:
 	apt-get update -y
 	apt-get install --no-install-recommends -y ocl-icd-opencl-dev protobuf-compiler
 
-clean-all:
-	cargo clean
-
 # Lints with everything we have in our CI arsenal
 lint-all: lint audit udeps
 
@@ -26,7 +23,7 @@ lint: clean lint-clippy
 	taplo lint
 	
 lint-clippy:
-	cargo clippy
+	cargo clippy --all-features -- -D warnings
 
 # Formats Rust and TOML files
 fmt:
@@ -38,4 +35,4 @@ clean:
 	@cargo clean
 	@echo "Done cleaning."
 
-.PHONY: clean clean-all lint lint-clippy install-lint-tools
+.PHONY: install-lint-tools install-deps lint-all audit udeps lint lint-clippy fmt clean
