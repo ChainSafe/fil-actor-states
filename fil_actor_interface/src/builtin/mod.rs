@@ -21,54 +21,8 @@ use fil_actors_runtime_v9::builtin::network;
 pub use fil_actors_runtime_v9::builtin::singletons::{BURNT_FUNDS_ACTOR_ADDR, CHAOS_ACTOR_ADDR};
 use fvm_shared::address::Address;
 pub use fvm_shared::{clock::EPOCH_DURATION_SECONDS, smooth::FilterEstimate};
-pub const EPOCHS_IN_DAY: fvm_shared::clock::ChainEpoch = network::EPOCHS_IN_DAY;
 
 pub const RESERVE_ADDRESS: Address = Address::new_id(90);
-
-#[macro_export]
-macro_rules! load_actor_state {
-    ($store:expr, $actor:expr, $id:ident) => {
-        if $actor.code == *actorv6::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V6)
-        } else if $actor.code == *actorv5::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V5)
-        } else if $actor.code == *actorv4::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V4)
-        } else if $actor.code == *actorv3::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V3)
-        } else if $actor.code == *actorv2::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V2)
-        } else if $actor.code == *actorv0::$id {
-            use anyhow::Context;
-            $store
-                .get_obj(&$actor.state)?
-                .context("Actor state doesn't exist in store")
-                .map(State::V0)
-        } else {
-            Err(anyhow::anyhow!("Unknown actor code {}", $actor.code))
-        }
-    };
-}
 
 /// Returns true if the code belongs to an account actor.
 pub fn is_account_actor(code: &Cid) -> bool {
@@ -85,9 +39,4 @@ pub fn is_placeholder_actor(code: &Cid) -> bool {
 /// Returns true if the code belongs to a ethereum account actor.
 pub fn is_eth_account_actor(code: &Cid) -> bool {
     ethaccount::is_v10_ethaccount_cid(code)
-}
-
-/// Returns true if the code belongs to a miner actor.
-pub fn is_miner_actor(_code: &Cid) -> bool {
-    unimplemented!()
 }
