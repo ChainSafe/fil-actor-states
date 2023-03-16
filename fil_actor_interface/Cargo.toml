@@ -1,5 +1,6 @@
 [package]
 name = "fil_actor_interface"
+description = "Backward compatibility layer for all versions of builtin actor."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/ChainSafe/fil-actor-states"
 version = "0.6.0"
