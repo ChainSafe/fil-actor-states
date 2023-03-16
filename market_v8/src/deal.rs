@@ -4,7 +4,7 @@
 use cid::{Cid, Version};
 use fil_actors_runtime_v8::DealWeight;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{BytesSer, Cbor};
+use fvm_ipld_encoding::BytesSer;
 use fvm_shared::address::Address;
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
@@ -116,8 +116,6 @@ pub struct DealProposal {
     pub client_collateral: TokenAmount,
 }
 
-impl Cbor for DealProposal {}
-
 impl DealProposal {
     pub fn duration(&self) -> ChainEpoch {
         self.end_epoch - self.start_epoch
@@ -143,8 +141,6 @@ pub struct ClientDealProposal {
     pub proposal: DealProposal,
     pub client_signature: Signature,
 }
-
-impl Cbor for ClientDealProposal {}
 
 #[derive(Clone, Debug, PartialEq, Copy, Serialize_tuple, Deserialize_tuple)]
 pub struct DealState {

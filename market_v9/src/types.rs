@@ -5,7 +5,6 @@ use cid::Cid;
 use fil_actors_runtime_v9::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::Cbor;
 use fvm_shared::address::Address;
 use fvm_shared::bigint::{bigint_ser, BigInt};
 use fvm_shared::clock::ChainEpoch;
@@ -28,8 +27,6 @@ pub struct WithdrawBalanceParams {
     pub provider_or_client: Address,
     pub amount: TokenAmount,
 }
-
-impl Cbor for WithdrawBalanceParams {}
 
 #[derive(Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
@@ -54,8 +51,6 @@ pub struct OnMinerSectorsTerminateParamsRef<'a> {
 pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
 }
-
-impl Cbor for PublishStorageDealsParams {}
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug)]
 pub struct PublishStorageDealsReturn {
