@@ -7,20 +7,32 @@ jobs:
     name: build-and-test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Install stable
-      run: rustup toolchain install stable
-    - name: Apt Dependencies
-      uses: nick-fields/retry@v2
-      with:
-        timeout_minutes: 5
-        max_attempts: 3
-        command: |
-          sudo make install-deps
-    - name: Build
-      run: cargo build --all
-    - name: Run tests
-      run: cargo test --all
+      - uses: actions/checkout@v1
+      - name: Apt Dependencies
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: |
+            sudo make install-deps
+      - name: Setup sccache
+        uses: hanabi1224/sccache-action@v1.2.0
+        timeout-minutes: 5
+        continue-on-error: true
+        with:
+          release-name: v0.3.3
+          cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
+          cache-update: ${{ github.event_name != 'pull_request' }}
+      - name: Build
+        run: cargo check --workspace
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
+      - name: Run tests
+        run: cargo test --workspace
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
@@ -43,10 +55,10 @@ jobs:
           RUSTFLAGS: "-Cstrip=symbols"
       - name: Setup sccache
         uses: hanabi1224/sccache-action@v1.2.0
-        timeout-minutes: ${{ fromJSON(env.CACHE_TIMEOUT_MINUTES) }}
+        timeout-minutes: 5
         continue-on-error: true
         with:
-          release-name: v0.3.1
+          release-name: v0.3.3
           cache-key: ${{ runner.os }}-sccache-lints-${{ hashFiles('rust-toolchain.toml') }}
           cache-update: ${{ github.event_name != 'pull_request' }}
       - run: make lint-all
