@@ -19,7 +19,7 @@ serde = { workspace = true }
 num-traits = { workspace = true }
 num-derive = { workspace = true }
 cid = { workspace = true }
-fvm_ipld_encoding = "0.3.3"
+fvm_ipld_encoding = { workspace = true }
 hex-literal = { workspace = true }
 frc42_dispatch = { workspace = true }
 fil_actors_evm_shared_v10 = { path = "./shared_v10" }
