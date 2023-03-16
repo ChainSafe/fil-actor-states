@@ -136,9 +136,9 @@ impl State {
         )
     }
 
-    pub fn save_allocs<'a, BS: Blockstore>(
+    pub fn save_allocs<BS: Blockstore>(
         &mut self,
-        allocs: &mut MapMap<'a, BS, Allocation, ActorID, AllocationID>,
+        allocs: &mut MapMap<'_, BS, Allocation, ActorID, AllocationID>,
     ) -> Result<(), ActorError> {
         self.allocations = allocs.flush().context_code(
             ExitCode::USR_ILLEGAL_STATE,
@@ -193,9 +193,9 @@ impl State {
         .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load claims table")
     }
 
-    pub fn save_claims<'a, BS: Blockstore>(
+    pub fn save_claims<BS: Blockstore>(
         &mut self,
-        claims: &mut MapMap<'a, BS, Claim, ActorID, ClaimID>,
+        claims: &mut MapMap<'_, BS, Claim, ActorID, ClaimID>,
     ) -> Result<(), ActorError> {
         self.claims = claims
             .flush()
