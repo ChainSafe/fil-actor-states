@@ -14,7 +14,6 @@ keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
 anyhow = { workspace = true }
-byteorder = { workspace = true }
 cid = { workspace = true, default-features = false, features = ["serde-codec"] }
 fil_actors_runtime_v9 = { workspace = true }
 fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
