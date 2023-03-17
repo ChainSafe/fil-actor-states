@@ -14,7 +14,7 @@ jobs:
     name: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Apt Dependencies
         uses: nick-fields/retry@v2
         with:
