@@ -1,3 +1,75 @@
+account:
+  v8:
+    # calibnet
+    - bafk2bzacecruossn66xqbeutqx5r4k2kjzgd43frmwd4qkw6haez44ubvvpxo
+    # mainnet
+    - bafk2bzacedudbf7fc5va57t3tmo63snmt3en4iaidv4vo3qlyacbxaa6hlx6y
+  v9:
+    # calibnet
+    - bafk2bzaceavfgpiw6whqigmskk74z4blm22nwjfnzxb4unlqz2e4wg3c5ujpw
+    # mainnet
+    - bafk2bzacect2p7urje3pylrrrjy3tngn6yaih4gtzauuatf2jllk3ksgfiw2y
+  v10:
+    # calibnet
+    - bafk2bzacebhfuz3sv7duvk653544xsxhdn4lsmy7ol7k6gdgancyctvmd7lnq
+    # mainnet
+    - bafk2bzaceampw4romta75hyz5p4cqriypmpbgnkxncgxgqn6zptv5lsp2w2bo
+cron:
+  v8:
+    # calibnet
+    - bafk2bzaceaxlezmclw5ugldhhtfgvn7yztux45scqik3ez4yhwiqhg5ssib44
+    # mainnet
+    - bafk2bzacecqb3eolfurehny6yp7tgmapib4ocazo5ilkopjce2c7wc2bcec62
+  v9:
+    # calibnet
+    - bafk2bzaceb7hxmudhvkizszbmmf2ur2qfnfxfkok3xmbrlifylx6huw4bb3s4
+    # mainnet
+    - bafk2bzacebcec3lffmos3nawm5cvwehssxeqwxixoyyfvejy7viszzsxzyu26
+  v10:
+    # calibnet
+    - bafk2bzacecw2yjb6ysieffa7lk7xd32b3n4ssowvafolt7eq52lp6lk4lkhji
+    # mainnet
+    - bafk2bzacedcbtsifegiu432m5tysjzkxkmoczxscb6hqpmrr6img7xzdbbs2g
+datacap:
+  v8:
+  v9:
+  v10:
+    # calibnet
+    - bafk2bzaceaot6tv6p4cat3cg5fknq22htosw3p5rwyijmdsraatwqyc4qyero
+    # mainnet
+    - bafk2bzacealj5uk7wixhvk7l5tnredtelralwnceafqq34nb2lbylhtuyo64u
+ethaccount:
+  v8:
+  v9:
+  v10:
+    # calibnet
+    - bafk2bzacebiyrhz32xwxi6xql67aaq5nrzeelzas472kuwjqmdmgwotpkj35e
+    # mainnet
+    - bafk2bzaceaqoc5zakbhjxn3jljc4lxnthllzunhdor7sxhwgmskvc6drqc3fa
+evm:
+  v8:
+  v9:
+  v10:
+    # calibnet
+    - bafk2bzaceblpgzid4qjfavuiht6uwvq2lznshklk2qmf5akm3dzx2fczdqdxc
+    # mainnet
+    - bafk2bzaceahmzdxhqsm7cu2mexusjp6frm7r4kdesvti3etv5evfqboos2j4g
+init:
+  v8:
+    # calibnet
+    - bafk2bzaceadyfilb22bcvzvnpzbg2lyg6npmperyq6es2brvzjdh5rmywc4ry
+    # mainnet
+    - bafk2bzaceaipvjhoxmtofsnv3aj6gj5ida4afdrxa4ewku2hfipdlxpaektlw
+  v9:
+    # calibnet
+    - bafk2bzaceczqxpivlxifdo5ohr2rx5ny4uyvssm6tkf7am357xm47x472yxu2
+    # mainnet
+    - bafk2bzacebtdq4zyuxk2fzbdkva6kc4mx75mkbfmldplfntayhbl5wkqou33i
+  v10:
+    # calibnet
+    - bafk2bzacedhxbcglnonzruxf2jpczara73eh735wf2kznatx2u4gsuhgqwffq
+    # mainnet
+    - bafk2bzaced2f5rhir3hbpqbz5ght7ohv2kgj42g5ykxrypuo2opxsup3ykwl6
 market:
   v8:
     # calibnet
@@ -14,3 +86,91 @@ market:
     - bafk2bzacecclsfboql3iraf3e66pzuh3h7qp3vgmfurqz26qh5g5nrexjgknc
     # mainnet
     - bafk2bzaceclejwjtpu2dhw3qbx6ow7b4pmhwa7ocrbbiqwp36sq5yeg6jz2bc
+miner:
+  v8:
+    # calibnet
+    - bafk2bzacea6rabflc7kpwr6y4lzcqsnuahr4zblyq3rhzrrsfceeiw2lufrb4
+    # mainnet
+    - bafk2bzacecgnynvd3tene3bvqoknuspit56canij5bpra6wl4mrq2mxxwriyu
+  v9:
+    # calibnet
+    - bafk2bzacebz4na3nq4gmumghegtkaofrv4nffiihd7sxntrryfneusqkuqodm
+    # mainnet
+    - bafk2bzacedyux5hlrildwutvvjdcsvjtwsoc5xnqdjl73ouiukgklekeuyfl4
+  v10:
+    # calibnet
+    - bafk2bzacedu4chbl36rilas45py4vhqtuj6o7aa5stlvnwef3kshgwcsmha6y
+    # mainnet
+    - bafk2bzaced4h7noksockro7glnssz2jnmo2rpzd7dvnmfs4p24zx3h6gtx47s
+multisig:
+  v8:
+    # calibnet
+    - bafk2bzacec66wmb4kohuzvuxsulhcgiwju7sqkldwfpmmgw7dbbwgm5l2574q
+    # mainnet
+    - bafk2bzacebhldfjuy4o5v7amrhp5p2gzv2qo5275jut4adnbyp56fxkwy5fag
+  v9:
+    # calibnet
+    - bafk2bzacec6gmi7ucukr3bk67akaxwngohw3lsg3obvdazhmfhdzflkszk3tg
+    # mainnet
+    - bafk2bzacec4va3nmugyqjqrs3lqyr2ij67jhjia5frvx7omnh2isha6abxzya
+  v10:
+    # calibnet
+    - bafk2bzacebv5gdlte2pyovmz6s37me6x2rixaa6a33w6lgqdohmycl23snvwm
+    # mainnet
+    - bafk2bzaceduf3hayh63jnl4z2knxv7cnrdenoubni22fxersc4octlwpxpmy4
+placeholder:
+  v8:
+  v9:
+  v10:
+    # calibnet
+    - bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
+    # mainnet
+    - bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
+power:
+  v8:
+    # calibnet
+    - bafk2bzacecpwr4mynn55bg5hrlns3osvg7sty3rca6zlai3vl52vbbjk7ulfa
+    # mainnet
+    - bafk2bzacebjvqva6ppvysn5xpmiqcdfelwbbcxmghx5ww6hr37cgred6dyrpm
+  v9:
+    # calibnet
+    - bafk2bzaceburxajojmywawjudovqvigmos4dlu4ifdikogumhso2ca2ccaleo
+    # mainnet
+    - bafk2bzacedsetphfajgne4qy3vdrpyd6ekcmtfs2zkjut4r34cvnuoqemdrtw
+  v10:
+    # calibnet
+    - bafk2bzacedu3c67spbf2dmwo77ymkjel6i2o5gpzyksgu2iuwu2xvcnxgfdjg
+    # mainnet
+    - bafk2bzacec4ay4crzo73ypmh7o3fjendhbqrxake46bprabw67fvwjz5q6ixq
+reward:
+  v8:
+    # calibnet
+    - bafk2bzaceayah37uvj7brl5no4gmvmqbmtndh5raywuts7h6tqbgbq2ge7dhu
+    # mainnet
+    - bafk2bzacecwzzxlgjiavnc3545cqqil3cmq4hgpvfp2crguxy2pl5ybusfsbe
+  v9:
+    # calibnet
+    - bafk2bzacebpptqhcw6mcwdj576dgpryapdd2zfexxvqzlh3aoc24mabwgmcss
+    # mainnet
+    - bafk2bzacebezgbbmcm2gbcqwisus5fjvpj7hhmu5ubd37phuku3hmkfulxm2o
+  v10:
+    # calibnet
+    - bafk2bzacea3yo22x4dsh4axioshrdp42eoeugef3tqtmtwz5untyvth7uc73o
+    # mainnet
+    - bafk2bzacebnhtaejfjtzymyfmbdrfmo7vgj3zsof6zlucbmkhrvcuotw5dxpq
+system:
+  v8:
+    # calibnet
+    - bafk2bzaceaqrkllksxv2jsfgjvmuewx5vbzrammw5mdscod6gkdr3ijih2q64
+    # mainnet
+    - bafk2bzacedwq5uppsw7vp55zpj7jdieizirmldceehu6wvombw3ixq2tcq57w
+  v9:
+    # calibnet
+    - bafk2bzaceaue3nzucbom3tcclgyaahy3iwvbqejsxrohiquakvvsjgbw3shac
+    # mainnet
+    - bafk2bzaceagvlo2jtahj7dloshrmwfulrd6e2izqev32qm46eumf754weec6c
+  v10:
+    # calibnet
+    - bafk2bzacea4mtukm5zazygkdbgdf26cpnwwif5n2no7s6tknpxlwy6fpq3mug
+    # mainnet
+    - bafk2bzacedakk5nofebyup4m7nvx6djksfwhnxzrfuq4oyemhpl4lllaikr64

@@ -22,33 +22,15 @@ pub enum State {
 }
 
 pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzacec66wmb4kohuzvuxsulhcgiwju7sqkldwfpmmgw7dbbwgm5l2574q").unwrap(),
-        // mainnet v8
-        Cid::try_from("bafk2bzacebhldfjuy4o5v7amrhp5p2gzv2qo5275jut4adnbyp56fxkwy5fag").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.multisig.v8.contains(cid)
 }
 
 pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzacec6gmi7ucukr3bk67akaxwngohw3lsg3obvdazhmfhdzflkszk3tg").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacec4va3nmugyqjqrs3lqyr2ij67jhjia5frvx7omnh2isha6abxzya").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.multisig.v9.contains(cid)
 }
 
 pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacebv5gdlte2pyovmz6s37me6x2rixaa6a33w6lgqdohmycl23snvwm").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaceduf3hayh63jnl4z2knxv7cnrdenoubni22fxersc4octlwpxpmy4").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.multisig.v10.contains(cid)
 }
 
 impl State {

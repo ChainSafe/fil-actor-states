@@ -21,7 +21,19 @@ pub struct KnownCidsPerNetworkVersion {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct KnownCids {
+    pub account: KnownCidsPerNetworkVersion,
+    pub cron: KnownCidsPerNetworkVersion,
     pub market: KnownCidsPerNetworkVersion,
+    pub datacap: KnownCidsPerNetworkVersion,
+    pub ethaccount: KnownCidsPerNetworkVersion,
+    pub evm: KnownCidsPerNetworkVersion,
+    pub init: KnownCidsPerNetworkVersion,
+    pub miner: KnownCidsPerNetworkVersion,
+    pub multisig: KnownCidsPerNetworkVersion,
+    pub placeholder: KnownCidsPerNetworkVersion,
+    pub power: KnownCidsPerNetworkVersion,
+    pub reward: KnownCidsPerNetworkVersion,
+    pub system: KnownCidsPerNetworkVersion,
 }
 
 mod cid_hashset {
