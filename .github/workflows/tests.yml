@@ -31,12 +31,12 @@ jobs:
           cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
           cache-update: ${{ github.event_name != 'pull_request' }}
       - name: Build
-        run: cargo check --workspace
+        run: cargo check --workspace --all-features --all-targets
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
       - name: Run tests
-        run: cargo test --workspace
+        run: cargo test --workspace --all-features --all-targets
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
@@ -72,3 +72,37 @@ jobs:
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
+
+  codecov:
+    name: Code coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Apt Dependencies
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: |
+            sudo make install-deps
+      - name: Setup sccache
+        uses: hanabi1224/sccache-action@v1.2.0
+        timeout-minutes: 5
+        continue-on-error: true
+        with:
+          release-name: v0.3.3
+          cache-key: ${{ runner.os }}-sccache-codecov-${{ hashFiles('rust-toolchain.toml') }}
+          cache-update: ${{ github.event_name != 'pull_request' }}
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+      - name: Generate code coverage
+        run: |
+          cargo llvm-cov --workspace --all-features --all-targets --lcov --output-path lcov.info
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
+      - name: Upload CodeCov
+        uses: codecov/codecov-action@v3
+        with:
+          files: lcov.info
+          fail_ci_if_error: true
