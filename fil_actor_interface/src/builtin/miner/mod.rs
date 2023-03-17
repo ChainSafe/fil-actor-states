@@ -17,7 +17,7 @@ use fvm_shared::{
     econ::TokenAmount,
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
 };
-use libp2p::PeerId;
+use libp2p_identity::PeerId;
 use num::BigInt;
 use serde::{Deserialize, Serialize};
 
