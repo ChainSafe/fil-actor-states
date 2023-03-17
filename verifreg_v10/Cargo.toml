@@ -23,7 +23,7 @@ anyhow = { workspace = true }
 cid = { workspace = true, features = ["serde-codec"] }
 frc42_dispatch = "3.0.0"
 frc46_token = "3.1.0"
-fvm_actor_utils = "3.0.0"
+fvm_actor_utils = "5.0.0"
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
