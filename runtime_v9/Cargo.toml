@@ -13,7 +13,6 @@ repository = "https://github.com/filecoin-project/builtin-actors"
 
 [dependencies]
 anyhow = { workspace = true }
-blake2b_simd = { workspace = true }
 cid = { workspace = true, features = ["serde-codec"] }
 fil_actors_runtime_v10 = { path = "../runtime_v10" }
 fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
@@ -30,12 +29,8 @@ paste = { workspace = true }
 regex = { workspace = true }
 serde = { workspace = true }
 serde_repr = { workspace = true }
-sha2 = { workspace = true }
 thiserror = { workspace = true }
 unsigned-varint = { workspace = true }
-
-[dev-dependencies]
-hex = { workspace = true }
 
 [features]
 default = []
