@@ -69,7 +69,9 @@ indexmap = { version = "1.9", features = ["serde-1"] }
 integer-encoding = { version = "3.0.3", default-features = false }
 itertools = "0.10"
 lazy_static = "1.4"
-libp2p = { version = "0.51", default-features = false }
+libp2p-identity = { version = "0.1", default-features = false, features = [
+  "peerid",
+] }
 libipld-core = "0.14"
 log = "0.4"
 multihash = "0.16"
