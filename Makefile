@@ -31,4 +31,4 @@ clean:
 	@cargo clean
 	@echo "Done cleaning."
 
-.PHONY: install-lint-tools install-deps lint-all audit udeps lint lint-clippy fmt clean
+.PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean
