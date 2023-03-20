@@ -4,10 +4,6 @@ install-lint-tools:
 	cargo install --locked cargo-spellcheck
 	cargo install --locked cargo-udeps
 
-install-deps:
-	apt-get update -y
-	apt-get install --no-install-recommends -y ocl-icd-opencl-dev
-
 # Lints with everything we have in our CI arsenal
 lint-all: lint audit udeps
 
