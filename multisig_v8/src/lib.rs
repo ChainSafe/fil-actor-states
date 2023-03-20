@@ -9,7 +9,6 @@ pub use self::state::*;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 // * Updated to specs-actors commit: 845089a6d2580e46055c24415a6c32ee688e5186 (v3.0.0)

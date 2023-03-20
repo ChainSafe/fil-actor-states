@@ -12,7 +12,6 @@ pub use self::types::*;
 pub mod expiration;
 pub mod ext;
 pub mod state;
-pub mod testing;
 pub mod types;
 
 /// Account actor methods available

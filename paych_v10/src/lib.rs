@@ -10,7 +10,6 @@ pub use self::types::*;
 
 pub mod ext;
 mod state;
-pub mod testing;
 mod types;
 
 // * Updated to specs-actors commit: f47f461b0588e9f0c20c999f6f129c85d669a7aa (v3.0.2)
