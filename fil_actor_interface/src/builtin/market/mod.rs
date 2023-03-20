@@ -1,14 +1,13 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::marker::PhantomData;
-
 use anyhow::Context;
 use cid::Cid;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::PaddedPieceSize};
 use serde::Serialize;
+use std::marker::PhantomData;
 
 use crate::io::get_obj;
 
@@ -80,6 +79,38 @@ impl State {
         Err(anyhow::anyhow!("Unknown market actor code {}", actor.code))
     }
 
+    /// Loads escrow table
+    pub fn escrow_table<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
+    where
+        BS: Blockstore,
+    {
+        unimplemented!()
+    }
+
+    /// Loads locked funds table
+    pub fn locked_table<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
+    where
+        BS: Blockstore,
+    {
+        unimplemented!()
+    }
+
+    /// Deal proposals
+    pub fn proposals<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<DealProposals<'bs, BS>>
+    where
+        BS: Blockstore,
+    {
+        unimplemented!()
+    }
+
+    /// Deal proposal meta data.
+    pub fn states<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<DealStates<'bs, BS>>
+    where
+        BS: Blockstore,
+    {
+        unimplemented!()
+    }
+
     /// Consume state to return just total funds locked
     pub fn total_locked(&self) -> TokenAmount {
         match self {
@@ -96,6 +127,18 @@ pub enum BalanceTable<'a, BS> {
 
 pub enum DealProposals<'a, BS> {
     UnusedDealProposal(PhantomData<&'a BS>),
+}
+
+impl<BS> DealProposals<'_, BS> {
+    pub fn for_each(
+        &self,
+        _f: impl FnMut(u64, DealProposal) -> anyhow::Result<(), anyhow::Error>,
+    ) -> anyhow::Result<()>
+    where
+        BS: Blockstore,
+    {
+        unimplemented!()
+    }
 }
 
 #[derive(Serialize)]
@@ -120,10 +163,28 @@ pub enum DealStates<'a, BS> {
     DealStates(PhantomData<&'a BS>),
 }
 
+impl<BS> DealStates<'_, BS>
+where
+    BS: Blockstore,
+{
+    pub fn get(&self, _key: u64) -> anyhow::Result<Option<DealState>> {
+        unimplemented!()
+    }
+}
+
 #[derive(Serialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct DealState {
     pub sector_start_epoch: ChainEpoch, // -1 if not yet included in proven sector
     pub last_updated_epoch: ChainEpoch, // -1 if deal state never updated
     pub slash_epoch: ChainEpoch,        // -1 if deal never slashed
+}
+
+impl<BS> BalanceTable<'_, BS>
+where
+    BS: Blockstore,
+{
+    pub fn get(&self, _key: &Address) -> anyhow::Result<TokenAmount> {
+        unimplemented!()
+    }
 }
