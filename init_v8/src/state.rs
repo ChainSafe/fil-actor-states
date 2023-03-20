@@ -9,6 +9,7 @@ use fil_actors_runtime_v8::{
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::Cbor;
+use fvm_ipld_hamt::Error as HamtError;
 use fvm_shared::address::{Address, Protocol};
 use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
 

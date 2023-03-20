@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fil_actors_runtime_v10::{
-    make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError,
+    actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError,
     FIRST_NON_SINGLETON_ADDR,
 };
 use fvm_ipld_blockstore::Blockstore;
