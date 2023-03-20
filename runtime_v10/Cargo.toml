@@ -31,6 +31,7 @@ num-bigint.workspace = true
 num-derive.workspace = true
 num-traits.workspace = true
 paste = "1.0.9"
+quickcheck = { workspace = true, optional = true }
 rand = "0.8.5"
 regex = "1"
 serde.workspace = true
@@ -40,10 +41,11 @@ thiserror = "1.0.30"
 unsigned-varint = "0.7.1"
 
 [dev-dependencies]
+fil_actors_runtime_v10 = { path = ".", features = ["arb"] }
 hex.workspace = true
-quickcheck.workspace = true
 quickcheck_macros.workspace = true
 toml = "0.7"
 
 [features]
 test_utils = ["hex", "multihash/sha2", "lazy_static"]
+arb = ["quickcheck"]
