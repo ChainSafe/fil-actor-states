@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 
-use fvm_shared::bigint::bigint_ser;
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
 use num_traits::FromPrimitive;
@@ -12,7 +11,7 @@ pub trait RuntimePolicy {
 }
 
 // The policy itself
-#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Policy {
     /// Maximum amount of sectors that can be aggregated.
     pub max_aggregated_sectors: u64,
@@ -137,7 +136,6 @@ pub struct Policy {
 
     // --- verifreg policy
     /// Minimum verified deal size
-    #[serde(with = "bigint_ser")]
     pub minimum_verified_allocation_size: StoragePower,
     /// Minimum term for a verified data allocation (epochs)
     pub minimum_verified_allocation_term: i64,
@@ -167,7 +165,6 @@ pub struct Policy {
 
     // --- power ---
     /// Minimum miner consensus power
-    #[serde(with = "bigint_ser")]
     pub minimum_consensus_power: StoragePower,
 }
 
@@ -395,4 +392,24 @@ pub mod policy_constants {
 
     pub const CALIBNET_MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
     pub const MAINNET_MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use anyhow::*;
+
+    #[test]
+    fn policy_serde_roundtrip() -> Result<()> {
+        let policy = Policy::default();
+        let serialized = toml::to_string(&policy)?;
+
+        println!("serialized:\n{serialized}");
+
+        let deserialized: Policy = toml::from_str(&serialized)?;
+
+        ensure!(policy == deserialized);
+
+        Ok(())
+    }
 }
