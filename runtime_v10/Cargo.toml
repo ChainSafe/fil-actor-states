@@ -13,7 +13,7 @@ repository = "https://github.com/filecoin-project/builtin-actors"
 
 [dependencies]
 fvm_ipld_hamt = "0.6.1"
-fvm_ipld_amt = { version = "0.5.1", features = ["go-interop"] }
+fvm_ipld_amt = { version = "0.5.1" }
 fvm_ipld_encoding.workspace = true
 fvm_shared = { version = "2.0.0-alpha.2", default-features = false }
 num-traits = "0.2.14"
@@ -27,7 +27,7 @@ cid = { version = "0.8.3", default-features = false, features = [
 ] }
 thiserror = "1.0.30"
 # enforce wasm compat
-getrandom = { version = "0.2.5", features = ["js"] }
+getrandom = { version = "0.2.5"}
 hex = { version = "0.4.3", optional = true }
 anyhow = "1.0.65"
 blake2b_simd = "1.0"
