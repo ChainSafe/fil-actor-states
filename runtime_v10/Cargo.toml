@@ -9,7 +9,7 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2021"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 
 [dependencies]
 fvm_ipld_hamt = "0.6.1"
