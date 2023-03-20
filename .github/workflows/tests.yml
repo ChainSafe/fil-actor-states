@@ -15,13 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Apt Dependencies
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo make install-deps
       - name: Setup sccache
         uses: hanabi1224/sccache-action@v1.2.0
         timeout-minutes: 5
@@ -53,7 +46,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 3
           command: |
-            sudo make install-deps
+            sudo apt-get update -y
             sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
       - uses: hanabi1224/cache-cargo-bin-action@v1.0.0
       - name: Install Lint tools
@@ -78,13 +71,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Apt Dependencies
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo make install-deps
       - name: Setup sccache
         uses: hanabi1224/sccache-action@v1.2.0
         timeout-minutes: 5

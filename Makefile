@@ -4,10 +4,6 @@ install-lint-tools:
 	cargo install --locked cargo-spellcheck
 	cargo install --locked cargo-udeps
 
-install-deps:
-	apt-get update -y
-	apt-get install --no-install-recommends -y ocl-icd-opencl-dev
-
 # Lints with everything we have in our CI arsenal
 lint-all: lint audit udeps
 
@@ -35,4 +31,4 @@ clean:
 	@cargo clean
 	@echo "Done cleaning."
 
-.PHONY: install-lint-tools install-deps lint-all audit udeps lint lint-clippy fmt clean
+.PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean
