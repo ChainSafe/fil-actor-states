@@ -1188,7 +1188,7 @@ dependencies = [
  "fvm_shared 2.3.0",
  "integer-encoding",
  "libipld-core 0.14.0",
- "multihash 0.16.3",
+ "multihash 0.17.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1247,7 +1247,7 @@ dependencies = [
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
  "lazy_static",
- "multihash 0.16.3",
+ "multihash 0.17.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1288,7 +1288,7 @@ dependencies = [
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
  "lazy_static",
- "multihash 0.16.3",
+ "multihash 0.17.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1605,7 +1605,7 @@ dependencies = [
  "hex",
  "itertools 0.10.5",
  "lazy_static",
- "multihash 0.16.3",
+ "multihash 0.17.0",
  "num-bigint",
  "num-derive",
  "num-traits",
@@ -1658,7 +1658,7 @@ dependencies = [
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
- "multihash 0.16.3",
+ "multihash 0.17.0",
  "num",
  "num-derive",
  "num-traits",
@@ -2652,8 +2652,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1c346cf9999c631f002d8f977c4eaeaa0e6386f16007202308d0b3757522c2cc"
 dependencies = [
  "blake2b_simd",
- "blake2s_simd 1.0.1",
- "blake3",
  "core2",
  "digest 0.10.6",
  "multihash-derive",
@@ -2671,10 +2669,14 @@ version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "835d6ff01d610179fbce3de1694d007e500bf33a7f29689838941d6bf783ae40"
 dependencies = [
+ "blake2b_simd",
+ "blake2s_simd 1.0.1",
+ "blake3",
  "core2",
  "digest 0.10.6",
  "multihash-derive",
  "sha2 0.10.6",
+ "sha3",
  "unsigned-varint",
 ]
 

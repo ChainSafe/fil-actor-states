@@ -70,7 +70,7 @@ libp2p-identity = { version = "0.1", default-features = false, features = [
   "peerid",
 ] }
 log = "0.4"
-multihash = "0.16"
+multihash = "0.17"
 num = "0.4.0"
 num-bigint = { version = "0.4.3", features = ["serde"] }
 num-derive = "0.3"

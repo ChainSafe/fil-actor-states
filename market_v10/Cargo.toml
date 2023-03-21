@@ -29,4 +29,4 @@ num-traits = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 
 [dev-dependencies]
-multihash = { version = "0.16.1", default-features = false }
+multihash = { version = "0.17.0", default-features = false }
