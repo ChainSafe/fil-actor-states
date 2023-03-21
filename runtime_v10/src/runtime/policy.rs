@@ -8,11 +8,6 @@ use fvm_shared::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower}
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
-// A trait for runtime policy configuration
-pub trait RuntimePolicy {
-    fn policy(&self) -> &Policy;
-}
-
 // The policy itself
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Policy {
