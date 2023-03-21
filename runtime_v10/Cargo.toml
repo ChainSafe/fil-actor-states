@@ -29,7 +29,6 @@ unsigned-varint = "0.7.1"
 # enforce wasm compat
 anyhow = "1.0.65"
 blake2b_simd = "1.0"
-castaway = "0.2.2"
 fvm_ipld_blockstore = "0.1.1"
 getrandom = { version = "0.2.5" }
 hex = { version = "0.4.3", optional = true }
