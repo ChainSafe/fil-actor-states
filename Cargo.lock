@@ -1245,8 +1245,6 @@ dependencies = [
 name = "fil_actor_cron_v8"
 version = "8.0.0"
 dependencies = [
- "fil_actors_runtime_v8",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.0.0",
  "num-derive",

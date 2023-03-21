@@ -10,7 +10,7 @@ authors = [
 ]
 edition = "2018"
 keywords = ["filecoin", "web3", "wasm"]
-repository = "https://github.com/ChainSafe/forest"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 
 [dependencies]
 fvm_ipld_encoding = { workspace = true }
