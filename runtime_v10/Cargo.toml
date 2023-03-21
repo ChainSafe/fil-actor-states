@@ -31,21 +31,24 @@ getrandom = { version = "0.2.5" }
 hex = { version = "0.4.3", optional = true }
 anyhow = "1.0.65"
 blake2b_simd = "1.0"
-fvm_ipld_blockstore = "0.1.1"
-multihash = { version = "0.16.1", default-features = false }
-rand = "0.8.5"
-serde_repr = "0.1.8"
-regex = "1"
-itertools = "0.10"
-paste = "1.0.9"
 castaway = "0.2.2"
-
-[dependencies.sha2]
-version = "0.10"
+fvm_ipld_blockstore = "0.1.1"
+itertools = "0.10"
+multihash = { version = "0.16.1", default-features = false }
+num-bigint.workspace = true
+paste = "1.0.9"
+quickcheck = { workspace = true, optional = true }
+rand = "0.8.5"
+regex = "1"
+serde_repr.workspace = true
+sha2.workspace = true
 
 [dev-dependencies]
-derive_builder = "0.10.2"
-hex = "0.4.3"
+fil_actors_runtime_v10 = { path = ".", features = ["arb"] }
+hex.workspace = true
+quickcheck_macros.workspace = true
+toml = "0.7"
 
 [features]
 test_utils = ["hex", "multihash/sha2", "lazy_static"]
+arb = ["quickcheck"]

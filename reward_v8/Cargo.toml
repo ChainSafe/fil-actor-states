@@ -14,9 +14,7 @@ keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
 fil_actors_runtime_v8 = { workspace = true }
-fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
-fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true }
 lazy_static = { workspace = true }
 num-derive = { workspace = true }

@@ -11,7 +11,7 @@ pub use uint::byteorder;
 use serde::{Deserialize, Serialize};
 
 use {
-    fvm_shared::bigint::BigInt, fvm_shared::econ::TokenAmount, std::cmp::Ordering, std::fmt,
+    fvm_shared3::bigint::BigInt, fvm_shared3::econ::TokenAmount, std::cmp::Ordering, std::fmt,
     uint::construct_uint,
 };
 
@@ -190,7 +190,10 @@ impl From<&U256> for TokenAmount {
     fn from(ui: &U256) -> TokenAmount {
         let mut bits = [0u8; 32];
         ui.to_big_endian(&mut bits);
-        TokenAmount::from_atto(BigInt::from_bytes_be(fvm_shared::bigint::Sign::Plus, &bits))
+        TokenAmount::from_atto(BigInt::from_bytes_be(
+            fvm_shared3::bigint::Sign::Plus,
+            &bits,
+        ))
     }
 }
 

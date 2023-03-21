@@ -13,7 +13,6 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
-anyhow = { workspace = true }
 cid = { workspace = true, default-features = false, features = ["serde-codec"] }
 fil_actors_runtime_v9 = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }

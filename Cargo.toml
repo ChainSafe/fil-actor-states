@@ -47,47 +47,47 @@ resolver = "2"
 
 [workspace.dependencies]
 anyhow = "1.0"
-base64 = "0.13"
 blake2b_simd = "1.0"
-bls-signatures = { version = "0.12", default-features = false, features = [
-  "blst",
-] }
-byteorder = "1.4.3"
 cid = { version = "0.8", default-features = false, features = ["std"] }
 frc42_dispatch = "3.0.0"
 frc46_token = "3.1.0"
-fvm = "~2.2"
+fvm = { version = "~2.3", default-features = false }
 fvm_ipld_amt = "0.5.1"
 fvm_ipld_bitfield = "0.5"
 fvm_ipld_blockstore = "0.1"
 fvm_ipld_encoding = "0.2"
 fvm_ipld_hamt = "0.6.1"
-fvm_shared = "2.0"
-getrandom = { version = "0.2.5" }
-hex = "0.4"
+fvm_shared = { version = "2", default-features = false }
+fvm_shared3 = { package = "fvm_shared", version = "3", default-features = false }
+hex = "0.4.3"
+hex-literal = "0.3.4"
 indexmap = { version = "1.9", features = ["serde-1"] }
 integer-encoding = { version = "3.0.3", default-features = false }
 itertools = "0.10"
 lazy_static = "1.4"
-libp2p = { version = "0.51", default-features = false }
 libipld-core = "0.14"
+libp2p-identity = { version = "0.1", default-features = false, features = [
+  "peerid",
+] }
 log = "0.4"
 multihash = "0.16"
 num = "0.4.0"
+num-bigint = { version = "0.4.3", features = ["serde"] }
 num-derive = "0.3"
 num-traits = "0.2"
 paste = "1.0.9"
+quickcheck = "1"
+quickcheck_macros = "1"
 rand = "0.8"
 regex = "1.6"
-serde = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 serde_repr = "0.1.8"
+serde_tuple = "0.5"
 sha2 = "0.10.5"
 thiserror = "1.0"
-unsigned-varint = "0.7.1"
-serde_tuple = "0.5"
-hex-literal = "0.3.4"
 uint = { version = "0.9.3", default-features = false }
+unsigned-varint = "0.7.1"
 
+fil_actors_runtime_v10 = { path = "./runtime_v10" }
 fil_actors_runtime_v8 = { path = "./runtime_v8" }
 fil_actors_runtime_v9 = { path = "./runtime_v9" }
-fil_actors_runtime_v10 = { path = "./runtime_v10" }

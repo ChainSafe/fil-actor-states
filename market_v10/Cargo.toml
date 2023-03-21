@@ -16,6 +16,7 @@ keywords = ["filecoin", "web3", "wasm"]
 anyhow = { workspace = true }
 cid = { workspace = true, default-features = false, features = ["serde-codec"] }
 fil_actors_runtime_v10 = { workspace = true }
+frc42_dispatch = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
@@ -26,11 +27,6 @@ libipld-core = { workspace = true, features = ["serde-codec"] }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
-fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
-frc42_dispatch = { workspace = true }
 
 [dev-dependencies]
-fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
 multihash = { version = "0.16.1", default-features = false }
-regex = "1"
-itertools = { workspace = true }
