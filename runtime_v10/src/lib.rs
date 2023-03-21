@@ -29,8 +29,6 @@ pub mod util;
 
 mod dispatch;
 pub use dispatch::dispatch;
-#[cfg(feature = "test_utils")]
-pub mod test_utils;
 
 #[macro_export]
 macro_rules! wasm_trampoline {

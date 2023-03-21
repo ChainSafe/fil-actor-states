@@ -50,5 +50,4 @@ quickcheck_macros.workspace = true
 toml = "0.7"
 
 [features]
-test_utils = ["hex", "multihash/sha2", "lazy_static"]
 arb = ["quickcheck"]
