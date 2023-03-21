@@ -17,7 +17,6 @@ pub use {fvm_ipld_amt, fvm_ipld_hamt};
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
-use crate::runtime::Runtime;
 
 #[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
@@ -26,9 +25,6 @@ pub mod actor_error;
 pub mod builtin;
 pub mod runtime;
 pub mod util;
-
-mod dispatch;
-pub use dispatch::dispatch;
 
 #[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
