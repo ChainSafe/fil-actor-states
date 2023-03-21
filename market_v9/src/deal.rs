@@ -2,27 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::types::AllocationID;
-use cid::{Cid, Version};
+use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{BytesSer, Cbor};
 use fvm_shared::address::Address;
 use fvm_shared::clock::ChainEpoch;
-use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
 use fvm_shared::crypto::signature::Signature;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
 use libipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
-
-/// Cid prefix for piece `Cid`s
-pub fn is_piece_cid(c: &Cid) -> bool {
-    // TODO: Move FIL_COMMITMENT etc, into a better place
-    c.version() == Version::V1
-        && c.codec() == FIL_COMMITMENT_UNSEALED
-        && c.hash().code() == SHA2_256_TRUNC254_PADDED
-        && c.hash().size() == 32
-}
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Label {
