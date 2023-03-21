@@ -19,9 +19,6 @@ pub use self::builtin::*;
 pub use self::util::*;
 use crate::runtime::Runtime;
 
-#[cfg(feature = "fil-actor")]
-use crate::runtime::hash_algorithm::FvmHashSha256;
-
 #[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 
@@ -44,9 +41,6 @@ macro_rules! wasm_trampoline {
         }
     };
 }
-
-#[cfg(feature = "fil-actor")]
-type Hasher = FvmHashSha256;
 
 #[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
