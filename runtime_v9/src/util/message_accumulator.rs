@@ -1,3 +1,6 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
 use itertools::Itertools;
 use std::{cell::RefCell, fmt::Display, rc::Rc};
 
