@@ -9,34 +9,27 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2021"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 
 [dependencies]
 anyhow = { workspace = true }
-blake2b_simd = { workspace = true }
-byteorder = { workspace = true }
-cid = { workspace = true, features = ["serde-codec"] }
-fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
+cid = { workspace = true }
+fil_actors_runtime_v10 = { workspace = true }
+fvm_ipld_amt = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
-fvm_shared = { workspace = true, default-features = false }
+fvm_shared = { workspace = true }
 itertools = { workspace = true }
 multihash = { workspace = true }
-num = { workspace = true, features = ["serde"] }
+num = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 paste = { workspace = true }
-regex = { workspace = true }
 serde = { workspace = true }
 serde_repr = { workspace = true }
-sha2 = { workspace = true }
 thiserror = { workspace = true }
 unsigned-varint = { workspace = true }
-fil_actors_runtime_v10 = { path = "../runtime_v10" }
-
-[dev-dependencies]
-hex = { workspace = true }
 
 [features]
 default = []

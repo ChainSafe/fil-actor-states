@@ -1,3 +1,6 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
 use fvm_ipld_encoding::serde_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared::address::Address;

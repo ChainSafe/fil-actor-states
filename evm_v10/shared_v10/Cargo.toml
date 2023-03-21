@@ -9,9 +9,9 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm", "evm"]
 
 [dependencies]
-serde = { workspace = true }
-fvm_shared = { version = "3.0.0", default-features = false }
 fil_actors_runtime_v10 = { workspace = true }
 fvm_ipld_encoding = "0.3.3"
-uint = { workspace = true }
+fvm_shared3 = { workspace = true }
 hex = { workspace = true }
+serde = { workspace = true }
+uint = { workspace = true }

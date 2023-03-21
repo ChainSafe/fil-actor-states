@@ -3,6 +3,7 @@
 
 use fvm_shared::address::Address;
 use fvm_shared::ActorID;
+use lazy_static::lazy_static;
 
 lazy_static! {
     pub static ref SYSTEM_ACTOR_ADDR: Address         = Address::new_id(0);

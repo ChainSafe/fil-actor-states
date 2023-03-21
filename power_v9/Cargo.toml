@@ -9,7 +9,7 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2018"
-repository = "https://github.com/ChainSafe/forest"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
