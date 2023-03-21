@@ -30,16 +30,6 @@ pub mod util;
 mod dispatch;
 pub use dispatch::dispatch;
 
-#[macro_export]
-macro_rules! wasm_trampoline {
-    ($target:ty) => {
-        #[no_mangle]
-        pub extern "C" fn invoke(param: u32) -> u32 {
-            $crate::runtime::fvm::trampoline::<$target>(param)
-        }
-    };
-}
-
 #[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
