@@ -48,4 +48,4 @@ fvm_ipld_encoding.workspace = true
 fvm_shared = { workspace = true }
 libp2p-identity.workspace = true
 num.workspace = true
-serde = { workspace = true, features = ["derive"] }
+serde = { workspace = true }
