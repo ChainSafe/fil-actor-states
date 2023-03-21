@@ -19,9 +19,9 @@ crate-type = ["cdylib", "lib"]
 
 [dependencies]
 anyhow = { workspace = true }
-cid = { workspace = true, default-features = false, features = ["serde-codec"] }
+cid = { workspace = true }
 fil_actors_runtime_v8 = { workspace = true }
-fvm_ipld_amt = { workspace = true, features = ["go-interop"] }
+fvm_ipld_amt = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
@@ -31,4 +31,4 @@ itertools = { workspace = true }
 lazy_static = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
+serde = { workspace = true }
