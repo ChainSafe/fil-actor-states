@@ -1352,8 +1352,6 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.3.0",
  "num-derive",
@@ -1367,7 +1365,6 @@ version = "8.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v8",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.3.0",
  "num-derive",
@@ -1381,7 +1378,6 @@ version = "9.0.3"
 dependencies = [
  "cid",
  "fil_actors_runtime_v9",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.3.0",
  "num-derive",
