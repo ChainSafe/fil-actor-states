@@ -1183,7 +1183,6 @@ dependencies = [
  "fvm_shared 2.3.0",
  "integer-encoding",
  "libipld-core 0.14.0",
- "multihash 0.16.3",
  "num-derive",
  "num-traits",
  "serde",
