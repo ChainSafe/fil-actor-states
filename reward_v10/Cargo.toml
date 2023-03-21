@@ -9,11 +9,10 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2018"
-repository = "https://github.com/ChainSafe/forest"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
-fil_actors_runtime_v10 = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 lazy_static = { workspace = true }

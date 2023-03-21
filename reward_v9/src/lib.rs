@@ -11,7 +11,6 @@ pub use self::types::*;
 pub(crate) mod expneg;
 mod logic;
 mod state;
-pub mod testing;
 mod types;
 
 // only exported for tests

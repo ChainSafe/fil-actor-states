@@ -1,15 +1,13 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::marker::PhantomData;
-
 use anyhow::Context;
 use cid::Cid;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::PaddedPieceSize};
-use num::BigInt;
 use serde::Serialize;
+use std::marker::PhantomData;
 
 use crate::io::get_obj;
 
@@ -120,23 +118,6 @@ impl State {
             State::V9(st) => st.total_locked(),
             State::V10(st) => st.get_total_locked(),
         }
-    }
-
-    /// Validates a collection of deal `dealProposals` for activation, and
-    /// returns their combined weight, split into regular deal weight and
-    /// verified deal weight.
-    pub fn verify_deals_for_activation<BS>(
-        &self,
-        _store: &BS,
-        _deal_ids: &[u64],
-        _miner_addr: &Address,
-        _sector_expiry: ChainEpoch,
-        _curr_epoch: ChainEpoch,
-    ) -> anyhow::Result<(BigInt, BigInt)>
-    where
-        BS: Blockstore,
-    {
-        unimplemented!()
     }
 }
 

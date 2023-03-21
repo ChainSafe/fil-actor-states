@@ -8,7 +8,6 @@ pub use self::state::State;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 /// Init actor methods available

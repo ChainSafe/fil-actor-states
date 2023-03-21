@@ -7,7 +7,6 @@ use num_derive::FromPrimitive;
 pub use self::state::{Entry, State};
 
 mod state;
-pub mod testing;
 
 /// Cron actor methods available
 #[derive(FromPrimitive)]

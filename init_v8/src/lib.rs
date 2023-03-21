@@ -8,7 +8,6 @@ pub use self::state::State;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 // * Updated to specs-actors commit: 999e57a151cc7ada020ca2844b651499ab8c0dec (v3.0.1)
