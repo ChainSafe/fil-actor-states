@@ -50,5 +50,5 @@ fvm_shared = { workspace = true, default-features = false }
 lazy_static.workspace = true
 libp2p-identity.workspace = true
 num.workspace = true
-serde = { workspace = true, features = ["derive"] }
+serde.workspace = true
 serde_yaml.workspace = true

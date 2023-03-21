@@ -17,10 +17,6 @@ pub use {fvm_ipld_amt, fvm_ipld_hamt};
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
-use crate::runtime::Runtime;
-
-#[cfg(feature = "fil-actor")]
-use crate::runtime::hash_algorithm::FvmHashSha256;
 
 #[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
@@ -29,24 +25,6 @@ pub mod actor_error;
 pub mod builtin;
 pub mod runtime;
 pub mod util;
-
-mod dispatch;
-pub use dispatch::dispatch;
-#[cfg(feature = "test_utils")]
-pub mod test_utils;
-
-#[macro_export]
-macro_rules! wasm_trampoline {
-    ($target:ty) => {
-        #[no_mangle]
-        pub extern "C" fn invoke(param: u32) -> u32 {
-            $crate::runtime::fvm::trampoline::<$target>(param)
-        }
-    };
-}
-
-#[cfg(feature = "fil-actor")]
-type Hasher = FvmHashSha256;
 
 #[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;

@@ -112,11 +112,6 @@ impl State {
         }
     }
 
-    /// Loads power for a given miner, if exists.
-    pub fn list_all_miners<BS: Blockstore>(&self, _s: &BS) -> anyhow::Result<Vec<Address>> {
-        unimplemented!()
-    }
-
     /// Checks power actor state for if miner meets minimum consensus power.
     pub fn miner_nominal_power_meets_consensus_minimum<BS: Blockstore>(
         &self,

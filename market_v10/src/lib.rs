@@ -3,9 +3,6 @@
 
 use std::collections::BTreeSet;
 
-use cid::multihash::{Code, MultihashDigest};
-use cid::Cid;
-use fil_actors_runtime_v10::cbor::serialize;
 use fil_actors_runtime_v10::runtime::Policy;
 use fil_actors_runtime_v10::FIRST_ACTOR_SPECIFIC_EXIT_CODE;
 use fil_actors_runtime_v10::{actor_error, ActorContext, ActorError, AsActorError};
@@ -31,7 +28,6 @@ pub mod balance_table;
 #[doc(hidden)]
 pub mod ext;
 pub mod policy;
-pub mod testing;
 
 mod deal;
 mod state;
@@ -183,19 +179,6 @@ fn validate_deal_can_activate(
 }
 
 pub const DAG_CBOR: u64 = 0x71; // TODO is there a better place to get this?
-
-/// Compute a deal CID directly.
-pub(crate) fn deal_cid(proposal: &DealProposal) -> Result<Cid, ActorError> {
-    const DIGEST_SIZE: u32 = 32;
-    let data = serialize(proposal, "deal proposal")?;
-    let hash = Code::Blake2b256.digest(data.bytes());
-    debug_assert_eq!(
-        u32::from(hash.size()),
-        DIGEST_SIZE,
-        "expected 32byte digest"
-    );
-    Ok(Cid::new_v1(DAG_CBOR, hash))
-}
 
 pub fn deal_id_key(k: DealID) -> BytesKey {
     let bz = k.encode_var_vec();

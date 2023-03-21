@@ -4,15 +4,12 @@
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-use fil_actors_runtime_v10::cbor::serialize_vec;
 use fil_actors_runtime_v10::make_map_with_root;
-use fil_actors_runtime_v10::runtime::Primitives;
 
 pub use self::state::*;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 /// Multisig actor methods available
@@ -30,18 +27,4 @@ pub enum Method {
     LockBalance = 9,
     // Method numbers derived from FRC-0042 standards
     UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
-}
-
-/// Computes a digest of a proposed transaction. This digest is used to confirm identity
-/// of the transaction associated with an ID, which might change under chain re-orgs.
-pub fn compute_proposal_hash(txn: &Transaction, sys: &dyn Primitives) -> anyhow::Result<[u8; 32]> {
-    let proposal_hash = ProposalHashData {
-        requester: txn.approved.get(0),
-        to: &txn.to,
-        value: &txn.value,
-        method: &txn.method,
-        params: &txn.params,
-    };
-    let data = serialize_vec(&proposal_hash, "proposal hash")?;
-    Ok(sys.hash_blake2b(&data))
 }
