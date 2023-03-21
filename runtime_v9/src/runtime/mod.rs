@@ -19,9 +19,6 @@ pub mod builtins;
 pub mod policy;
 mod randomness;
 
-pub(crate) mod empty;
-pub use empty::EMPTY_ARR_CID;
-
 /// Message information available to the actor about executing message.
 pub trait MessageInfo {
     /// The address of the immediate calling actor. Always an ID-address.

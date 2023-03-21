@@ -32,7 +32,6 @@ num-traits = { workspace = true }
 paste = { workspace = true }
 quickcheck = { workspace = true, optional = true }
 rand = { workspace = true }
-regex = { workspace = true }
 serde = { workspace = true }
 serde_repr = { workspace = true }
 sha2 = { workspace = true }

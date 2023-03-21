@@ -28,9 +28,6 @@ pub mod builtins;
 pub mod policy;
 mod randomness;
 
-pub(crate) mod empty;
-
-pub use empty::EMPTY_ARR_CID;
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 
 /// Runtime is the `VM`'s internal runtime object.
