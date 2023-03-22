@@ -19,7 +19,7 @@ fn main() -> anyhow::Result<()> {
     let json = to_json()?;
 
     std::fs::write(
-        out_dir.join("network_manifest.json"),
+        out_dir.join("network_manifests.json"),
         serde_json::to_string_pretty(&json)?,
     )?;
 
