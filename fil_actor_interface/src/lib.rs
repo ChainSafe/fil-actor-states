@@ -3,5 +3,7 @@
 
 mod builtin;
 mod io;
+mod r#mod;
 
 pub use self::builtin::*;
+pub use r#mod::NetworkManifest;

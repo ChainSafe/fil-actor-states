@@ -1164,7 +1164,9 @@ dependencies = [
  "lazy_static",
  "libp2p-identity",
  "num",
+ "regex",
  "serde",
+ "serde_json",
  "serde_yaml",
 ]
 
