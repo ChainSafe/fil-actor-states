@@ -41,6 +41,7 @@ fil_actors_runtime_v9.workspace = true
 
 anyhow.workspace = true
 cid.workspace = true
+fil_utils = { workspace = true }
 fvm.workspace = true
 fvm_ipld_bitfield.workspace = true
 fvm_ipld_blockstore.workspace = true
