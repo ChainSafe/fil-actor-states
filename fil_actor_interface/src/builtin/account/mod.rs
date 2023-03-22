@@ -78,7 +78,7 @@ impl State {
         match self {
             State::V8(st) => st.address,
             State::V9(st) => st.address,
-            State::V10(st) => fil_utils::from_address_v3_to_v2(st.address),
+            State::V10(st) => fil_utils::convert::from_address_v3_to_v2(st.address),
         }
     }
 }

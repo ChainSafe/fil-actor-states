@@ -55,7 +55,7 @@ pub fn is_sealed_sector(c: &Cid) -> bool {
 pub fn can_pre_commit_seal_proof(policy: &Policy, proof: RegisteredSealProof) -> bool {
     policy
         .valid_pre_commit_proof_type
-        .contains(&fil_utils::from_reg_seal_proof_v2_to_v3(proof))
+        .contains(&fil_utils::convert::from_reg_seal_proof_v2_to_v3(proof))
 }
 
 /// Checks whether a seal proof type is supported for new miners and sectors.

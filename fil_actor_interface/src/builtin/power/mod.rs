@@ -113,7 +113,7 @@ impl State {
         match self {
             State::V8(st) => st.into_total_locked(),
             State::V9(st) => st.into_total_locked(),
-            State::V10(st) => fil_utils::from_token_v3_to_v2(st.into_total_locked()),
+            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.into_total_locked()),
         }
     }
 
@@ -127,7 +127,7 @@ impl State {
             State::V8(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V9(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V10(st) => Ok(st
-                .miner_power(&s, &fil_utils::from_address_v2_to_v3(*miner))?
+                .miner_power(&s, &fil_utils::convert::from_address_v2_to_v3(*miner))?
                 .map(From::from)),
         }
     }
@@ -154,9 +154,9 @@ impl State {
         match self {
             State::V8(st) => st.this_epoch_qa_power_smoothed.clone(),
             State::V9(st) => st.this_epoch_qa_power_smoothed.clone(),
-            State::V10(st) => {
-                fil_utils::from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
-            }
+            State::V10(st) => fil_utils::convert::from_filter_estimate_v3_to_v2(
+                st.this_epoch_qa_power_smoothed.clone(),
+            ),
         }
     }
 
@@ -165,7 +165,9 @@ impl State {
         match self {
             State::V8(st) => st.total_pledge_collateral.clone(),
             State::V9(st) => st.total_pledge_collateral.clone(),
-            State::V10(st) => fil_utils::from_token_v3_to_v2(st.total_pledge_collateral.clone()),
+            State::V10(st) => {
+                fil_utils::convert::from_token_v3_to_v2(st.total_pledge_collateral.clone())
+            }
         }
     }
 }
