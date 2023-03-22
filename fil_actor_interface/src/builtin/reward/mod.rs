@@ -83,7 +83,9 @@ impl State {
         match self {
             State::V8(st) => st.into_total_storage_power_reward(),
             State::V9(st) => st.into_total_storage_power_reward(),
-            State::V10(st) => st.into_total_storage_power_reward(),
+            State::V10(st) => {
+                fil_utils::convert::from_token_v3_to_v2(st.into_total_storage_power_reward())
+            }
         }
     }
 }
