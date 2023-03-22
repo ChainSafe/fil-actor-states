@@ -6,7 +6,6 @@ use num_derive::FromPrimitive;
 
 pub use self::deal::*;
 pub use self::state::*;
-// pub use self::types::*;
 
 pub mod balance_table;
 mod deal;
