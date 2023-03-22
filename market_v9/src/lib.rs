@@ -1,11 +1,11 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::METHOD_CONSTRUCTOR;
-use num_derive::FromPrimitive;
 pub use self::deal::*;
 pub use self::state::*;
 pub use self::types::*;
+use fvm_shared::METHOD_CONSTRUCTOR;
+use num_derive::FromPrimitive;
 
 // exports for testing
 pub mod balance_table;

@@ -1,10 +1,10 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use super::deal::{DealProposal, DealState};
 use fil_actors_runtime_v9::Array;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared::bigint::{bigint_ser, BigInt};
-use super::deal::{DealProposal, DealState};
 
 pub const PROPOSALS_AMT_BITWIDTH: u32 = 5;
 pub const STATES_AMT_BITWIDTH: u32 = 6;
