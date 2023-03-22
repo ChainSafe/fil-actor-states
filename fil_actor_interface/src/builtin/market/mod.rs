@@ -116,7 +116,7 @@ impl State {
         match self {
             State::V8(st) => st.total_locked(),
             State::V9(st) => st.total_locked(),
-            State::V10(st) => st.get_total_locked(),
+            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.get_total_locked()),
         }
     }
 }

@@ -954,7 +954,7 @@ version = "10.0.0-alpha.1"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -988,7 +988,7 @@ name = "fil_actor_cron_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1025,7 +1025,7 @@ dependencies = [
  "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1035,7 +1035,7 @@ dependencies = [
 name = "fil_actor_eam_v10"
 version = "10.0.0"
 dependencies = [
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
 ]
@@ -1045,7 +1045,7 @@ name = "fil_actor_ethaccount_v10"
 version = "10.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1059,7 +1059,7 @@ dependencies = [
  "fil_actors_evm_shared_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "hex-literal",
  "num-derive",
  "num-traits",
@@ -1075,7 +1075,7 @@ dependencies = [
  "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1149,6 +1149,7 @@ dependencies = [
  "fil_actor_system_v9",
  "fil_actors_runtime_v10",
  "fil_actors_runtime_v9",
+ "fil_utils",
  "fvm",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
@@ -1171,7 +1172,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "integer-encoding",
  "libipld-core 0.14.0",
  "num-derive",
@@ -1228,7 +1229,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "itertools 0.10.5",
  "lazy_static",
  "multihash 0.16.3",
@@ -1244,6 +1245,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v8",
+ "fil_utils",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
@@ -1264,6 +1266,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v9",
+ "fil_utils",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
@@ -1289,7 +1292,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "indexmap",
  "integer-encoding",
  "num-derive",
@@ -1342,7 +1345,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1385,7 +1388,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "integer-encoding",
  "lazy_static",
  "num-derive",
@@ -1434,7 +1437,7 @@ name = "fil_actor_reward_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "lazy_static",
  "num",
  "num-derive",
@@ -1513,7 +1516,7 @@ dependencies = [
  "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1574,9 +1577,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
- "getrandom",
- "hex",
+ "fvm_shared 3.1.0",
  "itertools 0.10.5",
  "lazy_static",
  "multihash 0.16.3",
@@ -1586,7 +1587,6 @@ dependencies = [
  "paste",
  "quickcheck",
  "quickcheck_macros",
- "rand",
  "serde",
  "serde_repr",
  "sha2 0.10.6",
@@ -1654,6 +1654,14 @@ dependencies = [
  "rand",
  "static_assertions",
  "subtle",
+]
+
+[[package]]
+name = "fil_utils"
+version = "10.0.0-alpha.1"
+dependencies = [
+ "fvm_shared 2.3.0",
+ "fvm_shared 3.1.0",
 ]
 
 [[package]]
