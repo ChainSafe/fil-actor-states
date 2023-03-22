@@ -14,7 +14,7 @@ keywords = ["filecoin", "web3", "wasm"]
 [dependencies]
 frc42_dispatch = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
-fvm_shared = { workspace = true }
+fvm_shared = { version = "3", default-features = false }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }

@@ -188,7 +188,7 @@ impl State {
         match self {
             State::V8(st) => st.fee_debt.clone(),
             State::V9(st) => st.fee_debt.clone(),
-            State::V10(st) => st.fee_debt.clone(),
+            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.fee_debt.clone()),
         }
     }
 }
@@ -273,22 +273,27 @@ impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
         let peer_id = PeerId::from_bytes(&info.peer_id).ok();
 
         MinerInfo {
-            owner: info.owner,
-            worker: info.worker,
+            owner: fil_utils::convert::from_address_v3_to_v2(info.owner),
+            worker: fil_utils::convert::from_address_v3_to_v2(info.worker),
             control_addresses: info
                 .control_addresses
                 .into_iter()
-                .map(Address::from)
+                .map(fil_utils::convert::from_address_v3_to_v2)
                 .collect(),
-            new_worker: info.pending_worker_key.as_ref().map(|k| k.new_worker),
+            new_worker: info
+                .pending_worker_key
+                .as_ref()
+                .map(|k| fil_utils::convert::from_address_v3_to_v2(k.new_worker)),
             worker_change_epoch: info
                 .pending_worker_key
                 .map(|k| k.effective_at)
                 .unwrap_or(-1),
             peer_id,
             multiaddrs: info.multi_address,
-            window_post_proof_type: info.window_post_proof_type,
-            sector_size: info.sector_size,
+            window_post_proof_type: fil_utils::convert::from_reg_post_proof_v3_to_v2(
+                info.window_post_proof_type,
+            ),
+            sector_size: fil_utils::convert::from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
         }
@@ -459,16 +464,18 @@ impl From<fil_actor_miner_v10::SectorOnChainInfo> for SectorOnChainInfo {
     fn from(info: fil_actor_miner_v10::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
-            seal_proof: info.seal_proof,
+            seal_proof: fil_utils::convert::from_reg_seal_proof_v3_to_v2(info.seal_proof),
             sealed_cid: info.sealed_cid,
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: info.initial_pledge,
-            expected_day_reward: info.expected_day_reward,
-            expected_storage_pledge: info.expected_storage_pledge,
+            initial_pledge: fil_utils::convert::from_token_v3_to_v2(info.initial_pledge),
+            expected_day_reward: fil_utils::convert::from_token_v3_to_v2(info.expected_day_reward),
+            expected_storage_pledge: fil_utils::convert::from_token_v3_to_v2(
+                info.expected_storage_pledge,
+            ),
         }
     }
 }
