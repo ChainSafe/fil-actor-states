@@ -26,33 +26,15 @@ use crate::{io::get_obj, power::Claim};
 pub type Method = fil_actor_miner_v8::Method;
 
 pub fn is_v8_miner_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzacea6rabflc7kpwr6y4lzcqsnuahr4zblyq3rhzrrsfceeiw2lufrb4").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzacecgnynvd3tene3bvqoknuspit56canij5bpra6wl4mrq2mxxwriyu").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.miner.v8.contains(cid)
 }
 
 pub fn is_v9_miner_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzacebz4na3nq4gmumghegtkaofrv4nffiihd7sxntrryfneusqkuqodm").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacedyux5hlrildwutvvjdcsvjtwsoc5xnqdjl73ouiukgklekeuyfl4").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.miner.v9.contains(cid)
 }
 
 pub fn is_v10_miner_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacedu4chbl36rilas45py4vhqtuj6o7aa5stlvnwef3kshgwcsmha6y").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaced4h7noksockro7glnssz2jnmo2rpzd7dvnmfs4p24zx3h6gtx47s").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.miner.v10.contains(cid)
 }
 
 /// Miner actor state.

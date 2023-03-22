@@ -7,6 +7,7 @@ pub mod datacap;
 pub mod ethaccount;
 pub mod evm;
 pub mod init;
+pub mod known_cids;
 pub mod market;
 pub mod miner;
 pub mod multisig;
@@ -20,6 +21,7 @@ pub use fil_actor_reward_v8::AwardBlockRewardParams;
 pub use fil_actors_runtime_v9::builtin::singletons::{BURNT_FUNDS_ACTOR_ADDR, CHAOS_ACTOR_ADDR};
 use fvm_shared::address::Address;
 pub use fvm_shared::{clock::EPOCH_DURATION_SECONDS, smooth::FilterEstimate};
+pub use known_cids::KNOWN_CIDS;
 
 pub const RESERVE_ADDRESS: Address = Address::new_id(90);
 

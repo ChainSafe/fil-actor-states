@@ -22,33 +22,15 @@ pub enum State {
 }
 
 pub fn is_v8_account_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzacecruossn66xqbeutqx5r4k2kjzgd43frmwd4qkw6haez44ubvvpxo").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzacedudbf7fc5va57t3tmo63snmt3en4iaidv4vo3qlyacbxaa6hlx6y").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.account.v8.contains(cid)
 }
 
 pub fn is_v9_account_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzaceavfgpiw6whqigmskk74z4blm22nwjfnzxb4unlqz2e4wg3c5ujpw").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacect2p7urje3pylrrrjy3tngn6yaih4gtzauuatf2jllk3ksgfiw2y").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.account.v9.contains(cid)
 }
 
 pub fn is_v10_account_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacebhfuz3sv7duvk653544xsxhdn4lsmy7ol7k6gdgancyctvmd7lnq").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaceampw4romta75hyz5p4cqriypmpbgnkxncgxgqn6zptv5lsp2w2bo").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.account.v10.contains(cid)
 }
 
 impl State {
