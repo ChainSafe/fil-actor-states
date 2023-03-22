@@ -17,33 +17,15 @@ pub const ADDRESS: Address = Address::new_id(1);
 pub type Method = fil_actor_init_v8::Method;
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzaceadyfilb22bcvzvnpzbg2lyg6npmperyq6es2brvzjdh5rmywc4ry").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzaceaipvjhoxmtofsnv3aj6gj5ida4afdrxa4ewku2hfipdlxpaektlw").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.init.v8.contains(cid)
 }
 
 pub fn is_v9_init_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzaceczqxpivlxifdo5ohr2rx5ny4uyvssm6tkf7am357xm47x472yxu2").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacebtdq4zyuxk2fzbdkva6kc4mx75mkbfmldplfntayhbl5wkqou33i").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.init.v9.contains(cid)
 }
 
 pub fn is_v10_init_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacedhxbcglnonzruxf2jpczara73eh735wf2kznatx2u4gsuhgqwffq").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaced2f5rhir3hbpqbz5ght7ohv2kgj42g5ykxrypuo2opxsup3ykwl6").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.init.v10.contains(cid)
 }
 
 /// Init actor state.

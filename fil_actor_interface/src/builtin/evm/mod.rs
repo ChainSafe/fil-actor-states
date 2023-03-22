@@ -20,13 +20,7 @@ pub enum State {
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzaceblpgzid4qjfavuiht6uwvq2lznshklk2qmf5akm3dzx2fczdqdxc").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaceahmzdxhqsm7cu2mexusjp6frm7r4kdesvti3etv5evfqboos2j4g").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.evm.v10.contains(cid)
 }
 
 impl State {
