@@ -201,6 +201,3 @@ pub fn power_for_sectors(sector_size: SectorSize, sectors: &[SectorOnChainInfo])
         qa,
     }
 }
-
-#[cfg(test)]
-mod internal_tests;

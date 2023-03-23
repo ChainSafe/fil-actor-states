@@ -6,7 +6,7 @@ use num_derive::FromPrimitive;
 
 pub use self::logic::*;
 pub use self::state::{Reward, State, VestingFunction};
-pub use self::types::*;
+pub use types::*;
 
 pub(crate) mod expneg;
 mod logic;

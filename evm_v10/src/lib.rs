@@ -6,10 +6,7 @@ use fvm_shared::error::ExitCode;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-pub use types::*;
-
 mod state;
-mod types;
 
 pub use state::*;
 
