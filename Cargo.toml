@@ -48,7 +48,6 @@ resolver = "2"
 [workspace.dependencies]
 ahash = "0.8"
 anyhow = "1.0"
-blake2b_simd = "1.0"
 byteorder = "1.4.3"
 cid = { version = "0.8", default-features = false, features = ["std"] }
 frc42_dispatch = "3.0.0"

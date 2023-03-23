@@ -13,7 +13,6 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 
 [dependencies]
 anyhow = { workspace = true }
-blake2b_simd = { workspace = true }
 byteorder = { workspace = true }
 cid = { workspace = true }
 fvm_ipld_amt = { workspace = true }
