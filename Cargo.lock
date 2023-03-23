@@ -1179,12 +1179,10 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
- "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
- "integer-encoding",
  "libipld-core 0.14.0",
  "num-derive",
  "num-traits",
@@ -1198,7 +1196,6 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v8",
- "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1216,12 +1213,10 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v9",
- "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
- "integer-encoding",
  "libipld-core 0.14.0",
  "num-derive",
  "num-traits",
@@ -1354,7 +1349,6 @@ name = "fil_actor_paych_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "cid",
- "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 3.1.0",
@@ -1368,7 +1362,6 @@ name = "fil_actor_paych_v8"
 version = "8.0.0"
 dependencies = [
  "cid",
- "fil_actors_runtime_v8",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.3.0",
  "num-derive",
@@ -1381,7 +1374,6 @@ name = "fil_actor_paych_v9"
 version = "9.0.3"
 dependencies = [
  "cid",
- "fil_actors_runtime_v9",
  "fvm_ipld_encoding 0.2.3",
  "fvm_shared 2.3.0",
  "num-derive",

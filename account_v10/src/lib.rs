@@ -7,7 +7,6 @@ use num_derive::FromPrimitive;
 pub use self::state::State;
 
 mod state;
-pub mod types;
 
 /// Account actor methods available
 #[derive(FromPrimitive)]
