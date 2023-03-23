@@ -1110,7 +1110,6 @@ dependencies = [
  "fil_actors_runtime_v9",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
- "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1174,7 +1173,6 @@ dependencies = [
 name = "fil_actor_market_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
@@ -1291,7 +1289,6 @@ dependencies = [
 name = "fil_actor_multisig_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
@@ -1328,7 +1325,6 @@ dependencies = [
 name = "fil_actor_multisig_v9"
 version = "9.0.3"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v9",
  "frc42_dispatch",
@@ -1572,7 +1568,6 @@ name = "fil_actors_runtime_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "anyhow",
- "byteorder",
  "cid",
  "fil_actors_runtime_v10",
  "fvm_ipld_amt 0.5.1",
@@ -1580,8 +1575,6 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
- "itertools 0.10.5",
- "lazy_static",
  "multihash 0.16.3",
  "num-bigint",
  "num-derive",
@@ -1609,7 +1602,6 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
- "itertools 0.10.5",
  "lazy_static",
  "num-derive",
  "num-traits",
@@ -1631,8 +1623,6 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
- "itertools 0.10.5",
- "multihash 0.16.3",
  "num",
  "num-derive",
  "num-traits",
