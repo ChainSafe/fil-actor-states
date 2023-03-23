@@ -242,7 +242,7 @@ fn zeroless_view(v: &impl AsRef<[u8]>) -> &[u8] {
 
 #[cfg(test)]
 mod tests {
-    use fvm_ipld_encoding::{BytesDe, BytesSer, RawBytes};
+    use fvm_ipld_encoding3::{BytesDe, BytesSer, RawBytes};
 
     use {super::*, core::num::Wrapping};
 

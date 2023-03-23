@@ -6,10 +6,9 @@ use std::fmt::Display;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
 use fvm_ipld_hamt::BytesKey;
-use fvm_shared::address::Address;
-
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::MethodNum;
+use fvm_shared3::address::Address;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::MethodNum;
 use integer_encoding::VarInt;
 use serde::{Deserialize, Serialize};
 

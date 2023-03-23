@@ -3,12 +3,11 @@
 
 use fvm_ipld_encoding::serde_bytes;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::econ::TokenAmount;
-
-use fvm_shared::sector::StoragePower;
-use fvm_shared::smooth::FilterEstimate;
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::sector::StoragePower;
+use fvm_shared3::smooth::FilterEstimate;
 
 pub mod account {
     use super::*;
@@ -42,9 +41,9 @@ pub mod verifreg {
     use super::*;
     use cid::Cid;
     use fil_actors_runtime_v10::BatchReturn;
-    use fvm_shared::clock::ChainEpoch;
-    use fvm_shared::piece::PaddedPieceSize;
-    use fvm_shared::ActorID;
+    use fvm_shared3::clock::ChainEpoch;
+    use fvm_shared3::piece::PaddedPieceSize;
+    use fvm_shared3::ActorID;
 
     pub type AllocationID = u64;
     pub type ClaimID = u64;

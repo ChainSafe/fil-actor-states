@@ -18,13 +18,12 @@ use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{serde_bytes, BytesDe, CborStore};
 use fvm_ipld_hamt::Error as HamtError;
-use fvm_shared::address::Address;
-
-use fvm_shared::clock::{ChainEpoch, QuantSpec, EPOCH_UNDEFINED};
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
-use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
+use fvm_shared3::address::Address;
+use fvm_shared3::clock::{ChainEpoch, QuantSpec, EPOCH_UNDEFINED};
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
+use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 use itertools::Itertools;
 use num_traits::Zero;
 

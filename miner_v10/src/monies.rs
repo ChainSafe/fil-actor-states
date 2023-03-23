@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fil_actors_runtime_v10::network::EPOCHS_IN_DAY;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
 use lazy_static::lazy_static;
 
 /// Projection period of expected sector block reward for deposit required to pre-commit a sector.

@@ -5,7 +5,7 @@ use anyhow::anyhow;
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_encoding::Error as EncodingError;
 use fvm_ipld_hamt::Error as HamtError;
-use fvm_shared::error::ExitCode;
+use fvm_shared3::error::ExitCode;
 
 use crate::ActorError;
 
