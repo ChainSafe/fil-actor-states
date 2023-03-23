@@ -20,33 +20,15 @@ pub const ADDRESS: Address = Address::new_id(4);
 pub type Method = fil_actor_power_v8::Method;
 
 pub fn is_v8_power_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzacecpwr4mynn55bg5hrlns3osvg7sty3rca6zlai3vl52vbbjk7ulfa").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzacebjvqva6ppvysn5xpmiqcdfelwbbcxmghx5ww6hr37cgred6dyrpm").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.power.v8.contains(cid)
 }
 
 pub fn is_v9_power_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzaceburxajojmywawjudovqvigmos4dlu4ifdikogumhso2ca2ccaleo").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacedsetphfajgne4qy3vdrpyd6ekcmtfs2zkjut4r34cvnuoqemdrtw").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.power.v9.contains(cid)
 }
 
 pub fn is_v10_power_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacedu3c67spbf2dmwo77ymkjel6i2o5gpzyksgu2iuwu2xvcnxgfdjg").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzacec4ay4crzo73ypmh7o3fjendhbqrxake46bprabw67fvwjz5q6ixq").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.power.v10.contains(cid)
 }
 
 /// Power actor state.
@@ -113,7 +95,7 @@ impl State {
         match self {
             State::V8(st) => st.into_total_locked(),
             State::V9(st) => st.into_total_locked(),
-            State::V10(st) => st.into_total_locked(),
+            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.into_total_locked()),
         }
     }
 
@@ -126,7 +108,9 @@ impl State {
         match self {
             State::V8(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V9(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
-            State::V10(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
+            State::V10(st) => Ok(st
+                .miner_power(&s, &fil_utils::convert::from_address_v2_to_v3(*miner))?
+                .map(From::from)),
         }
     }
 
@@ -152,7 +136,9 @@ impl State {
         match self {
             State::V8(st) => st.this_epoch_qa_power_smoothed.clone(),
             State::V9(st) => st.this_epoch_qa_power_smoothed.clone(),
-            State::V10(st) => st.this_epoch_qa_power_smoothed.clone(),
+            State::V10(st) => fil_utils::convert::from_filter_estimate_v3_to_v2(
+                st.this_epoch_qa_power_smoothed.clone(),
+            ),
         }
     }
 
@@ -161,7 +147,9 @@ impl State {
         match self {
             State::V8(st) => st.total_pledge_collateral.clone(),
             State::V9(st) => st.total_pledge_collateral.clone(),
-            State::V10(st) => st.total_pledge_collateral.clone(),
+            State::V10(st) => {
+                fil_utils::convert::from_token_v3_to_v2(st.total_pledge_collateral.clone())
+            }
         }
     }
 }
