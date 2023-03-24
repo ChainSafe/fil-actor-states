@@ -51,7 +51,6 @@ mod sector_map;
 mod sectors;
 mod state;
 mod termination;
-pub mod testing;
 mod types;
 mod vesting_state;
 
@@ -202,6 +201,3 @@ pub fn power_for_sectors(sector_size: SectorSize, sectors: &[SectorOnChainInfo])
         qa,
     }
 }
-
-#[cfg(test)]
-mod internal_tests;

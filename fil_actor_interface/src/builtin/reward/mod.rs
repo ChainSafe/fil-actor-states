@@ -17,33 +17,15 @@ pub const ADDRESS: Address = Address::new_id(2);
 pub type Method = fil_actor_reward_v8::Method;
 
 pub fn is_v8_reward_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzaceayah37uvj7brl5no4gmvmqbmtndh5raywuts7h6tqbgbq2ge7dhu").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzacecwzzxlgjiavnc3545cqqil3cmq4hgpvfp2crguxy2pl5ybusfsbe").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.reward.v8.contains(cid)
 }
 
 pub fn is_v9_reward_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzacebpptqhcw6mcwdj576dgpryapdd2zfexxvqzlh3aoc24mabwgmcss").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacebezgbbmcm2gbcqwisus5fjvpj7hhmu5ubd37phuku3hmkfulxm2o").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.reward.v9.contains(cid)
 }
 
 pub fn is_v10_reward_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacea3yo22x4dsh4axioshrdp42eoeugef3tqtmtwz5untyvth7uc73o").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzacebnhtaejfjtzymyfmbdrfmo7vgj3zsof6zlucbmkhrvcuotw5dxpq").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.reward.v10.contains(cid)
 }
 
 /// Reward actor state.
@@ -83,7 +65,9 @@ impl State {
         match self {
             State::V8(st) => st.into_total_storage_power_reward(),
             State::V9(st) => st.into_total_storage_power_reward(),
-            State::V10(st) => st.into_total_storage_power_reward(),
+            State::V10(st) => {
+                fil_utils::convert::from_token_v3_to_v2(st.into_total_storage_power_reward())
+            }
         }
     }
 }

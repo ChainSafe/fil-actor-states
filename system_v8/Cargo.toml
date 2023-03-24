@@ -9,7 +9,7 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2018"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [lib]
@@ -18,9 +18,7 @@ keywords = ["filecoin", "web3", "wasm"]
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-anyhow = { workspace = true }
 cid = { workspace = true }
-fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 num-derive = { workspace = true }

@@ -5,11 +5,8 @@ use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::State;
-pub use self::types::*;
 
 mod state;
-pub mod testing;
-mod types;
 
 /// Init actor methods available
 #[derive(FromPrimitive)]

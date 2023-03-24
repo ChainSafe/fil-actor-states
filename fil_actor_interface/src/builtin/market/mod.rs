@@ -1,15 +1,13 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::marker::PhantomData;
-
 use anyhow::Context;
 use cid::Cid;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::PaddedPieceSize};
-use num::BigInt;
 use serde::Serialize;
+use std::marker::PhantomData;
 
 use crate::io::get_obj;
 
@@ -20,33 +18,15 @@ pub const ADDRESS: Address = Address::new_id(5);
 pub type Method = fil_actor_market_v8::Method;
 
 pub fn is_v8_market_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v8
-        Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6").unwrap(),
-        // mainnet
-        Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.market.v8.contains(cid)
 }
 
 pub fn is_v9_market_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v9
-        Cid::try_from("bafk2bzacebkfcnc27d3agm2bhzzbvvtbqahmvy2b2nf5xyj4aoxehow3bules").unwrap(),
-        // mainnet v9
-        Cid::try_from("bafk2bzacec3j7p6gklk64stax5px3xxd7hdtejaepnd4nw7s2adihde6emkcu").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.market.v9.contains(cid)
 }
 
 pub fn is_v10_market_cid(cid: &Cid) -> bool {
-    let known_cids = [
-        // calibnet v10
-        Cid::try_from("bafk2bzacecclsfboql3iraf3e66pzuh3h7qp3vgmfurqz26qh5g5nrexjgknc").unwrap(),
-        // mainnet v10
-        Cid::try_from("bafk2bzaceclejwjtpu2dhw3qbx6ow7b4pmhwa7ocrbbiqwp36sq5yeg6jz2bc").unwrap(),
-    ];
-    known_cids.contains(cid)
+    crate::KNOWN_CIDS.market.v10.contains(cid)
 }
 
 /// Market actor state.
@@ -118,25 +98,8 @@ impl State {
         match self {
             State::V8(st) => st.total_locked(),
             State::V9(st) => st.total_locked(),
-            State::V10(st) => st.get_total_locked(),
+            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.get_total_locked()),
         }
-    }
-
-    /// Validates a collection of deal `dealProposals` for activation, and
-    /// returns their combined weight, split into regular deal weight and
-    /// verified deal weight.
-    pub fn verify_deals_for_activation<BS>(
-        &self,
-        _store: &BS,
-        _deal_ids: &[u64],
-        _miner_addr: &Address,
-        _sector_expiry: ChainEpoch,
-        _curr_epoch: ChainEpoch,
-    ) -> anyhow::Result<(BigInt, BigInt)>
-    where
-        BS: Blockstore,
-    {
-        unimplemented!()
     }
 }
 

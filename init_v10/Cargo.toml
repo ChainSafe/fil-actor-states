@@ -9,19 +9,16 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2018"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
+cid = { workspace = true }
 fil_actors_runtime_v10 = { workspace = true }
 frc42_dispatch = { workspace = true }
-fvm_shared = { workspace = true }
-fvm_ipld_hamt = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-log = { workspace = true }
-num-derive = { workspace = true }
-num-traits = { workspace = true }
-anyhow = { workspace = true }
-cid = { workspace = true, default-features = false, features = ["serde-codec"] }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
+fvm_shared = { version = "3", default-features = false }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+serde = { workspace = true }
