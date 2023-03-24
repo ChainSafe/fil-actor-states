@@ -9,7 +9,7 @@ use fil_actors_runtime_v10::runtime::Policy;
 use fvm::state_tree::ActorState;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_ipld_encoding::BytesDe;
+use fvm_ipld_encoding::{serde_bytes, BytesDe};
 use fvm_shared::{
     address::Address,
     clock::ChainEpoch,
@@ -17,7 +17,6 @@ use fvm_shared::{
     econ::TokenAmount,
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
 };
-use libp2p_identity::PeerId;
 use num::BigInt;
 use serde::{Deserialize, Serialize};
 
@@ -202,8 +201,8 @@ pub struct MinerInfo {
     pub new_worker: Option<Address>,
     pub control_addresses: Vec<Address>, // Must all be ID addresses.
     pub worker_change_epoch: ChainEpoch,
-    #[serde(with = "peer_id_json")]
-    pub peer_id: Option<PeerId>,
+    #[serde(with = "serde_bytes")]
+    pub peer_id: Vec<u8>,
     pub multiaddrs: Vec<BytesDe>,
     pub window_post_proof_type: RegisteredPoStProof,
     pub sector_size: SectorSize,
@@ -213,9 +212,6 @@ pub struct MinerInfo {
 
 impl From<fil_actor_miner_v8::MinerInfo> for MinerInfo {
     fn from(info: fil_actor_miner_v8::MinerInfo) -> Self {
-        // Deserialize into peer id if valid, `None` if not.
-        let peer_id = PeerId::from_bytes(&info.peer_id).ok();
-
         MinerInfo {
             owner: info.owner,
             worker: info.worker,
@@ -229,7 +225,7 @@ impl From<fil_actor_miner_v8::MinerInfo> for MinerInfo {
                 .pending_worker_key
                 .map(|k| k.effective_at)
                 .unwrap_or(-1),
-            peer_id,
+            peer_id: info.peer_id,
             multiaddrs: info.multi_address,
             window_post_proof_type: info.window_post_proof_type,
             sector_size: info.sector_size,
@@ -241,9 +237,6 @@ impl From<fil_actor_miner_v8::MinerInfo> for MinerInfo {
 
 impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
     fn from(info: fil_actor_miner_v9::MinerInfo) -> Self {
-        // Deserialize into peer id if valid, `None` if not.
-        let peer_id = PeerId::from_bytes(&info.peer_id).ok();
-
         MinerInfo {
             owner: info.owner,
             worker: info.worker,
@@ -257,7 +250,7 @@ impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
                 .pending_worker_key
                 .map(|k| k.effective_at)
                 .unwrap_or(-1),
-            peer_id,
+            peer_id: info.peer_id,
             multiaddrs: info.multi_address,
             window_post_proof_type: info.window_post_proof_type,
             sector_size: info.sector_size,
@@ -269,9 +262,6 @@ impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
 
 impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
     fn from(info: fil_actor_miner_v10::MinerInfo) -> Self {
-        // Deserialize into peer id if valid, `None` if not.
-        let peer_id = PeerId::from_bytes(&info.peer_id).ok();
-
         MinerInfo {
             owner: fil_utils::convert::from_address_v3_to_v2(info.owner),
             worker: fil_utils::convert::from_address_v3_to_v2(info.worker),
@@ -288,7 +278,7 @@ impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
                 .pending_worker_key
                 .map(|k| k.effective_at)
                 .unwrap_or(-1),
-            peer_id,
+            peer_id: info.peer_id,
             multiaddrs: info.multi_address,
             window_post_proof_type: fil_utils::convert::from_reg_post_proof_v3_to_v2(
                 info.window_post_proof_type,
@@ -381,19 +371,6 @@ impl Partition<'_> {
             Partition::V9(dl) => dl.active_sectors(),
             Partition::V10(dl) => dl.active_sectors(),
         }
-    }
-}
-
-mod peer_id_json {
-    use serde::Serializer;
-
-    use super::*;
-
-    pub fn serialize<S>(m: &Option<PeerId>, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        m.as_ref().map(|pid| pid.to_string()).serialize(serializer)
     }
 }
 
