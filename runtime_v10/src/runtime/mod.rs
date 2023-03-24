@@ -3,7 +3,9 @@
 
 pub use self::policy::*;
 pub use self::randomness::DomainSeparationTag;
+pub use empty::EMPTY_ARR_CID;
 
 pub mod builtins;
+mod empty;
 pub mod policy;
 mod randomness;
