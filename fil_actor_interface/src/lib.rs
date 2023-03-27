@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 mod builtin;
+mod convert;
 mod io;
 mod r#mod;
 

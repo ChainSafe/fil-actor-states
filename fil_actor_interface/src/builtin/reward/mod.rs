@@ -1,14 +1,14 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::convert::from_token_v3_to_v2;
+use crate::io::get_obj;
 use anyhow::Context;
 use cid::Cid;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, econ::TokenAmount};
 use serde::Serialize;
-
-use crate::io::get_obj;
 
 /// Reward actor address.
 pub const ADDRESS: Address = Address::new_id(2);
@@ -65,9 +65,7 @@ impl State {
         match self {
             State::V8(st) => st.into_total_storage_power_reward(),
             State::V9(st) => st.into_total_storage_power_reward(),
-            State::V10(st) => {
-                fil_utils::convert::from_token_v3_to_v2(st.into_total_storage_power_reward())
-            }
+            State::V10(st) => from_token_v3_to_v2(st.into_total_storage_power_reward()),
         }
     }
 }
