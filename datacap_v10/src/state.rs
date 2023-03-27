@@ -4,8 +4,8 @@
 use frc46_token::token;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::error::ExitCode;
+use fvm_shared3::address::Address;
+use fvm_shared3::error::ExitCode;
 
 use fil_actors_runtime_v10::{ActorError, AsActorError};
 

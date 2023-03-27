@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::address::Address;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
 use num_traits::Zero;
 use std::ops::Sub;
 

@@ -3,7 +3,7 @@
 
 use crate::uints::U256;
 use fil_actors_runtime_v10::EAM_ACTOR_ID;
-use fvm_ipld_encoding::{serde, strict_bytes};
+use fvm_ipld_encoding3::{serde, strict_bytes};
 use fvm_shared3::address::Address;
 use fvm_shared3::ActorID;
 

@@ -4,8 +4,8 @@
 use fil_actors_runtime_v10::{parse_uint_key, u64_key, Multimap};
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::MemoryBlockstore;
-use fvm_shared::address::Address;
-use fvm_shared::HAMT_BIT_WIDTH;
+use fvm_shared3::address::Address;
+use fvm_shared3::HAMT_BIT_WIDTH;
 
 #[test]
 fn basic_add() {

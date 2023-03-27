@@ -5,15 +5,15 @@ use cid::Cid;
 use fil_actors_runtime_v10::BatchReturn;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
-use fvm_shared::bigint::{bigint_ser, BigInt};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::sector::SectorNumber;
-use fvm_shared::sector::{RegisteredSealProof, StoragePower};
-use fvm_shared::smooth::FilterEstimate;
-use fvm_shared::ActorID;
+use fvm_shared3::bigint::{bigint_ser, BigInt};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::deal::DealID;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::piece::PaddedPieceSize;
+use fvm_shared3::sector::SectorNumber;
+use fvm_shared3::sector::{RegisteredSealProof, StoragePower};
+use fvm_shared3::smooth::FilterEstimate;
+use fvm_shared3::ActorID;
 
 pub mod account {
     pub const PUBKEY_ADDRESS_METHOD: u64 = 2;

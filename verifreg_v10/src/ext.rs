@@ -4,7 +4,7 @@
 use fvm_ipld_encoding::serde_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::tuple::{Deserialize_tuple, Serialize_tuple};
-use fvm_shared::address::Address;
+use fvm_shared3::address::Address;
 
 pub mod account {
     use super::*;
@@ -23,7 +23,7 @@ pub mod account {
 
 pub mod datacap {
     use super::*;
-    use fvm_shared::econ::TokenAmount;
+    use fvm_shared3::econ::TokenAmount;
 
     #[repr(u64)]
     pub enum Method {

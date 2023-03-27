@@ -3,8 +3,8 @@
 
 use super::*;
 use fil_actors_runtime_v10::DealWeight;
-use fvm_shared::clock::NO_QUANTIZATION;
-use fvm_shared::sector::StoragePower;
+use fvm_shared3::clock::NO_QUANTIZATION;
+use fvm_shared3::sector::StoragePower;
 
 #[test]
 fn test_expirations() {

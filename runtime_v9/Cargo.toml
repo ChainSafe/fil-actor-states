@@ -20,8 +20,6 @@ fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true }
-itertools = { workspace = true }
-multihash = { workspace = true }
 num = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
