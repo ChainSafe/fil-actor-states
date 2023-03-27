@@ -4,7 +4,7 @@
 use super::deal::{DealProposal, DealState};
 use fil_actors_runtime_v10::Array;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::bigint::{bigint_ser, BigInt};
+use fvm_shared3::bigint::{bigint_ser, BigInt};
 
 pub const PROPOSALS_AMT_BITWIDTH: u32 = 5;
 pub const STATES_AMT_BITWIDTH: u32 = 6;

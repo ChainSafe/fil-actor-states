@@ -92,3 +92,21 @@ jobs:
         with:
           files: lcov.info
           fail_ci_if_error: true
+  cargo-dependency-check:
+    name: Check cargo files for duplicates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+      - name: Run rubocop
+        run: |
+          gem install rubocop --no-document
+          rubocop scripts/
+      - name: Run dependencies checks
+        run: |
+          gem install toml-rb --no-document
+          ruby scripts/find_duplicate_deps.rb && \
+          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits
