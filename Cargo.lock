@@ -1608,7 +1608,6 @@ version = "9.0.3"
 dependencies = [
  "anyhow",
  "cid",
- "fil_actors_runtime_v10",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
