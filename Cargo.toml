@@ -69,9 +69,6 @@ integer-encoding = { version = "3.0.3", default-features = false }
 itertools = "0.10"
 lazy_static = "1.4"
 libipld-core = "0.14"
-libp2p-identity = { version = "0.1", default-features = false, features = [
-  "peerid",
-] }
 log = "0.4"
 multihash = "0.16"
 num = "0.4.0"
