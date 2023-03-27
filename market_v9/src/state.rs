@@ -8,7 +8,6 @@ use cid::Cid;
 use fil_actors_runtime_v9::{make_empty_map, Array, SetMultimap};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::Cbor;
 use fvm_shared::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared::deal::DealID;
 use fvm_shared::econ::TokenAmount;
@@ -108,5 +107,3 @@ impl State {
             + &self.total_client_storage_fee
     }
 }
-
-impl Cbor for State {}

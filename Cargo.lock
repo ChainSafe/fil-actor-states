@@ -953,7 +953,7 @@ name = "fil_actor_account_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "frc42_dispatch",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -964,7 +964,7 @@ dependencies = [
 name = "fil_actor_account_v8"
 version = "8.0.0"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -976,7 +976,7 @@ name = "fil_actor_account_v9"
 version = "9.0.3"
 dependencies = [
  "frc42_dispatch",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -987,7 +987,7 @@ dependencies = [
 name = "fil_actor_cron_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -998,7 +998,7 @@ dependencies = [
 name = "fil_actor_cron_v8"
 version = "8.0.0"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1009,7 +1009,7 @@ dependencies = [
 name = "fil_actor_cron_v9"
 version = "9.0.3"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1024,7 +1024,7 @@ dependencies = [
  "frc42_dispatch",
  "frc46_token",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -1073,7 +1073,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -1088,7 +1088,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v8",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "num-derive",
@@ -1103,7 +1103,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v9",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1152,7 +1152,7 @@ dependencies = [
  "fvm",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "lazy_static",
  "num",
@@ -1170,7 +1170,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
  "libipld-core 0.14.0",
@@ -1187,7 +1187,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v8",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "libipld-core 0.14.0",
@@ -1204,7 +1204,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v9",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "libipld-core 0.14.0",
@@ -1224,7 +1224,7 @@ dependencies = [
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
  "itertools 0.10.5",
@@ -1246,7 +1246,7 @@ dependencies = [
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
@@ -1267,7 +1267,7 @@ dependencies = [
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
@@ -1286,7 +1286,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
  "indexmap",
@@ -1304,7 +1304,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v8",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "indexmap",
@@ -1322,7 +1322,7 @@ dependencies = [
  "fil_actors_runtime_v9",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "indexmap",
@@ -1338,7 +1338,7 @@ version = "10.0.0-alpha.1"
 dependencies = [
  "cid",
  "frc42_dispatch",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -1350,7 +1350,7 @@ name = "fil_actor_paych_v8"
 version = "8.0.0"
 dependencies = [
  "cid",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1362,7 +1362,7 @@ name = "fil_actor_paych_v9"
 version = "9.0.3"
 dependencies = [
  "cid",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1378,7 +1378,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
  "integer-encoding",
@@ -1396,7 +1396,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v8",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "integer-encoding",
@@ -1414,7 +1414,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v9",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "integer-encoding",
@@ -1428,7 +1428,7 @@ dependencies = [
 name = "fil_actor_reward_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "lazy_static",
  "num",
@@ -1441,7 +1441,7 @@ dependencies = [
 name = "fil_actor_reward_v8"
 version = "8.0.0"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "lazy_static",
  "num",
@@ -1454,7 +1454,7 @@ dependencies = [
 name = "fil_actor_reward_v9"
 version = "9.0.3"
 dependencies = [
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "lazy_static",
  "num",
@@ -1468,7 +1468,7 @@ name = "fil_actor_system_v10"
 version = "10.0.0-alpha.1"
 dependencies = [
  "cid",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1480,7 +1480,7 @@ name = "fil_actor_system_v8"
 version = "8.0.0"
 dependencies = [
  "cid",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1492,7 +1492,7 @@ name = "fil_actor_system_v9"
 version = "9.0.3"
 dependencies = [
  "cid",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1507,7 +1507,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
  "num-derive",
  "num-traits",
@@ -1522,7 +1522,7 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v8",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1537,7 +1537,7 @@ dependencies = [
  "fil_actors_runtime_v9",
  "frc42_dispatch",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
@@ -1565,7 +1565,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.1.0",
  "multihash",
@@ -1592,7 +1592,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "lazy_static",
@@ -1613,7 +1613,7 @@ dependencies = [
  "fil_actors_runtime_v10",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.2.3",
+ "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "num",

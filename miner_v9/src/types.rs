@@ -4,7 +4,6 @@
 use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::Cbor;
 use fvm_shared::address::Address;
 use fvm_shared::bigint::bigint_ser;
 use fvm_shared::clock::ChainEpoch;
@@ -44,16 +43,12 @@ pub struct ExtendSectorExpiration2Params {
     pub extensions: Vec<ExpirationExtension2>,
 }
 
-impl Cbor for ExtendSectorExpiration2Params {}
-
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct SectorClaim {
     pub sector_number: SectorNumber,
     pub maintain_claims: Vec<ClaimID>,
     pub drop_claims: Vec<ClaimID>,
 }
-
-impl Cbor for SectorClaim {}
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct ExpirationExtension2 {
@@ -63,8 +58,6 @@ pub struct ExpirationExtension2 {
     pub sectors_with_claims: Vec<SectorClaim>,
     pub new_expiration: ChainEpoch,
 }
-
-impl Cbor for ExpirationExtension2 {}
 
 // From is straightforward when there are no claim bearing sectors
 impl From<&ExpirationExtension> for ExpirationExtension2 {
