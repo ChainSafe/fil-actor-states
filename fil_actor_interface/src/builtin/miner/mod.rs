@@ -3,6 +3,7 @@
 
 use std::borrow::Cow;
 
+use crate::convert::*;
 use anyhow::Context;
 use cid::Cid;
 use fil_actors_runtime_v10::runtime::Policy;
@@ -85,12 +86,16 @@ impl State {
         mut f: impl FnMut(u64, Deadline) -> Result<(), anyhow::Error>,
     ) -> anyhow::Result<()> {
         match self {
-            State::V8(st) => st
-                .load_deadlines(&store)?
-                .for_each(policy, &store, |idx, dl| f(idx, Deadline::V8(dl))),
-            State::V9(st) => st
-                .load_deadlines(&store)?
-                .for_each(policy, &store, |idx, dl| f(idx, Deadline::V9(dl))),
+            State::V8(st) => st.load_deadlines(&store)?.for_each(
+                &from_policy_v10_to_v9(policy),
+                &store,
+                |idx, dl| f(idx, Deadline::V8(dl)),
+            ),
+            State::V9(st) => st.load_deadlines(&store)?.for_each(
+                &from_policy_v10_to_v9(policy),
+                &store,
+                |idx, dl| f(idx, Deadline::V9(dl)),
+            ),
             State::V10(st) => st
                 .load_deadlines(&store)?
                 .for_each(policy, &store, |idx, dl| f(idx, Deadline::V10(dl))),
@@ -107,11 +112,11 @@ impl State {
         match self {
             State::V8(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(policy, store, idx)
+                .load_deadline(&from_policy_v10_to_v9(policy), store, idx)
                 .map(Deadline::V8)?),
             State::V9(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(policy, store, idx)
+                .load_deadline(&from_policy_v10_to_v9(policy), store, idx)
                 .map(Deadline::V9)?),
             State::V10(st) => Ok(st
                 .load_deadlines(store)?
@@ -187,7 +192,7 @@ impl State {
         match self {
             State::V8(st) => st.fee_debt.clone(),
             State::V9(st) => st.fee_debt.clone(),
-            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.fee_debt.clone()),
+            State::V10(st) => from_token_v3_to_v2(st.fee_debt.clone()),
         }
     }
 }
@@ -263,27 +268,25 @@ impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
 impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
     fn from(info: fil_actor_miner_v10::MinerInfo) -> Self {
         MinerInfo {
-            owner: fil_utils::convert::from_address_v3_to_v2(info.owner),
-            worker: fil_utils::convert::from_address_v3_to_v2(info.worker),
+            owner: from_address_v3_to_v2(info.owner),
+            worker: from_address_v3_to_v2(info.worker),
             control_addresses: info
                 .control_addresses
                 .into_iter()
-                .map(fil_utils::convert::from_address_v3_to_v2)
+                .map(from_address_v3_to_v2)
                 .collect(),
             new_worker: info
                 .pending_worker_key
                 .as_ref()
-                .map(|k| fil_utils::convert::from_address_v3_to_v2(k.new_worker)),
+                .map(|k| from_address_v3_to_v2(k.new_worker)),
             worker_change_epoch: info
                 .pending_worker_key
                 .map(|k| k.effective_at)
                 .unwrap_or(-1),
             peer_id: info.peer_id,
             multiaddrs: info.multi_address,
-            window_post_proof_type: fil_utils::convert::from_reg_post_proof_v3_to_v2(
-                info.window_post_proof_type,
-            ),
-            sector_size: fil_utils::convert::from_sector_size_v3_to_v2(info.sector_size),
+            window_post_proof_type: from_reg_post_proof_v3_to_v2(info.window_post_proof_type),
+            sector_size: from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
         }
@@ -441,18 +444,16 @@ impl From<fil_actor_miner_v10::SectorOnChainInfo> for SectorOnChainInfo {
     fn from(info: fil_actor_miner_v10::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
-            seal_proof: fil_utils::convert::from_reg_seal_proof_v3_to_v2(info.seal_proof),
+            seal_proof: from_reg_seal_proof_v3_to_v2(info.seal_proof),
             sealed_cid: info.sealed_cid,
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: fil_utils::convert::from_token_v3_to_v2(info.initial_pledge),
-            expected_day_reward: fil_utils::convert::from_token_v3_to_v2(info.expected_day_reward),
-            expected_storage_pledge: fil_utils::convert::from_token_v3_to_v2(
-                info.expected_storage_pledge,
-            ),
+            initial_pledge: from_token_v3_to_v2(info.initial_pledge),
+            expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
+            expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
         }
     }
 }

@@ -1,6 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::convert::from_address_v3_to_v2;
 use anyhow::Context;
 use cid::Cid;
 use fvm::state_tree::ActorState;
@@ -60,7 +61,7 @@ impl State {
         match self {
             State::V8(st) => st.address,
             State::V9(st) => st.address,
-            State::V10(st) => fil_utils::convert::from_address_v3_to_v2(st.address),
+            State::V10(st) => from_address_v3_to_v2(st.address),
         }
     }
 }

@@ -1,9 +1,10 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::convert::*;
 use anyhow::Context;
 use cid::Cid;
-use fil_actors_runtime_v9::runtime::Policy;
+use fil_actors_runtime_v10::runtime::Policy;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, econ::TokenAmount, sector::StoragePower};
@@ -95,7 +96,7 @@ impl State {
         match self {
             State::V8(st) => st.into_total_locked(),
             State::V9(st) => st.into_total_locked(),
-            State::V10(st) => fil_utils::convert::from_token_v3_to_v2(st.into_total_locked()),
+            State::V10(st) => from_token_v3_to_v2(st.into_total_locked()),
         }
     }
 
@@ -109,7 +110,7 @@ impl State {
             State::V8(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V9(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V10(st) => Ok(st
-                .miner_power(&s, &fil_utils::convert::from_address_v2_to_v3(*miner))?
+                .miner_power(&s, &from_address_v2_to_v3(*miner))?
                 .map(From::from)),
         }
     }
@@ -122,8 +123,16 @@ impl State {
         miner: &Address,
     ) -> anyhow::Result<bool> {
         match self {
-            State::V8(st) => st.miner_nominal_power_meets_consensus_minimum(policy, &s, miner),
-            State::V9(st) => st.miner_nominal_power_meets_consensus_minimum(policy, &s, miner),
+            State::V8(st) => st.miner_nominal_power_meets_consensus_minimum(
+                &from_policy_v10_to_v9(policy),
+                &s,
+                miner,
+            ),
+            State::V9(st) => st.miner_nominal_power_meets_consensus_minimum(
+                &from_policy_v10_to_v9(policy),
+                &s,
+                miner,
+            ),
             State::V10(st) => st
                 .miner_nominal_power_meets_consensus_minimum(policy, &s, miner.id()?)
                 .map(|(_, bool_val)| bool_val)
@@ -136,9 +145,9 @@ impl State {
         match self {
             State::V8(st) => st.this_epoch_qa_power_smoothed.clone(),
             State::V9(st) => st.this_epoch_qa_power_smoothed.clone(),
-            State::V10(st) => fil_utils::convert::from_filter_estimate_v3_to_v2(
-                st.this_epoch_qa_power_smoothed.clone(),
-            ),
+            State::V10(st) => {
+                from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
+            }
         }
     }
 
@@ -147,9 +156,7 @@ impl State {
         match self {
             State::V8(st) => st.total_pledge_collateral.clone(),
             State::V9(st) => st.total_pledge_collateral.clone(),
-            State::V10(st) => {
-                fil_utils::convert::from_token_v3_to_v2(st.total_pledge_collateral.clone())
-            }
+            State::V10(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
         }
     }
 }
