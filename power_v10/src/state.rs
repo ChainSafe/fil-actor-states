@@ -12,14 +12,14 @@ use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
 use fvm_ipld_hamt::BytesKey;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{RegisteredPoStProof, StoragePower};
-use fvm_shared::smooth::FilterEstimate;
-use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::sector::{RegisteredPoStProof, StoragePower};
+use fvm_shared3::smooth::FilterEstimate;
+use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 use integer_encoding::VarInt;
 use lazy_static::lazy_static;
 use num_traits::Signed;
@@ -262,7 +262,7 @@ pub fn consensus_miner_min_power(
 
 #[cfg(test)]
 mod test {
-    use fvm_shared::clock::ChainEpoch;
+    use fvm_shared3::clock::ChainEpoch;
 
     use super::*;
 

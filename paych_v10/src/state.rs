@@ -3,10 +3,10 @@
 
 use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
+use fvm_shared3::address::Address;
 
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
 
 /// A given payment channel actor is established by `from`
 /// to enable off-chain micro-transactions to `to` address

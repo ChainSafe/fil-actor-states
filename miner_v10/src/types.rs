@@ -4,12 +4,12 @@
 use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::sector::{RegisteredSealProof, SectorNumber};
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::deal::DealID;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::sector::{RegisteredSealProof, SectorNumber};
 
 use fil_actors_runtime_v10::DealWeight;
 

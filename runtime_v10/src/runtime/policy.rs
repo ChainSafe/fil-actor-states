@@ -3,8 +3,8 @@
 
 use std::collections::HashSet;
 
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
@@ -247,8 +247,8 @@ impl Policy {
 }
 
 pub mod policy_constants {
-    use fvm_shared::clock::ChainEpoch;
-    use fvm_shared::clock::EPOCH_DURATION_SECONDS;
+    use fvm_shared3::clock::ChainEpoch;
+    use fvm_shared3::clock::EPOCH_DURATION_SECONDS;
 
     use crate::builtin::*;
 

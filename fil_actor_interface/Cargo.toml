@@ -1,5 +1,6 @@
 [package]
 name = "fil_actor_interface"
+description = "Backward compatibility layer for all versions of builtin actor released v8 onwards."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/ChainSafe/fil-actor-states"
 version = "0.6.0"
@@ -47,9 +48,8 @@ fvm.workspace = true
 fvm_ipld_bitfield.workspace = true
 fvm_ipld_blockstore.workspace = true
 fvm_ipld_encoding.workspace = true
-fvm_shared = { workspace = true, default-features = false }
+fvm_shared = { workspace = true }
 lazy_static.workspace = true
-libp2p-identity.workspace = true
 num.workspace = true
 serde.workspace = true
 serde_json.workspace = true

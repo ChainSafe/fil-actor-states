@@ -4,11 +4,11 @@
 use std::array::TryFromSliceError;
 
 use fil_actors_evm_shared_v10::uints::U256;
-use fvm_shared::ActorID;
+use fvm_shared3::ActorID;
 
 use cid::Cid;
-use fvm_ipld_encoding::strict_bytes;
-use fvm_ipld_encoding::tuple::*;
+use fvm_ipld_encoding3::strict_bytes;
+use fvm_ipld_encoding3::tuple::*;
 use serde::{Deserialize, Serialize};
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 
@@ -139,7 +139,7 @@ pub struct State {
 
 #[cfg(test)]
 mod test {
-    use fvm_ipld_encoding::{from_slice, to_vec, BytesDe};
+    use fvm_ipld_encoding3::{from_slice, to_vec, BytesDe};
 
     use crate::BytecodeHash;
 
