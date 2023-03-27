@@ -3,7 +3,6 @@
 
 use fvm_ipld_encoding::repr::*;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::Cbor;
 use fvm_shared::bigint::bigint_ser;
 use fvm_shared::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared::econ::TokenAmount;
@@ -137,8 +136,6 @@ impl State {
         self.total_storage_power_reward
     }
 }
-
-impl Cbor for State {}
 
 /// Defines vesting function type for reward actor.
 #[derive(Clone, Debug, PartialEq, Copy, FromPrimitive, Serialize_repr, Deserialize_repr)]
