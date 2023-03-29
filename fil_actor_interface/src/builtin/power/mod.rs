@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::convert::*;
+use crate::Policy;
 use anyhow::Context;
 use cid::Cid;
-use fil_actors_runtime_v10::runtime::Policy;
 use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, econ::TokenAmount, sector::StoragePower};
