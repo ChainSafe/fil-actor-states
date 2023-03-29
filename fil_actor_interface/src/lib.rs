@@ -7,6 +7,7 @@ mod io;
 mod r#mod;
 
 pub use self::builtin::*;
+pub use fil_actors_runtime_v10::runtime::Policy;
 pub use r#mod::NetworkManifest;
 
 const NETWORK_MANIFESTS_JSON_STR: &str =
