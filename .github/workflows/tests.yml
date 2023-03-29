@@ -23,6 +23,8 @@ jobs:
           release-name: v0.3.3
           cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
           cache-update: ${{ github.event_name != 'pull_request' }}
+      - name: install nextest
+        uses: taiki-e/install-action@nextest
       - name: Build
         run: cargo check --workspace --all-features --all-targets
         env:
