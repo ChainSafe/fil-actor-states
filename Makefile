@@ -33,6 +33,6 @@ clean:
 
 update-forest:
 	git submodule update --init --recursive
-	sed -i -e 's|fil_actor_interface = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actor_interface = { path = "../fil_actor_interface" }|g' -e 's|fil_actors_runtime_v10 = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actors_runtime_v10 = { path =  "../runtime_v10" }|g' .forest/Cargo.toml
+	sed -i -e 's|fil_actor_interface = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actor_interface = { path = "../fil_actor_interface" }|g' -e 's|fil_actors_runtime_v10 = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actors_runtime_v10 = { path =  "../runtime_v10" }|g' ./forest/Cargo.toml
 
 .PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean update-forest
