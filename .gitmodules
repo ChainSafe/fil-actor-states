@@ -1,0 +1,3 @@
+[submodule "forest"]
+	path = forest
+	url = git@github.com:ChainSafe/forest.git

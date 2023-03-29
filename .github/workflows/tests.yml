@@ -33,6 +33,14 @@ jobs:
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
+      - name: Update Forest
+        run: make update-forest
+      - name: Build and Test Forest
+        run: make -C forest build test-all
+      - name: Calibnet health check
+        env:
+          CALIBNET_WALLET: ${{ secrets.CALIBNET_WALLET }}
+        run: .forest/scripts/calibnet_health_check.sh "$CALIBNET_WALLET"
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
