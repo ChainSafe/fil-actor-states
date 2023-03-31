@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  build-test:
+  test:
     name: build-and-test
     runs-on: ubuntu-latest
     steps:
@@ -34,8 +34,8 @@ jobs:
           CC: "sccache clang"
           CXX: "sccache clang++"
 
-  build-test-forest:
-    name: build-and-test
+  forest-sync-check:
+    name: forest calibnet sync check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -60,13 +60,8 @@ jobs:
           go-version-file: "./forest/node/forest_libp2p/bitswap/tests/go-app/go.mod"
       - name: Install nextest
         uses: taiki-e/install-action@nextest
-      - name: Build submodule forest
-        run: make -C forest build
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
-      - name: Test submodule forest
-        run: make -C forest test-all
+      - name: Install forest
+        run: make -C forest install
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
