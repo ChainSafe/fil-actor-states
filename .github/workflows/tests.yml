@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  test:
+  build-test:
     name: build-and-test
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,21 @@ jobs:
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
-      - name: Update forest
+
+  build-test-forest:
+    name: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup sccache
+        uses: hanabi1224/sccache-action@v1.2.0
+        timeout-minutes: 5
+        continue-on-error: true
+        with:
+          release-name: v0.3.3
+          cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
+          cache-update: ${{ github.event_name != 'pull_request' }}
+      - name: Update submodule forest
         run: make update-forest
       - name: Apt Dependencies Forest
         uses: nick-fields/retry@v2
@@ -46,12 +60,12 @@ jobs:
           go-version-file: "./forest/node/forest_libp2p/bitswap/tests/go-app/go.mod"
       - name: Install nextest
         uses: taiki-e/install-action@nextest
-      - name: Build forest
+      - name: Build submodule forest
         run: make -C forest build
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
-      - name: Test forest
+      - name: Test submodule forest
         run: make -C forest test-all
         env:
           CC: "sccache clang"
