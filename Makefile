@@ -33,6 +33,8 @@ clean:
 
 update-forest:
 	git submodule update --init --recursive
+
+modify-forest:
 	sed -i -e 's|fil_actor_interface = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actors_runtime_v10 = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actors_runtime_v10 = { path =  "../runtime_v10" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_account_v10 = { git = "https://github.com/ChainSafe/fil-actor-states" }|fil_actor_account_v10 = { path =  "../../../account_v10" }|g' ./forest/utils/statediff/Cargo.toml

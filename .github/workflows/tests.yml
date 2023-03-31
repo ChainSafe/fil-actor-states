@@ -49,6 +49,8 @@ jobs:
           cache-update: ${{ github.event_name != 'pull_request' }}
       - name: Update submodule forest
         run: make update-forest
+      - name: Modify deps forest
+        run: make modify-forest
       - name: Apt Dependencies Forest
         uses: nick-fields/retry@v2
         with:
