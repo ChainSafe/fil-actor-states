@@ -36,7 +36,7 @@ jobs:
 
   forest-sync-check:
     name: forest calibnet sync check
-    runs-on: ubuntu-latest
+    runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
       - uses: actions/checkout@v3
       - name: Setup sccache
@@ -62,6 +62,11 @@ jobs:
           go-version-file: "./forest/node/forest_libp2p/bitswap/tests/go-app/go.mod"
       - name: Install nextest
         uses: taiki-e/install-action@nextest
+      - name: Test forest
+        run: make test-all
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
       - name: Install forest
         run: make -C forest install
         env:
