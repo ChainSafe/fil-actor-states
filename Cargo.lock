@@ -1614,6 +1614,7 @@ dependencies = [
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "num",
+ "num-bigint",
  "num-derive",
  "num-traits",
  "paste",
