@@ -8,8 +8,6 @@ pub use self::state::State;
 
 mod state;
 
-// * Updated to specs-actors commit: 999e57a151cc7ada020ca2844b651499ab8c0dec (v3.0.1)
-
 /// Init actor methods available
 #[derive(FromPrimitive)]
 #[repr(u64)]
