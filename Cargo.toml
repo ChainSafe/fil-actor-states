@@ -90,6 +90,6 @@ toml = "0.7"
 uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.7.1"
 
-fil_actors_runtime_v10 = { path = "./runtime_v10" }
-fil_actors_runtime_v8 = { path = "./runtime_v8" }
-fil_actors_runtime_v9 = { path = "./runtime_v9" }
+fil_actors_runtime_v10 = { version = "1.0.0", path = "./runtime_v10" }
+fil_actors_runtime_v8 = { version = "1.0.0", path = "./runtime_v8" }
+fil_actors_runtime_v9 = { version = "1.0.0", path = "./runtime_v9" }
