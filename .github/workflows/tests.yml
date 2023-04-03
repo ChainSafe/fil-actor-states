@@ -34,6 +34,49 @@ jobs:
           CC: "sccache clang"
           CXX: "sccache clang++"
 
+  forest-sync-check:
+    name: forest calibnet sync check
+    runs-on: buildjet-8vcpu-ubuntu-2004
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup sccache
+        uses: hanabi1224/sccache-action@v1.2.0
+        timeout-minutes: 5
+        continue-on-error: true
+        with:
+          release-name: v0.3.3
+          cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
+          cache-update: ${{ github.event_name != 'pull_request' }}
+      - name: Update submodule forest
+        run: make update-forest
+      - name: Modify deps forest
+        run: make modify-forest
+      - name: Apt Dependencies Forest
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 3
+          command: sudo make -C forest install-deps
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: "./forest/node/forest_libp2p/bitswap/tests/go-app/go.mod"
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+      - name: Test forest
+        run: make -C forest test-all
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
+      - name: Install forest
+        run: make -C forest install
+        env:
+          CC: "sccache clang"
+          CXX: "sccache clang++"
+      - name: Calibnet health check
+        env:
+          CALIBNET_WALLET: ${{ secrets.CALIBNET_WALLET }}
+        run: ./forest/scripts/calibnet_health_check.sh "$CALIBNET_WALLET"
+
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
     runs-on: ubuntu-latest
