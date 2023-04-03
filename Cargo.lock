@@ -950,7 +950,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
@@ -962,7 +962,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
@@ -973,7 +973,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
@@ -985,7 +985,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
@@ -996,7 +996,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
@@ -1007,7 +1007,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
@@ -1018,7 +1018,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_datacap_v10"
-version = "10.0.0"
+version = "1.0.0"
 dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
@@ -1033,7 +1033,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_eam_v10"
-version = "10.0.0"
+version = "1.0.0"
 dependencies = [
  "fvm_shared 3.1.0",
  "num-derive",
@@ -1042,7 +1042,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_ethaccount_v10"
-version = "10.0.0"
+version = "1.0.0"
 dependencies = [
  "fvm_shared 3.1.0",
  "num-derive",
@@ -1052,7 +1052,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_v10"
-version = "10.0.0"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_evm_shared_v10",
@@ -1067,7 +1067,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v10",
@@ -1082,7 +1082,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1098,7 +1098,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v9",
@@ -1112,7 +1112,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_interface"
-version = "0.6.0"
+version = "1.0.0"
 dependencies = [
  "ahash 0.8.3",
  "anyhow",
@@ -1164,7 +1164,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v10",
@@ -1181,7 +1181,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1198,7 +1198,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1215,7 +1215,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1237,7 +1237,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1257,7 +1257,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1278,7 +1278,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v10",
@@ -1296,7 +1296,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1314,7 +1314,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v9",
@@ -1332,7 +1332,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "frc42_dispatch",
@@ -1345,7 +1345,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -1357,7 +1357,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -1369,7 +1369,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1388,7 +1388,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1406,7 +1406,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1424,7 +1424,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
@@ -1437,7 +1437,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
@@ -1450,7 +1450,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
@@ -1463,7 +1463,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -1475,7 +1475,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -1487,7 +1487,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -1499,7 +1499,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v10",
@@ -1514,7 +1514,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1529,7 +1529,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v9",
@@ -1544,7 +1544,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_evm_shared_v10"
-version = "10.0.0"
+version = "1.0.0"
 dependencies = [
  "fil_actors_runtime_v10",
  "fvm_ipld_encoding 0.3.3",
@@ -1556,7 +1556,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_runtime_v10"
-version = "10.0.0-alpha.1"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1583,7 +1583,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_runtime_v8"
-version = "8.0.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1604,7 +1604,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_runtime_v9"
-version = "9.0.3"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
