@@ -63,7 +63,7 @@ jobs:
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test forest
-        run: make test-all
+        run: make -C forest test-all
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
