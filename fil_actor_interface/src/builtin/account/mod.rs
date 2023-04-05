@@ -23,15 +23,15 @@ pub enum State {
 }
 
 pub fn is_v8_account_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.account.v8.contains(cid)
+    crate::KNOWN_CIDS.actor.account.v8.contains(cid)
 }
 
 pub fn is_v9_account_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.account.v9.contains(cid)
+    crate::KNOWN_CIDS.actor.account.v9.contains(cid)
 }
 
 pub fn is_v10_account_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.account.v10.contains(cid)
+    crate::KNOWN_CIDS.actor.account.v10.contains(cid)
 }
 
 impl State {

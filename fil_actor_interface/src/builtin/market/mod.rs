@@ -19,15 +19,15 @@ pub const ADDRESS: Address = Address::new_id(5);
 pub type Method = fil_actor_market_v8::Method;
 
 pub fn is_v8_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.market.v8.contains(cid)
+    crate::KNOWN_CIDS.actor.market.v8.contains(cid)
 }
 
 pub fn is_v9_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.market.v9.contains(cid)
+    crate::KNOWN_CIDS.actor.market.v9.contains(cid)
 }
 
 pub fn is_v10_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.market.v10.contains(cid)
+    crate::KNOWN_CIDS.actor.market.v10.contains(cid)
 }
 
 /// Market actor state.
