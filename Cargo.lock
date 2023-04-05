@@ -1051,11 +1051,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "fil_actor_evm_shared_v10"
+version = "1.0.0"
+dependencies = [
+ "fil_actors_runtime_v10",
+ "fvm_ipld_encoding 0.3.3",
+ "fvm_shared 3.1.0",
+ "hex",
+ "serde",
+ "uint",
+]
+
+[[package]]
 name = "fil_actor_evm_v10"
 version = "1.0.0"
 dependencies = [
  "cid",
- "fil_actors_evm_shared_v10",
+ "fil_actor_evm_shared_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.1.0",
@@ -1540,18 +1552,6 @@ dependencies = [
  "num-derive",
  "num-traits",
  "serde",
-]
-
-[[package]]
-name = "fil_actors_evm_shared_v10"
-version = "1.0.0"
-dependencies = [
- "fil_actors_runtime_v10",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
- "hex",
- "serde",
- "uint",
 ]
 
 [[package]]
