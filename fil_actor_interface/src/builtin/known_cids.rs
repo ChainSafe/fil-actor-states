@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::r#mod::cid_serde;
-use ahash::HashSet;
 use cid::Cid;
 use serde::{Deserialize, Serialize};
 
@@ -53,38 +52,22 @@ pub struct CidPerNetworkVersion {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct CidsPerNetworkVersion {
-    #[serde(with = "cid_hashset")]
-    pub v8: HashSet<Cid>,
-    #[serde(with = "cid_hashset")]
-    pub v9: HashSet<Cid>,
-    #[serde(with = "cid_hashset")]
-    pub v10: HashSet<Cid>,
+    pub v8: CidPerNetwork,
+    pub v9: CidPerNetwork,
+    pub v10: CidPerNetwork,
 }
 
-mod cid_hashset {
-    use ahash::HashSetExt;
-    use serde::{Deserializer, Serializer};
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct CidPerNetwork {
+    #[serde(default, with = "cid_serde")]
+    pub mainnet: Cid,
+    #[serde(default, with = "cid_serde")]
+    pub calibnet: Cid,
+}
 
-    use super::*;
-
-    pub fn serialize<S>(value: &HashSet<Cid>, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let transcoded = HashSet::from_iter(value.iter().map(|cid| cid.to_string()));
-        transcoded.serialize(serializer)
-    }
-
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashSet<Cid>, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let transcoded: HashSet<String> = HashSet::deserialize(deserializer)?;
-        let mut result = HashSet::with_capacity(transcoded.len());
-        for cid in transcoded {
-            result.insert(Cid::try_from(cid).map_err(|e| serde::de::Error::custom(e.to_string()))?);
-        }
-        Ok(result)
+impl CidPerNetwork {
+    pub fn contains(&self, cid: &Cid) -> bool {
+        self.mainnet == *cid || self.calibnet == *cid
     }
 }
 
