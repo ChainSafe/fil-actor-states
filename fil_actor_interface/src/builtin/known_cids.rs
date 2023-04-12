@@ -52,9 +52,9 @@ pub struct CidPerVersion {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct CidsPerNetworkVersion {
-    pub v8: CidPerNetwork,
-    pub v9: CidPerNetwork,
-    pub v10: CidPerNetwork,
+    pub v8: Option<CidPerNetwork>,
+    pub v9: Option<CidPerNetwork>,
+    pub v10: Option<CidPerNetwork>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -79,16 +79,36 @@ mod tests {
 
     #[test]
     fn test_loading_static_value() -> Result<()> {
-        ensure!(KNOWN_CIDS.actor.market.v8.contains(&Cid::try_from(
-            "bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q"
-        )?));
-        ensure!(!KNOWN_CIDS.actor.market.v9.contains(&Cid::try_from(
-            "bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q"
-        )?));
-        ensure!(
-            KNOWN_CIDS.actor.market.v8.calibnet
-                == Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6")?
-        );
+        ensure!(crate::KNOWN_CIDS
+            .actor
+            .market
+            .v8
+            .as_ref()
+            .map_or(false, |cids| cids.contains(
+                &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                    .unwrap()
+            )));
+        ensure!(!crate::KNOWN_CIDS
+            .actor
+            .market
+            .v9
+            .as_ref()
+            .map_or(false, |cids| cids.contains(
+                &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                    .unwrap()
+            )));
+        ensure!(crate::KNOWN_CIDS.actor.placeholder.v8.is_none());
+        ensure!(crate::KNOWN_CIDS
+            .actor
+            .market
+            .v8
+            .as_ref()
+            .map_or(false, |cids| cids.calibnet
+                == Cid::try_from(
+                    "bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6"
+                )
+                .unwrap()));
+
         ensure!(
             KNOWN_CIDS.manifest.calibnet.v10
                 == Cid::try_from("bafy2bzaced25ta3j6ygs34roprilbtb3f6mxifyfnm7z7ndquaruxzdq3y7lo")?

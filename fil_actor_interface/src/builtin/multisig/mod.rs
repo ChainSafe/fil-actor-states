@@ -22,15 +22,30 @@ pub enum State {
 }
 
 pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v8.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .multisig
+        .v8
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v9.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .multisig
+        .v9
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v10.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .multisig
+        .v10
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 impl State {

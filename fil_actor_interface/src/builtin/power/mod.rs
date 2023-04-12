@@ -21,15 +21,30 @@ pub const ADDRESS: Address = Address::new_id(4);
 pub type Method = fil_actor_power_v8::Method;
 
 pub fn is_v8_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v8.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .power
+        .v8
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 pub fn is_v9_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v9.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .power
+        .v9
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 pub fn is_v10_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v10.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .power
+        .v10
+        .as_ref()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 /// Power actor state.

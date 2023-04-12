@@ -19,20 +19,14 @@ cron:
     calibnet: bafk2bzacecw2yjb6ysieffa7lk7xd32b3n4ssowvafolt7eq52lp6lk4lkhji
     mainnet: bafk2bzacedcbtsifegiu432m5tysjzkxkmoczxscb6hqpmrr6img7xzdbbs2g
 datacap:
-  v8:
-  v9:
   v10:
     calibnet: bafk2bzaceaot6tv6p4cat3cg5fknq22htosw3p5rwyijmdsraatwqyc4qyero
     mainnet: bafk2bzacealj5uk7wixhvk7l5tnredtelralwnceafqq34nb2lbylhtuyo64u
 ethaccount:
-  v8:
-  v9:
   v10:
     calibnet: bafk2bzacebiyrhz32xwxi6xql67aaq5nrzeelzas472kuwjqmdmgwotpkj35e
     mainnet: bafk2bzaceaqoc5zakbhjxn3jljc4lxnthllzunhdor7sxhwgmskvc6drqc3fa
 evm:
-  v8:
-  v9:
   v10:
     calibnet: bafk2bzaceblpgzid4qjfavuiht6uwvq2lznshklk2qmf5akm3dzx2fczdqdxc
     mainnet: bafk2bzaceahmzdxhqsm7cu2mexusjp6frm7r4kdesvti3etv5evfqboos2j4g
@@ -77,8 +71,6 @@ multisig:
     calibnet: bafk2bzacebv5gdlte2pyovmz6s37me6x2rixaa6a33w6lgqdohmycl23snvwm
     mainnet: bafk2bzaceduf3hayh63jnl4z2knxv7cnrdenoubni22fxersc4octlwpxpmy4
 placeholder:
-  v8:
-  v9:
   v10:
     calibnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
     mainnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
