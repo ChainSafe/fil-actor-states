@@ -19,8 +19,8 @@ pub struct KnownCids {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct ManifestCids {
-    pub mainnet: CidPerNetworkVersion,
-    pub calibnet: CidPerNetworkVersion,
+    pub mainnet: CidPerVersion,
+    pub calibnet: CidPerVersion,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -41,7 +41,7 @@ pub struct ActorCids {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
-pub struct CidPerNetworkVersion {
+pub struct CidPerVersion {
     #[serde(with = "cid_serde")]
     pub v8: Cid,
     #[serde(with = "cid_serde")]
