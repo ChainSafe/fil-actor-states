@@ -25,8 +25,7 @@ pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .multisig
-        .v8
-        .as_ref()
+        .v8()
         .map_or(false, |cids| cids.contains(cid))
 }
 
@@ -34,8 +33,7 @@ pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .multisig
-        .v9
-        .as_ref()
+        .v9()
         .map_or(false, |cids| cids.contains(cid))
 }
 
@@ -43,8 +41,7 @@ pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .multisig
-        .v10
-        .as_ref()
+        .v10()
         .map_or(false, |cids| cids.contains(cid))
 }
 

@@ -29,8 +29,7 @@ pub fn is_v8_system_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .system
-        .v8
-        .as_ref()
+        .v8()
         .map_or(false, |cids| cids.contains(cid))
 }
 
@@ -38,8 +37,7 @@ pub fn is_v9_system_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .system
-        .v9
-        .as_ref()
+        .v9()
         .map_or(false, |cids| cids.contains(cid))
 }
 
@@ -47,8 +45,7 @@ pub fn is_v10_system_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .system
-        .v10
-        .as_ref()
+        .v10()
         .map_or(false, |cids| cids.contains(cid))
 }
 

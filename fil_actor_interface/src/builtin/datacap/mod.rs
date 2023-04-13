@@ -23,8 +23,7 @@ pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .datacap
-        .v10
-        .as_ref()
+        .v10()
         .map_or(false, |cids| cids.contains(cid))
 }
 

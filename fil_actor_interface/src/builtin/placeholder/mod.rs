@@ -7,7 +7,6 @@ pub fn is_v10_placeholder_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS
         .actor
         .placeholder
-        .v10
-        .as_ref()
+        .v10()
         .map_or(false, |cids| cids.contains(cid))
 }

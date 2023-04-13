@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::r#mod::cid_serde;
+use anyhow::{bail, Ok, Result};
 use cid::Cid;
 use serde::{Deserialize, Serialize};
 
@@ -51,10 +52,45 @@ pub struct CidPerVersion {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
-pub struct CidsPerNetworkVersion {
-    pub v8: Option<CidPerNetwork>,
-    pub v9: Option<CidPerNetwork>,
-    pub v10: Option<CidPerNetwork>,
+#[serde(untagged)]
+pub enum CidsPerNetworkVersion {
+    E1 {
+        v8: CidPerNetwork,
+        v9: CidPerNetwork,
+        v10: CidPerNetwork,
+    },
+    E2 {
+        v9: CidPerNetwork,
+        v10: CidPerNetwork,
+    },
+    E3 {
+        v10: CidPerNetwork,
+    },
+}
+
+impl CidsPerNetworkVersion {
+    pub fn v8(&self) -> Result<&CidPerNetwork> {
+        match self {
+            CidsPerNetworkVersion::E1 { v8, .. } => Ok(v8),
+            _ => bail!("V8 Not Supported for {:?}", self),
+        }
+    }
+
+    pub fn v9(&self) -> Result<&CidPerNetwork> {
+        match self {
+            CidsPerNetworkVersion::E1 { v9, .. } => Ok(v9),
+            CidsPerNetworkVersion::E2 { v9, .. } => Ok(v9),
+            _ => bail!("V9 Not Supported for {:?}", self),
+        }
+    }
+
+    pub fn v10(&self) -> Result<&CidPerNetwork> {
+        match self {
+            CidsPerNetworkVersion::E1 { v10, .. } => Ok(v10),
+            CidsPerNetworkVersion::E2 { v10, .. } => Ok(v10),
+            CidsPerNetworkVersion::E3 { v10 } => Ok(v10),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -79,35 +115,20 @@ mod tests {
 
     #[test]
     fn test_loading_static_value() -> Result<()> {
-        ensure!(crate::KNOWN_CIDS
-            .actor
-            .market
-            .v8
-            .as_ref()
-            .map_or(false, |cids| cids.contains(
-                &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+        ensure!(crate::KNOWN_CIDS.actor.market.v8()?.contains(
+            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                .unwrap()
+        ));
+        ensure!(!crate::KNOWN_CIDS.actor.market.v9()?.contains(
+            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                .unwrap()
+        ));
+        ensure!(crate::KNOWN_CIDS.actor.placeholder.v8().is_err());
+        ensure!(
+            crate::KNOWN_CIDS.actor.market.v8()?.calibnet
+                == Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6")
                     .unwrap()
-            )));
-        ensure!(!crate::KNOWN_CIDS
-            .actor
-            .market
-            .v9
-            .as_ref()
-            .map_or(false, |cids| cids.contains(
-                &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
-                    .unwrap()
-            )));
-        ensure!(crate::KNOWN_CIDS.actor.placeholder.v8.is_none());
-        ensure!(crate::KNOWN_CIDS
-            .actor
-            .market
-            .v8
-            .as_ref()
-            .map_or(false, |cids| cids.calibnet
-                == Cid::try_from(
-                    "bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6"
-                )
-                .unwrap()));
+        );
 
         ensure!(
             KNOWN_CIDS.manifest.calibnet.v10
