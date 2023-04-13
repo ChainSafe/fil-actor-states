@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+env:
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+
 jobs:
   test:
     name: build-and-test
@@ -16,13 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup sccache
-        uses: hanabi1224/sccache-action@v1.2.0
+        uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
-        with:
-          release-name: v0.3.3
-          cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
-          cache-update: ${{ github.event_name != 'pull_request' }}
       - name: Build
         run: cargo check --workspace --all-features --all-targets
         env:
@@ -40,13 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup sccache
-        uses: hanabi1224/sccache-action@v1.2.0
+        uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
-        with:
-          release-name: v0.3.3
-          cache-key: ${{ runner.os }}-sccache-tests-${{ hashFiles('rust-toolchain.toml') }}
-          cache-update: ${{ github.event_name != 'pull_request' }}
       - name: Update submodule forest
         run: make update-forest
       - name: Modify deps forest
@@ -83,6 +79,10 @@ jobs:
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v3
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+        timeout-minutes: 5
+        continue-on-error: true
       - name: Apt Dependencies
         uses: nick-fields/retry@v2
         with:
@@ -96,14 +96,6 @@ jobs:
         run: make install-lint-tools
         env:
           RUSTFLAGS: "-Cstrip=symbols"
-      - name: Setup sccache
-        uses: hanabi1224/sccache-action@v1.2.0
-        timeout-minutes: 5
-        continue-on-error: true
-        with:
-          release-name: v0.3.3
-          cache-key: ${{ runner.os }}-sccache-lints-${{ hashFiles('rust-toolchain.toml') }}
-          cache-update: ${{ github.event_name != 'pull_request' }}
       - run: make lint-all
         env:
           CC: "sccache clang"
@@ -115,13 +107,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup sccache
-        uses: hanabi1224/sccache-action@v1.2.0
+        uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
-        with:
-          release-name: v0.3.3
-          cache-key: ${{ runner.os }}-sccache-codecov-${{ hashFiles('rust-toolchain.toml') }}
-          cache-update: ${{ github.event_name != 'pull_request' }}
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
       - name: Generate code coverage
