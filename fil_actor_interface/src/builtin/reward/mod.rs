@@ -28,6 +28,10 @@ pub fn is_v10_reward_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.reward.v10.contains(cid)
 }
 
+pub fn is_v11_reward_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.reward.v11.contains(cid)
+}
+
 /// Reward actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -35,6 +39,7 @@ pub enum State {
     V8(fil_actor_reward_v8::State),
     V9(fil_actor_reward_v9::State),
     V10(fil_actor_reward_v10::State),
+    V11(fil_actor_reward_v11::State),
 }
 
 impl State {
@@ -57,6 +62,11 @@ impl State {
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v11_reward_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown reward actor code {}", actor.code))
     }
 
@@ -66,6 +76,7 @@ impl State {
             State::V8(st) => st.into_total_storage_power_reward(),
             State::V9(st) => st.into_total_storage_power_reward(),
             State::V10(st) => from_token_v3_to_v2(st.into_total_storage_power_reward()),
+            State::V11(st) => from_token_v3_to_v2(st.into_total_storage_power_reward()),
         }
     }
 }
