@@ -1,7 +1,7 @@
 use cid::Cid;
 use fil_actors_runtime_v11::{make_map_with_root_and_bitwidth, Keyer, Map, MapMap};
 use fvm_ipld_blockstore::MemoryBlockstore;
-use fvm_shared::HAMT_BIT_WIDTH;
+use fvm_shared3::HAMT_BIT_WIDTH;
 
 #[test]
 fn mapmap_test() {

@@ -110,8 +110,8 @@ where
 #[cfg(test)]
 mod tests {
     use fvm_ipld_blockstore::MemoryBlockstore;
-    use fvm_shared::address::Address;
-    use fvm_shared::econ::TokenAmount;
+    use fvm_shared3::address::Address;
+    use fvm_shared3::econ::TokenAmount;
 
     use crate::balance_table::BalanceTable;
 

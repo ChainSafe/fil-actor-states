@@ -1,5 +1,5 @@
 use fil_actors_runtime_v11::{BatchReturn, BatchReturnGen};
-use fvm_shared::error::ExitCode;
+use fvm_shared3::error::ExitCode;
 
 #[test]
 fn batch_generation() {

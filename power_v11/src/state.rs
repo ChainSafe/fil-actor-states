@@ -267,7 +267,7 @@ pub fn consensus_miner_min_power(
 
 #[cfg(test)]
 mod test {
-    use fvm_shared::clock::ChainEpoch;
+    use fvm_shared3::clock::ChainEpoch;
 
     use super::*;
 

@@ -3,7 +3,7 @@
 
 use fil_actors_runtime_v11::{u64_key, SetMultimap};
 use fvm_ipld_blockstore::MemoryBlockstore;
-use fvm_shared::clock::ChainEpoch;
+use fvm_shared3::clock::ChainEpoch;
 
 #[test]
 fn put_remove() {

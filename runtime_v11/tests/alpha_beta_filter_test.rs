@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fil_actors_runtime_v11::EPOCHS_IN_DAY;
-use fvm_shared::bigint::{BigInt, Integer};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::math::{poly_parse, PRECISION};
-use fvm_shared::sector::StoragePower;
-use fvm_shared::smooth::{extrapolated_cum_sum_of_ratio as ecsor, *};
+use fvm_shared3::bigint::{BigInt, Integer};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::math::{poly_parse, PRECISION};
+use fvm_shared3::sector::StoragePower;
+use fvm_shared3::smooth::{extrapolated_cum_sum_of_ratio as ecsor, *};
 use num_traits::sign::Signed;
 
 const ERR_BOUND: u64 = 350;
