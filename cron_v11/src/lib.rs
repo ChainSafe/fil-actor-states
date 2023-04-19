@@ -3,7 +3,7 @@
 
 use fvm_ipld_encoding::tuple::*;
 
-use fvm_shared::METHOD_CONSTRUCTOR;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::{Entry, State};
