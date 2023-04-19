@@ -1,21 +1,18 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v11::network::EPOCHS_IN_HOUR;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{strict_bytes, to_vec, Error, RawBytes};
-use fvm_shared::address::Address;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::crypto::signature::Signature;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::MethodNum;
+use fvm_shared3::address::Address;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::crypto::signature::Signature;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::MethodNum;
 
 use super::Merge;
 
 /// Maximum number of lanes in a channel
 pub const MAX_LANE: u64 = std::i64::MAX as u64;
-
-pub const SETTLE_DELAY: ChainEpoch = EPOCHS_IN_HOUR * 12;
 
 // Maximum byte length of a secret that can be submitted with a payment channel update.
 pub const MAX_SECRET_SIZE: usize = 256;
