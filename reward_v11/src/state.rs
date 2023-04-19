@@ -3,12 +3,12 @@
 
 use fvm_ipld_encoding::repr::*;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::{ChainEpoch, EPOCH_UNDEFINED};
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::clock::{ChainEpoch, EPOCH_UNDEFINED};
+use fvm_shared3::econ::TokenAmount;
 
-use fvm_shared::sector::{Spacetime, StoragePower};
-use fvm_shared::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
+use fvm_shared3::sector::{Spacetime, StoragePower};
+use fvm_shared3::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 

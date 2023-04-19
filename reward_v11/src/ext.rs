@@ -1,5 +1,5 @@
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::econ::TokenAmount;
 
 pub mod miner {
     use super::*;

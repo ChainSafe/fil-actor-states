@@ -3,11 +3,11 @@
 
 use std::str::FromStr;
 
-use fvm_shared::bigint::{BigInt, Integer};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::math::PRECISION;
-use fvm_shared::sector::StoragePower;
+use fvm_shared3::bigint::{BigInt, Integer};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::math::PRECISION;
+use fvm_shared3::sector::StoragePower;
 use lazy_static::lazy_static;
 
 use super::expneg::expneg;
