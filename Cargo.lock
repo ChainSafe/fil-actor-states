@@ -1574,7 +1574,6 @@ dependencies = [
 name = "fil_actor_multisig_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
@@ -1584,7 +1583,6 @@ dependencies = [
  "fvm_shared 3.2.0",
  "indexmap",
  "integer-encoding",
- "lazy_static",
  "num-derive",
  "num-traits",
  "serde",

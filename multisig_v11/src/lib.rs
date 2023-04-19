@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fil_actors_runtime_v11::make_map_with_root;
-use fvm_shared::METHOD_CONSTRUCTOR;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::*;
