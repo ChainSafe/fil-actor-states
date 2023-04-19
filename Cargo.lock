@@ -1745,7 +1745,6 @@ dependencies = [
  "anyhow",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
- "fvm_actor_utils 6.0.0",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -1879,8 +1878,6 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
- "hex-literal",
- "log",
  "multihash",
  "num-derive",
  "num-traits",
@@ -1904,11 +1901,8 @@ name = "fil_actor_ethaccount_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
  "fil_actors_runtime_v11",
- "frc42_dispatch",
- "fvm_actor_utils 6.0.0",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
- "hex-literal",
  "num-derive",
  "num-traits",
  "serde",
@@ -1993,7 +1987,6 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v11",
- "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -2291,7 +2284,6 @@ dependencies = [
  "cid",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
- "fvm_actor_utils 6.0.0",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -2427,7 +2419,6 @@ dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.2.0",
- "indexmap",
  "integer-encoding",
  "lazy_static",
  "log",
@@ -2693,7 +2684,6 @@ dependencies = [
  "cid",
  "derive_builder 0.10.2",
  "fvm_ipld_amt 0.5.1",
- "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -2703,9 +2693,7 @@ dependencies = [
  "itertools 0.10.5",
  "lazy_static",
  "libsecp256k1",
- "log",
  "multihash",
- "num",
  "num-derive",
  "num-traits",
  "paste",
@@ -4203,7 +4191,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02e0d21255c828d6f128a1e41534206671e8c3ea0c62f32291e808dc82cff17d"
 dependencies = [
  "num-traits",
- "serde",
 ]
 
 [[package]]
@@ -4248,7 +4235,6 @@ dependencies = [
  "num-bigint",
  "num-integer",
  "num-traits",
- "serde",
 ]
 
 [[package]]

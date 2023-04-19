@@ -20,7 +20,6 @@ crate-type = ["cdylib", "lib"]
 anyhow = "1.0.65"
 fil_actors_runtime_v11.workspace = true
 frc42_dispatch = "3.2.0"
-fvm_actor_utils = "6.0.0"
 fvm_ipld_blockstore = "0.1.1"
 fvm_ipld_encoding = "0.3.3"
 fvm_shared = { version = "3.2.0", default-features = false }

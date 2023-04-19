@@ -28,7 +28,6 @@ fvm_ipld_blockstore = "0.1.1"
 fvm_ipld_encoding = "0.3.3"
 fvm_ipld_hamt = "0.6.1"
 fvm_shared = { version = "3.2.0", default-features = false }
-indexmap = { version = "1.8.0", features = ["serde-1"] }
 integer-encoding = { version = "3.0.3", default-features = false }
 lazy_static = "1.4.0"
 log = "0.4.14"

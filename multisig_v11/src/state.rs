@@ -111,7 +111,7 @@ impl State {
         Ok(())
     }
 
-    pub(crate) fn check_available(
+    pub(crate) fn _check_available(
         &self,
         balance: TokenAmount,
         amount_to_spend: &TokenAmount,
