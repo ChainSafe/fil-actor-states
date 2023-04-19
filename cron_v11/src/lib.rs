@@ -1,22 +1,14 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v11::runtime::{ActorCode, Runtime};
-use fil_actors_runtime_v11::{
-    actor_dispatch, actor_error, extract_send_result, ActorError, SYSTEM_ACTOR_ADDR,
-};
-
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::econ::TokenAmount;
 
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
-use num_traits::Zero;
 
 pub use self::state::{Entry, State};
 
 mod state;
-pub mod testing;
 
 // * Updated to specs-actors commit: 845089a6d2580e46055c24415a6c32ee688e5186 (v3.0.0)
 
@@ -34,56 +26,4 @@ pub enum Method {
 pub struct ConstructorParams {
     /// Entries is a set of actors (and corresponding methods) to call during EpochTick.
     pub entries: Vec<Entry>,
-}
-
-/// Cron actor
-pub struct Actor;
-
-impl Actor {
-    /// Constructor for Cron actor
-    fn constructor(rt: &impl Runtime, params: ConstructorParams) -> Result<(), ActorError> {
-        rt.validate_immediate_caller_is(std::iter::once(&SYSTEM_ACTOR_ADDR))?;
-        rt.create(&State {
-            entries: params.entries,
-        })?;
-        Ok(())
-    }
-    /// Executes built-in periodic actions, run at every Epoch.
-    /// epoch_tick(r) is called after all other messages in the epoch have been applied.
-    /// This can be seen as an implicit last message.
-    fn epoch_tick(rt: &impl Runtime) -> Result<(), ActorError> {
-        rt.validate_immediate_caller_is(std::iter::once(&SYSTEM_ACTOR_ADDR))?;
-
-        let st: State = rt.state()?;
-        for entry in st.entries {
-            // Intentionally ignore any error when calling cron methods
-            let res = extract_send_result(rt.send_simple(
-                &entry.receiver,
-                entry.method_num,
-                None,
-                TokenAmount::zero(),
-            ));
-            if let Err(e) = res {
-                log::error!(
-                    "cron failed to send entry to {}, send error code {}",
-                    entry.receiver,
-                    e
-                );
-            }
-        }
-        Ok(())
-    }
-}
-
-impl ActorCode for Actor {
-    type Methods = Method;
-
-    fn name() -> &'static str {
-        "Cron"
-    }
-
-    actor_dispatch! {
-        Constructor => constructor,
-        EpochTick => epoch_tick,
-    }
 }
