@@ -954,7 +954,7 @@ version = "1.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -988,7 +988,7 @@ name = "fil_actor_cron_v10"
 version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1025,7 +1025,7 @@ dependencies = [
  "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1035,7 +1035,7 @@ dependencies = [
 name = "fil_actor_eam_v10"
 version = "1.0.0"
 dependencies = [
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
 ]
@@ -1044,7 +1044,7 @@ dependencies = [
 name = "fil_actor_ethaccount_v10"
 version = "1.0.0"
 dependencies = [
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1056,7 +1056,7 @@ version = "1.0.0"
 dependencies = [
  "fil_actors_runtime_v10",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "hex",
  "serde",
  "uint",
@@ -1070,7 +1070,7 @@ dependencies = [
  "fil_actor_evm_shared_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "hex-literal",
  "num-derive",
  "num-traits",
@@ -1086,7 +1086,7 @@ dependencies = [
  "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1165,7 +1165,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "lazy_static",
  "num",
  "regex",
@@ -1184,7 +1184,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "libipld-core 0.14.0",
  "num-derive",
  "num-traits",
@@ -1238,7 +1238,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "itertools 0.10.5",
  "lazy_static",
  "multihash",
@@ -1298,7 +1298,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "indexmap",
  "integer-encoding",
  "num-derive",
@@ -1349,7 +1349,7 @@ dependencies = [
  "cid",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1390,7 +1390,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "integer-encoding",
  "lazy_static",
  "num-derive",
@@ -1439,7 +1439,7 @@ name = "fil_actor_reward_v10"
 version = "1.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "lazy_static",
  "num",
  "num-derive",
@@ -1518,7 +1518,7 @@ dependencies = [
  "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1564,7 +1564,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.1.0",
+ "fvm_shared 3.2.0",
  "multihash",
  "num-bigint",
  "num-derive",
@@ -2070,28 +2070,24 @@ dependencies = [
 
 [[package]]
 name = "fvm_shared"
-version = "3.1.0"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45742ae0f445a80121a97e9ee36fd0112f56e19daa5865fe458452ec6ff358f2"
+checksum = "674e86afc2ce02808d24f578296f105b13c23300e60e0eac331c4c1575beabb5"
 dependencies = [
  "anyhow",
  "bitflags",
  "blake2b_simd",
- "byteorder",
  "cid",
  "data-encoding",
  "data-encoding-macro",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "lazy_static",
- "log",
  "multihash",
  "num-bigint",
  "num-derive",
  "num-integer",
  "num-traits",
  "serde",
- "serde_repr",
  "serde_tuple",
  "thiserror",
  "unsigned-varint",
