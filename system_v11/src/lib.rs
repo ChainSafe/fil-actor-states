@@ -8,10 +8,7 @@ use fvm_shared::error::ExitCode;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-use fil_actors_runtime_v11::runtime::{ActorCode, Runtime};
-use fil_actors_runtime_v11::{
-    actor_dispatch, actor_error, ActorContext, ActorError, AsActorError, SYSTEM_ACTOR_ADDR,
-};
+use fil_actors_runtime_v11::{ActorError, AsActorError};
 
 /// System actor methods.
 #[derive(FromPrimitive)]
@@ -44,31 +41,5 @@ impl State {
             Ok(None) => Err("failed to load builtin actor registry; not found".to_string()),
             Err(e) => Err(e.to_string()),
         }
-    }
-}
-
-/// System actor.
-pub struct Actor;
-
-impl Actor {
-    /// System actor constructor.
-    pub fn constructor(rt: &impl Runtime) -> Result<(), ActorError> {
-        rt.validate_immediate_caller_is(std::iter::once(&SYSTEM_ACTOR_ADDR))?;
-
-        let state = State::new(rt.store()).context("failed to construct state")?;
-        rt.create(&state)?;
-        Ok(())
-    }
-}
-
-impl ActorCode for Actor {
-    type Methods = Method;
-
-    fn name() -> &'static str {
-        "System"
-    }
-
-    actor_dispatch! {
-        Constructor => constructor,
     }
 }
