@@ -8,9 +8,9 @@ use fil_actors_runtime_v11::{
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::{Address, Protocol};
-use fvm_shared::error::ExitCode;
-use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
+use fvm_shared3::address::{Address, Protocol};
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 
 /// State is reponsible for creating
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]

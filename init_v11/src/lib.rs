@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::METHOD_CONSTRUCTOR;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::State;

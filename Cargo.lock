@@ -1290,14 +1290,12 @@ dependencies = [
 name = "fil_actor_init_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v11",
+ "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.2.0",
- "log",
  "num-derive",
  "num-traits",
  "serde",
