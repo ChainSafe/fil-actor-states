@@ -39,9 +39,6 @@ pub use self::state::Claim;
 pub use self::state::State;
 pub use self::types::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(Actor);
-
 pub mod expiration;
 pub mod ext;
 pub mod state;

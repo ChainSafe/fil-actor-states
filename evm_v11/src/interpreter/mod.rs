@@ -7,9 +7,6 @@ mod precompiles;
 mod stack;
 mod system;
 
-#[cfg(test)]
-pub mod test_util;
-
 pub use {
     bytecode::Bytecode,
     execution::{execute, opcodes, ExecutionState},

@@ -11,9 +11,6 @@ use fil_actors_runtime_v11::{
     SYSTEM_ACTOR_ADDR,
 };
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(EthAccountActor);
-
 /// Ethereum Account actor methods.
 #[derive(FromPrimitive)]
 #[repr(u64)]

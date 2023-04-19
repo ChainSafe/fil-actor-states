@@ -13,9 +13,6 @@ use fil_actors_runtime_v11::{
     actor_dispatch, actor_error, ActorContext, ActorError, AsActorError, SYSTEM_ACTOR_ADDR,
 };
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(Actor);
-
 /// System actor methods.
 #[derive(FromPrimitive)]
 #[repr(u64)]
@@ -73,39 +70,5 @@ impl ActorCode for Actor {
 
     actor_dispatch! {
         Constructor => constructor,
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use std::cell::RefCell;
-
-    use fvm_shared::MethodNum;
-
-    use fil_actors_runtime_v11::test_utils::{MockRuntime, SYSTEM_ACTOR_CODE_ID};
-    use fil_actors_runtime_v11::SYSTEM_ACTOR_ADDR;
-
-    use crate::{Actor, Method, State};
-
-    pub fn new_runtime() -> MockRuntime {
-        MockRuntime {
-            receiver: SYSTEM_ACTOR_ADDR,
-            caller: RefCell::new(SYSTEM_ACTOR_ADDR),
-            caller_type: RefCell::new(*SYSTEM_ACTOR_CODE_ID),
-            ..Default::default()
-        }
-    }
-
-    #[test]
-    fn construct_with_root_id() {
-        let rt = new_runtime();
-        rt.expect_validate_caller_addr(vec![SYSTEM_ACTOR_ADDR]);
-        rt.set_caller(*SYSTEM_ACTOR_CODE_ID, SYSTEM_ACTOR_ADDR);
-        rt.call::<Actor>(Method::Constructor as MethodNum, None)
-            .unwrap();
-
-        let state: State = rt.get_state();
-        let builtin_actors = state.get_builtin_actors(&rt.store).unwrap();
-        assert!(builtin_actors.is_empty());
     }
 }

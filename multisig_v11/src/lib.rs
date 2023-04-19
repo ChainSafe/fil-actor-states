@@ -26,9 +26,6 @@ use fil_actors_runtime_v11::{
 pub use self::state::*;
 pub use self::types::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(Actor);
-
 mod state;
 pub mod testing;
 mod types;

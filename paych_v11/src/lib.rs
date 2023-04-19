@@ -22,9 +22,6 @@ use num_traits::Zero;
 pub use self::state::{LaneState, Merge, State};
 pub use self::types::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(Actor);
-
 pub mod ext;
 mod state;
 pub mod testing;

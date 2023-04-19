@@ -166,8 +166,8 @@ pub struct Policy {
     pub minimum_consensus_power: StoragePower,
 }
 
-impl Default for Policy {
-    fn default() -> Policy {
+impl Policy {
+    pub fn mainnet() -> Policy {
         Policy {
             max_aggregated_sectors: policy_constants::MAX_AGGREGATED_SECTORS,
             min_aggregated_sectors: policy_constants::MIN_AGGREGATED_SECTORS,
@@ -223,7 +223,18 @@ impl Default for Policy {
             market_default_allocation_term_buffer:
                 policy_constants::MARKET_DEFAULT_ALLOCATION_TERM_BUFFER,
 
-            minimum_consensus_power: StoragePower::from(policy_constants::MINIMUM_CONSENSUS_POWER),
+            minimum_consensus_power: StoragePower::from(
+                policy_constants::MAINNET_MINIMUM_CONSENSUS_POWER,
+            ),
+        }
+    }
+
+    pub fn calibnet() -> Self {
+        Policy {
+            minimum_consensus_power: StoragePower::from(
+                policy_constants::CALIBNET_MINIMUM_CONSENSUS_POWER,
+            ),
+            ..Policy::mainnet()
         }
     }
 }
@@ -386,18 +397,8 @@ pub mod policy_constants {
 
     pub const MARKET_DEFAULT_ALLOCATION_TERM_BUFFER: i64 = 90 * EPOCHS_IN_DAY;
 
-    #[cfg(feature = "min-power-2k")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 2 << 10;
-    #[cfg(feature = "min-power-2g")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 2 << 30;
-    #[cfg(feature = "min-power-32g")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
-    #[cfg(not(any(
-        feature = "min-power-2k",
-        feature = "min-power-2g",
-        feature = "min-power-32g"
-    )))]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
+    pub const CALIBNET_MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
+    pub const MAINNET_MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
 }
 
 /// A set indicating which proofs are considered valid, optimised for lookup of a small number of

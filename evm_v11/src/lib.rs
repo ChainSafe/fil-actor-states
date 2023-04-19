@@ -29,9 +29,6 @@ mod types;
 
 pub use state::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(EvmContractActor);
-
 pub const EVM_CONTRACT_REVERTED: ExitCode = ExitCode::new(33);
 pub const EVM_CONTRACT_INVALID_INSTRUCTION: ExitCode = ExitCode::new(34);
 pub const EVM_CONTRACT_UNDEFINED_INSTRUCTION: ExitCode = ExitCode::new(35);

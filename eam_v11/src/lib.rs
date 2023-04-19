@@ -27,9 +27,6 @@ use fvm_shared::address::{Address, Payload};
 use fvm_shared::crypto::hash::SupportedHashes;
 use num_derive::FromPrimitive;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime_v11::wasm_trampoline!(EamActor);
-
 #[derive(FromPrimitive)]
 #[repr(u64)]
 pub enum Method {
@@ -322,107 +319,5 @@ impl ActorCode for EamActor {
         Create => create,
         Create2 => create2,
         CreateExternal => create_external,
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use fil_actors_runtime_v11::test_utils::MockRuntime;
-    use fvm_shared::error::ExitCode;
-
-    use crate::compute_address_create2;
-
-    use super::{compute_address_create, create_actor, EthAddress};
-
-    #[test]
-    fn test_create_actor_rejects() {
-        let rt = MockRuntime::default();
-        let creator = EthAddress::from_id(1);
-
-        // Reject ID.
-        let new_addr = EthAddress::from_id(8224);
-        assert_eq!(
-            ExitCode::USR_FORBIDDEN,
-            create_actor(&rt, creator, new_addr, Vec::new())
-                .unwrap_err()
-                .exit_code()
-        );
-
-        // Reject EVM Precompile.
-        let mut new_addr = EthAddress::null();
-        new_addr.0[19] = 0x20;
-        assert_eq!(
-            ExitCode::USR_FORBIDDEN,
-            create_actor(&rt, creator, new_addr, Vec::new())
-                .unwrap_err()
-                .exit_code()
-        );
-
-        // Reject Native Precompile.
-        new_addr.0[0] = 0xfe;
-        assert_eq!(
-            ExitCode::USR_FORBIDDEN,
-            create_actor(&rt, creator, new_addr, Vec::new())
-                .unwrap_err()
-                .exit_code()
-        );
-
-        // Reject Null.
-        let new_addr = EthAddress::null();
-        assert_eq!(
-            ExitCode::USR_FORBIDDEN,
-            create_actor(&rt, creator, new_addr, Vec::new())
-                .unwrap_err()
-                .exit_code()
-        );
-    }
-
-    #[test]
-    fn test_create_address() {
-        let rt = MockRuntime::default();
-        // check addresses against externally generated cases
-        for (from, nonce, expected) in &[
-            (
-                [0u8; 20],
-                0u64,
-                hex_literal::hex!("bd770416a3345f91e4b34576cb804a576fa48eb1"),
-            ),
-            (
-                [0; 20],
-                200,
-                hex_literal::hex!("a6b14387c1356b443061155e9c3e17f72c1777e5"),
-            ),
-            (
-                [123; 20],
-                12345,
-                hex_literal::hex!("809a9ab0471e78ee5100e96ca4d0828d1b97e2ba"),
-            ),
-        ] {
-            let result = compute_address_create(&rt, &EthAddress(*from), *nonce);
-            assert_eq!(result.0[..], expected[..]);
-        }
-    }
-
-    #[test]
-    fn test_create_address2() {
-        let rt = MockRuntime::default();
-        // check addresses against externally generated cases
-        for (from, salt, initcode, expected) in &[
-            (
-                [0u8; 20],
-                [0u8; 32],
-                &b""[..],
-                hex_literal::hex!("e33c0c7f7df4809055c3eba6c09cfe4baf1bd9e0"),
-            ),
-            (
-                [0x99u8; 20],
-                [0x42; 32],
-                &b"foobar"[..],
-                hex_literal::hex!("64425c93a90901271fa355c2bc462190803b97d4"),
-            ),
-        ] {
-            let result = compute_address_create2(&rt, &EthAddress(*from), salt, initcode);
-            assert_eq!(result.0[..], expected[..]);
-        }
     }
 }
