@@ -1707,7 +1707,6 @@ dependencies = [
  "fvm_shared 3.2.0",
  "integer-encoding",
  "lazy_static",
- "log",
  "num-derive",
  "num-traits",
  "serde",
