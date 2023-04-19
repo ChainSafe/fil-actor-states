@@ -1,6 +1,4 @@
-pub mod types;
-
-use fvm_shared::METHOD_CONSTRUCTOR;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 /// Ethereum Account actor methods.
