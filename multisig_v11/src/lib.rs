@@ -9,7 +9,6 @@ pub use self::state::*;
 pub use self::types::*;
 
 mod state;
-pub mod testing;
 mod types;
 
 /// Multisig actor methods available
