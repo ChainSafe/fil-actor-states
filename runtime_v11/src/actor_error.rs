@@ -2,7 +2,7 @@ use fvm_ipld_encoding::de::DeserializeOwned;
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 use std::fmt::Display;
 
-use fvm_shared::error::ExitCode;
+use fvm_shared3::error::ExitCode;
 use thiserror::Error;
 
 /// The error type returned by actor method calls.

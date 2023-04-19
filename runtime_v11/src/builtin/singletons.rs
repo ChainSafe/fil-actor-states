@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::address::Address;
-use fvm_shared::ActorID;
+use fvm_shared3::address::Address;
+use fvm_shared3::ActorID;
 
 use paste::paste;
 

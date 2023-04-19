@@ -6,9 +6,9 @@ use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
-use fvm_shared::address::Address;
-use fvm_shared::bigint::BigInt;
-pub use fvm_shared::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::BigInt;
+pub use fvm_shared3::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;
@@ -17,9 +17,7 @@ pub use {fvm_ipld_amt, fvm_ipld_hamt};
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
-use crate::runtime::Runtime;
 
-#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 
 pub mod actor_error;
@@ -27,20 +25,6 @@ pub mod builtin;
 pub mod runtime;
 pub mod util;
 
-mod dispatch;
-pub use dispatch::{dispatch, dispatch_default};
-
-#[macro_export]
-macro_rules! wasm_trampoline {
-    ($target:ty) => {
-        #[no_mangle]
-        pub extern "C" fn invoke(param: u32) -> u32 {
-            $crate::runtime::fvm::trampoline::<$target>(param)
-        }
-    };
-}
-
-#[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.

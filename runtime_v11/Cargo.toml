@@ -12,91 +12,28 @@ edition = "2021"
 repository = "https://github.com/filecoin-project/builtin-actors"
 
 [dependencies]
-anyhow = "1.0.65"
-byteorder = "1.4.3"
-castaway = "0.2.2"
-cid = { version = "0.8.3", default-features = false, features = [
-  "serde-codec",
-] }
-fvm_ipld_amt = { version = "0.5.1", features = ["go-interop"] }
-fvm_ipld_blockstore = "0.1.1"
-fvm_ipld_encoding = "0.3.3"
-fvm_ipld_hamt = "0.6.1"
-fvm_sdk = { version = "3.2.0", optional = true }
-fvm_shared = { version = "3.2.0", default-features = false }
-itertools = "0.10"
-lazy_static = { version = "1.4.0", optional = true }
-multihash = { version = "0.16.1", default-features = false }
+anyhow = { workspace = true }
+cid = { workspace = true }
+fvm_ipld_amt = { workspace = true }
+fvm_ipld_blockstore = { workspace = true }
+fvm_ipld_encoding = { workspace = true }
+fvm_ipld_hamt = { workspace = true }
+fvm_shared3 = { workspace = true }
+multihash = { workspace = true }
 num-bigint = { workspace = true }
-num-derive = "0.3.3"
-num-traits = "0.2.14"
-paste = "1.0.9"
-regex = "1"
-serde = { version = "1.0.136", features = ["derive"] }
-serde_repr = "0.1.8"
-thiserror = "1.0.30"
-unsigned-varint = "0.7.1"
-
-# A fake-proofs dependency but... we can't select on that feature here because we enable it from
-# build.rs.
-sha2 = "0.10"
-
-# test_util
-blake2b_simd = { version = "1.0", optional = true }
-hex = { version = "0.4.3", optional = true }
-pretty_env_logger = { version = "0.4.0", optional = true }
-rand = { version = "0.8.5", default-features = false, optional = true }
-
-[dependencies.libsecp256k1]
-default-features = false
-features = ["static-context", "std"]
-optional = true
-version = "0.7.1"
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+paste = { workspace = true }
+quickcheck = { workspace = true, optional = true }
+serde = { workspace = true }
+serde_repr = { workspace = true }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+unsigned-varint = { workspace = true }
 
 [dev-dependencies]
-derive_builder = "0.10.2"
-hex = "0.4.3"
-rand = { version = "0.8.5" }
+quickcheck_macros = { workspace = true }
+toml = { workspace = true }
 
 [features]
-default = []
-
-# Enable 2k sectors
-sector-2k = []
-# Enable 8m sectors
-sector-8m = []
-# Enable 512m sectors
-sector-512m = []
-# Enable 32g sectors
-sector-32g = []
-# Enable 64g sectors
-sector-64g = []
-# Enable the "default" sectors types.
-sector-default = ["sector-64g", "sector-32g"]
-
-# Reduce min verified deal size from 1MiB to 256B
-small-deals = []
-# Reduce pre-commit delay from 150 epochs, to 10.
-short-precommit = []
-
-# Lower the minimum power requirement to 2k
-min-power-2k = []
-# Lower the minimum power requirement to 2g
-min-power-2g = []
-
-# no collateral for deals (for testing)
-no-provider-deal-collateral = []
-
-# fake proofs (for testing)
-fake-proofs = []
-
-test_utils = [
-  "hex",
-  "multihash/sha2",
-  "libsecp256k1",
-  "blake2b_simd",
-  "rand",
-  "rand/std_rng",
-  "lazy_static",
-  "pretty_env_logger",
-]
+arb = ["quickcheck"]
