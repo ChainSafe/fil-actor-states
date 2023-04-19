@@ -37,6 +37,3 @@ serde = { version = "1.0.136", features = ["derive"] }
 
 [dev-dependencies]
 lazy_static = "1.4.0"
-
-[features]
-fil-actor = ["fil_actors_runtime_v11/fil-actor"]

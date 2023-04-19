@@ -44,6 +44,3 @@ itertools = "0.10"
 lazy_static = "1.4.0"
 multihash = { version = "0.16.1", default-features = false }
 regex = "1"
-
-[features]
-fil-actor = ["fil_actors_runtime_v11/fil-actor"]

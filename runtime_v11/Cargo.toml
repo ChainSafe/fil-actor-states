@@ -60,7 +60,6 @@ rand = { version = "0.8.5" }
 
 [features]
 default = []
-fil-actor = ["fvm_sdk"]
 
 # Enable 2k sectors
 sector-2k = []

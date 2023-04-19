@@ -27,6 +27,3 @@ num-traits = "0.2.15"
 rlp = { version = "0.5.1", default-features = false }
 serde = { version = "1.0.136", features = ["derive"] }
 serde_tuple = "0.5"
-
-[features]
-fil-actor = ["fil_actors_runtime_v11/fil-actor"]

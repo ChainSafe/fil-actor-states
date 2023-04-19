@@ -35,6 +35,3 @@ serde = { version = "1.0.136", features = ["derive"] }
 derive_builder = "0.10.2"
 fvm_ipld_amt = { version = "0.5.1", features = ["go-interop"] }
 lazy_static = "1.4.0"
-
-[features]
-fil-actor = ["fil_actors_runtime_v11/fil-actor"]

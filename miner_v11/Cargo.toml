@@ -46,6 +46,3 @@ cid = { version = "0.8.3", default-features = false, features = [
 multihash = { version = "0.16.1", default-features = false }
 rand = "0.8.5"
 test-case = "2.2.1"
-
-[features]
-fil-actor = ["fil_actors_runtime_v11/fil-actor"]
