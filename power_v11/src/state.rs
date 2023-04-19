@@ -224,11 +224,11 @@ impl State {
         set_claim(claims, miner, new_claim)
     }
 
-    pub(super) fn add_pledge_total(&mut self, amount: TokenAmount) {
+    pub(super) fn _add_pledge_total(&mut self, amount: TokenAmount) {
         self.total_pledge_collateral += amount;
     }
 
-    pub(super) fn append_cron_event<BS: Blockstore>(
+    pub(super) fn _append_cron_event<BS: Blockstore>(
         &mut self,
         events: &mut Multimap<BS>,
         epoch: ChainEpoch,
@@ -258,7 +258,7 @@ impl State {
         }
     }
 
-    pub(super) fn update_smoothed_estimate(&mut self, delta: ChainEpoch) {
+    pub(super) fn _update_smoothed_estimate(&mut self, delta: ChainEpoch) {
         let filter_qa_power = AlphaBetaFilter::load(
             &self.this_epoch_qa_power_smoothed,
             &DEFAULT_ALPHA,
@@ -270,7 +270,7 @@ impl State {
 
     /// Update stats on new miner creation. This is currently just used to update the miner count
     /// when new added miner starts above the minimum.
-    pub(super) fn update_stats_for_new_miner(
+    pub(super) fn _update_stats_for_new_miner(
         &mut self,
         policy: &Policy,
         window_post_proof: RegisteredPoStProof,
@@ -284,7 +284,7 @@ impl State {
     }
 
     /// Validates that miner has
-    pub(super) fn validate_miner_has_claim<BS>(
+    pub(super) fn _validate_miner_has_claim<BS>(
         &self,
         store: &BS,
         miner_addr: &Address,
@@ -323,7 +323,7 @@ impl State {
         Ok(claim.cloned())
     }
 
-    pub(super) fn delete_claim<BS: Blockstore>(
+    pub(super) fn _delete_claim<BS: Blockstore>(
         &mut self,
         policy: &Policy,
         claims: &mut Map<BS, Claim>,
@@ -352,7 +352,7 @@ impl State {
     }
 }
 
-pub(super) fn load_cron_events<BS: Blockstore>(
+pub(super) fn _load_cron_events<BS: Blockstore>(
     mmap: &Multimap<BS>,
     epoch: ChainEpoch,
 ) -> anyhow::Result<Vec<CronEvent>> {
