@@ -257,7 +257,7 @@ pub fn consensus_miner_min_power(
         | StackedDRGWindow32GiBV1
         | StackedDRGWindow64GiBV1 => Ok(policy.minimum_consensus_power.clone()),
         Invalid(i) => Err(anyhow::anyhow!("unsupported proof type: {}", i)),
-        _ => todo!(),
+        _ => Err(anyhow::anyhow!("unsupported proof type: {:?}", p)),
     }
 }
 
