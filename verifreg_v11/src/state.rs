@@ -4,13 +4,13 @@
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser::BigIntDe;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::error::ExitCode;
-use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::sector::SectorNumber;
-use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::bigint_ser::BigIntDe;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::piece::PaddedPieceSize;
+use fvm_shared3::sector::SectorNumber;
+use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 
 use fil_actors_runtime_v11::{
     actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError, Map,

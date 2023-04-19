@@ -1056,7 +1056,7 @@ version = "1.0.0"
 dependencies = [
  "fil_actors_runtime_v10",
  "frc42_dispatch",
- "frc46_token 3.1.0",
+ "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -1071,7 +1071,7 @@ version = "11.0.0-alpha.1"
 dependencies = [
  "fil_actors_runtime_v11",
  "frc42_dispatch",
- "frc46_token 3.1.0",
+ "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -1768,18 +1768,12 @@ dependencies = [
 name = "fil_actor_verifreg_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
- "frc46_token 6.0.0",
- "fvm_actor_utils 6.0.0",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.2.0",
- "lazy_static",
- "log",
  "num-derive",
  "num-traits",
  "serde",
@@ -2081,36 +2075,13 @@ dependencies = [
  "anyhow",
  "cid",
  "frc42_dispatch",
- "fvm_actor_utils 3.0.0",
+ "fvm_actor_utils",
  "fvm_ipld_amt 0.4.2",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.5.1",
  "fvm_sdk 2.2.0",
  "fvm_shared 2.3.0",
- "integer-encoding",
- "num-traits",
- "serde",
- "serde_tuple",
- "thiserror",
-]
-
-[[package]]
-name = "frc46_token"
-version = "6.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f03b2e4912228bdb9b6d24e7cea4d2d671ec04a8e55f0edc88540b8ceaeea83a"
-dependencies = [
- "anyhow",
- "cid",
- "frc42_dispatch",
- "fvm_actor_utils 6.0.0",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
- "fvm_sdk 3.2.0",
- "fvm_shared 3.2.0",
  "integer-encoding",
  "num-traits",
  "serde",
@@ -2193,25 +2164,6 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_sdk 2.2.0",
  "fvm_shared 2.3.0",
- "num-traits",
- "serde",
- "serde_tuple",
- "thiserror",
-]
-
-[[package]]
-name = "fvm_actor_utils"
-version = "6.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b57882eb67bc56aa67087c584767596c41e54bdd16151a65058177256e860572"
-dependencies = [
- "anyhow",
- "cid",
- "frc42_dispatch",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_sdk 3.2.0",
- "fvm_shared 3.2.0",
  "num-traits",
  "serde",
  "serde_tuple",
