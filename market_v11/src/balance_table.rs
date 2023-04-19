@@ -4,8 +4,8 @@
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::Error as HamtError;
-use fvm_shared::address::Address;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared3::address::Address;
+use fvm_shared3::econ::TokenAmount;
 use num_traits::Zero;
 
 use fil_actors_runtime_v11::{make_empty_map, make_map_with_root_and_bitwidth, Map};

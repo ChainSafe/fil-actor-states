@@ -4,19 +4,18 @@
 use super::ext::verifreg::AllocationID;
 use cid::Cid;
 use fil_actors_runtime_v11::Array;
-use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::{bigint_ser, BigInt};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::ActorID;
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::{bigint_ser, BigInt};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::deal::DealID;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::piece::PaddedPieceSize;
+use fvm_shared3::ActorID;
 
 use crate::Label;
-use fvm_shared::sector::RegisteredSealProof;
+use fvm_shared3::sector::RegisteredSealProof;
 
 use super::deal::{ClientDealProposal, DealProposal, DealState};
 
@@ -62,12 +61,6 @@ pub struct OnMinerSectorsTerminateParams {
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
-}
-
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)] // Add Eq when BitField does
-pub struct PublishStorageDealsReturn {
-    pub ids: Vec<DealID>,
-    pub valid_deals: BitField,
 }
 
 // Changed since V2:

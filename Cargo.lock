@@ -1416,26 +1416,16 @@ dependencies = [
 name = "fil_actor_market_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
- "anyhow",
  "cid",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
- "frc46_token 6.0.0",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 3.2.0",
- "integer-encoding",
- "itertools 0.10.5",
- "lazy_static",
- "libipld-core 0.13.1",
- "log",
- "multihash",
+ "libipld-core 0.14.0",
  "num-derive",
  "num-traits",
- "regex",
  "serde",
 ]
 
