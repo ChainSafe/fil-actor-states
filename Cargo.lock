@@ -1391,7 +1391,6 @@ name = "fil_actor_miner_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
  "anyhow",
- "byteorder",
  "cid",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
@@ -1403,13 +1402,10 @@ dependencies = [
  "fvm_shared 3.2.0",
  "itertools 0.10.5",
  "lazy_static",
- "log",
  "multihash",
  "num-derive",
  "num-traits",
- "rand",
  "serde",
- "test-case",
 ]
 
 [[package]]
@@ -3735,28 +3731,6 @@ dependencies = [
  "redox_syscall",
  "rustix 0.37.12",
  "windows-sys 0.45.0",
-]
-
-[[package]]
-name = "test-case"
-version = "2.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "21d6cf5a7dffb3f9dceec8e6b8ca528d9bd71d36c9f074defb548ce161f598c0"
-dependencies = [
- "test-case-macros",
-]
-
-[[package]]
-name = "test-case-macros"
-version = "2.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e45b7bf6e19353ddd832745c8fcf77a17a93171df7151187f26623f2b75b5b26"
-dependencies = [
- "cfg-if",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
 ]
 
 [[package]]

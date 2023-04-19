@@ -11,11 +11,11 @@ use fil_actors_runtime_v11::{actor_error, ActorDowncast, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::{ChainEpoch, QuantSpec, NO_QUANTIZATION};
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{SectorSize, StoragePower};
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::clock::{ChainEpoch, QuantSpec, NO_QUANTIZATION};
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::sector::{SectorSize, StoragePower};
 use num_traits::{Signed, Zero};
 
 use super::{

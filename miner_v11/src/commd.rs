@@ -1,7 +1,7 @@
 use cid::{Cid, Version};
 use fil_actors_runtime_v11::{actor_error, ActorError};
-use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
-use fvm_shared::sector::RegisteredSealProof;
+use fvm_shared3::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
+use fvm_shared3::sector::RegisteredSealProof;
 use multihash::Multihash;
 use serde::{Deserialize, Serialize};
 

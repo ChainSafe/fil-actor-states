@@ -5,17 +5,17 @@ use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{strict_bytes, BytesDe};
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::randomness::Randomness;
-use fvm_shared::sector::{
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::bigint_ser;
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::deal::DealID;
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::randomness::Randomness;
+use fvm_shared3::sector::{
     PoStProof, RegisteredPoStProof, RegisteredSealProof, RegisteredUpdateProof, SectorNumber,
     SectorSize, StoragePower,
 };
-use fvm_shared::smooth::FilterEstimate;
+use fvm_shared3::smooth::FilterEstimate;
 
 use fil_actors_runtime_v11::DealWeight;
 
