@@ -1,4 +1,4 @@
-use fil_actors_evm_shared::uints::{U256, U512};
+use fil_actors_evm_shared_v11::uints::{U256, U512};
 
 #[inline]
 pub fn add(a: U256, b: U256) -> U256 {
@@ -112,7 +112,7 @@ pub fn exp(mut base: U256, power: U256) -> U256 {
 mod test {
     mod basic {
         use super::super::*;
-        use fil_actors_evm_shared::uints::U256;
+        use fil_actors_evm_shared_v11::uints::U256;
 
         #[test]
         fn test_addmod() {

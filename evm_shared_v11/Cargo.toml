@@ -1,5 +1,5 @@
 [package]
-name = "fil_actors_evm_shared"
+name = "fil_actors_evm_shared_v11"
 description = "Shared libraries for the built-in EVM actor for Filecoin"
 version = "11.0.0-alpha.1"
 license = "MIT OR Apache-2.0"

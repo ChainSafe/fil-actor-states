@@ -1,5 +1,5 @@
-use fil_actors_evm_shared::address::EthAddress;
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::address::EthAddress;
+use fil_actors_evm_shared_v11::uints::U256;
 use fil_actors_runtime_v11::ActorError;
 use fil_actors_runtime_v11::EAM_ACTOR_ADDR;
 use fil_actors_runtime_v11::{deserialize_block, extract_send_result};

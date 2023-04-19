@@ -1,5 +1,5 @@
 use crate::interpreter::instructions::memory::get_memory_region;
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::uints::U256;
 use fil_actors_runtime_v11::ActorError;
 use fvm_ipld_encoding::IPLD_RAW;
 use fvm_shared::event::{Entry, Flags};

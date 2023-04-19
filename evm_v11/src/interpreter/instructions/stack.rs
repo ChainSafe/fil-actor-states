@@ -1,6 +1,6 @@
 #![allow(clippy::missing_safety_doc)]
 
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::uints::U256;
 use fil_actors_runtime_v11::ActorError;
 
 use crate::interpreter::stack::Stack;

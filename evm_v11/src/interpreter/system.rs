@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use fil_actors_evm_shared::{address::EthAddress, uints::U256};
+use fil_actors_evm_shared_v11::{address::EthAddress, uints::U256};
 use fil_actors_runtime_v11::{
     actor_error, extract_send_result, runtime::EMPTY_ARR_CID, AsActorError, EAM_ACTOR_ID,
 };

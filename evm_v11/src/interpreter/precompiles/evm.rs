@@ -1,7 +1,7 @@
 use std::ops::Range;
 
-use fil_actors_evm_shared::uints::byteorder::{ByteOrder, LE};
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::uints::byteorder::{ByteOrder, LE};
+use fil_actors_evm_shared_v11::uints::U256;
 
 use fil_actors_runtime_v11::runtime::Runtime;
 use fvm_shared::crypto::hash::SupportedHashes;

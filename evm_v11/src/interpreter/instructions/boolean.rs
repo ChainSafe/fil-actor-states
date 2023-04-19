@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::uints::U256;
 
 #[inline]
 pub fn lt(a: U256, b: U256) -> U256 {

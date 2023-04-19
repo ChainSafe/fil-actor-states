@@ -19,7 +19,7 @@ anyhow = "1.0.65"
 cid = { version = "0.8.3", default-features = false, features = [
   "serde-codec",
 ] }
-fil_actors_evm_shared = { version = "11.0.0-alpha.1", path = "shared" }
+fil_actors_evm_shared_v11 = { path = "../evm_shared_v11" }
 fil_actors_runtime_v11.workspace = true
 frc42_dispatch = "3.2.0"
 fvm_ipld_blockstore = "0.1.1"

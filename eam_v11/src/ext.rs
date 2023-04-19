@@ -29,7 +29,7 @@ pub mod init {
 
 pub mod evm {
     use super::*;
-    use fil_actors_evm_shared::address::EthAddress;
+    use fil_actors_evm_shared_v11::address::EthAddress;
 
     #[derive(Serialize_tuple, Deserialize_tuple, Clone)]
     pub struct ConstructorParams {

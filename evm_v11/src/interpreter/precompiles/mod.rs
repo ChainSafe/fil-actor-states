@@ -1,6 +1,6 @@
 use std::{marker::PhantomData, num::TryFromIntError};
 
-use fil_actors_evm_shared::{address::EthAddress, uints::U256};
+use fil_actors_evm_shared_v11::{address::EthAddress, uints::U256};
 use fil_actors_runtime_v11::{runtime::Runtime, ActorError};
 use fvm_shared::{address::Address, econ::TokenAmount};
 use substrate_bn::{CurveError, FieldError, GroupError};

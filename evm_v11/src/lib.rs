@@ -1,4 +1,4 @@
-use fil_actors_evm_shared::address::EthAddress;
+use fil_actors_evm_shared_v11::address::EthAddress;
 use fil_actors_runtime_v11::{
     actor_dispatch_unrestricted, actor_error, ActorError, AsActorError, EAM_ACTOR_ADDR,
     INIT_ACTOR_ADDR,

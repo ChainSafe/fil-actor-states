@@ -1,4 +1,4 @@
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::uints::U256;
 
 #[inline]
 pub fn byte(i: U256, x: U256) -> U256 {

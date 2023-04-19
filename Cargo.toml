@@ -58,6 +58,7 @@ members = [
   "ethaccount_v11",
   "fil_actor_interface",
   "evm_shared_v10",
+  "evm_shared_v11",
 ]
 resolver = "2"
 

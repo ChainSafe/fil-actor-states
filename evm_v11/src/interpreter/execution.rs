@@ -1,4 +1,4 @@
-use fil_actors_evm_shared::address::EthAddress;
+use fil_actors_evm_shared_v11::address::EthAddress;
 use fil_actors_runtime_v11::ActorError;
 use fvm_shared::econ::TokenAmount;
 

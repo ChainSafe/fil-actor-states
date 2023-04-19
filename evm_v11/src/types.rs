@@ -1,6 +1,6 @@
 use cid::Cid;
-use fil_actors_evm_shared::address::EthAddress;
-use fil_actors_evm_shared::uints::U256;
+use fil_actors_evm_shared_v11::address::EthAddress;
+use fil_actors_evm_shared_v11::uints::U256;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
