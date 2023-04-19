@@ -1,5 +1,4 @@
-use fvm_shared::METHOD_CONSTRUCTOR;
-pub mod ext;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 
 use num_derive::FromPrimitive;
 

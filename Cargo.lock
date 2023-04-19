@@ -1860,19 +1860,9 @@ dependencies = [
 name = "fil_actor_eam_v11"
 version = "11.0.0-alpha.1"
 dependencies = [
- "anyhow",
- "cid",
- "fil_actors_evm_shared_v11",
- "fil_actors_runtime_v11",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
- "multihash",
  "num-derive",
  "num-traits",
- "rlp",
- "serde",
- "serde_tuple",
 ]
 
 [[package]]
