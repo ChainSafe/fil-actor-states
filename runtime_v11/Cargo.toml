@@ -35,6 +35,7 @@ serde = { version = "1.0.136", features = ["derive"] }
 serde_repr = "0.1.8"
 thiserror = "1.0.30"
 unsigned-varint = "0.7.1"
+num-bigint = { workspace = true }
 
 # A fake-proofs dependency but... we can't select on that feature here because we enable it from
 # build.rs.
