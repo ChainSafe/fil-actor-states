@@ -3,31 +3,16 @@
 
 use std::cmp::max;
 
-use fil_actors_runtime_v11::network::EPOCHS_IN_DAY;
 use fil_actors_runtime_v11::runtime::Policy;
 use fvm_shared::bigint::{BigInt, Integer};
-use fvm_shared::clock::ChainEpoch;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
 use fvm_shared::sector::StoragePower;
 use fvm_shared::TOTAL_FILECOIN;
-use num_traits::Zero;
 
 pub mod detail {
     /// Maximum length of a deal label.
     pub const DEAL_MAX_LABEL_SIZE: usize = 256;
-}
-
-/// Bounds (inclusive) on deal duration.
-pub(super) fn deal_duration_bounds(_size: PaddedPieceSize) -> (ChainEpoch, ChainEpoch) {
-    (180 * EPOCHS_IN_DAY, 540 * EPOCHS_IN_DAY)
-}
-
-pub(super) fn deal_price_per_epoch_bounds(
-    _size: PaddedPieceSize,
-    _duration: ChainEpoch,
-) -> (TokenAmount, &'static TokenAmount) {
-    (TokenAmount::zero(), &TOTAL_FILECOIN)
 }
 
 pub fn deal_provider_collateral_bounds(
@@ -51,13 +36,6 @@ pub fn deal_provider_collateral_bounds(
         TokenAmount::from_atto(num.div_floor(&denom)),
         TOTAL_FILECOIN.clone(),
     )
-}
-
-pub(super) fn deal_client_collateral_bounds(
-    _: PaddedPieceSize,
-    _: ChainEpoch,
-) -> (TokenAmount, TokenAmount) {
-    (TokenAmount::zero(), TOTAL_FILECOIN.clone()) // PARAM_FINISH
 }
 
 /// Penalty to provider deal collateral if the deadline expires before sector commitment.
