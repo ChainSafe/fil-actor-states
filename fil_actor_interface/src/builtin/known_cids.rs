@@ -17,6 +17,8 @@ pub struct KnownCidsPerNetworkVersion {
     pub v9: HashSet<Cid>,
     #[serde(with = "cid_hashset")]
     pub v10: HashSet<Cid>,
+    #[serde(with = "cid_hashset")]
+    pub v11: HashSet<Cid>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]

@@ -17,10 +17,15 @@ pub type Method = fil_actor_evm_v10::Method;
 #[serde(untagged)]
 pub enum State {
     V10(fil_actor_evm_v10::State),
+    V11(fil_actor_evm_v11::State),
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.evm.v10.contains(cid)
+}
+
+pub fn is_v11_evm_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.evm.v11.contains(cid)
 }
 
 impl State {
@@ -31,6 +36,11 @@ impl State {
         if is_v10_evm_cid(&actor.code) {
             return get_obj(store, &actor.state)?
                 .map(State::V10)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v11_evm_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown evm actor code {}", actor.code))

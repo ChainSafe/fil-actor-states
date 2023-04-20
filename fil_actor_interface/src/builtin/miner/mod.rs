@@ -37,6 +37,10 @@ pub fn is_v10_miner_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.miner.v10.contains(cid)
 }
 
+pub fn is_v11_miner_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.miner.v11.contains(cid)
+}
+
 /// Miner actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -45,6 +49,7 @@ pub enum State {
     V8(fil_actor_miner_v8::State),
     V9(fil_actor_miner_v9::State),
     V10(fil_actor_miner_v10::State),
+    V11(fil_actor_miner_v11::State),
 }
 
 impl State {
@@ -67,6 +72,11 @@ impl State {
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v11_miner_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown miner actor code {}", actor.code))
     }
 
@@ -75,6 +85,7 @@ impl State {
             State::V8(st) => Ok(st.get_info(store)?.into()),
             State::V9(st) => Ok(st.get_info(store)?.into()),
             State::V10(st) => Ok(st.get_info(store)?.into()),
+            State::V11(st) => Ok(st.get_info(store)?.into()),
         }
     }
 
@@ -99,6 +110,11 @@ impl State {
             State::V10(st) => st
                 .load_deadlines(&store)?
                 .for_each(policy, &store, |idx, dl| f(idx, Deadline::V10(dl))),
+            State::V11(st) => st.load_deadlines(&store)?.for_each(
+                &from_policy_v10_to_v11(policy),
+                &store,
+                |idx, dl| f(idx, Deadline::V11(dl)),
+            ),
         }
     }
 
@@ -122,6 +138,10 @@ impl State {
                 .load_deadlines(store)?
                 .load_deadline(policy, store, idx)
                 .map(Deadline::V10)?),
+            State::V11(st) => Ok(st
+                .load_deadlines(store)?
+                .load_deadline(&from_policy_v10_to_v11(policy), store, idx)
+                .map(Deadline::V11)?),
         }
     }
 
@@ -184,6 +204,23 @@ impl State {
                     Ok(infos)
                 }
             }
+            State::V11(st) => {
+                if let Some(sectors) = sectors {
+                    Ok(st
+                        .load_sector_infos(&store, sectors)?
+                        .into_iter()
+                        .map(From::from)
+                        .collect())
+                } else {
+                    let sectors = fil_actor_miner_v11::Sectors::load(&store, &st.sectors)?;
+                    let mut infos = Vec::with_capacity(sectors.amt.count() as usize);
+                    sectors.amt.for_each(|_, info| {
+                        infos.push(SectorOnChainInfo::from(info.clone()));
+                        Ok(())
+                    })?;
+                    Ok(infos)
+                }
+            }
         }
     }
 
@@ -193,6 +230,7 @@ impl State {
             State::V8(st) => st.fee_debt.clone(),
             State::V9(st) => st.fee_debt.clone(),
             State::V10(st) => from_token_v3_to_v2(st.fee_debt.clone()),
+            State::V11(st) => from_token_v3_to_v2(st.fee_debt.clone()),
         }
     }
 }
@@ -293,6 +331,34 @@ impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
     }
 }
 
+impl From<fil_actor_miner_v11::MinerInfo> for MinerInfo {
+    fn from(info: fil_actor_miner_v11::MinerInfo) -> Self {
+        MinerInfo {
+            owner: from_address_v3_to_v2(info.owner),
+            worker: from_address_v3_to_v2(info.worker),
+            control_addresses: info
+                .control_addresses
+                .into_iter()
+                .map(from_address_v3_to_v2)
+                .collect(),
+            new_worker: info
+                .pending_worker_key
+                .as_ref()
+                .map(|k| from_address_v3_to_v2(k.new_worker)),
+            worker_change_epoch: info
+                .pending_worker_key
+                .map(|k| k.effective_at)
+                .unwrap_or(-1),
+            peer_id: info.peer_id,
+            multiaddrs: info.multi_address,
+            window_post_proof_type: from_reg_post_proof_v3_to_v2(info.window_post_proof_type),
+            sector_size: from_sector_size_v3_to_v2(info.sector_size),
+            window_post_partition_sectors: info.window_post_partition_sectors,
+            consensus_fault_elapsed: info.consensus_fault_elapsed,
+        }
+    }
+}
+
 impl MinerInfo {
     pub fn worker(&self) -> Address {
         self.worker
@@ -315,6 +381,7 @@ pub enum Deadline {
     V8(fil_actor_miner_v8::Deadline),
     V9(fil_actor_miner_v9::Deadline),
     V10(fil_actor_miner_v10::Deadline),
+    V11(fil_actor_miner_v11::Deadline),
 }
 
 impl Deadline {
@@ -334,6 +401,9 @@ impl Deadline {
             Deadline::V10(dl) => dl.for_each(&store, |idx, part| {
                 f(idx, Partition::V10(Cow::Borrowed(part)))
             }),
+            Deadline::V11(dl) => dl.for_each(&store, |idx, part| {
+                f(idx, Partition::V11(Cow::Borrowed(part)))
+            }),
         }
     }
 }
@@ -344,6 +414,7 @@ pub enum Partition<'a> {
     V8(Cow<'a, fil_actor_miner_v8::Partition>),
     V9(Cow<'a, fil_actor_miner_v9::Partition>),
     V10(Cow<'a, fil_actor_miner_v10::Partition>),
+    V11(Cow<'a, fil_actor_miner_v11::Partition>),
 }
 
 impl Partition<'_> {
@@ -352,6 +423,7 @@ impl Partition<'_> {
             Partition::V8(dl) => &dl.sectors,
             Partition::V9(dl) => &dl.sectors,
             Partition::V10(dl) => &dl.sectors,
+            Partition::V11(dl) => &dl.sectors,
         }
     }
     pub fn faulty_sectors(&self) -> &BitField {
@@ -359,6 +431,7 @@ impl Partition<'_> {
             Partition::V8(dl) => &dl.faults,
             Partition::V9(dl) => &dl.faults,
             Partition::V10(dl) => &dl.faults,
+            Partition::V11(dl) => &dl.faults,
         }
     }
     pub fn live_sectors(&self) -> BitField {
@@ -366,6 +439,7 @@ impl Partition<'_> {
             Partition::V8(dl) => dl.live_sectors(),
             Partition::V9(dl) => dl.live_sectors(),
             Partition::V10(dl) => dl.live_sectors(),
+            Partition::V11(dl) => dl.live_sectors(),
         }
     }
     pub fn active_sectors(&self) -> BitField {
@@ -373,6 +447,7 @@ impl Partition<'_> {
             Partition::V8(dl) => dl.active_sectors(),
             Partition::V9(dl) => dl.active_sectors(),
             Partition::V10(dl) => dl.active_sectors(),
+            Partition::V11(dl) => dl.active_sectors(),
         }
     }
 }
@@ -442,6 +517,24 @@ impl From<fil_actor_miner_v9::SectorOnChainInfo> for SectorOnChainInfo {
 
 impl From<fil_actor_miner_v10::SectorOnChainInfo> for SectorOnChainInfo {
     fn from(info: fil_actor_miner_v10::SectorOnChainInfo) -> Self {
+        Self {
+            sector_number: info.sector_number,
+            seal_proof: from_reg_seal_proof_v3_to_v2(info.seal_proof),
+            sealed_cid: info.sealed_cid,
+            deal_ids: info.deal_ids,
+            activation: info.activation,
+            expiration: info.expiration,
+            deal_weight: info.deal_weight,
+            verified_deal_weight: info.verified_deal_weight,
+            initial_pledge: from_token_v3_to_v2(info.initial_pledge),
+            expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
+            expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
+        }
+    }
+}
+
+impl From<fil_actor_miner_v11::SectorOnChainInfo> for SectorOnChainInfo {
+    fn from(info: fil_actor_miner_v11::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
             seal_proof: from_reg_seal_proof_v3_to_v2(info.seal_proof),
