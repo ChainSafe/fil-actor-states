@@ -1,11 +1,11 @@
 [package]
 name = "fil_actor_datacap_v11"
 description = "Builtin data cap actor for Filecoin"
-version = "11.0.0-alpha.1"
+version = "1.0.0"
 license = "MIT OR Apache-2.0"
 authors = ["Protocol Labs", "Filecoin Core Devs"]
 edition = "2018"
-repository = "https://github.com/filecoin-project/builtin-actors"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]

@@ -1,7 +1,7 @@
 [package]
 name = "fil_actor_account_v11"
 description = "Builtin account actor for Filecoin"
-version = "11.0.0-alpha.1"
+version = "1.0.0"
 license = "MIT OR Apache-2.0"
 authors = [
   "ChainSafe Systems <info@chainsafe.io>",
@@ -9,6 +9,7 @@ authors = [
   "Filecoin Core Devs",
 ]
 edition = "2021"
+repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
