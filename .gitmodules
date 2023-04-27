@@ -1,4 +1,4 @@
 [submodule "forest"]
 	path = forest
-        branch = "lemmih/bump-fvm-dependency"
+        branch = "main"
 	url = https://github.com/ChainSafe/forest.git
