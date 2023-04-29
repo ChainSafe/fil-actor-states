@@ -40,5 +40,5 @@ pub fn is_placeholder_actor(code: &Cid) -> bool {
 
 /// Returns true if the code belongs to a ethereum account actor.
 pub fn is_eth_account_actor(code: &Cid) -> bool {
-    ethaccount::is_v10_ethaccount_cid(code) || ethaccount::is_v10_ethaccount_cid(code)
+    ethaccount::is_v10_ethaccount_cid(code) || ethaccount::is_v11_ethaccount_cid(code)
 }
