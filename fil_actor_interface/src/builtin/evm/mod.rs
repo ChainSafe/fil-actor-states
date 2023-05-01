@@ -29,7 +29,11 @@ pub fn is_v10_evm_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.evm.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .evm
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 impl State {

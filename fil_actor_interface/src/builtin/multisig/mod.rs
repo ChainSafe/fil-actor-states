@@ -47,7 +47,11 @@ pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.multisig.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .multisig
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 impl State {

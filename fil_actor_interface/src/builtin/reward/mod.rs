@@ -41,7 +41,11 @@ pub fn is_v10_reward_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_reward_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.reward.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .reward
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 /// Reward actor state.

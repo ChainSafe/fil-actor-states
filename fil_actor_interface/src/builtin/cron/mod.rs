@@ -51,7 +51,11 @@ pub fn is_v10_cron_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_cron_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.cron.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .cron
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 impl State {

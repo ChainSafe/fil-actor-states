@@ -43,7 +43,11 @@ pub fn is_v10_market_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.market.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .market
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 /// Market actor state.

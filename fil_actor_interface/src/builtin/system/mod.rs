@@ -51,7 +51,11 @@ pub fn is_v10_system_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_system_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.system.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .system
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 impl State {

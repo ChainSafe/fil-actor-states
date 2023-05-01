@@ -41,7 +41,11 @@ pub fn is_v10_init_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v11_init_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.init.v11.contains(cid)
+    crate::KNOWN_CIDS
+        .actor
+        .init
+        .v11()
+        .map_or(false, |cids| cids.contains(cid))
 }
 
 /// Init actor state.
