@@ -10,3 +10,7 @@ pub fn is_v10_placeholder_cid(cid: &Cid) -> bool {
         .v10()
         .map_or(false, |cids| cids.contains(cid))
 }
+
+pub fn is_v11_placeholder_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.placeholder.v11.contains(cid)
+}

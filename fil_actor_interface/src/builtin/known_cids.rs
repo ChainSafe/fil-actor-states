@@ -58,13 +58,19 @@ pub enum CidsPerNetworkVersion {
         v8: CidPerNetwork,
         v9: CidPerNetwork,
         v10: CidPerNetwork,
+        v11: CidPerNetwork,
     },
     E2 {
         v9: CidPerNetwork,
         v10: CidPerNetwork,
+        v11: CidPerNetwork,
     },
     E3 {
         v10: CidPerNetwork,
+        v11: CidPerNetwork,
+    },
+    E4 {
+        v11: CidPerNetwork,
     },
 }
 
@@ -88,7 +94,17 @@ impl CidsPerNetworkVersion {
         match self {
             CidsPerNetworkVersion::E1 { v10, .. } => Ok(v10),
             CidsPerNetworkVersion::E2 { v10, .. } => Ok(v10),
-            CidsPerNetworkVersion::E3 { v10 } => Ok(v10),
+            CidsPerNetworkVersion::E3 { v10, .. } => Ok(v10),
+            _ => bail!("V10 Not Supported for {:?}", self),
+        }
+    }
+
+    pub fn v11(&self) -> Result<&CidPerNetwork> {
+        match self {
+            CidsPerNetworkVersion::E1 { v11, .. } => Ok(v11),
+            CidsPerNetworkVersion::E2 { v11, .. } => Ok(v11),
+            CidsPerNetworkVersion::E3 { v11, .. } => Ok(v11),
+            CidsPerNetworkVersion::E4 { v11 } => Ok(v11),
         }
     }
 }

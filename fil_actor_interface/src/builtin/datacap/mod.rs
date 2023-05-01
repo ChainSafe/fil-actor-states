@@ -17,6 +17,7 @@ pub type Method = fil_actor_datacap_v10::Method;
 #[serde(untagged)]
 pub enum State {
     V10(fil_actor_datacap_v10::State),
+    V11(fil_actor_datacap_v11::State),
 }
 
 pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
@@ -27,6 +28,10 @@ pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
         .map_or(false, |cids| cids.contains(cid))
 }
 
+pub fn is_v11_datacap_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.datacap.v11.contains(cid)
+}
+
 impl State {
     pub fn load<BS>(store: &BS, actor: &ActorState) -> anyhow::Result<State>
     where
@@ -35,6 +40,11 @@ impl State {
         if is_v10_datacap_cid(&actor.code) {
             return get_obj(store, &actor.state)?
                 .map(State::V10)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v11_datacap_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown datacap actor code {}", actor.code))

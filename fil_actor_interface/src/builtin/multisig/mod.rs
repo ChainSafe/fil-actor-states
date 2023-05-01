@@ -19,6 +19,7 @@ pub enum State {
     V8(fil_actor_multisig_v8::State),
     V9(fil_actor_multisig_v9::State),
     V10(fil_actor_multisig_v10::State),
+    V11(fil_actor_multisig_v11::State),
 }
 
 pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
@@ -45,6 +46,10 @@ pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
         .map_or(false, |cids| cids.contains(cid))
 }
 
+pub fn is_v11_multisig_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.multisig.v11.contains(cid)
+}
+
 impl State {
     pub fn load<BS>(store: &BS, actor: &ActorState) -> anyhow::Result<State>
     where
@@ -63,6 +68,11 @@ impl State {
         if is_v10_multisig_cid(&actor.code) {
             return get_obj(store, &actor.state)?
                 .map(State::V10)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v11_multisig_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!(

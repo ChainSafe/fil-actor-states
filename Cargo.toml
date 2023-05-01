@@ -3,45 +3,62 @@ members = [
   "runtime_v8",
   "runtime_v9",
   "runtime_v10",
+  "runtime_v11",
   "account_v8",
   "account_v9",
   "account_v10",
+  "account_v11",
   "init_v8",
   "init_v9",
   "init_v10",
+  "init_v11",
   "cron_v8",
   "cron_v9",
   "cron_v10",
+  "cron_v11",
   "paych_v8",
+  "paych_v9",
+  "paych_v10",
+  "paych_v11",
   "system_v8",
   "system_v9",
   "system_v10",
+  "system_v11",
   "multisig_v8",
   "multisig_v9",
   "multisig_v10",
+  "multisig_v11",
   "market_v8",
   "market_v9",
   "market_v10",
+  "market_v11",
   "power_v8",
-  "reward_v8",
-  "paych_v9",
-  "paych_v10",
   "power_v9",
   "power_v10",
+  "power_v11",
+  "reward_v8",
   "reward_v9",
   "reward_v10",
+  "reward_v11",
   "verifreg_v8",
   "verifreg_v9",
+  "verifreg_v10",
+  "verifreg_v11",
   "miner_v8",
   "miner_v9",
   "miner_v10",
-  "verifreg_v10",
+  "miner_v11",
   "datacap_v10",
+  "datacap_v11",
   "eam_v10",
+  "eam_v11",
   "evm_v10",
+  "evm_v11",
   "ethaccount_v10",
+  "ethaccount_v11",
   "fil_actor_interface",
   "evm_shared_v10",
+  "evm_shared_v11",
 ]
 resolver = "2"
 
@@ -59,7 +76,7 @@ fvm_ipld_blockstore = "0.1"
 fvm_ipld_encoding = "0.3"
 fvm_ipld_hamt = "0.6.1"
 fvm_shared = { version = "2", default-features = false }
-fvm_shared3 = { package = "fvm_shared", version = "~3.1", default-features = false }
+fvm_shared3 = { package = "fvm_shared", version = "3.2", default-features = false }
 getrandom = { version = "0.2.5" }
 hex = "0.4.3"
 hex-literal = "0.3.4"
@@ -91,5 +108,6 @@ uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.7.1"
 
 fil_actors_runtime_v10 = { version = "1.0.0", path = "./runtime_v10" }
+fil_actors_runtime_v11 = { path = "./runtime_v11" }
 fil_actors_runtime_v8 = { version = "1.0.0", path = "./runtime_v8" }
 fil_actors_runtime_v9 = { version = "1.0.0", path = "./runtime_v9" }

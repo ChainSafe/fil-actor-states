@@ -44,6 +44,10 @@ pub fn is_v10_power_cid(cid: &Cid) -> bool {
         .map_or(false, |cids| cids.contains(cid))
 }
 
+pub fn is_v11_power_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.power.v11.contains(cid)
+}
+
 /// Power actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -51,6 +55,7 @@ pub enum State {
     V8(fil_actor_power_v8::State),
     V9(fil_actor_power_v9::State),
     V10(fil_actor_power_v10::State),
+    V11(fil_actor_power_v11::State),
 }
 
 impl State {
@@ -73,6 +78,11 @@ impl State {
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v11_power_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown power actor code {}", actor.code))
     }
 
@@ -82,6 +92,7 @@ impl State {
             State::V8(st) => st.total_quality_adj_power,
             State::V9(st) => st.total_quality_adj_power,
             State::V10(st) => st.total_quality_adj_power,
+            State::V11(st) => st.total_quality_adj_power,
         }
     }
 
@@ -100,6 +111,10 @@ impl State {
                 raw_byte_power: st.total_raw_byte_power.clone(),
                 quality_adj_power: st.total_quality_adj_power.clone(),
             },
+            State::V11(st) => Claim {
+                raw_byte_power: st.total_raw_byte_power.clone(),
+                quality_adj_power: st.total_quality_adj_power.clone(),
+            },
         }
     }
 
@@ -109,6 +124,7 @@ impl State {
             State::V8(st) => st.into_total_locked(),
             State::V9(st) => st.into_total_locked(),
             State::V10(st) => from_token_v3_to_v2(st.into_total_locked()),
+            State::V11(st) => from_token_v3_to_v2(st.into_total_locked()),
         }
     }
 
@@ -122,6 +138,9 @@ impl State {
             State::V8(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V9(st) => Ok(st.miner_power(&s, miner)?.map(From::from)),
             State::V10(st) => Ok(st
+                .miner_power(&s, &from_address_v2_to_v3(*miner))?
+                .map(From::from)),
+            State::V11(st) => Ok(st
                 .miner_power(&s, &from_address_v2_to_v3(*miner))?
                 .map(From::from)),
         }
@@ -149,6 +168,14 @@ impl State {
                 .miner_nominal_power_meets_consensus_minimum(policy, &s, miner.id()?)
                 .map(|(_, bool_val)| bool_val)
                 .map_err(|e| anyhow::anyhow!("{}", e)),
+            State::V11(st) => st
+                .miner_nominal_power_meets_consensus_minimum(
+                    &from_policy_v10_to_v11(policy),
+                    &s,
+                    miner.id()?,
+                )
+                .map(|(_, bool_val)| bool_val)
+                .map_err(|e| anyhow::anyhow!("{}", e)),
         }
     }
 
@@ -160,6 +187,9 @@ impl State {
             State::V10(st) => {
                 from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
             }
+            State::V11(st) => {
+                from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
+            }
         }
     }
 
@@ -169,6 +199,7 @@ impl State {
             State::V8(st) => st.total_pledge_collateral.clone(),
             State::V9(st) => st.total_pledge_collateral.clone(),
             State::V10(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
+            State::V11(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
         }
     }
 }
@@ -201,6 +232,15 @@ impl From<fil_actor_power_v9::Claim> for Claim {
 
 impl From<fil_actor_power_v10::Claim> for Claim {
     fn from(cl: fil_actor_power_v10::Claim) -> Self {
+        Self {
+            raw_byte_power: cl.raw_byte_power,
+            quality_adj_power: cl.quality_adj_power,
+        }
+    }
+}
+
+impl From<fil_actor_power_v11::Claim> for Claim {
+    fn from(cl: fil_actor_power_v11::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,

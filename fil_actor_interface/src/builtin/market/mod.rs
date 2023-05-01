@@ -42,6 +42,10 @@ pub fn is_v10_market_cid(cid: &Cid) -> bool {
         .map_or(false, |cids| cids.contains(cid))
 }
 
+pub fn is_v11_market_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.market.v11.contains(cid)
+}
+
 /// Market actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -49,6 +53,7 @@ pub enum State {
     V8(fil_actor_market_v8::State),
     V9(fil_actor_market_v9::State),
     V10(fil_actor_market_v10::State),
+    V11(fil_actor_market_v11::State),
 }
 
 impl State {
@@ -69,6 +74,11 @@ impl State {
         if is_v10_market_cid(&actor.code) {
             return get_obj(store, &actor.state)?
                 .map(State::V10)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v11_market_cid(&actor.code) {
+            return get_obj(store, &actor.state)?
+                .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown market actor code {}", actor.code))
@@ -112,6 +122,7 @@ impl State {
             State::V8(st) => st.total_locked(),
             State::V9(st) => st.total_locked(),
             State::V10(st) => from_token_v3_to_v2(st.get_total_locked()),
+            State::V11(st) => from_token_v3_to_v2(st.get_total_locked()),
         }
     }
 }
