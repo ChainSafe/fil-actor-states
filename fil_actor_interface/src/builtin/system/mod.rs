@@ -27,35 +27,19 @@ pub enum State {
 }
 
 pub fn is_v8_system_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .system
-        .v8()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.system.v8.contains(cid)
 }
 
 pub fn is_v9_system_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .system
-        .v9()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.system.v9.contains(cid)
 }
 
 pub fn is_v10_system_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .system
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.system.v10.contains(cid)
 }
 
 pub fn is_v11_system_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .system
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.system.v11.contains(cid)
 }
 
 impl State {

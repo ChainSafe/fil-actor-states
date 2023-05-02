@@ -26,35 +26,19 @@ use crate::{io::get_obj, power::Claim};
 pub type Method = fil_actor_miner_v8::Method;
 
 pub fn is_v8_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .miner
-        .v8()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.miner.v8.contains(cid)
 }
 
 pub fn is_v9_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .miner
-        .v9()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.miner.v9.contains(cid)
 }
 
 pub fn is_v10_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .miner
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.miner.v10.contains(cid)
 }
 
 pub fn is_v11_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .miner
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.miner.v11.contains(cid)
 }
 
 /// Miner actor state.

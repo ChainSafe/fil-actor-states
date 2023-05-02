@@ -17,35 +17,19 @@ pub const ADDRESS: Address = Address::new_id(1);
 pub type Method = fil_actor_init_v8::Method;
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .init
-        .v8()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.init.v8.contains(cid)
 }
 
 pub fn is_v9_init_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .init
-        .v9()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.init.v9.contains(cid)
 }
 
 pub fn is_v10_init_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .init
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.init.v10.contains(cid)
 }
 
 pub fn is_v11_init_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .init
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.init.v11.contains(cid)
 }
 
 /// Init actor state.

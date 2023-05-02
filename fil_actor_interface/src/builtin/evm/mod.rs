@@ -21,19 +21,11 @@ pub enum State {
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .evm
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.evm.v10.contains(cid)
 }
 
 pub fn is_v11_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .evm
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.evm.v11.contains(cid)
 }
 
 impl State {

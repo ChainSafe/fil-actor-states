@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::r#mod::cid_serde;
-use anyhow::{bail, Ok, Result};
 use cid::Cid;
 use serde::{Deserialize, Serialize};
 
@@ -26,19 +25,19 @@ pub struct ManifestCids {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct ActorCids {
-    pub account: CidsPerNetworkVersion,
-    pub cron: CidsPerNetworkVersion,
-    pub market: CidsPerNetworkVersion,
-    pub datacap: CidsPerNetworkVersion,
-    pub ethaccount: CidsPerNetworkVersion,
-    pub evm: CidsPerNetworkVersion,
-    pub init: CidsPerNetworkVersion,
-    pub miner: CidsPerNetworkVersion,
-    pub multisig: CidsPerNetworkVersion,
-    pub placeholder: CidsPerNetworkVersion,
-    pub power: CidsPerNetworkVersion,
-    pub reward: CidsPerNetworkVersion,
-    pub system: CidsPerNetworkVersion,
+    pub account: V8Onwards,
+    pub cron: V8Onwards,
+    pub market: V8Onwards,
+    pub datacap: V10Onwards,
+    pub ethaccount: V10Onwards,
+    pub evm: V10Onwards,
+    pub init: V8Onwards,
+    pub miner: V8Onwards,
+    pub multisig: V8Onwards,
+    pub placeholder: V10Onwards,
+    pub power: V8Onwards,
+    pub reward: V8Onwards,
+    pub system: V8Onwards,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -49,64 +48,22 @@ pub struct CidPerVersion {
     pub v9: Cid,
     #[serde(with = "cid_serde")]
     pub v10: Cid,
+    #[serde(with = "cid_serde")]
+    pub v11: Cid,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
-#[serde(untagged)]
-pub enum CidsPerNetworkVersion {
-    E1 {
-        v8: CidPerNetwork,
-        v9: CidPerNetwork,
-        v10: CidPerNetwork,
-        v11: CidPerNetwork,
-    },
-    E2 {
-        v9: CidPerNetwork,
-        v10: CidPerNetwork,
-        v11: CidPerNetwork,
-    },
-    E3 {
-        v10: CidPerNetwork,
-        v11: CidPerNetwork,
-    },
-    E4 {
-        v11: CidPerNetwork,
-    },
+pub struct V8Onwards {
+    pub v8: CidPerNetwork,
+    pub v9: CidPerNetwork,
+    pub v10: CidPerNetwork,
+    pub v11: CidPerNetwork,
 }
 
-impl CidsPerNetworkVersion {
-    pub fn v8(&self) -> Result<&CidPerNetwork> {
-        match self {
-            CidsPerNetworkVersion::E1 { v8, .. } => Ok(v8),
-            _ => bail!("V8 Not Supported for {:?}", self),
-        }
-    }
-
-    pub fn v9(&self) -> Result<&CidPerNetwork> {
-        match self {
-            CidsPerNetworkVersion::E1 { v9, .. } => Ok(v9),
-            CidsPerNetworkVersion::E2 { v9, .. } => Ok(v9),
-            _ => bail!("V9 Not Supported for {:?}", self),
-        }
-    }
-
-    pub fn v10(&self) -> Result<&CidPerNetwork> {
-        match self {
-            CidsPerNetworkVersion::E1 { v10, .. } => Ok(v10),
-            CidsPerNetworkVersion::E2 { v10, .. } => Ok(v10),
-            CidsPerNetworkVersion::E3 { v10, .. } => Ok(v10),
-            _ => bail!("V10 Not Supported for {:?}", self),
-        }
-    }
-
-    pub fn v11(&self) -> Result<&CidPerNetwork> {
-        match self {
-            CidsPerNetworkVersion::E1 { v11, .. } => Ok(v11),
-            CidsPerNetworkVersion::E2 { v11, .. } => Ok(v11),
-            CidsPerNetworkVersion::E3 { v11, .. } => Ok(v11),
-            CidsPerNetworkVersion::E4 { v11 } => Ok(v11),
-        }
-    }
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct V10Onwards {
+    pub v10: CidPerNetwork,
+    pub v11: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -125,23 +82,22 @@ impl CidPerNetwork {
 
 #[cfg(test)]
 mod tests {
-    use anyhow::{ensure, Result};
+    use anyhow::{ensure, Ok, Result};
 
     use super::*;
 
     #[test]
     fn test_loading_static_value() -> Result<()> {
-        ensure!(crate::KNOWN_CIDS.actor.market.v8()?.contains(
+        ensure!(crate::KNOWN_CIDS.actor.market.v8.contains(
             &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
                 .unwrap()
         ));
-        ensure!(!crate::KNOWN_CIDS.actor.market.v9()?.contains(
+        ensure!(!crate::KNOWN_CIDS.actor.market.v9.contains(
             &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
                 .unwrap()
         ));
-        ensure!(crate::KNOWN_CIDS.actor.placeholder.v8().is_err());
         ensure!(
-            crate::KNOWN_CIDS.actor.market.v8()?.calibnet
+            crate::KNOWN_CIDS.actor.market.v8.calibnet
                 == Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6")
                     .unwrap()
         );

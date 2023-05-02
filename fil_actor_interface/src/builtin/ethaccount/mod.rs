@@ -4,17 +4,9 @@
 use cid::Cid;
 
 pub fn is_v10_ethaccount_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .ethaccount
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.ethaccount.v10.contains(cid)
 }
 
 pub fn is_v11_ethaccount_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .ethaccount
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.ethaccount.v11.contains(cid)
 }

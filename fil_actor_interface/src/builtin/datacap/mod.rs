@@ -21,19 +21,11 @@ pub enum State {
 }
 
 pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .datacap
-        .v10()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.datacap.v10.contains(cid)
 }
 
 pub fn is_v11_datacap_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS
-        .actor
-        .datacap
-        .v11()
-        .map_or(false, |cids| cids.contains(cid))
+    crate::KNOWN_CIDS.actor.datacap.v11.contains(cid)
 }
 
 impl State {
