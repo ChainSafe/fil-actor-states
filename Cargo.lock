@@ -1424,6 +1424,7 @@ dependencies = [
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
  "lazy_static",
+ "num-bigint",
  "num-derive",
  "num-traits",
  "serde",
