@@ -273,7 +273,7 @@ pub struct WorkerKeyChange {
 pub struct PreCommitSectorParams {
     pub seal_proof: RegisteredSealProof,
     pub sector_number: SectorNumber,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub seal_rand_epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
@@ -302,7 +302,7 @@ pub struct PreCommitSectorBatchParams2 {
 pub struct SectorPreCommitInfo {
     pub seal_proof: RegisteredSealProof,
     pub sector_number: SectorNumber,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub seal_rand_epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
@@ -325,7 +325,7 @@ pub struct SectorOnChainInfo {
     pub sector_number: SectorNumber,
     /// The seal proof type implies the PoSt proofs
     pub seal_proof: RegisteredSealProof,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub deal_ids: Vec<DealID>,
     /// Epoch during which the sector proof was accepted
@@ -348,7 +348,7 @@ pub struct SectorOnChainInfo {
     pub replaced_sector_age: ChainEpoch,
     /// Day reward of sector this sector replace or zero
     pub replaced_day_reward: TokenAmount,
-    /// The original SealedSectorCID, only gets set on the first ReplicaUpdate
+    /// The original `SealedSectorCID`, only gets set on the first `ReplicaUpdate`
     pub sector_key_cid: Option<Cid>,
     // Flag for QA power mechanism introduced in fip 0045
     pub simple_qa_power: bool,

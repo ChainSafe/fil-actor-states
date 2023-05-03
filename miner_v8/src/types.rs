@@ -240,12 +240,12 @@ pub struct PreCommitSectorBatchParams {
 pub struct SectorPreCommitInfo {
     pub seal_proof: RegisteredSealProof,
     pub sector_number: SectorNumber,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub seal_rand_epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
     pub expiration: ChainEpoch,
-    /// Whether to replace a "committed capacity" no-deal sector (requires non-empty DealIDs)
+    /// Whether to replace a "committed capacity" no-deal sector (requires non-empty `DealID`s)
     pub replace_capacity: bool,
     /// The committed capacity sector to replace, and its deadline/partition location
     pub replace_sector_deadline: u64,
@@ -259,7 +259,7 @@ pub struct SectorPreCommitOnChainInfo {
     pub info: SectorPreCommitInfo,
     pub pre_commit_deposit: TokenAmount,
     pub pre_commit_epoch: ChainEpoch,
-    /// Integral of active deals over sector lifetime, 0 if CommittedCapacity sector
+    /// Integral of active deals over sector lifetime, 0 if `CommittedCapacity` sector
     #[serde(with = "bigint_ser")]
     pub deal_weight: DealWeight,
     /// Integral of active verified deals over sector lifetime
@@ -273,7 +273,7 @@ pub struct SectorOnChainInfo {
     pub sector_number: SectorNumber,
     /// The seal proof type implies the PoSt proofs
     pub seal_proof: RegisteredSealProof,
-    /// CommR
+    /// `CommR`
     pub sealed_cid: Cid,
     pub deal_ids: Vec<DealID>,
     /// Epoch during which the sector proof was accepted
@@ -296,7 +296,7 @@ pub struct SectorOnChainInfo {
     pub replaced_sector_age: ChainEpoch,
     /// Day reward of sector this sector replace or zero
     pub replaced_day_reward: TokenAmount,
-    /// The original SealedSectorCID, only gets set on the first ReplicaUpdate
+    /// The original `SealedSectorCID`, only gets set on the first `ReplicaUpdate`
     pub sector_key_cid: Option<Cid>,
 }
 
