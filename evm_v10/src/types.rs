@@ -1,3 +1,6 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
 use cid::Cid;
 use fil_actor_evm_shared_v10::address::EthAddress;
 use fil_actor_evm_shared_v10::uints::U256;
