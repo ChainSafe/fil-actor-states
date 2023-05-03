@@ -1355,6 +1355,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v9",
+ "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1567,6 +1568,7 @@ name = "fil_actor_paych_v9"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actors_runtime_v9",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
