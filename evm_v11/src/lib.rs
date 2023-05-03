@@ -4,8 +4,10 @@ use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 mod state;
+mod types;
 
 pub use state::*;
+pub use types::*;
 
 pub const EVM_CONTRACT_REVERTED: ExitCode = ExitCode::new(33);
 pub const EVM_CONTRACT_INVALID_INSTRUCTION: ExitCode = ExitCode::new(34);
