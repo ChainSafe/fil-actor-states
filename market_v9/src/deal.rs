@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::types::AllocationID;
+use crate::ext::verifreg::AllocationID;
 use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::BytesSer;
