@@ -15,6 +15,7 @@ keywords = ["filecoin", "web3", "wasm"]
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
+fil_actor_verifreg_v9 = { version = "1.0.0", path = "../verifreg_v9" }
 fil_actors_runtime_v9 = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }

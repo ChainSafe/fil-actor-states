@@ -1302,6 +1302,7 @@ name = "fil_actor_market_v10"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actor_verifreg_v10",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_bitfield",
@@ -1320,6 +1321,7 @@ name = "fil_actor_market_v11"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actor_verifreg_v11",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
  "fvm_ipld_bitfield",
@@ -1358,6 +1360,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v9",
  "fil_actors_runtime_v9",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",

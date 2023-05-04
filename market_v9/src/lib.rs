@@ -9,8 +9,6 @@ use num_derive::FromPrimitive;
 
 // exports for testing
 pub mod balance_table;
-#[doc(hidden)]
-pub mod ext;
 
 mod deal;
 mod state;

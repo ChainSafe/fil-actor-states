@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use super::ext::verifreg::AllocationID;
 use cid::Cid;
+use fil_actor_verifreg_v10::AllocationID;
 use fil_actors_runtime_v10::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
