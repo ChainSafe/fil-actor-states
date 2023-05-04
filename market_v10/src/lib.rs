@@ -12,8 +12,6 @@ pub use self::types::*;
 
 // exports for testing
 pub mod balance_table;
-#[doc(hidden)]
-pub mod ext;
 pub mod policy;
 
 mod deal;

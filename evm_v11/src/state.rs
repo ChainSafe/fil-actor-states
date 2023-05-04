@@ -1,3 +1,6 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
 use std::array::TryFromSliceError;
 
 use fil_actor_evm_shared_v11::uints::U256;

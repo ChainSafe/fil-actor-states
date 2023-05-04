@@ -7,11 +7,11 @@ use num_derive::FromPrimitive;
 pub use self::state::Allocation;
 pub use self::state::Claim;
 pub use self::state::State;
-pub use self::types::*;
+pub use types::*;
 
 pub mod ext;
 pub mod state;
-pub mod types;
+mod types;
 
 /// Account actor methods available
 #[derive(FromPrimitive)]

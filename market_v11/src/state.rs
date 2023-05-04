@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::balance_table::BalanceTable;
-use crate::ext::verifreg::AllocationID;
 use cid::Cid;
+use fil_actor_verifreg_v11::AllocationID;
 use fil_actors_runtime_v11::{
     actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, Array, AsActorError,
     Set, SetMultimap,
