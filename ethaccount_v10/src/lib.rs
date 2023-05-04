@@ -4,7 +4,9 @@
 use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-pub mod types;
+pub use types::*;
+
+mod types;
 
 /// Ethereum Account actor methods.
 #[derive(FromPrimitive)]
