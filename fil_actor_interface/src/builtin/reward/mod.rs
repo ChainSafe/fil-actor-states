@@ -17,19 +17,19 @@ pub const ADDRESS: Address = Address::new_id(2);
 pub type Method = fil_actor_reward_v8::Method;
 
 pub fn is_v8_reward_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.reward.v8.contains(cid)
+    crate::KNOWN_CIDS.actor.reward.v8.contains(cid)
 }
 
 pub fn is_v9_reward_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.reward.v9.contains(cid)
+    crate::KNOWN_CIDS.actor.reward.v9.contains(cid)
 }
 
 pub fn is_v10_reward_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.reward.v10.contains(cid)
+    crate::KNOWN_CIDS.actor.reward.v10.contains(cid)
 }
 
 pub fn is_v11_reward_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.reward.v11.contains(cid)
+    crate::KNOWN_CIDS.actor.reward.v11.contains(cid)
 }
 
 /// Reward actor state.

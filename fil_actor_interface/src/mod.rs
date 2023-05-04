@@ -52,7 +52,7 @@ pub struct NetworkManifestActors {
     pub verifiedregistry: Cid,
 }
 
-mod cid_serde {
+pub mod cid_serde {
     use serde::{Deserializer, Serializer};
 
     use super::*;

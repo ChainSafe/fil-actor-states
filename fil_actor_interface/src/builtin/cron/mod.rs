@@ -27,19 +27,19 @@ pub enum State {
 }
 
 pub fn is_v8_cron_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.cron.v8.contains(cid)
+    crate::KNOWN_CIDS.actor.cron.v8.contains(cid)
 }
 
 pub fn is_v9_cron_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.cron.v9.contains(cid)
+    crate::KNOWN_CIDS.actor.cron.v9.contains(cid)
 }
 
 pub fn is_v10_cron_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.cron.v10.contains(cid)
+    crate::KNOWN_CIDS.actor.cron.v10.contains(cid)
 }
 
 pub fn is_v11_cron_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.cron.v11.contains(cid)
+    crate::KNOWN_CIDS.actor.cron.v11.contains(cid)
 }
 
 impl State {

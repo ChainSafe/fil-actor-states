@@ -1,84 +1,111 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use ahash::HashSet;
+use crate::r#mod::cid_serde;
 use cid::Cid;
 use serde::{Deserialize, Serialize};
 
 lazy_static::lazy_static! {
-    pub static ref KNOWN_CIDS: KnownCids = serde_yaml::from_str(include_str!("known_cids.yaml")).unwrap();
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
-pub struct KnownCidsPerNetworkVersion {
-    #[serde(with = "cid_hashset")]
-    pub v8: HashSet<Cid>,
-    #[serde(with = "cid_hashset")]
-    pub v9: HashSet<Cid>,
-    #[serde(with = "cid_hashset")]
-    pub v10: HashSet<Cid>,
-    #[serde(with = "cid_hashset")]
-    pub v11: HashSet<Cid>,
+    static ref MANIFEST_CIDS: ManifestCids = serde_yaml::from_str(include_str!("manifest_cids.yaml")).unwrap();
+    static ref ACTOR_CIDS: ActorCids = serde_yaml::from_str(include_str!("actor_cids.yaml")).unwrap();
+    pub static ref KNOWN_CIDS: KnownCids = KnownCids { manifest: MANIFEST_CIDS.clone(), actor: ACTOR_CIDS.clone() };
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct KnownCids {
-    pub account: KnownCidsPerNetworkVersion,
-    pub cron: KnownCidsPerNetworkVersion,
-    pub market: KnownCidsPerNetworkVersion,
-    pub datacap: KnownCidsPerNetworkVersion,
-    pub ethaccount: KnownCidsPerNetworkVersion,
-    pub evm: KnownCidsPerNetworkVersion,
-    pub init: KnownCidsPerNetworkVersion,
-    pub miner: KnownCidsPerNetworkVersion,
-    pub multisig: KnownCidsPerNetworkVersion,
-    pub placeholder: KnownCidsPerNetworkVersion,
-    pub power: KnownCidsPerNetworkVersion,
-    pub reward: KnownCidsPerNetworkVersion,
-    pub system: KnownCidsPerNetworkVersion,
+    pub manifest: ManifestCids,
+    pub actor: ActorCids,
 }
 
-mod cid_hashset {
-    use ahash::HashSetExt;
-    use serde::{Deserializer, Serializer};
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct ManifestCids {
+    pub mainnet: CidPerVersion,
+    pub calibnet: CidPerVersion,
+}
 
-    use super::*;
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct ActorCids {
+    pub account: V8Onwards,
+    pub cron: V8Onwards,
+    pub market: V8Onwards,
+    pub datacap: V10Onwards,
+    pub ethaccount: V10Onwards,
+    pub evm: V10Onwards,
+    pub init: V8Onwards,
+    pub miner: V8Onwards,
+    pub multisig: V8Onwards,
+    pub placeholder: V10Onwards,
+    pub power: V8Onwards,
+    pub reward: V8Onwards,
+    pub system: V8Onwards,
+}
 
-    pub fn serialize<S>(value: &HashSet<Cid>, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let transcoded = HashSet::from_iter(value.iter().map(|cid| cid.to_string()));
-        transcoded.serialize(serializer)
-    }
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct CidPerVersion {
+    #[serde(with = "cid_serde")]
+    pub v8: Cid,
+    #[serde(with = "cid_serde")]
+    pub v9: Cid,
+    #[serde(with = "cid_serde")]
+    pub v10: Cid,
+    #[serde(with = "cid_serde")]
+    pub v11: Cid,
+}
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<HashSet<Cid>, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let transcoded: HashSet<String> = HashSet::deserialize(deserializer)?;
-        let mut result = HashSet::with_capacity(transcoded.len());
-        for cid in transcoded {
-            result.insert(Cid::try_from(cid).map_err(|e| serde::de::Error::custom(e.to_string()))?);
-        }
-        Ok(result)
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct V8Onwards {
+    pub v8: CidPerNetwork,
+    pub v9: CidPerNetwork,
+    pub v10: CidPerNetwork,
+    pub v11: CidPerNetwork,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct V10Onwards {
+    pub v10: CidPerNetwork,
+    pub v11: CidPerNetwork,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct CidPerNetwork {
+    #[serde(default, with = "cid_serde")]
+    pub mainnet: Cid,
+    #[serde(default, with = "cid_serde")]
+    pub calibnet: Cid,
+}
+
+impl CidPerNetwork {
+    pub fn contains(&self, cid: &Cid) -> bool {
+        self.mainnet == *cid || self.calibnet == *cid
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use anyhow::{ensure, Result};
+    use anyhow::{ensure, Ok, Result};
 
     use super::*;
 
     #[test]
     fn test_loading_static_value() -> Result<()> {
-        ensure!(KNOWN_CIDS.market.v8.contains(&Cid::try_from(
-            "bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q"
-        )?));
-        ensure!(!KNOWN_CIDS.market.v9.contains(&Cid::try_from(
-            "bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q"
-        )?));
+        ensure!(crate::KNOWN_CIDS.actor.market.v8.contains(
+            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                .unwrap()
+        ));
+        ensure!(!crate::KNOWN_CIDS.actor.market.v9.contains(
+            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
+                .unwrap()
+        ));
+        ensure!(
+            crate::KNOWN_CIDS.actor.market.v8.calibnet
+                == Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6")
+                    .unwrap()
+        );
+
+        ensure!(
+            KNOWN_CIDS.manifest.calibnet.v10
+                == Cid::try_from("bafy2bzaced25ta3j6ygs34roprilbtb3f6mxifyfnm7z7ndquaruxzdq3y7lo")?
+        );
 
         let serialized = serde_yaml::to_string(&*KNOWN_CIDS)?;
         let deserialized = serde_yaml::from_str(&serialized)?;
