@@ -107,6 +107,9 @@ toml = "0.7"
 uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.7.1"
 
+fil_actor_verifreg_v10 = { version = "1.0.0", path = "./verifreg_v10" }
+fil_actor_verifreg_v11 = { version = "1.0.0", path = "./verifreg_v11" }
+fil_actor_verifreg_v9 = { version = "1.0.0", path = "./verifreg_v9" }
 fil_actors_runtime_v10 = { version = "1.0.0", path = "./runtime_v10" }
 fil_actors_runtime_v11 = { path = "./runtime_v11" }
 fil_actors_runtime_v8 = { version = "1.0.0", path = "./runtime_v8" }
