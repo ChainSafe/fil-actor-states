@@ -20,7 +20,7 @@ use fvm_shared::smooth::FilterEstimate;
 use fil_actors_runtime_v9::DealWeight;
 
 use crate::commd::CompactCommD;
-use crate::ext::verifreg::ClaimID;
+use fil_actor_verifreg_v9::ClaimID;
 
 use super::beneficiary::*;
 

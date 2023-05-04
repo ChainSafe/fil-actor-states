@@ -1376,6 +1376,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v10",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_amt 0.5.1",
@@ -1398,6 +1399,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v11",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
  "fvm_ipld_amt 0.5.1",
@@ -1441,6 +1443,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v9",
  "fil_actors_runtime_v9",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
