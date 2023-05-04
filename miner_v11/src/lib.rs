@@ -41,8 +41,6 @@ mod deadline_info;
 mod deadline_state;
 mod deadlines;
 mod expiration_queue;
-#[doc(hidden)]
-pub mod ext;
 mod monies;
 mod partition_state;
 mod policy;

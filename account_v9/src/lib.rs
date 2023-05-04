@@ -5,8 +5,10 @@ use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::State;
+pub use types::*;
 
 mod state;
+mod types;
 
 /// Account actor methods available
 #[derive(FromPrimitive)]

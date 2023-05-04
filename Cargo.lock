@@ -1102,6 +1102,7 @@ dependencies = [
 name = "fil_actor_ethaccount_v10"
 version = "1.0.0"
 dependencies = [
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -1112,6 +1113,7 @@ dependencies = [
 name = "fil_actor_ethaccount_v11"
 version = "1.0.0"
 dependencies = [
+ "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -1300,8 +1302,10 @@ name = "fil_actor_market_v10"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actor_verifreg_v10",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
+ "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1317,8 +1321,10 @@ name = "fil_actor_market_v11"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actor_verifreg_v11",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
+ "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1336,11 +1342,13 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_runtime_v8",
+ "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.3.0",
  "libipld-core 0.14.0",
+ "num-bigint",
  "num-derive",
  "num-traits",
  "serde",
@@ -1352,7 +1360,9 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v9",
  "fil_actors_runtime_v9",
+ "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
@@ -1369,6 +1379,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v10",
  "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_amt 0.5.1",
@@ -1391,6 +1402,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v11",
  "fil_actors_runtime_v11",
  "frc42_dispatch",
  "fvm_ipld_amt 0.5.1",
@@ -1422,6 +1434,7 @@ dependencies = [
  "fvm_shared 2.3.0",
  "itertools 0.10.5",
  "lazy_static",
+ "num-bigint",
  "num-derive",
  "num-traits",
  "serde",
@@ -1433,6 +1446,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "cid",
+ "fil_actor_verifreg_v9",
  "fil_actors_runtime_v9",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
@@ -1525,6 +1539,7 @@ name = "fil_actor_paych_v10"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actors_runtime_v10",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -1538,6 +1553,7 @@ name = "fil_actor_paych_v11"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actors_runtime_v11",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -1551,6 +1567,7 @@ name = "fil_actor_paych_v8"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actors_runtime_v8",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",
@@ -1563,6 +1580,7 @@ name = "fil_actor_paych_v9"
 version = "1.0.0"
 dependencies = [
  "cid",
+ "fil_actors_runtime_v9",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
  "num-derive",

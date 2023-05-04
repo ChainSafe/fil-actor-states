@@ -1,9 +1,10 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use super::ext::verifreg::AllocationID;
 use cid::Cid;
+use fil_actor_verifreg_v11::AllocationID;
 use fil_actors_runtime_v11::Array;
+use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
@@ -61,6 +62,12 @@ pub struct OnMinerSectorsTerminateParams {
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
+}
+
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)] // Add Eq when BitField does
+pub struct PublishStorageDealsReturn {
+    pub ids: Vec<DealID>,
+    pub valid_deals: BitField,
 }
 
 // Changed since V2:

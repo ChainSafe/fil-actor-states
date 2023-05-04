@@ -1,11 +1,16 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
 use fvm_shared3::error::ExitCode;
 
 use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 mod state;
+mod types;
 
 pub use state::*;
+pub use types::*;
 
 pub const EVM_CONTRACT_REVERTED: ExitCode = ExitCode::new(33);
 pub const EVM_CONTRACT_INVALID_INSTRUCTION: ExitCode = ExitCode::new(34);

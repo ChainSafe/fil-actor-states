@@ -5,9 +5,11 @@ use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::state::{LaneState, Merge, State};
+pub use self::types::*;
 
 pub mod ext;
 mod state;
+mod types;
 
 /// Payment Channel actor methods available
 #[derive(FromPrimitive)]
