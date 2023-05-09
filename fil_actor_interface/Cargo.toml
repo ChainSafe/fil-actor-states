@@ -3,7 +3,7 @@ name = "fil_actor_interface"
 description = "Backward compatibility layer for all versions of builtin actor released v8 onwards."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/ChainSafe/fil-actor-states"
-version = "2.0.0"
+version = "3.0.0"
 authors = ["ChainSafe Systems <info@chainsafe.io>"]
 edition = "2021"
 
