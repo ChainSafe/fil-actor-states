@@ -5,7 +5,6 @@ use crate::convert::*;
 use crate::Policy;
 use anyhow::Context;
 use cid::Cid;
-use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, econ::TokenAmount, sector::StoragePower};
 use serde::{Deserialize, Serialize};
@@ -47,31 +46,31 @@ pub enum State {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, actor: &ActorState) -> anyhow::Result<State>
+    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
     where
         BS: Blockstore,
     {
-        if is_v8_power_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v8_power_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V8)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v9_power_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v9_power_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V9)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v10_power_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v10_power_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v11_power_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v11_power_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
-        Err(anyhow::anyhow!("Unknown power actor code {}", actor.code))
+        Err(anyhow::anyhow!("Unknown power actor code {}", code))
     }
 
     /// Consume state to return just total quality adj power
