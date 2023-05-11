@@ -12,10 +12,7 @@ fil_actor_account_state = { version = "2.0.0", path = "../actors/account" }
 fil_actor_cron_state = { version = "2.0.0", path = "../actors/cron" }
 fil_actor_datacap_state = { version = "2.0.0", path = "../actors/datacap" }
 fil_actor_evm_state = { version = "2.0.0", path = "../actors/evm" }
-fil_actor_init_v10 = { version = "2.0.0", path = "../actors/init/v10" }
-fil_actor_init_v11 = { version = "2.0.0", path = "../actors/init/v11" }
-fil_actor_init_v8 = { version = "2.0.0", path = "../actors/init/v8" }
-fil_actor_init_v9 = { version = "2.0.0", path = "../actors/init/v9" }
+fil_actor_init_state = { version = "2.0.0", path = "../actors/init" }
 fil_actor_market_v10 = { version = "2.0.0", path = "../actors/market/v10" }
 fil_actor_market_v11 = { version = "2.0.0", path = "../actors/market/v11" }
 fil_actor_market_v8 = { version = "2.0.0", path = "../actors/market/v8" }
