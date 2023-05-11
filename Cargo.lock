@@ -1181,54 +1181,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_paych_v10"
+name = "fil_actor_paych_state"
 version = "2.0.0"
 dependencies = [
  "cid",
  "fil_actors_runtime_v10",
- "frc42_dispatch",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_paych_v11"
-version = "2.0.0"
-dependencies = [
- "cid",
  "fil_actors_runtime_v11",
+ "fil_actors_runtime_v8",
+ "fil_actors_runtime_v9",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
+ "fvm_shared 2.3.0",
  "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_paych_v8"
-version = "2.0.0"
-dependencies = [
- "cid",
- "fil_actors_runtime_v8",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_paych_v9"
-version = "2.0.0"
-dependencies = [
- "cid",
- "fil_actors_runtime_v9",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
  "serde",
