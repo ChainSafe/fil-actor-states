@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime_v11::BatchReturn;
+use fil_actors_runtime_v10::BatchReturn;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::{bigint_ser, BigInt};
@@ -13,16 +13,10 @@ use fvm_shared3::sector::SectorNumber;
 use fvm_shared3::sector::StoragePower;
 use fvm_shared3::ActorID;
 
-use crate::Claim;
+use super::Claim;
 
 pub type AllocationID = u64;
 pub type ClaimID = u64;
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
-#[serde(transparent)]
-pub struct ConstructorParams {
-    pub root_key: Address,
-}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct VerifierParams {
@@ -34,12 +28,6 @@ pub struct VerifierParams {
 pub type AddVerifierParams = VerifierParams;
 
 pub type AddVerifiedClientParams = VerifierParams;
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
-#[serde(transparent)]
-pub struct RemoveVerifierParams {
-    pub verifier: Address,
-}
 
 /// DataCap is an integer number of bytes.
 /// We can introduce policy changes and replace this in the future.

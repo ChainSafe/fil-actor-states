@@ -17,8 +17,8 @@ use fil_actors_runtime_v9::{
     MapMap,
 };
 
-use crate::DataCap;
-use crate::{AllocationID, ClaimID};
+use super::DataCap;
+use super::{AllocationID, ClaimID};
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
 pub struct State {

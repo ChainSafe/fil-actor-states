@@ -2,21 +2,27 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime_v9::BatchReturn;
+use fil_actors_runtime_v11::BatchReturn;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::{bigint_ser, BigInt};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::crypto::signature::Signature;
-use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::sector::SectorNumber;
-use fvm_shared::sector::StoragePower;
-use fvm_shared::ActorID;
+use fvm_shared3::address::Address;
+use fvm_shared3::bigint::{bigint_ser, BigInt};
+use fvm_shared3::clock::ChainEpoch;
+use fvm_shared3::crypto::signature::Signature;
+use fvm_shared3::piece::PaddedPieceSize;
+use fvm_shared3::sector::SectorNumber;
+use fvm_shared3::sector::StoragePower;
+use fvm_shared3::ActorID;
 
-use crate::Claim;
+use super::Claim;
 
 pub type AllocationID = u64;
 pub type ClaimID = u64;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
+#[serde(transparent)]
+pub struct ConstructorParams {
+    pub root_key: Address,
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct VerifierParams {
@@ -27,7 +33,13 @@ pub struct VerifierParams {
 
 pub type AddVerifierParams = VerifierParams;
 
-pub type AddVerifierClientParams = VerifierParams;
+pub type AddVerifiedClientParams = VerifierParams;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
+#[serde(transparent)]
+pub struct RemoveVerifierParams {
+    pub verifier: Address,
+}
 
 /// DataCap is an integer number of bytes.
 /// We can introduce policy changes and replace this in the future.
@@ -153,7 +165,7 @@ pub type ExtendClaimTermsReturn = BatchReturn;
 // See Allocation state for description of field semantics.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationRequest {
-    pub provider: Address,
+    pub provider: ActorID,
     pub data: Cid,
     pub size: PaddedPieceSize,
     pub term_min: ChainEpoch,
@@ -164,7 +176,7 @@ pub struct AllocationRequest {
 // A request to extend the term of an existing claim with datacap tokens.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClaimExtensionRequest {
-    pub provider: Address,
+    pub provider: ActorID,
     pub claim: ClaimID,
     pub term_max: ChainEpoch,
 }
