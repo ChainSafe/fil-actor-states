@@ -12,9 +12,9 @@ use fvm_shared::econ::TokenAmount;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
+use super::make_map_with_root;
 use super::types::Transaction;
 use super::TxnID;
-use crate::make_map_with_root;
 
 /// Multisig actor state
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]

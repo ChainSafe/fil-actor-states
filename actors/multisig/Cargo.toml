@@ -1,5 +1,5 @@
 [package]
-name = "fil_actor_multisig_v8"
+name = "fil_actor_multisig_state"
 description = "Builtin multisig actor for Filecoin"
 version = "2.0.0"
 license = "MIT OR Apache-2.0"
@@ -30,3 +30,8 @@ integer-encoding = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
+fil_actors_runtime_v9 = { workspace = true }
+frc42_dispatch = { workspace = true }
+fil_actors_runtime_v10 = { workspace = true }
+fvm_shared3 = { workspace = true }
+fil_actors_runtime_v11 = { workspace = true }
