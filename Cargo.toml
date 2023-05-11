@@ -43,13 +43,11 @@ members = [
   "actors/miner/v10",
   "actors/miner/v11",
   "actors/datacap",
-  "actors/eam/",
-  "actors/evm/v10",
-  "actors/evm/v11",
+  "actors/eam",
+  "actors/evm",
   "actors/ethaccount",
   "fil_actor_interface",
-  "actors/evm_shared/v10",
-  "actors/evm_shared/v11",
+  "actors/evm_shared",
 ]
 resolver = "2"
 

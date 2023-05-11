@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actor_evm_shared_v10::address::EthAddress;
-use fil_actor_evm_shared_v10::uints::U256;
+use fil_actor_evm_shared_state::v10::address::EthAddress;
+use fil_actor_evm_shared_state::v10::uints::U256;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;

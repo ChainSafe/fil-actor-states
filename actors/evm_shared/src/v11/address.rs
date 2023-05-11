@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::uints::U256;
-use fil_actors_runtime_v10::EAM_ACTOR_ID;
+use super::uints::U256;
+use fil_actors_runtime_v11::EAM_ACTOR_ID;
 use fvm_ipld_encoding::{serde, strict_bytes};
 use fvm_shared3::address::Address;
 use fvm_shared3::ActorID;
