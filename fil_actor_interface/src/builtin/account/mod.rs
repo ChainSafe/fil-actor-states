@@ -39,7 +39,7 @@ pub fn is_v11_account_cid(cid: &Cid) -> bool {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, state: Cid, code: Cid) -> anyhow::Result<State>
+    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
     where
         BS: Blockstore,
     {
