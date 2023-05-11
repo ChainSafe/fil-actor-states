@@ -1,10 +1,11 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::balance_table::BalanceTable;
+use super::balance_table::BalanceTable;
 use cid::Cid;
-use fil_actor_verifreg_v11::AllocationID;
-use fil_actors_runtime_v11::{
+use fil_actor_verifreg_v10::AllocationID;
+use fil_actors_runtime_v10::runtime::Policy;
+use fil_actors_runtime_v10::{
     actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, Array, AsActorError,
     Set, SetMultimap,
 };
@@ -22,7 +23,7 @@ use std::collections::BTreeMap;
 
 use super::policy::*;
 use super::types::*;
-use super::{DealProposal, DealState, EX_DEAL_EXPIRED};
+use super::{DealProposal, DealState};
 
 pub enum Reason {
     ClientCollateral,
@@ -34,16 +35,16 @@ pub enum Reason {
 #[derive(Clone, Default, Serialize_tuple, Deserialize_tuple, Debug)]
 pub struct State {
     /// Proposals are deals that have been proposed and not yet cleaned up after expiry or termination.
-    /// Array<DealID, DealProposal>
+    /// `Array<DealID, DealProposal>`
     pub proposals: Cid,
 
     // States contains state for deals that have been activated and not yet cleaned up after expiry or termination.
     // After expiration, the state exists until the proposal is cleaned up too.
     // Invariant: keys(States) ⊆ keys(Proposals).
-    /// Array<DealID, DealState>
+    /// `Array<DealID, DealState>`
     pub states: Cid,
 
-    /// PendingProposals tracks dealProposals that have not yet reached their deal start date.
+    /// `PendingProposals` tracks `dealProposals` that have not yet reached their deal start date.
     /// We track them here to ensure that miners can't publish the same deal proposal twice
     pub pending_proposals: Cid,
 
@@ -59,15 +60,15 @@ pub struct State {
     pub next_id: DealID,
 
     /// Metadata cached for efficient iteration over deals.
-    /// SetMultimap<Address>
+    /// `SetMultimap<Address>`
     pub deal_ops_by_epoch: Cid,
     pub last_cron: ChainEpoch,
 
-    /// Total Client Collateral that is locked -> unlocked when deal is terminated
+    /// Total Client Collateral that is locked unlocked when deal is terminated
     pub total_client_locked_collateral: TokenAmount,
-    /// Total Provider Collateral that is locked -> unlocked when deal is terminated
+    /// Total Provider Collateral that is locked unlocked when deal is terminated
     pub total_provider_locked_collateral: TokenAmount,
-    /// Total storage fee that is locked in escrow -> unlocked when payments are made
+    /// Total storage fee that is locked in escrow unlocked when payments are made
     pub total_client_storage_fee: TokenAmount,
 
     /// Verified registry allocation IDs for deals that are not yet activated.
@@ -231,14 +232,9 @@ impl State {
         store: &BS,
         id: DealID,
     ) -> Result<DealProposal, ActorError> {
-        let found = self.find_proposal(store, id)?.ok_or_else(|| {
-            if id < self.next_id {
-                // If the deal ID has been used, it must have been cleaned up.
-                ActorError::unchecked(EX_DEAL_EXPIRED, format!("deal {} expired", id))
-            } else {
-                ActorError::not_found(format!("no such deal {}", id))
-            }
-        })?;
+        let found = self
+            .find_proposal(store, id)?
+            .with_context_code(ExitCode::USR_NOT_FOUND, || format!("no such deal {}", id))?;
         Ok(found)
     }
 
@@ -623,13 +619,15 @@ impl State {
     ////////////////////////////////////////////////////////////////////////////////
     // Deal state operations
     ////////////////////////////////////////////////////////////////////////////////
-    pub fn process_deal_update<BS>(
+    #[allow(clippy::too_many_arguments)]
+    pub fn put_pending_deal_state<BS>(
         &mut self,
         store: &BS,
+        policy: &Policy,
         state: &DealState,
         deal: &DealProposal,
         epoch: ChainEpoch,
-    ) -> Result<(TokenAmount, bool), ActorError>
+    ) -> Result<(TokenAmount, ChainEpoch, bool), ActorError>
     where
         BS: Blockstore,
     {
@@ -648,7 +646,7 @@ impl State {
         // This would be the case that the first callback somehow triggers before it is scheduled to
         // This is expected not to be able to happen
         if deal.start_epoch > epoch {
-            return Ok((TokenAmount::zero(), false));
+            return Ok((TokenAmount::zero(), EPOCH_UNDEFINED, false));
         }
 
         let payment_end_epoch = if ever_slashed {
@@ -718,14 +716,20 @@ impl State {
             self.slash_balance(store, &deal.provider, &slashed, Reason::ProviderCollateral)
                 .context_code(ExitCode::USR_ILLEGAL_STATE, "slashing balance")?;
 
-            return Ok((slashed, true));
+            return Ok((slashed, EPOCH_UNDEFINED, true));
         }
 
         if epoch >= deal.end_epoch {
             self.process_deal_expired(store, deal, state)?;
-            return Ok((TokenAmount::zero(), true));
+            return Ok((TokenAmount::zero(), EPOCH_UNDEFINED, true));
         }
-        Ok((TokenAmount::zero(), false))
+
+        // We're explicitly not inspecting the end epoch and may process a deal's expiration late,
+        // in order to prevent an outsider from loading a cron tick by activating too many deals
+        // with the same end epoch.
+        let next = epoch + policy.deal_updates_interval;
+
+        Ok((TokenAmount::zero(), next, false))
     }
 
     /// Deal start deadline elapsed without appearing in a proven sector.

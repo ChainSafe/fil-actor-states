@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actor_verifreg_v10::AllocationID;
-use fil_actors_runtime_v10::Array;
+use fil_actor_verifreg_v11::AllocationID;
+use fil_actors_runtime_v11::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
@@ -15,13 +15,19 @@ use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::piece::PaddedPieceSize;
 use fvm_shared3::ActorID;
 
-use crate::Label;
+use super::Label;
 use fvm_shared3::sector::RegisteredSealProof;
 
 use super::deal::{ClientDealProposal, DealProposal, DealState};
 
 pub const PROPOSALS_AMT_BITWIDTH: u32 = 5;
 pub const STATES_AMT_BITWIDTH: u32 = 6;
+
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[serde(transparent)]
+pub struct AddBalanceParams {
+    pub provider_or_client: Address,
+}
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct WithdrawBalanceParams {
@@ -33,6 +39,12 @@ pub struct WithdrawBalanceParams {
 #[serde(transparent)]
 pub struct WithdrawBalanceReturn {
     pub amount_withdrawn: TokenAmount,
+}
+
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[serde(transparent)]
+pub struct GetBalanceParams {
+    pub account: Address,
 }
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]

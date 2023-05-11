@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::balance_table::BalanceTable;
+use super::balance_table::BalanceTable;
 use anyhow::anyhow;
 use cid::Cid;
 use fil_actors_runtime_v8::{make_empty_map, Array, SetMultimap};
