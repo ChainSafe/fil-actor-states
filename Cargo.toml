@@ -19,8 +19,8 @@ members = [
   "actors/eam",
   "actors/evm",
   "actors/ethaccount",
-  "fil_actor_interface",
   "actors/evm_shared",
+  "fil_actor_interface",
 ]
 resolver = "2"
 

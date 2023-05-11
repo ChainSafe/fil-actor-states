@@ -13,10 +13,10 @@ keywords = ["filecoin", "web3", "wasm"]
 repository = "https://github.com/ChainSafe/fil-actor-states"
 
 [dependencies]
+frc42_dispatch = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
+fvm_shared3 = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
-frc42_dispatch = { workspace = true }
-fvm_shared3 = { workspace = true }

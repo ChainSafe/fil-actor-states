@@ -14,14 +14,14 @@ keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
 cid = { workspace = true }
+fil_actors_runtime_v10 = { workspace = true }
+fil_actors_runtime_v11 = { workspace = true }
 fil_actors_runtime_v8 = { workspace = true }
+fil_actors_runtime_v9 = { workspace = true }
+frc42_dispatch = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
-fil_actors_runtime_v11 = { workspace = true }
-fil_actors_runtime_v9 = { workspace = true }
-fil_actors_runtime_v10 = { workspace = true }
-frc42_dispatch = { workspace = true }
