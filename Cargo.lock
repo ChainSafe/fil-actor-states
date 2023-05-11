@@ -948,57 +948,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_account_v10"
-version = "2.0.0"
-dependencies = [
- "frc42_dispatch",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_account_v11"
-version = "2.0.0"
-dependencies = [
- "frc42_dispatch",
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_account_v8"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_account_v9"
+name = "fil_actor_account_state"
 version = "2.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_cron_v10"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -1006,33 +961,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_cron_v11"
+name = "fil_actor_cron_state"
 version = "2.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
+ "fvm_shared 2.3.0",
  "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_cron_v8"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_cron_v9"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -1227,14 +1161,8 @@ version = "2.0.0"
 dependencies = [
  "anyhow",
  "cid",
- "fil_actor_account_v10",
- "fil_actor_account_v11",
- "fil_actor_account_v8",
- "fil_actor_account_v9",
- "fil_actor_cron_v10",
- "fil_actor_cron_v11",
- "fil_actor_cron_v8",
- "fil_actor_cron_v9",
+ "fil_actor_account_state",
+ "fil_actor_cron_state",
  "fil_actor_datacap_v10",
  "fil_actor_datacap_v11",
  "fil_actor_evm_v10",
