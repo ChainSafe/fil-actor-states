@@ -16,10 +16,7 @@ fil_actor_init_state = { version = "2.0.0", path = "../actors/init" }
 fil_actor_market_state = { version = "2.0.0", path = "../actors/market" }
 fil_actor_miner_state = { version = "2.0.0", path = "../actors/miner" }
 fil_actor_multisig_state = { version = "2.0.0", path = "../actors/multisig" }
-fil_actor_power_v10 = { version = "2.0.0", path = "../actors/power/v10" }
-fil_actor_power_v11 = { version = "2.0.0", path = "../actors/power/v11" }
-fil_actor_power_v8 = { version = "2.0.0", path = "../actors/power/v8" }
-fil_actor_power_v9 = { version = "2.0.0", path = "../actors/power/v9" }
+fil_actor_power_state = { version = "2.0.0", path = "../actors/power" }
 fil_actor_reward_v10 = { version = "2.0.0", path = "../actors/reward/v10" }
 fil_actor_reward_v11 = { version = "2.0.0", path = "../actors/reward/v11" }
 fil_actor_reward_v8 = { version = "2.0.0", path = "../actors/reward/v8" }
