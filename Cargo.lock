@@ -1072,10 +1072,7 @@ dependencies = [
  "fil_actor_miner_state",
  "fil_actor_multisig_state",
  "fil_actor_power_state",
- "fil_actor_reward_v10",
- "fil_actor_reward_v11",
- "fil_actor_reward_v8",
- "fil_actor_reward_v9",
+ "fil_actor_reward_state",
  "fil_actor_system_v10",
  "fil_actor_system_v11",
  "fil_actor_system_v8",
@@ -1219,50 +1216,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_reward_v10"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "lazy_static",
- "num",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_reward_v11"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "lazy_static",
- "num",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_reward_v8"
+name = "fil_actor_reward_state"
 version = "2.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.3.0",
- "lazy_static",
- "num",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_reward_v9"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 3.2.0",
  "lazy_static",
  "num",
  "num-derive",
