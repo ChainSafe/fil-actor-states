@@ -1,5 +1,5 @@
 [package]
-name = "fil_actor_system_v8"
+name = "fil_actor_system_state"
 description = "Builtin system actor for Filecoin"
 version = "2.0.0"
 license = "MIT OR Apache-2.0"
