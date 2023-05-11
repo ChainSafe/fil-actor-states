@@ -989,7 +989,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_eam_v10"
+name = "fil_actor_eam_state"
 version = "2.0.0"
 dependencies = [
  "fvm_shared 3.2.0",
@@ -998,27 +998,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_eam_v11"
-version = "2.0.0"
-dependencies = [
- "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
-]
-
-[[package]]
-name = "fil_actor_ethaccount_v10"
-version = "2.0.0"
-dependencies = [
- "fvm_ipld_encoding 0.3.3",
- "fvm_shared 3.2.0",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_ethaccount_v11"
+name = "fil_actor_ethaccount_state"
 version = "2.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
