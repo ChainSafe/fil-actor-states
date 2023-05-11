@@ -10,14 +10,14 @@ use serde::Serialize;
 use crate::io::get_obj;
 
 /// Datacap actor method.
-pub type Method = fil_actor_datacap_v10::Method;
+pub type Method = fil_actor_datacap_state::v10::Method;
 
 /// Datacap actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V10(fil_actor_datacap_v10::State),
-    V11(fil_actor_datacap_v11::State),
+    V10(fil_actor_datacap_state::v10::State),
+    V11(fil_actor_datacap_state::v11::State),
 }
 
 pub fn is_v10_datacap_cid(cid: &Cid) -> bool {

@@ -113,7 +113,7 @@ mod tests {
     use fvm_shared::address::Address;
     use fvm_shared::econ::TokenAmount;
 
-    use crate::balance_table::BalanceTable;
+    use super::super::balance_table::BalanceTable;
 
     #[test]
     fn total() {

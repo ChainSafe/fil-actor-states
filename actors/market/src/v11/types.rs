@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actor_verifreg_v11::AllocationID;
+use fil_actor_verifreg_state::v11::AllocationID;
 use fil_actors_runtime_v11::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;

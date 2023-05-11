@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actor_verifreg_v9::AllocationID;
+use fil_actor_verifreg_state::v9::AllocationID;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::BytesSer;
 use fvm_shared::address::Address;

@@ -141,7 +141,7 @@ pub struct State {
 mod test {
     use fvm_ipld_encoding::{from_slice, to_vec, BytesDe};
 
-    use crate::BytecodeHash;
+    use super::BytecodeHash;
 
     #[test]
     fn test_bytecode_hash_serde() {

@@ -4,7 +4,7 @@
 use super::balance_table::BalanceTable;
 use anyhow::anyhow;
 use cid::Cid;
-use fil_actor_verifreg_v9::AllocationID;
+use fil_actor_verifreg_state::v9::AllocationID;
 use fil_actors_runtime_v9::{make_empty_map, Array, SetMultimap};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;

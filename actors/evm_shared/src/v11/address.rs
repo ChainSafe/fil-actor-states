@@ -110,8 +110,8 @@ impl AsRef<[u8]> for EthAddress {
 
 #[cfg(test)]
 mod tests {
+    use super::super::uints::U256;
     use super::EthAddress;
-    use crate::uints::U256;
 
     // padding (12 bytes)
     const TYPE_PADDING: &[u8] = &[0; 12];

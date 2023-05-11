@@ -14,7 +14,7 @@ use crate::io::get_obj;
 pub const ADDRESS: Address = Address::new_id(1);
 
 /// Init actor method.
-pub type Method = fil_actor_init_v8::Method;
+pub type Method = fil_actor_init_state::v8::Method;
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.init.v8.contains(cid)
@@ -36,10 +36,10 @@ pub fn is_v11_init_cid(cid: &Cid) -> bool {
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V8(fil_actor_init_v8::State),
-    V9(fil_actor_init_v9::State),
-    V10(fil_actor_init_v10::State),
-    V11(fil_actor_init_v11::State),
+    V8(fil_actor_init_state::v8::State),
+    V9(fil_actor_init_state::v9::State),
+    V10(fil_actor_init_state::v10::State),
+    V11(fil_actor_init_state::v11::State),
 }
 
 impl State {
