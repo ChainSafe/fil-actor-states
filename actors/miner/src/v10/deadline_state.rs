@@ -7,23 +7,23 @@ use std::collections::BTreeSet;
 use anyhow::anyhow;
 use cid::multihash::Code;
 use cid::Cid;
-use fil_actors_runtime_v8::runtime::Policy;
-use fil_actors_runtime_v8::{actor_error, ActorDowncast, ActorError, Array};
+use fil_actors_runtime_v10::runtime::Policy;
+use fil_actors_runtime_v10::{actor_error, ActorDowncast, ActorError, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::CborStore;
-use fvm_shared::clock::{ChainEpoch, QuantSpec};
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{PoStProof, SectorSize};
+use fvm_shared3::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::sector::{PoStProof, SectorSize};
 use num_traits::{Signed, Zero};
 
+use super::SECTORS_AMT_BITWIDTH;
 use super::{
     BitFieldQueue, ExpirationSet, Partition, PartitionSectorMap, PoStPartition, PowerPair,
     SectorOnChainInfo, Sectors, TerminationResult,
 };
-use crate::SECTORS_AMT_BITWIDTH;
 
 // Bitwidth of AMTs determined empirically from mutation patterns and projections of mainnet data.
 // Usually a small array
@@ -1067,7 +1067,7 @@ impl Deadline {
 
             // Record active sectors for marking faults.
             let active = partition_snapshot.active_sectors();
-            disputed_sectors.add(part_idx, active.into())?;
+            disputed_sectors.add(part_idx, active)?;
 
             // Record disputed power for penalties.
             //
@@ -1201,7 +1201,7 @@ impl Deadline {
                         sector_size,
                         quant,
                         fault_expiration,
-                        &mut post.skipped,
+                        &post.skipped,
                     )
                     .map_err(|e| {
                         e.downcast_wrap(format!(

@@ -7,23 +7,23 @@ use std::collections::BTreeSet;
 use anyhow::anyhow;
 use cid::multihash::Code;
 use cid::Cid;
-use fil_actors_runtime_v9::runtime::Policy;
-use fil_actors_runtime_v9::{actor_error, ActorDowncast, ActorError, Array};
+use fil_actors_runtime_v11::runtime::Policy;
+use fil_actors_runtime_v11::{actor_error, ActorDowncast, ActorError, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::CborStore;
-use fvm_shared::clock::{ChainEpoch, QuantSpec};
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{PoStProof, SectorSize};
+use fvm_shared3::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::econ::TokenAmount;
+use fvm_shared3::error::ExitCode;
+use fvm_shared3::sector::{PoStProof, SectorSize};
 use num_traits::{Signed, Zero};
 
+use super::SECTORS_AMT_BITWIDTH;
 use super::{
     BitFieldQueue, ExpirationSet, Partition, PartitionSectorMap, PoStPartition, PowerPair,
     SectorOnChainInfo, Sectors, TerminationResult,
 };
-use crate::SECTORS_AMT_BITWIDTH;
 
 // Bitwidth of AMTs determined empirically from mutation patterns and projections of mainnet data.
 // Usually a small array
@@ -319,7 +319,7 @@ impl Deadline {
         Ok(())
     }
 
-    /// `PopExpiredSectors` terminates expired sectors from all partitions.
+    /// PopExpiredSectors terminates expired sectors from all partitions.
     /// Returns the expired sector aggregates.
     pub fn pop_expired_sectors<BS: Blockstore>(
         &mut self,
@@ -635,7 +635,7 @@ impl Deadline {
         Ok(power_lost)
     }
 
-    /// `RemovePartitions` removes the specified partitions, shifting the remaining
+    /// RemovePartitions removes the specified partitions, shifting the remaining
     /// ones to the left, and returning the live and dead sectors they contained.
     ///
     /// Returns an error if any of the partitions contained faulty sectors or early
@@ -1135,7 +1135,7 @@ impl Deadline {
     /// Processes a series of posts, recording proven partitions and marking skipped
     /// sectors as faulty.
     ///
-    /// It returns a `PoStResult` containing the list of proven and skipped sectors and
+    /// It returns a PoStResult containing the list of proven and skipped sectors and
     /// changes to power (newly faulty power, power that should have been proven
     /// recovered but wasn't, and newly recovered power).
     ///
@@ -1336,13 +1336,13 @@ impl Deadline {
         Ok((post.partitions, post.proofs))
     }
 
-    /// `RescheduleSectorExpirations` reschedules the expirations of the given sectors
+    /// RescheduleSectorExpirations reschedules the expirations of the given sectors
     /// to the target epoch, skipping any sectors it can't find.
     ///
     /// The power of the rescheduled sectors is assumed to have not changed since
     /// initial scheduling.
     ///
-    /// Note: see the docs on `State.RescheduleSectorExpirations` for details on why we
+    /// Note: see the docs on State.RescheduleSectorExpirations for details on why we
     /// skip sectors/partitions we can't find.
     pub fn reschedule_sector_expirations<BS: Blockstore>(
         &mut self,

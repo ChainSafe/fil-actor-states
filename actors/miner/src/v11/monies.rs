@@ -14,8 +14,8 @@ use fvm_shared3::smooth::{self, FilterEstimate};
 use lazy_static::lazy_static;
 use num_traits::Zero;
 
+use super::detail::*;
 use super::{VestSpec, REWARD_VESTING_SPEC};
-use crate::detail::*;
 
 /// Projection period of expected sector block reward for deposit required to pre-commit a sector.
 /// This deposit is lost if the pre-commitment is not timely followed up by a commitment proof.

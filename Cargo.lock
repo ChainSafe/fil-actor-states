@@ -1069,10 +1069,7 @@ dependencies = [
  "fil_actor_evm_state",
  "fil_actor_init_state",
  "fil_actor_market_state",
- "fil_actor_miner_v10",
- "fil_actor_miner_v11",
- "fil_actor_miner_v8",
- "fil_actor_miner_v9",
+ "fil_actor_miner_state",
  "fil_actor_multisig_v10",
  "fil_actor_multisig_v11",
  "fil_actor_multisig_v8",
@@ -1134,89 +1131,30 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_miner_v10"
+name = "fil_actor_miner_state"
 version = "2.0.0"
 dependencies = [
  "anyhow",
  "cid",
  "fil_actor_verifreg_v10",
- "fil_actors_runtime_v10",
- "frc42_dispatch",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_bitfield",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
- "fvm_shared 3.2.0",
- "itertools 0.10.5",
- "lazy_static",
- "multihash",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_miner_v11"
-version = "2.0.0"
-dependencies = [
- "anyhow",
- "cid",
  "fil_actor_verifreg_v11",
+ "fil_actor_verifreg_v9",
+ "fil_actors_runtime_v10",
  "fil_actors_runtime_v11",
+ "fil_actors_runtime_v8",
+ "fil_actors_runtime_v9",
  "frc42_dispatch",
  "fvm_ipld_amt 0.5.1",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
+ "fvm_shared 2.3.0",
  "fvm_shared 3.2.0",
  "itertools 0.10.5",
  "lazy_static",
  "multihash",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_miner_v8"
-version = "2.0.0"
-dependencies = [
- "anyhow",
- "cid",
- "fil_actors_runtime_v8",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_bitfield",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
- "itertools 0.10.5",
- "lazy_static",
  "num-bigint",
- "num-derive",
- "num-traits",
- "serde",
-]
-
-[[package]]
-name = "fil_actor_miner_v9"
-version = "2.0.0"
-dependencies = [
- "anyhow",
- "cid",
- "fil_actor_verifreg_v9",
- "fil_actors_runtime_v9",
- "fvm_ipld_amt 0.5.1",
- "fvm_ipld_bitfield",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding 0.3.3",
- "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
- "itertools 0.10.5",
- "lazy_static",
- "multihash",
  "num-derive",
  "num-traits",
  "serde",

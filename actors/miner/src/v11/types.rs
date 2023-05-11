@@ -17,10 +17,10 @@ use fvm_shared3::sector::{
 };
 use fvm_shared3::smooth::FilterEstimate;
 
-use fil_actors_runtime_v10::DealWeight;
+use fil_actors_runtime_v11::DealWeight;
 
-use crate::commd::CompactCommD;
-use fil_actor_verifreg_v10::ClaimID;
+use super::commd::CompactCommD;
+use fil_actor_verifreg_v11::ClaimID;
 
 use super::beneficiary::*;
 
@@ -65,6 +65,12 @@ pub struct GetControlAddressesReturn {
 pub struct ChangeWorkerAddressParams {
     pub new_worker: Address,
     pub new_control_addresses: Vec<Address>,
+}
+
+#[derive(Serialize_tuple, Deserialize_tuple)]
+#[serde(transparent)]
+pub struct ChangeOwnerAddressParams {
+    pub new_owner: Address,
 }
 
 #[derive(Serialize_tuple, Deserialize_tuple)]

@@ -14,10 +14,7 @@ fil_actor_datacap_state = { version = "2.0.0", path = "../actors/datacap" }
 fil_actor_evm_state = { version = "2.0.0", path = "../actors/evm" }
 fil_actor_init_state = { version = "2.0.0", path = "../actors/init" }
 fil_actor_market_state = { version = "2.0.0", path = "../actors/market" }
-fil_actor_miner_v10 = { version = "2.0.0", path = "../actors/miner/v10" }
-fil_actor_miner_v11 = { version = "2.0.0", path = "../actors/miner/v11" }
-fil_actor_miner_v8 = { version = "2.0.0", path = "../actors/miner/v8" }
-fil_actor_miner_v9 = { version = "2.0.0", path = "../actors/miner/v9" }
+fil_actor_miner_state = { version = "2.0.0", path = "../actors/miner" }
 fil_actor_multisig_v10 = { version = "2.0.0", path = "../actors/multisig/v10" }
 fil_actor_multisig_v11 = { version = "2.0.0", path = "../actors/multisig/v11" }
 fil_actor_multisig_v8 = { version = "2.0.0", path = "../actors/multisig/v8" }
