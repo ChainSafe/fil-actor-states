@@ -1,5 +1,5 @@
 [package]
-name = "fil_actor_ethaccount_v10"
+name = "fil_actor_ethaccount_state"
 description = "Builtin Ethereum Externally Owned Address actor for Filecoin"
 version = "2.0.0"
 license = "MIT OR Apache-2.0"
