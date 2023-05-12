@@ -1,5 +1,5 @@
 use fvm_shared3::clock::ChainEpoch;
-use fvm_shared3::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
+use fvm_shared3::sector::StoragePower;
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
@@ -410,7 +410,7 @@ pub struct ProofSet(Vec<bool>);
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
-        let mut proofs = vec![false; policy_constants::REGISTERED_POST_PROOF_VARIANTS];
+        let proofs = vec![false; policy_constants::REGISTERED_POST_PROOF_VARIANTS];
         // TODO: v12: cleanup https://github.com/filecoin-project/builtin-actors/issues/1260
         #[cfg(feature = "sector-2k")]
         {
@@ -442,7 +442,7 @@ impl ProofSet {
 
     /// Create a `ProofSet` for enabled `RegisteredSealProof`s
     pub fn default_seal_proofs() -> Self {
-        let mut proofs = vec![false; policy_constants::REGISTERED_SEAL_PROOF_VARIANTS];
+        let proofs = vec![false; policy_constants::REGISTERED_SEAL_PROOF_VARIANTS];
         #[cfg(feature = "sector-2k")]
         {
             proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1) as usize] = true;
