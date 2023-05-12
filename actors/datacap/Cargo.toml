@@ -4,7 +4,7 @@ description = "Builtin data cap actor for Filecoin"
 version = "2.0.0"
 license = "MIT OR Apache-2.0"
 authors = ["Protocol Labs", "Filecoin Core Devs"]
-edition = "2018"
+edition = "2021"
 repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 

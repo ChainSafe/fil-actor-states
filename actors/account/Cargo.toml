@@ -8,7 +8,7 @@ authors = [
   "Protocol Labs",
   "Filecoin Core Devs",
 ]
-edition = "2018"
+edition = "2021"
 keywords = ["filecoin", "web3", "wasm"]
 repository = "https://github.com/ChainSafe/fil-actor-states"
 
