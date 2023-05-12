@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v11::make_map_with_root;
+use fil_actors_shared::v11::make_map_with_root;
 use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 

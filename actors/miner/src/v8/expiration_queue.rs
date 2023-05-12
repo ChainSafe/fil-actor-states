@@ -6,8 +6,8 @@ use std::convert::TryInto;
 
 use anyhow::{anyhow, Context};
 use cid::Cid;
-use fil_actors_runtime_v8::runtime::Policy;
-use fil_actors_runtime_v8::{ActorDowncast, Array};
+use fil_actors_shared::v8::runtime::Policy;
+use fil_actors_shared::v8::{ActorDowncast, Array};
 use fvm_ipld_amt::{Error as AmtError, ValueMut};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;

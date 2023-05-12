@@ -8,7 +8,7 @@ use fvm_shared3::address::Address;
 use fvm_shared3::econ::TokenAmount;
 use num_traits::Zero;
 
-use fil_actors_runtime_v10::{make_empty_map, make_map_with_root_and_bitwidth, Map};
+use fil_actors_shared::v10::{make_empty_map, make_map_with_root_and_bitwidth, Map};
 
 pub const BALANCE_TABLE_BITWIDTH: u32 = 6;
 

@@ -3,7 +3,7 @@
 
 use std::cmp::max;
 
-use fil_actors_runtime_v11::runtime::Policy;
+use fil_actors_shared::v11::runtime::Policy;
 use fvm_shared3::bigint::{BigInt, Integer};
 use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::piece::PaddedPieceSize;

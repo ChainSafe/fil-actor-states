@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v11::FIRST_ACTOR_SPECIFIC_EXIT_CODE;
+use fil_actors_shared::v11::FIRST_ACTOR_SPECIFIC_EXIT_CODE;
 use fvm_shared3::error::ExitCode;
 use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;

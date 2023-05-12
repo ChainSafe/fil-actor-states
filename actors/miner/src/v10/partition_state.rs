@@ -6,8 +6,9 @@ use std::ops::{self, Neg};
 
 use anyhow::{anyhow, Context};
 use cid::Cid;
-use fil_actors_runtime_v10::runtime::Policy;
-use fil_actors_runtime_v10::{actor_error, ActorDowncast, Array};
+use fil_actors_shared::actor_error_v10;
+use fil_actors_shared::v10::runtime::Policy;
+use fil_actors_shared::v10::{ActorDowncast, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
@@ -218,7 +219,7 @@ impl Partition {
         quant: QuantSpec,
     ) -> anyhow::Result<(BitField, PowerPair, PowerPair)> {
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v10!(illegal_argument; "failed fault declaration: {}", e))?;
 
         // Split declarations into declarations of new faults, and retraction of declared recoveries.
         let retracted_recoveries = &self.recoveries & sector_numbers;
@@ -322,7 +323,7 @@ impl Partition {
     ) -> anyhow::Result<()> {
         // Check that the declared sectors are actually assigned to the partition.
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v10!(illegal_argument; "failed fault declaration: {}", e))?;
 
         // Ignore sectors not faulty or already declared recovered
         let mut recoveries = sector_numbers & &self.faults;
@@ -489,7 +490,9 @@ impl Partition {
         let live_sectors = self.live_sectors();
 
         if !live_sectors.contains_all(sector_numbers) {
-            return Err(actor_error!(illegal_argument, "can only terminate live sectors").into());
+            return Err(
+                actor_error_v10!(illegal_argument, "can only terminate live sectors").into(),
+            );
         }
 
         let sector_infos = sectors.load_sector(sector_numbers)?;
@@ -744,7 +747,7 @@ impl Partition {
 
         // Check that the declared sectors are actually in the partition.
         if !self.sectors.contains_all(skipped) {
-            return Err(actor_error!(
+            return Err(actor_error_v10!(
                 illegal_argument,
                 "skipped faults contains sectors outside partition"
             )

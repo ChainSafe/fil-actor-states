@@ -7,7 +7,7 @@ use anyhow::anyhow;
 use fvm_ipld_bitfield::{BitField, UnvalidatedBitField, Validate};
 use serde::{Deserialize, Serialize};
 
-use fil_actors_runtime_v8::runtime::Policy;
+use fil_actors_shared::v8::runtime::Policy;
 
 /// Maps deadlines to partition maps.
 #[derive(Default)]

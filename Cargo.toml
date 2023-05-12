@@ -1,9 +1,7 @@
 [workspace]
 members = [
-  "runtime/v8",
-  "runtime/v9",
-  "runtime/v10",
-  "runtime/v11",
+  "fil_actors_shared",
+  "fil_actor_interface",
   "actors/account",
   "actors/init",
   "actors/cron",
@@ -20,7 +18,6 @@ members = [
   "actors/evm",
   "actors/ethaccount",
   "actors/evm_shared",
-  "fil_actor_interface",
 ]
 resolver = "2"
 
@@ -70,7 +67,4 @@ uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.7.1"
 
 fil_actor_verifreg_state = { version = "2.0.0", path = "./actors/verifreg" }
-fil_actors_runtime_v10 = { version = "2.0.0", path = "./runtime/v10" }
-fil_actors_runtime_v11 = { version = "2.0.0", path = "./runtime/v11" }
-fil_actors_runtime_v8 = { version = "2.0.0", path = "./runtime/v8" }
-fil_actors_runtime_v9 = { version = "2.0.0", path = "./runtime/v9" }
+fil_actors_shared = { version = "2.0.0", path = "./fil_actors_shared" }

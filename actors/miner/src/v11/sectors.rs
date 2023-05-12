@@ -5,7 +5,8 @@ use std::collections::BTreeSet;
 
 use anyhow::anyhow;
 use cid::Cid;
-use fil_actors_runtime_v11::{actor_error, ActorDowncast, ActorError, Array};
+use fil_actors_shared::actor_error_v11;
+use fil_actors_shared::v11::{ActorDowncast, ActorError, Array};
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
@@ -41,7 +42,9 @@ impl<'db, BS: Blockstore> Sectors<'db, BS> {
                     )
                 })?
                 .cloned()
-                .ok_or_else(|| actor_error!(not_found; "sector not found: {}", sector_number))?;
+                .ok_or_else(
+                    || actor_error_v11!(not_found; "sector not found: {}", sector_number),
+                )?;
             sector_infos.push(sector_on_chain);
         }
         Ok(sector_infos)

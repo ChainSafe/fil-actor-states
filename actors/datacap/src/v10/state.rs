@@ -7,7 +7,7 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 use fvm_shared3::error::ExitCode;
 
-use fil_actors_runtime_v10::{ActorError, AsActorError};
+use fil_actors_shared::v10::{ActorError, AsActorError};
 
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {

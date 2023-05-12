@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v8::network::EPOCHS_IN_DAY;
+use fil_actors_shared::v8::network::EPOCHS_IN_DAY;
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::econ::TokenAmount;
 use lazy_static::lazy_static;

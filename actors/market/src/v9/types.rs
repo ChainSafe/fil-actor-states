@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fil_actor_verifreg_state::v9::AllocationID;
-use fil_actors_runtime_v9::Array;
+use fil_actors_shared::v9::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared::address::Address;

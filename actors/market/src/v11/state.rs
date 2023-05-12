@@ -4,9 +4,10 @@
 use super::balance_table::BalanceTable;
 use cid::Cid;
 use fil_actor_verifreg_state::v11::AllocationID;
-use fil_actors_runtime_v11::{
-    actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, Array, AsActorError,
-    Set, SetMultimap,
+use fil_actors_shared::actor_error_v11;
+use fil_actors_shared::v11::{
+    make_empty_map, make_map_with_root_and_bitwidth, ActorError, Array, AsActorError, Set,
+    SetMultimap,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
@@ -638,7 +639,7 @@ impl State {
 
         // if the deal was ever updated, make sure it didn't happen in the future
         if ever_updated && state.last_updated_epoch > epoch {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_state,
                 "deal updated at future epoch {}",
                 state.last_updated_epoch
@@ -653,14 +654,14 @@ impl State {
 
         let payment_end_epoch = if ever_slashed {
             if epoch < state.slash_epoch {
-                return Err(actor_error!(
+                return Err(actor_error_v11!(
                     illegal_state,
                     "current epoch less than deal slash epoch {}",
                     state.slash_epoch
                 ));
             }
             if state.slash_epoch > deal.end_epoch {
-                return Err(actor_error!(
+                return Err(actor_error_v11!(
                     illegal_state,
                     "deal slash epoch {} after deal end {}",
                     state.slash_epoch,
@@ -798,7 +799,10 @@ impl State {
         BS: Blockstore,
     {
         if state.sector_start_epoch == EPOCH_UNDEFINED {
-            return Err(actor_error!(illegal_state, "start sector epoch undefined"));
+            return Err(actor_error_v11!(
+                illegal_state,
+                "start sector epoch undefined"
+            ));
         }
 
         self.unlock_balance(
@@ -869,7 +873,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_state,
                 "cannot lock negative amount {}",
                 amount
@@ -891,7 +895,7 @@ impl State {
             .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to get escrow balance")?;
 
         if &prev_locked + amount > escrow_balance {
-            return Err(actor_error!(insufficient_funds;
+            return Err(actor_error_v11!(insufficient_funds;
                     "not enough balance to lock for addr{}: \
                     escrow balance {} < prev locked {} + amount {}",
                     addr, escrow_balance, prev_locked, amount));
@@ -946,7 +950,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_state,
                 "unlock negative amount: {}",
                 amount
@@ -992,7 +996,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_state,
                 "transfer negative amount: {}",
                 amount
@@ -1033,7 +1037,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_state,
                 "negative amount to slash: {}",
                 amount
@@ -1061,7 +1065,7 @@ fn deal_get_payment_remaining(
     mut slash_epoch: ChainEpoch,
 ) -> Result<TokenAmount, ActorError> {
     if slash_epoch > deal.end_epoch {
-        return Err(actor_error!(
+        return Err(actor_error_v11!(
             illegal_state,
             "deal slash epoch {} after end epoch {}",
             slash_epoch,
@@ -1074,7 +1078,7 @@ fn deal_get_payment_remaining(
 
     let duration_remaining = deal.end_epoch - slash_epoch;
     if duration_remaining < 0 {
-        return Err(actor_error!(
+        return Err(actor_error_v11!(
             illegal_state,
             "deal remaining duration negative: {}",
             duration_remaining

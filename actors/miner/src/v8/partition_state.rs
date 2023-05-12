@@ -6,8 +6,9 @@ use std::ops::{self, Neg};
 
 use anyhow::{anyhow, Context};
 use cid::Cid;
-use fil_actors_runtime_v8::runtime::Policy;
-use fil_actors_runtime_v8::{actor_error, ActorDowncast, Array};
+use fil_actors_shared::actor_error_v8;
+use fil_actors_shared::v8::runtime::Policy;
+use fil_actors_shared::v8::{ActorDowncast, Array};
 use fvm_ipld_bitfield::{BitField, UnvalidatedBitField, Validate};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
@@ -218,7 +219,7 @@ impl Partition {
         quant: QuantSpec,
     ) -> anyhow::Result<(BitField, PowerPair, PowerPair)> {
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v8!(illegal_argument; "failed fault declaration: {}", e))?;
 
         let sector_numbers = sector_numbers
             .validate()
@@ -326,7 +327,7 @@ impl Partition {
     ) -> anyhow::Result<()> {
         // Check that the declared sectors are actually assigned to the partition.
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v8!(illegal_argument; "failed fault declaration: {}", e))?;
 
         let sector_numbers = sector_numbers
             .validate()
@@ -387,7 +388,7 @@ impl Partition {
         quant: QuantSpec,
     ) -> anyhow::Result<Vec<SectorOnChainInfo>> {
         let sector_numbers = sector_numbers.validate().map_err(|e| {
-            actor_error!(
+            actor_error_v8!(
                 illegal_argument,
                 "failed to validate rescheduled sectors: {}",
                 e
@@ -504,7 +505,7 @@ impl Partition {
     ) -> anyhow::Result<ExpirationSet> {
         let live_sectors = self.live_sectors();
         let sector_numbers = sector_numbers.validate().map_err(|e| {
-            actor_error!(
+            actor_error_v8!(
                 illegal_argument,
                 "failed to validate terminating sectors: {}",
                 e
@@ -512,7 +513,9 @@ impl Partition {
         })?;
 
         if !live_sectors.contains_all(sector_numbers) {
-            return Err(actor_error!(illegal_argument, "can only terminate live sectors").into());
+            return Err(
+                actor_error_v8!(illegal_argument, "can only terminate live sectors").into(),
+            );
         }
 
         let sector_infos = sectors.load_sector(sector_numbers)?;
@@ -757,7 +760,7 @@ impl Partition {
         skipped: &mut UnvalidatedBitField,
     ) -> anyhow::Result<(PowerPair, PowerPair, PowerPair, bool)> {
         let skipped = skipped.validate().map_err(|e| {
-            actor_error!(
+            actor_error_v8!(
                 illegal_argument,
                 "failed to validate skipped sectors: {}",
                 e
@@ -775,7 +778,7 @@ impl Partition {
 
         // Check that the declared sectors are actually in the partition.
         if !self.sectors.contains_all(skipped) {
-            return Err(actor_error!(
+            return Err(actor_error_v8!(
                 illegal_argument,
                 "skipped faults contains sectors outside partition"
             )

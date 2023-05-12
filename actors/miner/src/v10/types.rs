@@ -17,7 +17,7 @@ use fvm_shared3::sector::{
 };
 use fvm_shared3::smooth::FilterEstimate;
 
-use fil_actors_runtime_v10::DealWeight;
+use fil_actors_shared::v10::DealWeight;
 
 use super::commd::CompactCommD;
 use fil_actor_verifreg_state::v10::ClaimID;

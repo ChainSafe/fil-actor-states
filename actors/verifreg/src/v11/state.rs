@@ -12,13 +12,12 @@ use fvm_shared3::piece::PaddedPieceSize;
 use fvm_shared3::sector::SectorNumber;
 use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 
-use fil_actors_runtime_v11::{
-    actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError, Map,
-    MapMap,
-};
-
 use super::DataCap;
 use super::{AllocationID, ClaimID};
+use fil_actors_shared::actor_error_v11;
+use fil_actors_shared::v11::{
+    make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError, Map, MapMap,
+};
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
 pub struct State {
@@ -39,13 +38,13 @@ impl State {
     pub fn new<BS: Blockstore>(store: &BS, root_key: Address) -> Result<State, ActorError> {
         let empty_map = make_empty_map::<_, ()>(store, HAMT_BIT_WIDTH)
             .flush()
-            .map_err(|e| actor_error!(illegal_state, "failed to create empty map: {}", e))?;
+            .map_err(|e| actor_error_v11!(illegal_state, "failed to create empty map: {}", e))?;
 
         let empty_mapmap =
             MapMap::<_, (), ActorID, u64>::new(store, HAMT_BIT_WIDTH, HAMT_BIT_WIDTH)
                 .flush()
                 .map_err(|e| {
-                    actor_error!(illegal_state, "failed to create empty multi map: {}", e)
+                    actor_error_v11!(illegal_state, "failed to create empty multi map: {}", e)
                 })?;
 
         Ok(State {

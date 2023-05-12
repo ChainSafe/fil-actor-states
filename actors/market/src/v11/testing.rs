@@ -7,8 +7,8 @@ use std::{
 };
 
 use cid::Cid;
-use fil_actors_runtime_v11::builtin::HAMT_BIT_WIDTH;
-use fil_actors_runtime_v11::{
+use fil_actors_shared::v11::builtin::HAMT_BIT_WIDTH;
+use fil_actors_shared::v11::{
     make_map_with_root_and_bitwidth, parse_uint_key, MessageAccumulator, SetMultimap,
 };
 use fvm_ipld_blockstore::Blockstore;

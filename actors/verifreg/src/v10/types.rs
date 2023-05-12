@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime_v10::BatchReturn;
+use fil_actors_shared::v10::BatchReturn;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::{bigint_ser, BigInt};

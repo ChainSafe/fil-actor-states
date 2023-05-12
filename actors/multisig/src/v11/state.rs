@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime_v11::{actor_error, ActorError, AsActorError};
+use fil_actors_shared::actor_error_v11;
+use fil_actors_shared::v11::{ActorError, AsActorError};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
@@ -118,14 +119,14 @@ impl State {
         curr_epoch: ChainEpoch,
     ) -> Result<(), ActorError> {
         if amount_to_spend.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 illegal_argument,
                 "amount to spend {} less than zero",
                 amount_to_spend
             ));
         }
         if &balance < amount_to_spend {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 insufficient_funds,
                 "current balance {} less than amount to spend {}",
                 balance,
@@ -142,7 +143,7 @@ impl State {
         let remaining_balance = balance - amount_to_spend;
         let amount_locked = self.amount_locked(curr_epoch - self.start_epoch);
         if remaining_balance < amount_locked {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 insufficient_funds,
                 "actor balance {} if spent {} would be less than required locked amount {}",
                 remaining_balance,

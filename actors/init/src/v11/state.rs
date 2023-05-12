@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime_v11::{
-    actor_error, make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError,
+use fil_actors_shared::actor_error_v11;
+use fil_actors_shared::v11::{
+    make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError,
     FIRST_NON_SINGLETON_ADDR,
 };
 use fvm_ipld_blockstore::Blockstore;
@@ -76,7 +77,7 @@ impl State {
             .set_if_absent(robust_addr.to_bytes().into(), id)
             .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to map robust address")?;
         if !is_new {
-            return Err(actor_error!(
+            return Err(actor_error_v11!(
                 forbidden,
                 "robust address {} is already allocated in the address map",
                 robust_addr

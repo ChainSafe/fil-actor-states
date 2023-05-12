@@ -4,7 +4,7 @@
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-use fil_actors_runtime_v9::make_map_with_root;
+use fil_actors_shared::v9::make_map_with_root;
 
 pub use self::state::*;
 pub use self::types::*;

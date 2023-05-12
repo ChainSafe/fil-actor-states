@@ -7,8 +7,9 @@ use std::collections::BTreeSet;
 use anyhow::anyhow;
 use cid::multihash::Code;
 use cid::Cid;
-use fil_actors_runtime_v9::runtime::Policy;
-use fil_actors_runtime_v9::{actor_error, ActorDowncast, ActorError, Array};
+use fil_actors_shared::actor_error_v9;
+use fil_actors_shared::v9::runtime::Policy;
+use fil_actors_shared::v9::{ActorDowncast, ActorError, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
@@ -59,7 +60,7 @@ impl Deadlines {
         deadline_idx: u64,
     ) -> anyhow::Result<Deadline> {
         if deadline_idx >= policy.wpost_period_deadlines {
-            return Err(anyhow!(actor_error!(
+            return Err(anyhow!(actor_error_v9!(
                 illegal_argument,
                 "invalid deadline {}",
                 deadline_idx
@@ -69,7 +70,7 @@ impl Deadlines {
         store
             .get_cbor(&self.due[deadline_idx as usize])?
             .ok_or_else(|| {
-                anyhow!(actor_error!(
+                anyhow!(actor_error_v9!(
                     illegal_state,
                     "failed to lookup deadline {}",
                     deadline_idx
@@ -268,7 +269,7 @@ impl Deadline {
                     format!("failed to lookup partition {}", partition_idx),
                 )
             })?
-            .ok_or_else(|| actor_error!(not_found, "no partition {}", partition_idx))?;
+            .ok_or_else(|| actor_error_v9!(not_found, "no partition {}", partition_idx))?;
 
         Ok(partition.clone())
     }
@@ -288,7 +289,7 @@ impl Deadline {
                     format!("failed to lookup partition snapshot {}", partition_idx),
                 )
             })?
-            .ok_or_else(|| actor_error!(not_found, "no partition snapshot {}", partition_idx))?;
+            .ok_or_else(|| actor_error_v9!(not_found, "no partition snapshot {}", partition_idx))?;
 
         Ok(partition.clone())
     }
@@ -378,7 +379,7 @@ impl Deadline {
 
         // Update early expiration bitmap.
         let new_early_terminations = BitField::try_from_bits(partitions_with_early_terminations)
-            .map_err(|_| actor_error!(illegal_state; "partition index out of bitfield range"))?;
+            .map_err(|_| actor_error_v9!(illegal_state; "partition index out of bitfield range"))?;
         self.early_terminations |= &new_early_terminations;
 
         let all_on_time_sectors = BitField::union(&on_time_sectors);
@@ -585,7 +586,7 @@ impl Deadline {
                     e.downcast_wrap(format!("failed to load partition {}", partition_idx))
                 })?
                 .ok_or_else(
-                    || actor_error!(not_found; "failed to find partition {}", partition_idx),
+                    || actor_error_v9!(not_found; "failed to find partition {}", partition_idx),
                 )?
                 .clone();
 
@@ -660,13 +661,13 @@ impl Deadline {
         let partition_count = old_partitions.count();
         let to_remove_set: BTreeSet<_> = to_remove
             .bounded_iter(partition_count)
-            .ok_or_else(|| actor_error!(illegal_argument; "partitions to remove exceeds total"))?
+            .ok_or_else(|| actor_error_v9!(illegal_argument; "partitions to remove exceeds total"))?
             .collect();
 
         if let Some(&max_partition) = to_remove_set.iter().max() {
             if max_partition >= partition_count {
                 return Err(
-                    actor_error!(illegal_argument; "partition index {} out of range [0, {})", max_partition, partition_count).into()
+                    actor_error_v9!(illegal_argument; "partition index {} out of range [0, {})", max_partition, partition_count).into()
                 );
             }
         } else {
@@ -677,7 +678,7 @@ impl Deadline {
         // Should already be checked earlier, but we might as well check again.
         if !self.early_terminations.is_empty() {
             return Err(
-                actor_error!(illegal_argument; "cannot remove partitions from deadline with early terminations").into(),
+                actor_error_v9!(illegal_argument; "cannot remove partitions from deadline with early terminations").into(),
             );
         }
 
@@ -701,7 +702,7 @@ impl Deadline {
                 // Don't allow removing partitions with faulty sectors.
                 let has_no_faults = partition.faults.is_empty();
                 if !has_no_faults {
-                    return Err(actor_error!(
+                    return Err(actor_error_v9!(
                         illegal_argument,
                         "cannot remove partition {}: has faults",
                         partition_idx
@@ -712,7 +713,7 @@ impl Deadline {
                 // Don't allow removing partitions with unproven sectors
                 let all_proven = partition.unproven.is_empty();
                 if !all_proven {
-                    return Err(actor_error!(
+                    return Err(actor_error_v9!(
                         illegal_argument,
                         "cannot remove partition {}: has unproven sectors",
                         partition_idx
@@ -786,7 +787,7 @@ impl Deadline {
                         format!("failed to load partition {}", partition_idx),
                     )
                 })?
-                .ok_or_else(|| actor_error!(not_found; "no such partition {}", partition_idx))?
+                .ok_or_else(|| actor_error_v9!(not_found; "no such partition {}", partition_idx))?
                 .clone();
 
             let (new_faults, partition_power_delta, partition_new_faulty_power) = partition
@@ -860,7 +861,7 @@ impl Deadline {
                         format!("failed to load partition {}", partition_idx),
                     )
                 })?
-                .ok_or_else(|| actor_error!(not_found; "no such partition {}", partition_idx))?
+                .ok_or_else(|| actor_error_v9!(not_found; "no such partition {}", partition_idx))?
                 .clone();
 
             partition
@@ -920,7 +921,7 @@ impl Deadline {
                         format!("failed to load partition {}", partition_idx),
                     )
                 })?
-                .ok_or_else(|| actor_error!(illegal_state; "no partition {}", partition_idx))?
+                .ok_or_else(|| actor_error_v9!(illegal_state; "no partition {}", partition_idx))?
                 .clone();
 
             // If we have no recovering power/sectors, and all power is faulty, skip
@@ -1152,11 +1153,13 @@ impl Deadline {
         post_partitions: &mut [PoStPartition],
     ) -> anyhow::Result<PoStResult> {
         let partition_indexes = BitField::try_from_bits(post_partitions.iter().map(|p| p.index))
-            .map_err(|_| actor_error!(illegal_argument; "partition index out of bitfield range"))?;
+            .map_err(
+                |_| actor_error_v9!(illegal_argument; "partition index out of bitfield range"),
+            )?;
 
         let num_partitions = partition_indexes.len();
         if num_partitions != post_partitions.len() as u64 {
-            return Err(anyhow!(actor_error!(
+            return Err(anyhow!(actor_error_v9!(
                 illegal_argument,
                 "duplicate partitions proven"
             )));
@@ -1166,7 +1169,7 @@ impl Deadline {
         // This is faster than checking one by one.
         let already_proven = &self.partitions_posted & &partition_indexes;
         if !already_proven.is_empty() {
-            return Err(anyhow!(actor_error!(
+            return Err(anyhow!(actor_error_v9!(
                 illegal_argument,
                 "partition already proven: {:?}",
                 already_proven
@@ -1188,7 +1191,7 @@ impl Deadline {
             let mut partition = partitions
                 .get(post.index)
                 .map_err(|e| e.downcast_wrap(format!("failed to load partition {}", post.index)))?
-                .ok_or_else(|| actor_error!(not_found; "no such partition {}", post.index))?
+                .ok_or_else(|| actor_error_v9!(not_found; "no such partition {}", post.index))?
                 .clone();
 
             // Process new faults and accumulate new faulty power.
@@ -1327,7 +1330,7 @@ impl Deadline {
         let post = proof_arr
             .delete(idx)
             .map_err(|e| e.downcast_wrap(format!("failed to retrieve proof {}", idx)))?
-            .ok_or_else(|| actor_error!(illegal_argument, "proof {} not found", idx))?;
+            .ok_or_else(|| actor_error_v9!(illegal_argument, "proof {} not found", idx))?;
 
         let root = proof_arr
             .flush()

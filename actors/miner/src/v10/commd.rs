@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::{Cid, Version};
-use fil_actors_runtime_v10::{actor_error, ActorError};
+use fil_actors_shared::actor_error_v10;
+use fil_actors_shared::v10::ActorError;
 use fvm_shared3::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
 use fvm_shared3::sector::RegisteredSealProof;
 use multihash::Multihash;
@@ -66,10 +67,10 @@ fn zero_commd(seal_proof: RegisteredSealProof) -> Result<Cid, ActorError> {
         RegisteredSealProof::StackedDRG32GiBV1P1 => 3,
         RegisteredSealProof::StackedDRG64GiBV1P1 => 4,
         _ => {
-            return Err(actor_error!(illegal_argument, "unknown SealProof"));
+            return Err(actor_error_v10!(illegal_argument, "unknown SealProof"));
         }
     };
     let hash = Multihash::wrap(SHA2_256_TRUNC254_PADDED, &ZERO_COMMD_HASH[i])
-        .map_err(|_| actor_error!(assertion_failed, "static commd payload invalid"))?;
+        .map_err(|_| actor_error_v10!(assertion_failed, "static commd payload invalid"))?;
     Ok(Cid::new_v1(FIL_COMMITMENT_UNSEALED, hash))
 }

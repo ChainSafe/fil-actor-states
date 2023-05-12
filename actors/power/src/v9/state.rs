@@ -3,10 +3,11 @@
 
 use anyhow::{anyhow, Context};
 use cid::Cid;
-use fil_actors_runtime_v9::runtime::Policy;
-use fil_actors_runtime_v9::{
-    actor_error, make_empty_map, make_map_with_root, make_map_with_root_and_bitwidth,
-    ActorDowncast, Map, Multimap,
+use fil_actors_shared::actor_error_v9;
+use fil_actors_shared::v9::runtime::Policy;
+use fil_actors_shared::v9::{
+    make_empty_map, make_map_with_root, make_map_with_root_and_bitwidth, ActorDowncast, Map,
+    Multimap,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
@@ -182,14 +183,14 @@ pub fn set_claim<BS: Blockstore>(
     claim: Claim,
 ) -> anyhow::Result<()> {
     if claim.raw_byte_power.is_negative() {
-        return Err(anyhow!(actor_error!(
+        return Err(anyhow!(actor_error_v9!(
             illegal_state,
             "negative claim raw power {}",
             claim.raw_byte_power
         )));
     }
     if claim.quality_adj_power.is_negative() {
-        return Err(anyhow!(actor_error!(
+        return Err(anyhow!(actor_error_v9!(
             illegal_state,
             "negative claim quality-adjusted power {}",
             claim.quality_adj_power
