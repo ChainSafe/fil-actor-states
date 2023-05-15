@@ -22,7 +22,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{io::get_obj, power::Claim};
 /// Miner actor method.
-pub type Method = fil_actor_miner_v8::Method;
+pub type Method = fil_actor_miner_state::v8::Method;
 
 pub fn is_v8_miner_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.miner.v8.contains(cid)
@@ -45,10 +45,10 @@ pub fn is_v11_miner_cid(cid: &Cid) -> bool {
 #[serde(untagged)]
 pub enum State {
     // V7(fil_actor_miner_v7::State),
-    V8(fil_actor_miner_v8::State),
-    V9(fil_actor_miner_v9::State),
-    V10(fil_actor_miner_v10::State),
-    V11(fil_actor_miner_v11::State),
+    V8(fil_actor_miner_state::v8::State),
+    V9(fil_actor_miner_state::v9::State),
+    V10(fil_actor_miner_state::v10::State),
+    V11(fil_actor_miner_state::v11::State),
 }
 
 impl State {
@@ -160,7 +160,7 @@ impl State {
                         .map(From::from)
                         .collect())
                 } else {
-                    let sectors = fil_actor_miner_v8::Sectors::load(&store, &st.sectors)?;
+                    let sectors = fil_actor_miner_state::v8::Sectors::load(&store, &st.sectors)?;
                     let mut infos = Vec::with_capacity(sectors.amt.count() as usize);
                     sectors.amt.for_each(|_, info| {
                         infos.push(SectorOnChainInfo::from(info.clone()));
@@ -177,7 +177,7 @@ impl State {
                         .map(From::from)
                         .collect())
                 } else {
-                    let sectors = fil_actor_miner_v9::Sectors::load(&store, &st.sectors)?;
+                    let sectors = fil_actor_miner_state::v9::Sectors::load(&store, &st.sectors)?;
                     let mut infos = Vec::with_capacity(sectors.amt.count() as usize);
                     sectors.amt.for_each(|_, info| {
                         infos.push(SectorOnChainInfo::from(info.clone()));
@@ -194,7 +194,7 @@ impl State {
                         .map(From::from)
                         .collect())
                 } else {
-                    let sectors = fil_actor_miner_v10::Sectors::load(&store, &st.sectors)?;
+                    let sectors = fil_actor_miner_state::v10::Sectors::load(&store, &st.sectors)?;
                     let mut infos = Vec::with_capacity(sectors.amt.count() as usize);
                     sectors.amt.for_each(|_, info| {
                         infos.push(SectorOnChainInfo::from(info.clone()));
@@ -211,7 +211,7 @@ impl State {
                         .map(From::from)
                         .collect())
                 } else {
-                    let sectors = fil_actor_miner_v11::Sectors::load(&store, &st.sectors)?;
+                    let sectors = fil_actor_miner_state::v11::Sectors::load(&store, &st.sectors)?;
                     let mut infos = Vec::with_capacity(sectors.amt.count() as usize);
                     sectors.amt.for_each(|_, info| {
                         infos.push(SectorOnChainInfo::from(info.clone()));
@@ -252,8 +252,8 @@ pub struct MinerInfo {
     pub consensus_fault_elapsed: ChainEpoch,
 }
 
-impl From<fil_actor_miner_v8::MinerInfo> for MinerInfo {
-    fn from(info: fil_actor_miner_v8::MinerInfo) -> Self {
+impl From<fil_actor_miner_state::v8::MinerInfo> for MinerInfo {
+    fn from(info: fil_actor_miner_state::v8::MinerInfo) -> Self {
         MinerInfo {
             owner: info.owner,
             worker: info.worker,
@@ -277,8 +277,8 @@ impl From<fil_actor_miner_v8::MinerInfo> for MinerInfo {
     }
 }
 
-impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
-    fn from(info: fil_actor_miner_v9::MinerInfo) -> Self {
+impl From<fil_actor_miner_state::v9::MinerInfo> for MinerInfo {
+    fn from(info: fil_actor_miner_state::v9::MinerInfo) -> Self {
         MinerInfo {
             owner: info.owner,
             worker: info.worker,
@@ -302,8 +302,8 @@ impl From<fil_actor_miner_v9::MinerInfo> for MinerInfo {
     }
 }
 
-impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
-    fn from(info: fil_actor_miner_v10::MinerInfo) -> Self {
+impl From<fil_actor_miner_state::v10::MinerInfo> for MinerInfo {
+    fn from(info: fil_actor_miner_state::v10::MinerInfo) -> Self {
         MinerInfo {
             owner: from_address_v3_to_v2(info.owner),
             worker: from_address_v3_to_v2(info.worker),
@@ -330,8 +330,8 @@ impl From<fil_actor_miner_v10::MinerInfo> for MinerInfo {
     }
 }
 
-impl From<fil_actor_miner_v11::MinerInfo> for MinerInfo {
-    fn from(info: fil_actor_miner_v11::MinerInfo) -> Self {
+impl From<fil_actor_miner_state::v11::MinerInfo> for MinerInfo {
+    fn from(info: fil_actor_miner_state::v11::MinerInfo) -> Self {
         MinerInfo {
             owner: from_address_v3_to_v2(info.owner),
             worker: from_address_v3_to_v2(info.worker),
@@ -377,10 +377,10 @@ pub struct MinerPower {
 
 /// Deadline holds the state for all sectors due at a specific deadline.
 pub enum Deadline {
-    V8(fil_actor_miner_v8::Deadline),
-    V9(fil_actor_miner_v9::Deadline),
-    V10(fil_actor_miner_v10::Deadline),
-    V11(fil_actor_miner_v11::Deadline),
+    V8(fil_actor_miner_state::v8::Deadline),
+    V9(fil_actor_miner_state::v9::Deadline),
+    V10(fil_actor_miner_state::v10::Deadline),
+    V11(fil_actor_miner_state::v11::Deadline),
 }
 
 impl Deadline {
@@ -409,11 +409,11 @@ impl Deadline {
 
 #[allow(clippy::large_enum_variant)]
 pub enum Partition<'a> {
-    // V7(Cow<'a, fil_actor_miner_v7::Partition>),
-    V8(Cow<'a, fil_actor_miner_v8::Partition>),
-    V9(Cow<'a, fil_actor_miner_v9::Partition>),
-    V10(Cow<'a, fil_actor_miner_v10::Partition>),
-    V11(Cow<'a, fil_actor_miner_v11::Partition>),
+    // V7(Cow<'a, fil_actor_miner_state::v7::Partition>),
+    V8(Cow<'a, fil_actor_miner_state::v8::Partition>),
+    V9(Cow<'a, fil_actor_miner_state::v9::Partition>),
+    V10(Cow<'a, fil_actor_miner_state::v10::Partition>),
+    V11(Cow<'a, fil_actor_miner_state::v11::Partition>),
 }
 
 impl Partition<'_> {
@@ -478,8 +478,8 @@ pub struct SectorOnChainInfo {
     pub expected_storage_pledge: TokenAmount,
 }
 
-impl From<fil_actor_miner_v8::SectorOnChainInfo> for SectorOnChainInfo {
-    fn from(info: fil_actor_miner_v8::SectorOnChainInfo) -> Self {
+impl From<fil_actor_miner_state::v8::SectorOnChainInfo> for SectorOnChainInfo {
+    fn from(info: fil_actor_miner_state::v8::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
             seal_proof: info.seal_proof,
@@ -496,8 +496,8 @@ impl From<fil_actor_miner_v8::SectorOnChainInfo> for SectorOnChainInfo {
     }
 }
 
-impl From<fil_actor_miner_v9::SectorOnChainInfo> for SectorOnChainInfo {
-    fn from(info: fil_actor_miner_v9::SectorOnChainInfo) -> Self {
+impl From<fil_actor_miner_state::v9::SectorOnChainInfo> for SectorOnChainInfo {
+    fn from(info: fil_actor_miner_state::v9::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
             seal_proof: info.seal_proof,
@@ -514,8 +514,8 @@ impl From<fil_actor_miner_v9::SectorOnChainInfo> for SectorOnChainInfo {
     }
 }
 
-impl From<fil_actor_miner_v10::SectorOnChainInfo> for SectorOnChainInfo {
-    fn from(info: fil_actor_miner_v10::SectorOnChainInfo) -> Self {
+impl From<fil_actor_miner_state::v10::SectorOnChainInfo> for SectorOnChainInfo {
+    fn from(info: fil_actor_miner_state::v10::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
             seal_proof: from_reg_seal_proof_v3_to_v2(info.seal_proof),
@@ -532,8 +532,8 @@ impl From<fil_actor_miner_v10::SectorOnChainInfo> for SectorOnChainInfo {
     }
 }
 
-impl From<fil_actor_miner_v11::SectorOnChainInfo> for SectorOnChainInfo {
-    fn from(info: fil_actor_miner_v11::SectorOnChainInfo) -> Self {
+impl From<fil_actor_miner_state::v11::SectorOnChainInfo> for SectorOnChainInfo {
+    fn from(info: fil_actor_miner_state::v11::SectorOnChainInfo) -> Self {
         Self {
             sector_number: info.sector_number,
             seal_proof: from_reg_seal_proof_v3_to_v2(info.seal_proof),

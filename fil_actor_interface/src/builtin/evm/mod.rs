@@ -9,14 +9,14 @@ use serde::Serialize;
 use crate::io::get_obj;
 
 /// EVM actor method.
-pub type Method = fil_actor_evm_v10::Method;
+pub type Method = fil_actor_evm_state::v10::Method;
 
 /// EVM actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V10(fil_actor_evm_v10::State),
-    V11(fil_actor_evm_v11::State),
+    V10(fil_actor_evm_state::v10::State),
+    V11(fil_actor_evm_state::v11::State),
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {

@@ -17,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(4);
 
 /// Power actor method.
 // TODO: Select method based on actors version
-pub type Method = fil_actor_power_v8::Method;
+pub type Method = fil_actor_power_state::v8::Method;
 
 pub fn is_v8_power_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.power.v8.contains(cid)
@@ -39,10 +39,10 @@ pub fn is_v11_power_cid(cid: &Cid) -> bool {
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V8(fil_actor_power_v8::State),
-    V9(fil_actor_power_v9::State),
-    V10(fil_actor_power_v10::State),
-    V11(fil_actor_power_v11::State),
+    V8(fil_actor_power_state::v8::State),
+    V9(fil_actor_power_state::v9::State),
+    V10(fil_actor_power_state::v10::State),
+    V11(fil_actor_power_state::v11::State),
 }
 
 impl State {
@@ -199,8 +199,8 @@ pub struct Claim {
     pub quality_adj_power: StoragePower,
 }
 
-impl From<fil_actor_power_v8::Claim> for Claim {
-    fn from(cl: fil_actor_power_v8::Claim) -> Self {
+impl From<fil_actor_power_state::v8::Claim> for Claim {
+    fn from(cl: fil_actor_power_state::v8::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,
@@ -208,8 +208,8 @@ impl From<fil_actor_power_v8::Claim> for Claim {
     }
 }
 
-impl From<fil_actor_power_v9::Claim> for Claim {
-    fn from(cl: fil_actor_power_v9::Claim) -> Self {
+impl From<fil_actor_power_state::v9::Claim> for Claim {
+    fn from(cl: fil_actor_power_state::v9::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,
@@ -217,8 +217,8 @@ impl From<fil_actor_power_v9::Claim> for Claim {
     }
 }
 
-impl From<fil_actor_power_v10::Claim> for Claim {
-    fn from(cl: fil_actor_power_v10::Claim) -> Self {
+impl From<fil_actor_power_state::v10::Claim> for Claim {
+    fn from(cl: fil_actor_power_state::v10::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,
@@ -226,8 +226,8 @@ impl From<fil_actor_power_v10::Claim> for Claim {
     }
 }
 
-impl From<fil_actor_power_v11::Claim> for Claim {
-    fn from(cl: fil_actor_power_v11::Claim) -> Self {
+impl From<fil_actor_power_state::v11::Claim> for Claim {
+    fn from(cl: fil_actor_power_state::v11::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,
