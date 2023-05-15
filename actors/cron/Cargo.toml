@@ -1,0 +1,26 @@
+[package]
+name = "fil_actor_cron_state"
+description = "Builtin cron actor for Filecoin"
+version = "2.0.0"
+license = "MIT OR Apache-2.0"
+authors = [
+  "ChainSafe Systems <info@chainsafe.io>",
+  "Protocol Labs",
+  "Filecoin Core Devs",
+]
+edition = "2021"
+repository = "https://github.com/ChainSafe/fil-actor-states"
+keywords = ["filecoin", "web3", "wasm"]
+
+[lib]
+## lib is necessary for integration tests
+## cdylib is necessary for Wasm build
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+fvm_ipld_encoding = { workspace = true }
+fvm_shared = { workspace = true }
+fvm_shared3 = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+serde = { workspace = true }

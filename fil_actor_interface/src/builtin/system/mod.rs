@@ -14,16 +14,16 @@ use crate::io::get_obj;
 pub const ADDRESS: Address = Address::new_id(0);
 
 /// System actor method.
-pub type Method = fil_actor_system_v8::Method;
+pub type Method = fil_actor_system_state::v8::Method;
 
 /// System actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V8(fil_actor_system_v8::State),
-    V9(fil_actor_system_v9::State),
-    V10(fil_actor_system_v10::State),
-    V11(fil_actor_system_v11::State),
+    V8(fil_actor_system_state::v8::State),
+    V9(fil_actor_system_state::v9::State),
+    V10(fil_actor_system_state::v10::State),
+    V11(fil_actor_system_state::v11::State),
 }
 
 pub fn is_v8_system_cid(cid: &Cid) -> bool {

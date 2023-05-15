@@ -1,10 +1,10 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime_v10::runtime::Policy as PolicyV10;
-use fil_actors_runtime_v11::runtime::Policy as PolicyV11;
-use fil_actors_runtime_v11::runtime::ProofSet;
-use fil_actors_runtime_v9::runtime::Policy as PolicyV9;
+use fil_actors_shared::v10::runtime::Policy as PolicyV10;
+use fil_actors_shared::v11::runtime::Policy as PolicyV11;
+use fil_actors_shared::v11::runtime::ProofSet;
+use fil_actors_shared::v9::runtime::Policy as PolicyV9;
 use fvm_shared::address::Address as AddressV2;
 use fvm_shared::econ::TokenAmount as TokenAmountV2;
 use fvm_shared::sector::RegisteredPoStProof as RegisteredPoStProofV2;

@@ -11,16 +11,16 @@ use serde::Serialize;
 
 use crate::io::get_obj;
 /// Account actor method.
-pub type Method = fil_actor_account_v8::Method;
+pub type Method = fil_actor_account_state::v8::Method;
 
 /// Account actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
-    V8(fil_actor_account_v8::State),
-    V9(fil_actor_account_v9::State),
-    V10(fil_actor_account_v10::State),
-    V11(fil_actor_account_v11::State),
+    V8(fil_actor_account_state::v8::State),
+    V9(fil_actor_account_state::v9::State),
+    V10(fil_actor_account_state::v10::State),
+    V11(fil_actor_account_state::v11::State),
 }
 
 pub fn is_v8_account_cid(cid: &Cid) -> bool {
