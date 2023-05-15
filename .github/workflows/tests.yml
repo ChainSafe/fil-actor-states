@@ -69,9 +69,7 @@ jobs:
           CC: "sccache clang"
           CXX: "sccache clang++"
       - name: Calibnet health check
-        env:
-          CALIBNET_WALLET: ${{ secrets.CALIBNET_WALLET }}
-        run: ./forest/scripts/calibnet_health_check.sh "$CALIBNET_WALLET"
+        run: ./forest/scripts/tests/calibnet_other_check.sh
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
