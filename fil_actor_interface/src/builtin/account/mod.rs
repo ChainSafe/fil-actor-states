@@ -4,7 +4,6 @@
 use crate::convert::from_address_v3_to_v2;
 use anyhow::Context;
 use cid::Cid;
-use fvm::state_tree::ActorState;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::address::Address;
 use serde::Serialize;
@@ -40,31 +39,31 @@ pub fn is_v11_account_cid(cid: &Cid) -> bool {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, actor: &ActorState) -> anyhow::Result<State>
+    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
     where
         BS: Blockstore,
     {
-        if is_v8_account_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v8_account_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V8)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v9_account_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v9_account_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V9)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v10_account_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v10_account_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V10)
                 .context("Actor state doesn't exist in store");
         }
-        if is_v11_account_cid(&actor.code) {
-            return get_obj(store, &actor.state)?
+        if is_v11_account_cid(&code) {
+            return get_obj(store, &state)?
                 .map(State::V11)
                 .context("Actor state doesn't exist in store");
         }
-        Err(anyhow::anyhow!("Unknown account actor code {}", actor.code))
+        Err(anyhow::anyhow!("Unknown account actor code {}", code))
     }
 
     pub fn pubkey_address(&self) -> Address {
