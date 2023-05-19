@@ -28,7 +28,7 @@ pub struct ActorCids {
     pub account: V8Onwards,
     pub cron: V8Onwards,
     pub market: V8Onwards,
-    pub datacap: V10Onwards,
+    pub datacap: V9Onwards,
     pub ethaccount: V10Onwards,
     pub evm: V10Onwards,
     pub init: V8Onwards,
@@ -55,6 +55,13 @@ pub struct CidPerVersion {
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct V8Onwards {
     pub v8: CidPerNetwork,
+    pub v9: CidPerNetwork,
+    pub v10: CidPerNetwork,
+    pub v11: CidPerNetwork,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+pub struct V9Onwards {
     pub v9: CidPerNetwork,
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,

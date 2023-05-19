@@ -15,8 +15,13 @@ pub type Method = fil_actor_datacap_state::v10::Method;
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
+    V9(fil_actor_datacap_state::v9::State),
     V10(fil_actor_datacap_state::v10::State),
     V11(fil_actor_datacap_state::v11::State),
+}
+
+pub fn is_v9_datacap_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.datacap.v9.contains(cid)
 }
 
 pub fn is_v10_datacap_cid(cid: &Cid) -> bool {
@@ -32,6 +37,11 @@ impl State {
     where
         BS: Blockstore,
     {
+        if is_v9_datacap_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V9)
+                .context("Actor state doesn't exist in store");
+        }
         if is_v10_datacap_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V10)

@@ -278,6 +278,7 @@ dependencies = [
  "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
+ "fvm_shared 2.3.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
