@@ -5,7 +5,7 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared::address::Address;
 use fvm_shared::error::ExitCode;
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     pub governor: Address,
     pub token: token::state::TokenState,

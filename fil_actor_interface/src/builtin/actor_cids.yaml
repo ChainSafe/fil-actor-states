@@ -25,6 +25,9 @@ cron:
     calibnet: bafk2bzacebetehhedh55alfn4rcx2mhjhvuiustxlhtxc3drkemnpttws5eqw
     mainnet: bafk2bzacebpewdvvgt6tk2o2u4rcovdgym67tadiis5usemlbejg7k3kt567o
 datacap:
+  v9:
+      calibnet: bafk2bzaceanmwcfjfj65xy275rrfqqgoblnuqirdg6zwhc6qhbfhpphomvceu
+      mainnet: bafk2bzacebb6uy2ys7tapekmtj7apnjg7oyj4ia5t7tlkvbmwtxwv74lb2pug
   v10:
     calibnet: bafk2bzaceaot6tv6p4cat3cg5fknq22htosw3p5rwyijmdsraatwqyc4qyero
     mainnet: bafk2bzacealj5uk7wixhvk7l5tnredtelralwnceafqq34nb2lbylhtuyo64u
