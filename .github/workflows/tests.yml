@@ -14,7 +14,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*'
+      - "v*"
 
 env:
   SCCACHE_GHA_ENABLED: "true"
@@ -30,6 +30,9 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
       - name: Build
         run: cargo check --workspace --all-features --all-targets
         env:
@@ -116,6 +119,9 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
       - name: Generate code coverage

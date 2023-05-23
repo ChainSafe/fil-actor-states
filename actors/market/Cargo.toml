@@ -12,6 +12,9 @@ edition = "2021"
 repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm"]
 
+[features]
+arb = ["dep:quickcheck"]
+
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
@@ -28,4 +31,12 @@ libipld-core = { workspace = true }
 num-bigint = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
+quickcheck = { workspace = true, optional = true }
 serde = { workspace = true }
+
+[dev-dependencies]
+hex.workspace = true
+lazy_static.workspace = true
+parking_lot.workspace = true
+pretty_assertions.workspace = true
+quickcheck_macros.workspace = true
