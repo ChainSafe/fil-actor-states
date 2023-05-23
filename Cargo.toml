@@ -66,5 +66,5 @@ toml = "0.7"
 uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.7.1"
 
-fil_actor_verifreg_state = { version = "3.0.0", path = "./actors/verifreg" }
-fil_actors_shared = { version = "3.0.0", path = "./fil_actors_shared" }
+fil_actor_verifreg_state = { version = "4.0.0", path = "./actors/verifreg" }
+fil_actors_shared = { version = "4.0.0", path = "./fil_actors_shared" }
