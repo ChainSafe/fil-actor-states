@@ -250,7 +250,7 @@ version = "4.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -262,7 +262,7 @@ name = "fil_actor_cron_state"
 version = "4.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -278,7 +278,7 @@ dependencies = [
  "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -343,7 +343,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -371,7 +371,7 @@ dependencies = [
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "lazy_static",
  "num",
@@ -394,7 +394,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "libipld-core 0.14.0",
  "num-bigint",
@@ -417,7 +417,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "itertools",
  "lazy_static",
@@ -439,7 +439,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "indexmap",
  "integer-encoding",
@@ -456,7 +456,7 @@ dependencies = [
  "fil_actors_shared",
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -474,7 +474,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "integer-encoding",
  "lazy_static",
@@ -488,7 +488,7 @@ name = "fil_actor_reward_state"
 version = "4.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "lazy_static",
  "num",
@@ -503,7 +503,7 @@ version = "4.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "num-derive",
  "num-traits",
  "serde",
@@ -519,7 +519,7 @@ dependencies = [
  "frc42_dispatch",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "num-derive",
  "num-traits",
@@ -536,7 +536,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.3.3",
  "fvm_ipld_hamt 0.6.1",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "fvm_shared 3.2.0",
  "lazy_static",
  "multihash",
@@ -618,7 +618,7 @@ dependencies = [
  "fvm_ipld_encoding 0.2.3",
  "fvm_ipld_hamt 0.5.1",
  "fvm_sdk 2.2.0",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "integer-encoding",
  "num-traits",
  "serde",
@@ -638,7 +638,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding 0.2.3",
  "fvm_sdk 2.2.0",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "num-traits",
  "serde",
  "serde_tuple",
@@ -692,9 +692,9 @@ dependencies = [
 
 [[package]]
 name = "fvm_ipld_blockstore"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "688239a96199577f6705a3f9689abfd795f867f91f5847bc7e236017cc672df7"
+checksum = "fee8c75be2b58943e1a9755802d34d4c3934f6ea151b6be192ff98f644e515bd"
 dependencies = [
  "anyhow",
  "cid",
@@ -785,7 +785,7 @@ checksum = "bb46d7b26e1609de1a3b7470cbd190d78f2d01fdf1b317f741bdd3ac8f59825e"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.2.3",
- "fvm_shared 2.3.0",
+ "fvm_shared 2.4.0",
  "lazy_static",
  "log",
  "num-traits",
@@ -809,9 +809,9 @@ dependencies = [
 
 [[package]]
 name = "fvm_shared"
-version = "2.3.0"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "518880fbf3facd8ba26298e27d0aa7c43459d14a2511d22d2a3f39abf3b73f6a"
+checksum = "05eebc49ba13d8aae14c396e4d700c83361eca673cae9c0bfc69cb6e754bd468"
 dependencies = [
  "anyhow",
  "blake2b_simd",
@@ -1237,9 +1237,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.8.1"
+version = "1.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af83e617f331cc6ae2da5443c602dfa5af81e517212d9d611a5b3ba1777b5370"
+checksum = "d1a59b5d8e97dee33696bf13c5ba8ab85341c002922fba050069326b9c498974"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1248,9 +1248,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a5996294f19bd3aae0453a862ad728f60e6600695733dd5df01da90c54363a3c"
+checksum = "436b050e76ed2903236f032a59761c1eb99e1b0aead2c257922771dab1fc8c78"
 
 [[package]]
 name = "ripemd"
