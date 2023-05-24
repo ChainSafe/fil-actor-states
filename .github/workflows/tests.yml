@@ -19,6 +19,9 @@ on:
 env:
   SCCACHE_GHA_ENABLED: "true"
   RUSTC_WRAPPER: "sccache"
+  # https://github.com/BurntSushi/quickcheck/blob/master/src/tester.rs#L21
+  QUICKCHECK_TESTS: 10
+  QUICKCHECK_MAX_TESTS: 100
 
 jobs:
   test:
