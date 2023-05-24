@@ -15,8 +15,8 @@ keywords = ["filecoin", "web3", "wasm"]
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
-fil_actor_verifreg_state = { workspace = true }
-fil_actors_shared = { workspace = true }
+fil_actor_verifreg_state = { version = "4.0.0", path = "../verifreg" }
+fil_actors_shared = { version = "4.0.0", path = "../../fil_actors_shared" }
 frc42_dispatch = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }

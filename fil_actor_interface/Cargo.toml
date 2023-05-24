@@ -19,7 +19,7 @@ fil_actor_multisig_state = { version = "4.0.0", path = "../actors/multisig" }
 fil_actor_power_state = { version = "4.0.0", path = "../actors/power" }
 fil_actor_reward_state = { version = "4.0.0", path = "../actors/reward" }
 fil_actor_system_state = { version = "4.0.0", path = "../actors/system" }
-fil_actors_shared.workspace = true
+fil_actors_shared = { version = "4.0.0", path = "../fil_actors_shared" }
 
 anyhow.workspace = true
 cid.workspace = true
