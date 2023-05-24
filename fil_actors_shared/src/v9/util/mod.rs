@@ -22,8 +22,8 @@ mod set_multimap;
 
 /// Converts address key to key, equivilent go code can be found at L54-L61 in
 /// <https://github.com/filecoin-project/go-state-types/blob/master/builtin/v9/migration/datacap.go#L54>
-pub fn hamt_addr_key_to_key(addr_key: BytesKey) -> anyhow::Result<BytesKey> {
-    let addr = Address::from_bytes(&addr_key)?;
+pub fn hamt_addr_key_to_key(addr_key: &BytesKey) -> anyhow::Result<BytesKey> {
+    let addr = Address::from_bytes(addr_key)?;
     Ok(addr.payload_bytes().into())
 }
 
@@ -70,7 +70,7 @@ mod tests {
         let addr = addr.0;
         let addr_key: BytesKey = addr.to_bytes().into();
         let addr_key_hex = hex::encode(&addr_key.0);
-        let key = hamt_addr_key_to_key(addr_key)?;
+        let key = hamt_addr_key_to_key(&addr_key)?;
         let key_hex = hex::encode(&key.0);
 
         let app = Command::new("go")
