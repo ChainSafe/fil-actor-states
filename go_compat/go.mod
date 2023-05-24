@@ -2,10 +2,12 @@ module test/v2
 
 go 1.19
 
-require github.com/filecoin-project/go-state-types v0.11.1
+require (
+	github.com/filecoin-project/go-address v1.1.0
+	github.com/filecoin-project/go-state-types v0.11.1
+)
 
 require (
-	github.com/filecoin-project/go-address v1.1.0 // indirect
 	github.com/filecoin-project/go-amt-ipld/v4 v4.0.0 // indirect
 	github.com/filecoin-project/go-bitfield v0.2.4 // indirect
 	github.com/filecoin-project/go-hamt-ipld/v3 v3.1.0 // indirect

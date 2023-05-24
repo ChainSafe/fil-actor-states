@@ -34,13 +34,18 @@ sha2 = { workspace = true }
 thiserror = { workspace = true }
 unsigned-varint = { workspace = true }
 
+[dev-dependencies]
+fil_actors_test_utils = { workspace = true }
+fvm_shared3 = { workspace = true, features = ["arb"] }
+hex = { workspace = true }
+pretty_assertions = { workspace = true }
+quickcheck = { workspace = true }
+quickcheck_macros = { workspace = true }
+toml = { workspace = true }
+
 [features]
 default = []
 arb = ["quickcheck"]
 
 [package.metadata.cargo-udeps.ignore]
 normal = ["num"]
-
-[dev-dependencies]
-quickcheck_macros = { workspace = true }
-toml = { workspace = true }
