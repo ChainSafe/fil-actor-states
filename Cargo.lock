@@ -262,7 +262,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "frc42_dispatch",
  "fvm_ipld_encoding 0.3.3",
@@ -275,7 +275,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.4.0",
@@ -287,7 +287,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_datacap_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_dispatch",
@@ -303,7 +303,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_eam_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fvm_shared 3.2.0",
  "num-derive",
@@ -312,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_ethaccount_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 3.2.0",
@@ -323,7 +323,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_shared_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fil_actors_shared",
  "fvm_ipld_encoding 0.3.3",
@@ -335,7 +335,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "cid",
  "fil_actor_evm_shared_state",
@@ -350,7 +350,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -368,7 +368,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_interface"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -399,7 +399,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -427,7 +427,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -452,7 +452,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -472,7 +472,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -487,7 +487,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -507,7 +507,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "fvm_ipld_encoding 0.3.3",
  "fvm_shared 2.4.0",
@@ -521,7 +521,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding 0.3.3",
@@ -533,7 +533,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_state"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -550,7 +550,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_shared"
-version = "3.0.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "cid",
