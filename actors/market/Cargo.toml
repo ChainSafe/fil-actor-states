@@ -35,6 +35,7 @@ quickcheck = { workspace = true, optional = true }
 serde = { workspace = true }
 
 [dev-dependencies]
+fil_actors_test_utils.workspace = true
 hex.workspace = true
 lazy_static.workspace = true
 parking_lot.workspace = true

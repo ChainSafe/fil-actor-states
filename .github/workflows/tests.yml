@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "go.mod"
+          go-version-file: "./go_compat/go.mod"
       - name: Build
         run: cargo check --workspace --all-features --all-targets
         env:
@@ -124,7 +124,7 @@ jobs:
         continue-on-error: true
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "go.mod"
+          go-version-file: "./go_compat/go.mod"
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
       - name: Generate code coverage

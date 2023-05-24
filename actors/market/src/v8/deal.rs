@@ -176,30 +176,28 @@ impl quickcheck::Arbitrary for DealProposal {
 #[cfg(all(test, feature = "arb"))]
 mod tests {
     use std::process::Command;
-    use std::sync::atomic::{self, AtomicBool};
 
     use anyhow::*;
+    use fil_actors_test_utils::go_compat::{ensure_go_mod_prepared, go_compat_tests_dir};
     use pretty_assertions::assert_eq;
     use quickcheck_macros::quickcheck;
 
     use super::*;
 
-    const GO_TEST_DIR: &str = "tests/go";
-
     #[quickcheck]
     fn test_deal_proposal_cid(proposal: DealProposal) -> Result<()> {
-        prepare_go_tests();
+        ensure_go_mod_prepared();
 
         let bytes = fvm_ipld_encoding::to_vec(&proposal)?;
 
         let app = Command::new("go")
             .args([
                 "run",
-                "v8/test_deal_proposal_cid.go",
+                "actors/market/v8/test_deal_proposal_cid.go",
                 "--data",
                 hex::encode(bytes).as_str(),
             ])
-            .current_dir(GO_TEST_DIR)
+            .current_dir(go_compat_tests_dir()?)
             .output()?;
 
         if !app.stderr.is_empty() {
@@ -212,32 +210,5 @@ mod tests {
         assert_eq!(proposal.cid()?.to_string(), cid_from_go.trim_end());
 
         Ok(())
-    }
-
-    fn prepare_go_tests() {
-        static CHECKED: AtomicBool = AtomicBool::new(false);
-        lazy_static::lazy_static! {
-            static ref LOCK: parking_lot::Mutex<()> = parking_lot::Mutex::new(());
-        }
-
-        if !CHECKED.load(atomic::Ordering::Relaxed) {
-            let _guard = LOCK.lock();
-            if !CHECKED.load(atomic::Ordering::Relaxed) {
-                let cwd = std::env::current_dir().unwrap();
-                println!(
-                    "Setting up go mod... pid: {}, pwd: {}",
-                    std::process::id(),
-                    cwd.display()
-                );
-                const ERROR_CONTEXT: &str = "Fail to prepare `go` test dependencies, make sure you have `Go` compiler (version defined in `go.mod`) installed and available in $PATH. For details refer to instructions at <https://go.dev/doc/install>";
-                Command::new("go")
-                    .args(["mod", "vendor"])
-                    .current_dir(cwd.join("../../"))
-                    .output()
-                    .context(ERROR_CONTEXT)
-                    .unwrap();
-                CHECKED.store(true, atomic::Ordering::Relaxed);
-            }
-        }
     }
 }
