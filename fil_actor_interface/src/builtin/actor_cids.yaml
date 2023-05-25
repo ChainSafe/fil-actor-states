@@ -14,6 +14,7 @@ account:
   v11:
     calibnet: bafk2bzacebor5mnjnsav34cmm5pcd3dy4wubbv4wtcrvba7depy3sct7ie4sy
     mainnet: bafk2bzacealnlr7st6lkwoh6wxpf2hnrlex5sknaopgmkr2tuhg7vmbfy45so
+    devnet: bafk2bzacecf2pprkbdlpm4e2xz3ufunxtgrgyh2ie3stuqiyhibsvdze7kvri
 cron:
   v8:
     calibnet: bafk2bzaceaxlezmclw5ugldhhtfgvn7yztux45scqik3ez4yhwiqhg5ssib44
@@ -30,6 +31,7 @@ cron:
   v11:
     calibnet: bafk2bzacebetehhedh55alfn4rcx2mhjhvuiustxlhtxc3drkemnpttws5eqw
     mainnet: bafk2bzacebpewdvvgt6tk2o2u4rcovdgym67tadiis5usemlbejg7k3kt567o
+    devnet: bafk2bzaceasr5d2skowvzv5mzsyak6waqrgc46ewj6rzbapkfi5woom6n6bwa
 datacap:
   v9:
     calibnet: bafk2bzaceanmwcfjfj65xy275rrfqqgoblnuqirdg6zwhc6qhbfhpphomvceu
@@ -42,6 +44,7 @@ datacap:
   v11:
     calibnet: bafk2bzaced6uhmrh5jjexhw4lco4ipesi2iutl7uupnyspgmnbydyo3amtu4i
     mainnet: bafk2bzacebslykoyrb2hm7aacjngqgd5n2wmeii2goadrs5zaya3pvdf6pdnq
+    devnet: bafk2bzaceaqd77gptubupda7rp7daxkxbkzwc253dxhiyoezxvj2tljmkgpny
 ethaccount:
   v10:
     calibnet: bafk2bzacebiyrhz32xwxi6xql67aaq5nrzeelzas472kuwjqmdmgwotpkj35e
@@ -50,6 +53,7 @@ ethaccount:
   v11:
     calibnet: bafk2bzacedrbpvjvyzif2cjxosm4pliyq2m6wzndvrg7r6hzdhixplzvgubbw
     mainnet: bafk2bzaceclkmc4yidxc6lgcjpfypbde2eddnevcveo4j5kmh4ek6inqysz2k
+    devnet: bafk2bzacea25xfsxwew3h2crer6jlb4c5vwu2gtch2jh73ocuxjhupenyrugy
 evm:
   v10:
     calibnet: bafk2bzaceblpgzid4qjfavuiht6uwvq2lznshklk2qmf5akm3dzx2fczdqdxc
@@ -58,6 +62,7 @@ evm:
   v11:
     calibnet: bafk2bzaceabftmhejmvjvpzmbsv4cvaew6v5juj5sqtq7cfijugwsnahnsy5w
     mainnet: bafk2bzacediwh6etwzwmb5pivtclpdplewdjzphouwqpppce6opisjv2fjqfe
+    devnet: bafk2bzacece5hivtkmi757lyfahgti7xuqgofodb2u65pxgf6oizfwiiwlcsi
 init:
   v8:
     calibnet: bafk2bzaceadyfilb22bcvzvnpzbg2lyg6npmperyq6es2brvzjdh5rmywc4ry
@@ -74,6 +79,7 @@ init:
   v11:
     calibnet: bafk2bzaceduyjd35y7o2lhvevtysqf45rp5ot7x5f36q6iond6dyiz6773g5q
     mainnet: bafk2bzaceckwf3w6n2nw6eh77ktmsxqgsvshonvgnyk5q5syyngtetxvasfxg
+    devnet: bafk2bzacecxnr5y7qifzdqqiwfbjxv2yr7lbkcyu3e2mf5zjdncteupxdlquu
 market:
   v8:
     calibnet: bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6
@@ -90,6 +96,7 @@ market:
   v11:
     calibnet: bafk2bzacedjt5mueomasx7dijooxnwxsbtzu2dj2ppp45rtle4kiinkmgzeei
     mainnet: bafk2bzaceazu2j2zu4p24tr22btnqzkhzjvyjltlvsagaj6w3syevikeb5d7m
+    devnet: bafk2bzaceaj74fmooaf3gj3ebwon64ky7hhdh7kytdr3agclqfrqzmpzykh7g
 miner:
   v8:
     calibnet: bafk2bzacea6rabflc7kpwr6y4lzcqsnuahr4zblyq3rhzrrsfceeiw2lufrb4
@@ -106,6 +113,7 @@ miner:
   v11:
     calibnet: bafk2bzacebkjnjp5okqjhjxzft5qkuv36u4tz7inawseiwi2kw4j43xpxvhpm
     mainnet: bafk2bzacec24okjqrp7c7rj3hbrs5ez5apvwah2ruka6haesgfngf37mhk6us
+    devnet: bafk2bzacedb7bokkzzs7hnbhivp74pgcpermuy7j6b3ncodylksukkxtnn7ze
 multisig:
   v8:
     calibnet: bafk2bzacec66wmb4kohuzvuxsulhcgiwju7sqkldwfpmmgw7dbbwgm5l2574q
@@ -122,6 +130,7 @@ multisig:
   v11:
     calibnet: bafk2bzacebcb72fmbpocetnzgni2wnbrduamlqx6fl3yelrlzu7id6bu5ib5g
     mainnet: bafk2bzaceafajceqwg5ybiz7xw6rxammuirkgtuv625gzaehsqfprm4bazjmk
+    devnet: bafk2bzaceayap4k4u3lbysaeeixct5fvhmafy3fa5eagvdpk3i4a7ubfdpobe
 placeholder:
   v10:
     calibnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
@@ -129,6 +138,7 @@ placeholder:
   v11:
     calibnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
     mainnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
+    devnet: bafk2bzacedfvut2myeleyq67fljcrw4kkmn5pb5dpyozovj7jpoez5irnc3ro
 power:
   v8:
     calibnet: bafk2bzacecpwr4mynn55bg5hrlns3osvg7sty3rca6zlai3vl52vbbjk7ulfa
@@ -145,6 +155,7 @@ power:
   v11:
     calibnet: bafk2bzaced2qsypqwore3jrdtaesh4itst2fyeepdsozvtffc2pianzmphdum
     mainnet: bafk2bzaceaxgloxuzg35vu7l7tohdgaq2frsfp4ejmuo7tkoxjp5zqrze6sf4
+    devnet: bafk2bzacedilnkegizkxz3nuutib4d4wwlk4bkla22loepia2h53yf4hysmq6
 reward:
   v8:
     calibnet: bafk2bzaceayah37uvj7brl5no4gmvmqbmtndh5raywuts7h6tqbgbq2ge7dhu
@@ -161,6 +172,7 @@ reward:
   v11:
     calibnet: bafk2bzacecp7xo5ev46y64zr5osnn5fxo7itpoqw235tcfv6eo4rymzdemet2
     mainnet: bafk2bzacebwjw2vxkobs7r2kwjdqqb42h2kucyuk6flbnyzw4odg5s4mogamo
+    devnet: bafk2bzacedwbtfqlx47fdkxjrb5mwiatheci44x3zkpx33smybc2cme23ymuo
 system:
   v8:
     calibnet: bafk2bzaceaqrkllksxv2jsfgjvmuewx5vbzrammw5mdscod6gkdr3ijih2q64
@@ -177,3 +189,4 @@ system:
   v11:
     calibnet: bafk2bzacedqvik2n3phnj3cni3h2k5mtvz43nyq7mdmv7k7euejysvajywdug
     mainnet: bafk2bzaced7npe5mt5nh72jxr2igi2sofoa7gedt4w6kueeke7i3xxugqpjfm
+    devnet: bafk2bzacedpyoncjbl4oxkjm5e77ngvpy2xfajjc4myfsv2vltvzxioattlu2
