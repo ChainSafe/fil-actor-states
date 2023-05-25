@@ -8,6 +8,7 @@ account:
   v10:
     calibnet: bafk2bzacebhfuz3sv7duvk653544xsxhdn4lsmy7ol7k6gdgancyctvmd7lnq
     mainnet: bafk2bzaceampw4romta75hyz5p4cqriypmpbgnkxncgxgqn6zptv5lsp2w2bo
+    devnet: bafk2bzacedkj5dqs5xxamnlug2d5dyjl6askf7wlmvwzhmsrzcvogv7acqfe6
   v11:
     calibnet: bafk2bzacebor5mnjnsav34cmm5pcd3dy4wubbv4wtcrvba7depy3sct7ie4sy
     mainnet: bafk2bzacealnlr7st6lkwoh6wxpf2hnrlex5sknaopgmkr2tuhg7vmbfy45so
