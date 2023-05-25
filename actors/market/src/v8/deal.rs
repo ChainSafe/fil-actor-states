@@ -207,7 +207,7 @@ mod tests {
 
         let cid_from_go = String::from_utf8_lossy(&app.stdout);
 
-        assert_eq!(proposal.cid()?.to_string(), cid_from_go.trim_end());
+        assert_eq!(proposal.cid()?.to_string(), cid_from_go);
 
         Ok(())
     }
