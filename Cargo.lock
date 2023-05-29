@@ -451,6 +451,7 @@ dependencies = [
  "fvm_shared 3.2.0",
  "ipld_blockstore",
  "ipld_hamt",
+ "multihash 0.16.3",
  "num-derive",
  "num-traits",
  "serde",

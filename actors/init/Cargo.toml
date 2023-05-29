@@ -32,4 +32,5 @@ encoding = { package = "forest_encoding", version = "0.2.1" }
 forest_cid = { version = "0.3", features = ["cbor"] }
 ipld_blockstore = "0.1"
 ipld_hamt = { version = "0.1", features = ["go-interop"] }
+multihash = { version = "0.16.3", features = ["identity"] }
 vm = { package = "forest_vm", version = "0.3" }
