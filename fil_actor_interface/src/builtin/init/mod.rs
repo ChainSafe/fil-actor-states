@@ -1,21 +1,14 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::known_cids::INIT_V0_ACTOR_CID;
 use anyhow::Context;
-use cid::multihash::{Code, MultihashDigest};
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::address::Address;
-use lazy_static::lazy_static;
 use serde::Serialize;
 
 use crate::io::get_obj;
-
-const RAW: u64 = 0x55;
-
-lazy_static! {
-    pub static ref INIT_ACTOR_CODE_ID: Cid = make_builtin(b"fil/1/init");
-}
 
 /// Init actor address.
 pub const ADDRESS: Address = Address::new_id(1);
@@ -24,7 +17,7 @@ pub const ADDRESS: Address = Address::new_id(1);
 pub type Method = fil_actor_init_state::v8::Method;
 
 pub fn is_v0_init_cid(cid: &Cid) -> bool {
-    cid == &*INIT_ACTOR_CODE_ID
+    cid == &*INIT_V0_ACTOR_CID
 }
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
@@ -96,8 +89,4 @@ impl State {
             State::V11(st) => st.network_name,
         }
     }
-}
-
-fn make_builtin(bz: &[u8]) -> Cid {
-    Cid::new_v1(RAW, Code::Identity.digest(bz))
 }
