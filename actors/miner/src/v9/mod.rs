@@ -46,6 +46,7 @@ mod sectors;
 mod state;
 mod termination;
 mod types;
+pub mod util;
 mod vesting_state;
 
 // The first 1000 actor-specific codes are left open for user error, i.e. things that might

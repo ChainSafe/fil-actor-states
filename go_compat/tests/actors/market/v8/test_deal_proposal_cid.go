@@ -34,5 +34,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(cid)
+	fmt.Print(cid)
 }
