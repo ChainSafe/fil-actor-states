@@ -26,7 +26,7 @@ num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 
-# Dependencies only for Init V0 actor
+# V0 dependencies
 address = { package = "forest_address", version = "0.3" }
 encoding = { package = "forest_encoding", version = "0.2.1" }
 fil_types = "0.2"
