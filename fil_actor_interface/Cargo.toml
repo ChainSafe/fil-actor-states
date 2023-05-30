@@ -29,6 +29,7 @@ fvm_ipld_encoding.workspace = true
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
 lazy_static.workspace = true
+multihash = { workspace = true, features = ["identity"] }
 num.workspace = true
 serde.workspace = true
 serde_json.workspace = true
