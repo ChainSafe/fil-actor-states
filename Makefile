@@ -35,7 +35,6 @@ update-forest:
 	git submodule update --init --recursive
 
 modify-forest:
-	modify-forest:
 	sed -i -e 's|fil_actor_interface = "4"|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actors_shared = "4"|fil_actors_shared = { path =  "../fil_actors_shared" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_account_state = "4"|fil_actor_account_state = { path =  "../actors/account" }|g' ./forest/Cargo.toml
