@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::r#mod::cid_serde;
-use cid::multihash::{Code, MultihashDigest};
 use cid::Cid;
+use multihash::{Code, MultihashDigest};
 use serde::{Deserialize, Serialize};
 
 const RAW: u64 = 0x55;
