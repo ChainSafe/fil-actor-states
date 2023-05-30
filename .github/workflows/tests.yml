@@ -57,8 +57,6 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
         continue-on-error: true
-      - name: Install cargo-edit
-        run: cargo install cargo-edit
       - name: Update submodule forest
         run: make update-forest
       - name: Modify deps forest
