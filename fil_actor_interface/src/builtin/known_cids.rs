@@ -2,13 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::r#mod::cid_serde;
+use cid::multihash::{Code, MultihashDigest};
 use cid::Cid;
 use serde::{Deserialize, Serialize};
+
+const RAW: u64 = 0x55;
 
 lazy_static::lazy_static! {
     static ref MANIFEST_CIDS: ManifestCids = serde_yaml::from_str(include_str!("manifest_cids.yaml")).unwrap();
     static ref ACTOR_CIDS: ActorCids = serde_yaml::from_str(include_str!("actor_cids.yaml")).unwrap();
-    pub static ref KNOWN_CIDS: KnownCids = KnownCids { manifest: MANIFEST_CIDS.clone(), actor: ACTOR_CIDS.clone() };
+    pub static ref KNOWN_CIDS: KnownCids = KnownCids {
+        manifest: MANIFEST_CIDS.clone(),
+        actor: ACTOR_CIDS.clone()
+    };
+    pub static ref INIT_V0_ACTOR_CID: Cid = make_builtin(b"fil/1/init");
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -114,10 +121,16 @@ mod tests {
                 == Cid::try_from("bafy2bzaced25ta3j6ygs34roprilbtb3f6mxifyfnm7z7ndquaruxzdq3y7lo")?
         );
 
+        ensure!(*INIT_V0_ACTOR_CID == Cid::try_from("bafkqactgnfwc6mjpnfxgs5a")?);
+
         let serialized = serde_yaml::to_string(&*KNOWN_CIDS)?;
         let deserialized = serde_yaml::from_str(&serialized)?;
         ensure!(&*KNOWN_CIDS == &deserialized);
 
         Ok(())
     }
+}
+
+fn make_builtin(bz: &[u8]) -> Cid {
+    Cid::new_v1(RAW, Code::Identity.digest(bz))
 }
