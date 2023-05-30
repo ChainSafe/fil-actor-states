@@ -1,6 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::known_cids::INIT_V0_ACTOR_CID;
 use anyhow::Context;
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
@@ -14,6 +15,10 @@ pub const ADDRESS: Address = Address::new_id(1);
 
 /// Init actor method.
 pub type Method = fil_actor_init_state::v8::Method;
+
+pub fn is_v0_init_cid(cid: &Cid) -> bool {
+    cid == &*INIT_V0_ACTOR_CID
+}
 
 pub fn is_v8_init_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.init.v8.contains(cid)
@@ -35,6 +40,7 @@ pub fn is_v11_init_cid(cid: &Cid) -> bool {
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum State {
+    V0(fil_actor_init_state::v0::State),
     V8(fil_actor_init_state::v8::State),
     V9(fil_actor_init_state::v9::State),
     V10(fil_actor_init_state::v10::State),
@@ -46,6 +52,11 @@ impl State {
     where
         BS: Blockstore,
     {
+        if is_v0_init_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V0)
+                .context("Actor state doesn't exist in store");
+        }
         if is_v8_init_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V8)
@@ -71,6 +82,7 @@ impl State {
 
     pub fn into_network_name(self) -> String {
         match self {
+            State::V0(st) => st.network_name,
             State::V8(st) => st.network_name,
             State::V9(st) => st.network_name,
             State::V10(st) => st.network_name,
