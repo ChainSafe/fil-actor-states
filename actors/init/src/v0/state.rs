@@ -1,21 +1,14 @@
 // Copyright 2020 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use address::{Address, Protocol};
-use encoding::tuple::*;
-use encoding::Cbor;
-use forest_cid::Cid;
-use fvm_shared::{ActorID, HAMT_BIT_WIDTH};
-use ipld_blockstore::BlockStore;
-use ipld_hamt::{BytesKey, Error as HamtError, Hamt};
-use serde::{de::DeserializeOwned, Serialize};
+use cid::Cid;
+use fil_actors_shared::v8::{make_map_with_root, FIRST_NON_SINGLETON_ADDR};
+use fvm_ipld_blockstore::Blockstore;
+use fvm_ipld_encoding::tuple::*;
+use fvm_ipld_hamt::Error as HamtError;
+use fvm_shared::address::{Address, Protocol};
+use fvm_shared::ActorID;
 use std::error::Error as StdError;
-
-/// Defines first available ID address after builtin actors
-pub const FIRST_NON_SINGLETON_ADDR: ActorID = 100;
-
-/// Map type to be used within actors. The underlying type is a hamt.
-pub type Map<'bs, BS, V> = Hamt<'bs, BS, V, BytesKey>;
 
 /// State is reponsible for creating
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
@@ -36,7 +29,7 @@ impl State {
 
     /// Allocates a new ID address and stores a mapping of the argument address to it.
     /// Returns the newly-allocated address.
-    pub fn map_address_to_new_id<BS: BlockStore>(
+    pub fn map_address_to_new_id<BS: Blockstore>(
         &mut self,
         store: &BS,
         addr: &Address,
@@ -61,7 +54,7 @@ impl State {
     /// Returns an undefined address and `false` if the address was not an ID-address and not found
     /// in the mapping.
     /// Returns an error only if state was inconsistent.
-    pub fn resolve_address<BS: BlockStore>(
+    pub fn resolve_address<BS: Blockstore>(
         &self,
         store: &BS,
         addr: &Address,
@@ -74,19 +67,4 @@ impl State {
 
         Ok(map.get(&addr.to_bytes())?.copied().map(Address::new_id))
     }
-}
-
-impl Cbor for State {}
-
-/// Create a map with a root cid.
-#[inline]
-pub fn make_map_with_root<'bs, BS, V>(
-    root: &Cid,
-    store: &'bs BS,
-) -> Result<Map<'bs, BS, V>, HamtError>
-where
-    BS: BlockStore,
-    V: DeserializeOwned + Serialize,
-{
-    Map::<_, V>::load_with_bit_width(root, store, HAMT_BIT_WIDTH)
 }
