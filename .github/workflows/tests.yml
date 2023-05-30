@@ -48,7 +48,7 @@ jobs:
           CXX: "sccache clang++"
 
   forest-sync-check:
-    if: ${{ github.event.pull_request.title == *"Release"* }}
+    if: ${{ contains(github.event.pull_request.title, 'Release') }}
     name: forest calibnet sync check
     runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
