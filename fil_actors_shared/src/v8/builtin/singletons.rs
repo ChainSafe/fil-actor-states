@@ -3,21 +3,28 @@
 
 use fvm_shared::address::Address;
 use fvm_shared::ActorID;
-use lazy_static::lazy_static;
+use paste::paste;
 
-lazy_static! {
-    pub static ref SYSTEM_ACTOR_ADDR: Address         = Address::new_id(0);
-    pub static ref INIT_ACTOR_ADDR: Address           = Address::new_id(1);
-    pub static ref REWARD_ACTOR_ADDR: Address         = Address::new_id(2);
-    pub static ref CRON_ACTOR_ADDR: Address           = Address::new_id(3);
-    pub static ref STORAGE_POWER_ACTOR_ADDR: Address  = Address::new_id(4);
-    pub static ref STORAGE_MARKET_ACTOR_ADDR: Address = Address::new_id(5);
-    pub static ref VERIFIED_REGISTRY_ACTOR_ADDR: Address = Address::new_id(6);
+macro_rules! define_builtin_addr {
+    ($($name:ident = $id:literal,)*) => {
+        $(
+            paste! {
+                pub const [<$name _ADDR>]: Address = Address::new_id([<$id>]);
+            }
+        )*
+    }
+}
 
-    pub static ref CHAOS_ACTOR_ADDR: Address    = Address::new_id(98);
-
-    /// Distinguished `AccountActor` that is the destination of all burnt funds.
-    pub static ref BURNT_FUNDS_ACTOR_ADDR: Address = Address::new_id(99);
+define_builtin_addr! {
+    SYSTEM_ACTOR = 0,
+    INIT_ACTOR = 1,
+    REWARD_ACTOR = 2,
+    CRON_ACTOR = 3,
+    STORAGE_POWER_ACTOR = 4,
+    STORAGE_MARKET_ACTOR = 5,
+    VERIFIED_REGISTRY_ACTOR = 6,
+    CHAOS_ACTOR = 98,
+    BURNT_FUNDS_ACTOR = 99,
 }
 
 /// Defines first available ID address after builtin actors
