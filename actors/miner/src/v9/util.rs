@@ -28,7 +28,7 @@ mod tests {
     #[quickcheck]
     fn test_sector_key(sector: SectorNumber) -> anyhow::Result<()> {
         let key = sector_key(sector)?;
-        let key_hex = hex::encode(&key.0);
+        let key_hex = hex::encode(key.0);
 
         let app = Command::new("go")
             .args([
