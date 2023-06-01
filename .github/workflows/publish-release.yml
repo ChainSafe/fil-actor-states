@@ -43,11 +43,11 @@ jobs:
 
           for crate in "${crates[@]}"; do
             crate_manifest=$(cargo metadata --no-deps --format-version 1 |
-              jq -r --arg crate "$crate" '.packages[] |
-              select(.manifest_path | contains($crate)) |
-              .manifest_path')
+            jq -r --arg crate "$crate" '.packages[] |
+            select(.name == $crate) |
+            .manifest_path')
 
-            cargo publish --manifest-path $crate --token $CRATES_IO_TOKEN
+            cargo publish --manifest-path $crate_manifest --token $CRATES_IO_TOKEN
           done
       - name: Create Release
         uses: actions/create-release@v1
