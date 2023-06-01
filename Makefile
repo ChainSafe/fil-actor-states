@@ -19,7 +19,7 @@ lint: clean lint-clippy
 	taplo lint
 	
 lint-clippy:
-	cargo clippy --all-features -- -D warnings
+	cargo clippy --all-features --all-targets -- -D warnings
 
 # Formats Rust and TOML files
 fmt:
