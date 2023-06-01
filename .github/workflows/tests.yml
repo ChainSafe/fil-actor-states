@@ -88,6 +88,12 @@ jobs:
     name: Publish Check
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v3
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+        timeout-minutes: 5
+        continue-on-error: true
       - name: Publish Dry run
         run: |
           crates=(
