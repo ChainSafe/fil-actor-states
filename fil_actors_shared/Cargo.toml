@@ -21,7 +21,6 @@ fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true, features = ["proofs"] }
 fvm_shared3 = { workspace = true }
-lazy_static = { workspace = true }
 multihash = { workspace = true }
 num = { workspace = true }
 num-bigint = { workspace = true }

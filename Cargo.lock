@@ -929,7 +929,6 @@ dependencies = [
  "fvm_shared 2.4.0",
  "fvm_shared 3.3.1",
  "hex",
- "lazy_static",
  "multihash",
  "num",
  "num-bigint",
