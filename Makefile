@@ -35,13 +35,12 @@ update-forest:
 	git submodule update --init --recursive
 
 modify-forest:
-	sed -i -e 's|fil_actor_interface = "4"|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actors_shared = "4"|fil_actors_shared = { path =  "../fil_actors_shared" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actor_account_state = "4"|fil_actor_account_state = { path =  "../actors/account" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actor_init_state = "4"|fil_actor_init_state = { path =  "../actors/init" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actor_miner_state = "4"|fil_actor_miner_state = { path =  "../actors/miner" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actor_power_state = "4"|fil_actor_power_state = { path =  "../actors/power" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actor_system_state = "4"|fil_actor_system_state = { path =  "../actors/system" }|g' ./forest/Cargo.toml
-
+	sed -i -e 's|fil_actor_interface = "[0-9]\+"|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actors_shared = "[0-9]\+"|fil_actors_shared = { path =  "../fil_actors_shared" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_account_state = "[0-9]\+"|fil_actor_account_state = { path =  "../actors/account" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_init_state = "[0-9]\+"|fil_actor_init_state = { path =  "../actors/init" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_miner_state = "[0-9]\+"|fil_actor_miner_state = { path =  "../actors/miner" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_power_state = "[0-9]\+"|fil_actor_power_state = { path =  "../actors/power" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_system_state = "[0-9]\+"|fil_actor_system_state = { path =  "../actors/system" }|g' ./forest/Cargo.toml
 
 .PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean update-forest
