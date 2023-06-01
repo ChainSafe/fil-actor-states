@@ -566,7 +566,6 @@ dependencies = [
  "fvm_ipld_hamt 0.6.1",
  "fvm_shared 2.4.0",
  "fvm_shared 3.3.1",
- "lazy_static",
  "multihash",
  "num",
  "num-bigint",
