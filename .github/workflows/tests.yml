@@ -46,7 +46,7 @@ jobs:
           CXX: "sccache clang++"
 
   forest-sync-check:
-    if: ${{ contains(github.event.pull_request.title, 'Release') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
     runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
@@ -82,6 +82,43 @@ jobs:
           CXX: "sccache clang++"
       - name: Calibnet health check
         run: ./forest/scripts/tests/calibnet_other_check.sh
+  
+  publish-check:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
+    name: Publish dry run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dry run
+        run: |
+          crates=(
+            "fil_actors_shared"
+            "fil_actor_verifreg_state"
+            "fil_actor_account_state"
+            "fil_actor_cron_state"
+            "fil_actor_datacap_state"
+            "fil_actor_eam_state"
+            "fil_actor_ethaccount_state"
+            "fil_actor_evm_shared_state"
+            "fil_actor_evm_state"
+            "fil_actor_init_state"
+            "fil_actor_market_state"
+            "fil_actor_miner_state"
+            "fil_actor_multisig_state"
+            "fil_actor_paych_state"
+            "fil_actor_power_state"
+            "fil_actor_reward_state"
+            "fil_actor_system_state"
+            "fil_actor_interface"
+          )
+
+          for crate in "${crates[@]}"; do
+            crate_manifest=$(cargo metadata --no-deps --format-version 1 |
+              jq -r --arg crate "$crate" '.packages[] |
+              select(.manifest_path | contains($crate)) |
+              .manifest_path')
+
+            cargo publish --manifest-path $crate --dry-run
+          done
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
