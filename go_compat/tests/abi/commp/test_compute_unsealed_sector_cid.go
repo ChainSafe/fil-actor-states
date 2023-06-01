@@ -11,8 +11,6 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 )
 
-const FIL_COMMITMENT_UNSEALED = 0xf101
-
 func main() {
 	var proof int64
 	var piecesHex string

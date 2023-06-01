@@ -46,5 +46,5 @@ normal = ["num"]
 fil_actors_test_utils.workspace = true
 hex.workspace = true
 quickcheck.workspace = true
-quickcheck_macros = { workspace = true }
-toml = { workspace = true }
+quickcheck_macros.workspace = true
+toml.workspace = true
