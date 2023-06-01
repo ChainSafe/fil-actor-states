@@ -3,53 +3,24 @@
 
 use cid::Cid;
 use fvm_shared::{
-    piece::{
-        zero_piece_commitment as zero_piece_commitment_v2, PaddedPieceSize as PaddedPieceSizeV2,
-        PieceInfo as PieceInfoV2,
-    },
+    commcid::data_commitment_v1_to_cid, piece::PieceInfo as PieceInfoV2,
     sector::RegisteredSealProof as RegisteredSealProofV2,
 };
 
 /// Computes an unsealed sector CID (`CommD`) from its constituent piece CIDs (`CommPs`) and sizes.
+///
+/// Ported from <https://github.com/filecoin-project/go-commp-utils/blob/62059082a8378046f27a01d62777ae539a2d1feb/nonffi/commd.go#L20>
 pub fn compute_unsealed_sector_cid_v2(
     proof_type: RegisteredSealProofV2,
     pieces: &[PieceInfoV2],
 ) -> anyhow::Result<Cid> {
-    let ssize = proof_type.sector_size().map_err(anyhow::Error::msg)? as u64;
-
-    let mut all_pieces = Vec::<filecoin_proofs_api::PieceInfo>::with_capacity(pieces.len());
-
-    let pssize = PaddedPieceSizeV2(ssize);
     if pieces.is_empty() {
-        all_pieces.push(filecoin_proofs_api::PieceInfo {
-            size: pssize.unpadded().into(),
-            commitment: zero_piece_commitment_v2(pssize),
-        })
-    } else {
-        // pad remaining space with 0 piece commitments
-        let mut sum = PaddedPieceSizeV2(0);
-        let pad_to = |pads: Vec<PaddedPieceSizeV2>,
-                      all_pieces: &mut Vec<filecoin_proofs_api::PieceInfo>,
-                      sum: &mut PaddedPieceSizeV2| {
-            for p in pads {
-                all_pieces.push(filecoin_proofs_api::PieceInfo {
-                    size: p.unpadded().into(),
-                    commitment: zero_piece_commitment_v2(p),
-                });
+        anyhow::bail!("no pieces provided");
+    }
 
-                sum.0 += p.0;
-            }
-        };
-        for p in pieces {
-            let (ps, _) = get_required_padding_v2(sum, p.size);
-            pad_to(ps, &mut all_pieces, &mut sum);
-            all_pieces
-                .push(filecoin_proofs_api::PieceInfo::try_from(p).map_err(anyhow::Error::msg)?);
-            sum.0 += p.size.0;
-        }
-
-        let (ps, _) = get_required_padding_v2(sum, pssize);
-        pad_to(ps, &mut all_pieces, &mut sum);
+    let mut all_pieces = Vec::with_capacity(pieces.len());
+    for p in pieces {
+        all_pieces.push(filecoin_proofs_api::PieceInfo::try_from(p).map_err(anyhow::Error::msg)?);
     }
 
     let comm_d = filecoin_proofs_api::seal::compute_comm_d(
@@ -58,39 +29,21 @@ pub fn compute_unsealed_sector_cid_v2(
     )
     .map_err(anyhow::Error::msg)?;
 
-    fvm_shared::commcid::data_commitment_v1_to_cid(&comm_d).map_err(anyhow::Error::msg)
-}
-
-fn get_required_padding_v2(
-    old_length: PaddedPieceSizeV2,
-    new_piece_length: PaddedPieceSizeV2,
-) -> (Vec<PaddedPieceSizeV2>, PaddedPieceSizeV2) {
-    let mut sum = 0;
-
-    let mut to_fill = 0u64.wrapping_sub(old_length.0) % new_piece_length.0;
-    let n = to_fill.count_ones();
-    let mut pad_pieces = Vec::with_capacity(n as usize);
-    for _ in 0..n {
-        let next = to_fill.trailing_zeros();
-        let p_size = 1 << next;
-        to_fill ^= p_size;
-
-        let padded = PaddedPieceSizeV2(p_size);
-        pad_pieces.push(padded);
-        sum += padded.0;
-    }
-
-    (pad_pieces, PaddedPieceSizeV2(sum))
+    data_commitment_v1_to_cid(&comm_d).map_err(anyhow::Error::msg)
 }
 
 #[cfg(test)]
 mod tests {
     use std::process::Command;
+    use std::str::FromStr;
 
     use super::*;
     use anyhow::*;
     use fil_actors_test_utils::go_compat::{ensure_go_mod_prepared, go_compat_tests_dir};
     use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
+    use fvm_shared::piece::{
+        zero_piece_commitment as zero_piece_commitment_v2, PaddedPieceSize as PaddedPieceSizeV2,
+    };
     use multihash::{Code::Sha2_256, Multihash, MultihashDigest};
     use quickcheck::Arbitrary;
     use quickcheck_macros::quickcheck;
@@ -113,7 +66,7 @@ mod tests {
                 StackedDRG64GiBV1P1,
             ];
 
-            Self(g.choose(OPTIONS.as_slice()).unwrap().clone())
+            Self(*g.choose(OPTIONS.as_slice()).unwrap())
         }
     }
 
@@ -122,7 +75,7 @@ mod tests {
 
     impl Arbitrary for Pieces {
         fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            let cap = *g.choose((1..11).collect::<Vec<_>>().as_slice()).unwrap();
+            let cap = *g.choose((1..4).collect::<Vec<_>>().as_slice()).unwrap();
             let mut pieces = Vec::with_capacity(cap);
             for _ in 0..cap {
                 let cid = {
@@ -141,7 +94,7 @@ mod tests {
     }
 
     #[quickcheck]
-    fn test_compute_unsealed_sector_cid_v2(
+    fn compute_unsealed_sector_cid_v2_go_parity_test(
         proof: RegisteredSealProofWrapper,
         pieces: Pieces,
     ) -> Result<()> {
@@ -154,15 +107,13 @@ mod tests {
             .iter()
             .map(|p| {
                 let bytes = fvm_ipld_encoding::to_vec(p).unwrap();
-                let bytes_hex = hex::encode(bytes);
-                bytes_hex
+                hex::encode(bytes)
             })
             .collect();
         let pieces_hex = pieces_hex_list.join(",");
         let proof_num: i64 = proof.into();
 
-        let unsealed_sector_cid: cid::CidGeneric<64> =
-            compute_unsealed_sector_cid_v2(proof, &pieces)?;
+        let unsealed_sector_cid = compute_unsealed_sector_cid_v2(proof, &pieces)?;
         println!("{unsealed_sector_cid}");
 
         let app = Command::new("go")
@@ -185,6 +136,111 @@ mod tests {
         let unsealed_sector_cid_from_go = String::from_utf8_lossy(&app.stdout);
 
         assert_eq!(unsealed_sector_cid.to_string(), unsealed_sector_cid_from_go);
+
+        Ok(())
+    }
+
+    /// Ported from <https://github.com/filecoin-project/go-commp-utils/blob/62059082a8378046f27a01d62777ae539a2d1feb/nonffi/commd_test.go#L11>
+    #[test]
+    fn compute_unsealed_sector_cid_v2_test() -> Result<()> {
+        /*
+            Testing live sector data with the help of a fellow SP
+
+            ~$ lotus-miner sectors status --log 139074
+                SectorID:	139074
+                Status:		Proving
+                CIDcommD:	baga6ea4seaqiw3gbmstmexb7sqwkc5r23o3i7zcyx5kr76pfobpykes3af62kca
+                ...
+                Precommit:	bafy2bzacec3dyxgqfbjekvnbin6uhcel7adis576346bi3tahp64bhijeiymy
+                Commit:		bafy2bzacecafq4ksrjzlhjagxkrrpycmfpjo5ch62s3tbq7gr5rop75fuqhwk
+                Deals:		[3755444 0 0 3755443 3755442 3755608 3755679 3755680 0 3755754 3755803 3755883 0 3755882 0 0 0]
+        */
+
+        let pieces = vec![
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqknzm22isnhsxt2s4dnw45kfywmhenngqq3nc7jvecakoca6ksyhy",
+                )?,
+                size: PaddedPieceSizeV2(256 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqnq6o5wuewdpviyoafno4rdpqnokz6ghvg2iyeyfbqxgcwdlj2egi",
+                )?,
+                size: PaddedPieceSizeV2(1024 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqpixk4ifbkzato3huzycj6ty6gllqwanhdpsvxikawyl5bg2h44mq",
+                )?,
+                size: PaddedPieceSizeV2(512 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqaxwe5dy6nt3ko5tngtmzvpqxqikw5mdwfjqgaxfwtzenc6bgzajq",
+                )?,
+                size: PaddedPieceSizeV2(512 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqpy33nbesa4d6ot2ygeuy43y4t7amc4izt52mlotqenwcmn2kyaai",
+                )?,
+                size: PaddedPieceSizeV2(1024 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqphvv4x2s2v7ykgc3ugs2kkltbdeg7icxstklkrgqvv72m2v3i2aa",
+                )?,
+                size: PaddedPieceSizeV2(256 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqf5u55znk6jwhdsrhe37emzhmehiyvjxpsww274f6fiy3h4yctady",
+                )?,
+                size: PaddedPieceSizeV2(512 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqa3qbabsbmvk5er6rhsjzt74beplzgulthamm22jue4zgqcuszofi",
+                )?,
+                size: PaddedPieceSizeV2(1024 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqiekvf623muj6jpxg6vsqaikyw3r4ob5u7363z7zcaixqvfqsc2ji",
+                )?,
+                size: PaddedPieceSizeV2(256 << 20),
+            },
+            PieceInfoV2 {
+                cid: Cid::from_str(
+                    "baga6ea4seaqhsewv65z2d4m5o4vo65vl5o6z4bcegdvgnusvlt7rao44gro36pi",
+                )?,
+                size: PaddedPieceSizeV2(512 << 20),
+            },
+            // GenerateUnsealedCID does not "fill a sector", do it here to match the SP provided sector commD
+            PieceInfoV2 {
+                cid: data_commitment_v1_to_cid(&zero_piece_commitment_v2(PaddedPieceSizeV2(
+                    8 << 30,
+                )))
+                .map_err(Error::msg)?,
+                size: PaddedPieceSizeV2(8 << 30),
+            },
+            PieceInfoV2 {
+                cid: data_commitment_v1_to_cid(&zero_piece_commitment_v2(PaddedPieceSizeV2(
+                    16 << 30,
+                )))
+                .map_err(Error::msg)?,
+                size: PaddedPieceSizeV2(16 << 30),
+            },
+        ];
+
+        let commd =
+            compute_unsealed_sector_cid_v2(RegisteredSealProofV2::StackedDRG32GiBV1P1, &pieces)?;
+
+        assert_eq!(
+            commd.to_string(),
+            "baga6ea4seaqiw3gbmstmexb7sqwkc5r23o3i7zcyx5kr76pfobpykes3af62kca"
+        );
 
         Ok(())
     }
