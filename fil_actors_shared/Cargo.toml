@@ -14,11 +14,12 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
+filecoin-proofs-api = { version = "14", default-features = false }
 fvm_ipld_amt = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
-fvm_shared = { workspace = true }
+fvm_shared = { workspace = true, features = ["proofs"] }
 fvm_shared3 = { workspace = true }
 lazy_static = { workspace = true }
 multihash = { workspace = true }
@@ -42,5 +43,8 @@ arb = ["quickcheck"]
 normal = ["num"]
 
 [dev-dependencies]
-quickcheck_macros = { workspace = true }
-toml = { workspace = true }
+fil_actors_test_utils.workspace = true
+hex.workspace = true
+quickcheck.workspace = true
+quickcheck_macros.workspace = true
+toml.workspace = true
