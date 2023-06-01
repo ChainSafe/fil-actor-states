@@ -85,10 +85,10 @@ jobs:
   
   publish-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
-    name: Publish dry run
+    name: Publish Check
     runs-on: ubuntu-latest
     steps:
-      - name: Dry run
+      - name: Publish Dry run
         run: |
           crates=(
             "fil_actors_shared"
