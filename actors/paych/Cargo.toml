@@ -1,7 +1,7 @@
 [package]
 name = "fil_actor_paych_state"
 description = "Builtin paych actor for Filecoin"
-version = "4.0.0"
+version = "5.0.0"
 license = "MIT OR Apache-2.0"
 authors = [
   "ChainSafe Systems <info@chainsafe.io>",
@@ -14,7 +14,7 @@ keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
 cid = { workspace = true }
-fil_actors_shared = { version = "4.0.0", path = "../../fil_actors_shared" }
+fil_actors_shared = { version = "5.0.0", path = "../../fil_actors_shared" }
 frc42_dispatch = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
