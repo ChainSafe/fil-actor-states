@@ -29,4 +29,5 @@ for crate in "${crates[@]}"; do
 
     # Publish to crates.io
     cargo publish --manifest-path "$crate_manifest" --token "$CRATES_IO_TOKEN"
+    cargo clean --manifest-path "$crate_manifest"
 done
