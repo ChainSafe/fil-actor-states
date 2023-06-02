@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
