@@ -19,7 +19,7 @@ jobs:
       - name: Publish
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: ./fil-actor-states/scripts/publish.sh
+        run: ./scripts/publish.sh
       - name: Create Release
         uses: actions/create-release@v1
         env:
