@@ -1,4 +1,3 @@
 [submodule "forest"]
 	path = forest
-    branch = "main"
 	url = https://github.com/ChainSafe/forest.git
