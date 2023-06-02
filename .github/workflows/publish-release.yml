@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.3
         timeout-minutes: 5
@@ -20,7 +20,7 @@ jobs:
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
         run: ./scripts/publish.sh
-      - name: Create Release
+      - name: Create Pre-Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
