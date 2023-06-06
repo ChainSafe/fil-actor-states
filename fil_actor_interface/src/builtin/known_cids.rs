@@ -86,11 +86,13 @@ pub struct CidPerNetwork {
     pub mainnet: Cid,
     #[serde(default, with = "cid_serde")]
     pub calibnet: Cid,
+    #[serde(default, with = "cid_serde")]
+    pub devnet: Cid,
 }
 
 impl CidPerNetwork {
     pub fn contains(&self, cid: &Cid) -> bool {
-        self.mainnet == *cid || self.calibnet == *cid
+        self.mainnet == *cid || self.calibnet == *cid || self.devnet == *cid
     }
 }
 

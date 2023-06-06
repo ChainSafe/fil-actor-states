@@ -26,7 +26,7 @@ fn main() -> anyhow::Result<()> {
     let mut combinations = vec![];
     for cfg in json {
         match cfg.network.as_str() {
-            "mainnet" | "calibrationnet" => {}
+            "mainnet" | "calibrationnet" | "devnet" => {}
             _ => {
                 continue;
             }
