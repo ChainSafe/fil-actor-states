@@ -1,4 +1,3 @@
 [submodule "forest"]
 	path = forest
-        branch = "creativcoder/use-fvm-less-actor-states"
 	url = https://github.com/ChainSafe/forest.git

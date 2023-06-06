@@ -13,8 +13,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - "v*"
 
 env:
   SCCACHE_GHA_ENABLED: "true"
@@ -48,7 +46,7 @@ jobs:
           CXX: "sccache clang++"
 
   forest-sync-check:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
     runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
