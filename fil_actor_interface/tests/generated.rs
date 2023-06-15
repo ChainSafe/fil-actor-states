@@ -16,6 +16,7 @@ mod tests {
     use fil_actor_interface::power::*;
     use fil_actor_interface::reward::*;
     use fil_actor_interface::system::*;
+    use fil_actor_interface::verifreg::*;
 
     include!(concat!(env!("OUT_DIR"), "/network_manifest_tests.rs"));
 }

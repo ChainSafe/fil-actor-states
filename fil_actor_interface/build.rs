@@ -104,6 +104,12 @@ fn main() -> anyhow::Result<()> {
             "system",
             cfg.actors.system,
         ));
+        combinations.push((
+            normalize(&cfg.network),
+            cfg.version,
+            "verifreg",
+            cfg.actors.verifiedregistry,
+        ));
     }
 
     let mut tests = String::new();

@@ -190,3 +190,20 @@ system:
     calibnet: bafk2bzacedqvik2n3phnj3cni3h2k5mtvz43nyq7mdmv7k7euejysvajywdug
     mainnet: bafk2bzaced7npe5mt5nh72jxr2igi2sofoa7gedt4w6kueeke7i3xxugqpjfm
     devnet: bafk2bzacedpyoncjbl4oxkjm5e77ngvpy2xfajjc4myfsv2vltvzxioattlu2
+verifreg:
+  v8:
+    calibnet: bafk2bzaceaihibfu625lbtzdp3tcftscshrmbgghgrc7kzqhxn4455pycpdkm
+    mainnet: bafk2bzaceb3zbkjz3auizmoln2unmxep7dyfcmsre64vnqfhdyh7rkqfoxlw4
+    devnet: bafk2bzaceaajgtglewgitshgdi2nzrvq7eihjtyqj5yiamesqun2hujl3xev2
+  v9:
+    calibnet: bafk2bzacebh7dj6j7yi5vadh7lgqjtq42qi2uq4n6zy2g5vjeathacwn2tscu
+    mainnet: bafk2bzacecf3yodlyudzukumehbuabgqljyhjt5ifiv4vetcfohnvsxzynwga
+    devnet: bafk2bzacednorhcy446agy7ecpmfms2u4aoa3mj2eqomffuoerbik5yavrxyi
+  v10:
+    calibnet: bafk2bzacec67wuchq64k7kgrujguukjvdlsl24pgighqdx5vgjhyk6bycrwnc
+    mainnet: bafk2bzacedfel6edzqpe5oujno7fog4i526go4dtcs6vwrdtbpy2xq6htvcg6
+    devnet: bafk2bzaced2mkyqobpgna5jevosym3adv2bvraggigyz2jgn5cxymirxj4x3i
+  v11:
+    calibnet: bafk2bzaceceoo5jlom2zweh7kpye2vkj33wgqnkjshlsw2neemqkfg5g2rmvg
+    mainnet: bafk2bzacedej3dnr62g2je2abmyjg3xqv4otvh6e26du5fcrhvw7zgcaaez3a
+    devnet: bafk2bzacebdqi5tr5pjnem5nylg2zbqcugvi7oxi35bhnrfudx4y4ufhlit2k
