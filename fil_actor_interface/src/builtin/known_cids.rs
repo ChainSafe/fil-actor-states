@@ -45,6 +45,7 @@ pub struct ActorCids {
     pub power: V8Onwards,
     pub reward: V8Onwards,
     pub system: V8Onwards,
+    pub verifreg: V8Onwards,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]

@@ -15,6 +15,7 @@ pub mod placeholder;
 pub mod power;
 pub mod reward;
 pub mod system;
+pub mod verifreg;
 
 use cid::Cid;
 pub use fil_actor_reward_state::v8::AwardBlockRewardParams;
