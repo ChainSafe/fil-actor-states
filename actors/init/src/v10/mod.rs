@@ -17,5 +17,5 @@ pub enum Method {
     Constructor = METHOD_CONSTRUCTOR,
     Exec = 2,
     // Method numbers derived from FRC-0042 standards
-    ExecExported = frc42_dispatch::method_hash!("Exec"),
+    ExecExported = frc42_macros::method_hash!("Exec"),
 }

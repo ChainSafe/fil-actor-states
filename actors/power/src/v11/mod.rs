@@ -39,11 +39,11 @@ pub enum Method {
     SubmitPoRepForBulkVerify = 8,
     CurrentTotalPower = 9,
     // Method numbers derived from FRC-0042 standards
-    CreateMinerExported = frc42_dispatch::method_hash!("CreateMiner"),
-    NetworkRawPowerExported = frc42_dispatch::method_hash!("NetworkRawPower"),
-    MinerRawPowerExported = frc42_dispatch::method_hash!("MinerRawPower"),
-    MinerCountExported = frc42_dispatch::method_hash!("MinerCount"),
-    MinerConsensusCountExported = frc42_dispatch::method_hash!("MinerConsensusCount"),
+    CreateMinerExported = frc42_macros::method_hash!("CreateMiner"),
+    NetworkRawPowerExported = frc42_macros::method_hash!("NetworkRawPower"),
+    MinerRawPowerExported = frc42_macros::method_hash!("MinerRawPower"),
+    MinerCountExported = frc42_macros::method_hash!("MinerCount"),
+    MinerConsensusCountExported = frc42_macros::method_hash!("MinerConsensusCount"),
 }
 
 pub const ERR_TOO_MANY_PROVE_COMMITS: ExitCode = ExitCode::new(32);

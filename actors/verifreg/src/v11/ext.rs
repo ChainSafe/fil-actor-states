@@ -10,7 +10,7 @@ pub mod account {
     use super::*;
 
     pub const AUTHENTICATE_MESSAGE_METHOD: u64 =
-        frc42_dispatch::method_hash!("AuthenticateMessage");
+        frc42_macros::method_hash!("AuthenticateMessage");
 
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct AuthenticateMessageParams {
@@ -27,11 +27,11 @@ pub mod datacap {
 
     #[repr(u64)]
     pub enum Method {
-        Mint = frc42_dispatch::method_hash!("Mint"),
-        Destroy = frc42_dispatch::method_hash!("Destroy"),
-        Balance = frc42_dispatch::method_hash!("Balance"),
-        Transfer = frc42_dispatch::method_hash!("Transfer"),
-        Burn = frc42_dispatch::method_hash!("Burn"),
+        Mint = frc42_macros::method_hash!("Mint"),
+        Destroy = frc42_macros::method_hash!("Destroy"),
+        Balance = frc42_macros::method_hash!("Balance"),
+        Transfer = frc42_macros::method_hash!("Transfer"),
+        Burn = frc42_macros::method_hash!("Burn"),
     }
 
     #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]

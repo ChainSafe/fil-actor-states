@@ -10,8 +10,7 @@ keywords = ["filecoin", "web3", "wasm"]
 
 [dependencies]
 fil_actors_shared = { version = "5.0.0", path = "../../fil_actors_shared" }
-frc42_dispatch = { workspace = true }
-frc46_token = { workspace = true }
+frc42_macros = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }

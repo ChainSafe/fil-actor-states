@@ -18,6 +18,6 @@ pub enum Method {
     PubkeyAddress = 2,
     // Deprecated in v10
     // AuthenticateMessage = 3,
-    AuthenticateMessageExported = frc42_dispatch::method_hash!("AuthenticateMessage"),
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    AuthenticateMessageExported = frc42_macros::method_hash!("AuthenticateMessage"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }
