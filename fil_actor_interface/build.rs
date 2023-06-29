@@ -26,7 +26,7 @@ fn main() -> anyhow::Result<()> {
     let mut combinations = vec![];
     for cfg in json {
         match cfg.network.as_str() {
-            "mainnet" | "calibrationnet" => {}
+            "mainnet" | "calibrationnet" | "devnet" => {}
             _ => {
                 continue;
             }
@@ -103,6 +103,12 @@ fn main() -> anyhow::Result<()> {
             cfg.version,
             "system",
             cfg.actors.system,
+        ));
+        combinations.push((
+            normalize(&cfg.network),
+            cfg.version,
+            "verifreg",
+            cfg.actors.verifiedregistry,
         ));
     }
 
