@@ -35,6 +35,8 @@ update-forest:
 	git submodule update --init --recursive
 
 modify-forest:
+	# Keep forest separate from the local workspace
+	echo "[workspace]" >> ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_interface = "[0-9]\+"|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actors_shared = "[0-9]\+"|fil_actors_shared = { path =  "../fil_actors_shared" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_account_state = "[0-9]\+"|fil_actor_account_state = { path =  "../actors/account" }|g' ./forest/Cargo.toml
