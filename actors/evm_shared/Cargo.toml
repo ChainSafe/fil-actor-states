@@ -9,7 +9,7 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 keywords = ["filecoin", "web3", "wasm", "evm"]
 
 [dependencies]
-fil_actors_shared = { version = "5.0.0", path = "../../fil_actors_shared" }
+fil_actors_shared = { version = "6.0.0", path = "../../fil_actors_shared" }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
 hex = { workspace = true }
