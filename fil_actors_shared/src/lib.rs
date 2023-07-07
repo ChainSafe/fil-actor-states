@@ -10,11 +10,11 @@ pub mod v9;
 // code copied from `frc46_token`
 pub mod frc46_token {
     use cid::Cid;
+    use fvm_ipld_blockstore::Blockstore;
     use fvm_ipld_encoding::tuple::*;
     use fvm_ipld_hamt::Hamt;
-    use fvm_ipld_blockstore::Blockstore;
-    use fvm_shared3::econ::TokenAmount;
     use fvm_ipld_hamt::{BytesKey, Error as HamtError};
+    use fvm_shared3::econ::TokenAmount;
 
     type Map<'bs, BS, K, V> = Hamt<&'bs BS, V, K>;
     type BalanceMap<'bs, BS> = Map<'bs, BS, BytesKey, TokenAmount>;
