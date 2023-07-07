@@ -33,5 +33,5 @@ pub enum Method {
     GetBytecodeHash = 4,
     GetStorageAt = 5,
     InvokeContractDelegate = 6,
-    InvokeContract = frc42_dispatch::method_hash!("InvokeEVM"),
+    InvokeContract = frc42_macros::method_hash!("InvokeEVM"),
 }

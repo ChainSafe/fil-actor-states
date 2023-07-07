@@ -18,5 +18,5 @@ pub enum Method {
     PubkeyAddress = 2,
     // Deprecated in v10
     // AuthenticateMessage = 3,
-    AuthenticateMessageExported = frc42_dispatch::method_hash!("AuthenticateMessage"),
+    AuthenticateMessageExported = frc42_macros::method_hash!("AuthenticateMessage"),
 }

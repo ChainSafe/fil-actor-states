@@ -17,5 +17,5 @@ pub enum Method {
     Constructor = METHOD_CONSTRUCTOR,
     PubkeyAddress = 2,
     AuthenticateMessage = 3,
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }

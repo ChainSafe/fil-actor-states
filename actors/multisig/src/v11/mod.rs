@@ -25,5 +25,5 @@ pub enum Method {
     ChangeNumApprovalsThreshold = 8,
     LockBalance = 9,
     // Method numbers derived from FRC-0042 standards
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }

@@ -30,10 +30,10 @@ pub enum Method {
     ExtendClaimTerms = 11,
     RemoveExpiredClaims = 12,
     // Method numbers derived from FRC-0042 standards
-    AddVerifiedClientExported = frc42_dispatch::method_hash!("AddVerifiedClient"),
-    RemoveExpiredAllocationsExported = frc42_dispatch::method_hash!("RemoveExpiredAllocations"),
-    GetClaimsExported = frc42_dispatch::method_hash!("GetClaims"),
-    ExtendClaimTermsExported = frc42_dispatch::method_hash!("ExtendClaimTerms"),
-    RemoveExpiredClaimsExported = frc42_dispatch::method_hash!("RemoveExpiredClaims"),
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    AddVerifiedClientExported = frc42_macros::method_hash!("AddVerifiedClient"),
+    RemoveExpiredAllocationsExported = frc42_macros::method_hash!("RemoveExpiredAllocations"),
+    GetClaimsExported = frc42_macros::method_hash!("GetClaims"),
+    ExtendClaimTermsExported = frc42_macros::method_hash!("ExtendClaimTerms"),
+    RemoveExpiredClaimsExported = frc42_macros::method_hash!("RemoveExpiredClaims"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }

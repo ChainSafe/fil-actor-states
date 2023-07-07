@@ -29,5 +29,5 @@ pub enum Method {
     GetClaims = 10,
     ExtendClaimTerms = 11,
     RemoveExpiredClaims = 12,
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }

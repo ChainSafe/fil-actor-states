@@ -25,5 +25,5 @@ pub enum Method {
     SwapSigner = 7,
     ChangeNumApprovalsThreshold = 8,
     LockBalance = 9,
-    UniversalReceiverHook = frc42_dispatch::method_hash!("Receive"),
+    UniversalReceiverHook = frc42_macros::method_hash!("Receive"),
 }
