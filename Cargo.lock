@@ -669,7 +669,6 @@ version = "5.0.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_macros",
- "fvm_ipld_blockstore 0.2.0",
  "fvm_ipld_encoding 0.4.0",
  "fvm_shared 2.5.0",
  "fvm_shared 3.4.0",
