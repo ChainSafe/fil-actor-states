@@ -7,6 +7,7 @@ pub mod v11;
 pub mod v8;
 pub mod v9;
 
+// code copied from `frc46_token`
 pub mod frc46_token {
     use cid::Cid;
     use fvm_ipld_encoding::tuple::*;
