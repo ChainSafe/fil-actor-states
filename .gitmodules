@@ -1,3 +1,4 @@
 [submodule "forest"]
 	path = forest
 	url = https://github.com/ChainSafe/forest.git
+	branch = "lemmih/fvm-3.5-upgrade"
