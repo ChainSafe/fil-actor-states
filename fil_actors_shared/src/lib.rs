@@ -8,9 +8,9 @@ pub mod v8;
 pub mod v9;
 
 pub mod frc46_token {
+    use cid::Cid;
     use fvm_ipld_encoding::tuple::*;
     use fvm_shared3::econ::TokenAmount;
-    use cid::Cid;
 
     #[derive(Serialize_tuple, Deserialize_tuple, PartialEq, Eq, Clone, Debug)]
     pub struct TokenState {
