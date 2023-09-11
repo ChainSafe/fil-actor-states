@@ -14,7 +14,7 @@ repository = "https://github.com/ChainSafe/fil-actor-states"
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
-filecoin-proofs-api = { version = "14", default-features = false }
+filecoin-proofs-api = { version = "16", default-features = false }
 fvm_ipld_amt = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
