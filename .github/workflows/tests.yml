@@ -46,7 +46,7 @@ jobs:
           CXX: "sccache clang++"
 
   forest-sync-check:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
+    # if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
     runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
@@ -153,4 +153,4 @@ jobs:
         run: |
           gem install toml-rb --no-document
           ruby scripts/find_duplicate_deps.rb && \
-          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits
+          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield

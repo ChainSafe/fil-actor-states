@@ -33,6 +33,7 @@ clean:
 
 update-forest:
 	git submodule update --init --recursive
+	./forest/assets/ci_download.sh
 
 modify-forest:
 	# Keep forest separate from the local workspace
