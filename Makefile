@@ -11,7 +11,7 @@ audit:
 	cargo audit
 
 udeps:
-	cargo udeps
+	cargo +nightly udeps
 
 lint: clean lint-clippy
 	cargo fmt --all --check
