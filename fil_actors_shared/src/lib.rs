@@ -7,6 +7,11 @@ pub mod v11;
 pub mod v8;
 pub mod v9;
 
+// Re-exports
+pub extern crate fvm_ipld_amt;
+pub extern crate fvm_ipld_bitfield;
+pub extern crate fvm_ipld_hamt;
+
 // code copied from `frc46_token`
 pub mod frc46_token {
     use cid::Cid;
