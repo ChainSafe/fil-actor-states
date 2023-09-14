@@ -71,17 +71,23 @@ jobs:
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test forest
-        run: make -C forest test
+        run: |
+          cd forest
+          make test
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
       - name: Install forest
-        run: make -C forest install
+        run: |
+          cd forest
+          make install
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
       - name: Calibnet health check
-        run: ./forest/scripts/tests/calibnet_other_check.sh
+        run: |
+          cd forest
+          ./scripts/tests/calibnet_other_check.sh
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
@@ -102,6 +108,7 @@ jobs:
             sudo apt-get update -y
             sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
       - uses: hanabi1224/cache-cargo-bin-action@v1.0.0
+      - run: rustup toolchain install nightly
       - name: Install Lint tools
         run: make install-lint-tools
         env:
@@ -153,4 +160,4 @@ jobs:
         run: |
           gem install toml-rb --no-document
           ruby scripts/find_duplicate_deps.rb && \
-          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits
+          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield

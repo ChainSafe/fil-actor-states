@@ -11,7 +11,7 @@ audit:
 	cargo audit
 
 udeps:
-	cargo udeps
+	cargo +nightly udeps
 
 lint: clean lint-clippy
 	cargo fmt --all --check
@@ -32,7 +32,9 @@ clean:
 	@echo "Done cleaning."
 
 update-forest:
-	git submodule update --init --recursive
+	# Set GIT_LFS_SKIP_SMUDGE=1 explicitly to not waste git lfs bandwidth
+	GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive
+	./forest/assets/ci_download.sh
 
 modify-forest:
 	# Keep forest separate from the local workspace
