@@ -651,7 +651,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "frc42_macros",
  "fvm_ipld_encoding",
@@ -664,7 +664,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -676,7 +676,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_datacap_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_macros",
@@ -690,7 +690,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_eam_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fvm_shared 3.6.0",
  "num-derive",
@@ -699,7 +699,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_ethaccount_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
@@ -710,7 +710,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_shared_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fil_actors_shared",
  "fvm_ipld_encoding",
@@ -722,7 +722,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "cid",
  "fil_actor_evm_shared_state",
@@ -737,7 +737,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -755,7 +755,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_interface"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -814,7 +814,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -845,7 +845,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -865,7 +865,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -880,7 +880,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -900,7 +900,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -914,7 +914,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding",
@@ -926,7 +926,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_state"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -943,7 +943,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_shared"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "cid",
