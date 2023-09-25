@@ -655,8 +655,7 @@ version = "6.1.0"
 dependencies = [
  "frc42_macros",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -667,8 +666,7 @@ name = "fil_actor_cron_state"
 version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -681,8 +679,7 @@ dependencies = [
  "fil_actors_shared",
  "frc42_macros",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -692,7 +689,7 @@ dependencies = [
 name = "fil_actor_eam_state"
 version = "6.1.0"
 dependencies = [
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
 ]
@@ -702,7 +699,7 @@ name = "fil_actor_ethaccount_state"
 version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -714,7 +711,7 @@ version = "6.1.0"
 dependencies = [
  "fil_actors_shared",
  "fvm_ipld_encoding",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "hex",
  "serde",
  "uint",
@@ -728,7 +725,7 @@ dependencies = [
  "fil_actor_evm_shared_state",
  "frc42_macros",
  "fvm_ipld_encoding",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "hex-literal",
  "num-derive",
  "num-traits",
@@ -746,8 +743,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -774,8 +770,7 @@ dependencies = [
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "lazy_static",
  "multihash",
  "num",
@@ -799,8 +794,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "hex",
  "libipld-core",
  "num-bigint",
@@ -827,8 +821,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "hex",
  "itertools 0.11.0",
  "lazy_static",
@@ -854,8 +847,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "indexmap",
  "integer-encoding",
  "num-derive",
@@ -871,8 +863,7 @@ dependencies = [
  "fil_actors_shared",
  "frc42_macros",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -889,8 +880,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "integer-encoding",
  "lazy_static",
  "num-derive",
@@ -903,8 +893,7 @@ name = "fil_actor_reward_state"
 version = "6.1.0"
 dependencies = [
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "lazy_static",
  "num",
  "num-derive",
@@ -918,7 +907,7 @@ version = "6.1.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -934,8 +923,7 @@ dependencies = [
  "frc42_macros",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "num-derive",
  "num-traits",
  "serde",
@@ -954,8 +942,7 @@ dependencies = [
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
- "fvm_shared 2.6.0",
- "fvm_shared 3.6.0",
+ "fvm_shared",
  "hex",
  "multihash",
  "num",
@@ -1203,36 +1190,6 @@ dependencies = [
 
 [[package]]
 name = "fvm_shared"
-version = "2.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66dab0c23dcadfa58630ce252eea8dc1d77bbab4b262aaed759371159030a026"
-dependencies = [
- "anyhow",
- "blake2b_simd",
- "byteorder",
- "cid",
- "cs_serde_bytes",
- "data-encoding",
- "data-encoding-macro",
- "filecoin-proofs-api",
- "fvm_ipld_blockstore",
- "fvm_ipld_encoding",
- "lazy_static",
- "log",
- "multihash",
- "num-bigint",
- "num-derive",
- "num-integer",
- "num-traits",
- "serde",
- "serde_repr",
- "serde_tuple",
- "thiserror",
- "unsigned-varint",
-]
-
-[[package]]
-name = "fvm_shared"
 version = "3.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6a982610b95be92a4f862c0e1db52b07f2b960958bf4541fb80e284b72ac46d"
@@ -1243,6 +1200,7 @@ dependencies = [
  "cid",
  "data-encoding",
  "data-encoding-macro",
+ "filecoin-proofs-api",
  "fvm_ipld_encoding",
  "lazy_static",
  "multihash",
@@ -1523,7 +1481,6 @@ dependencies = [
  "core2",
  "digest",
  "multihash-derive",
- "ripemd",
  "serde",
  "serde-big-array",
  "sha2",
@@ -1951,15 +1908,6 @@ name = "regex-syntax"
 version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dbb5fb1acd8a1a18b3dd5be62d25485eb770e05afb408a9627d14d451bae12da"
-
-[[package]]
-name = "ripemd"
-version = "0.1.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd124222d17ad93a644ed9d011a40f4fb64aa54275c08cc216524a9ea82fb09f"
-dependencies = [
- "digest",
-]
 
 [[package]]
 name = "rustix"
