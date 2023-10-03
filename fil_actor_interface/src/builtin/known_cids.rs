@@ -58,6 +58,8 @@ pub struct CidPerVersion {
     pub v10: Cid,
     #[serde(with = "cid_serde")]
     pub v11: Cid,
+    #[serde(with = "cid_serde")]
+    pub v12: Cid,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -66,6 +68,7 @@ pub struct V8Onwards {
     pub v9: CidPerNetwork,
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
+    pub v12: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -73,12 +76,14 @@ pub struct V9Onwards {
     pub v9: CidPerNetwork,
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
+    pub v12: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub struct V10Onwards {
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
+    pub v12: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
