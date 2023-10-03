@@ -7,13 +7,10 @@ use fvm_ipld_bitfield::BitField;
 use fvm_shared3::bigint::BigInt;
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::deal::DealID;
-use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::error::*;
 use fvm_shared3::sector::*;
-use fvm_shared3::smooth::FilterEstimate;
 use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
-use std::collections::BTreeMap;
 
 pub use beneficiary::*;
 pub use bitfield_queue::*;
@@ -146,23 +143,6 @@ pub struct ReplicaUpdateInner {
     pub replica_proof: Vec<u8>,
 }
 
-enum ExtensionKind {
-    // handle only legacy sectors
-    ExtendCommittmentLegacy,
-    // handle both Simple QAP and legacy sectors
-    ExtendCommittment,
-}
-
-// ExtendSectorExpiration param
-struct ExtendExpirationsInner {
-    extensions: Vec<ValidatedExpirationExtension>,
-    // Map from sector being extended to (check, maintain)
-    // `check` is the space of active claims, checked to ensure all claims are checked
-    // `maintain` is the space of claims to maintain
-    // maintain <= check with equality in the case no claims are dropped
-    claims: Option<BTreeMap<SectorNumber, (u64, u64)>>,
-}
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct ValidatedExpirationExtension {
     pub deadline: u64,
@@ -185,43 +165,6 @@ impl From<ExpirationExtension2> for ValidatedExpirationExtension {
             partition: e2.partition,
             sectors,
             new_expiration: e2.new_expiration,
-        }
-    }
-}
-
-struct SectorSealProofInput {
-    pub registered_proof: RegisteredSealProof,
-    pub sector_number: SectorNumber,
-    pub randomness: SealRandomness,
-    pub interactive_randomness: InteractiveSealRandomness,
-    pub sealed_cid: Cid,   // Commr
-    pub unsealed_cid: Cid, // Commd
-}
-
-impl SectorSealProofInput {
-    fn to_seal_verify_info(&self, miner_actor_id: u64, proof: Vec<u8>) -> SealVerifyInfo {
-        SealVerifyInfo {
-            registered_proof: self.registered_proof,
-            sector_id: SectorID {
-                miner: miner_actor_id,
-                number: self.sector_number,
-            },
-            deal_ids: vec![], // unused by the proofs api so this is safe to leave empty
-            randomness: self.randomness.clone(),
-            interactive_randomness: self.interactive_randomness.clone(),
-            proof,
-            sealed_cid: self.sealed_cid,
-            unsealed_cid: self.unsealed_cid,
-        }
-    }
-
-    fn to_aggregate_seal_verify_info(&self) -> AggregateSealVerifyInfo {
-        AggregateSealVerifyInfo {
-            sector_number: self.sector_number,
-            randomness: self.randomness.clone(),
-            interactive_randomness: self.interactive_randomness.clone(),
-            sealed_cid: self.sealed_cid,
-            unsealed_cid: self.unsealed_cid,
         }
     }
 }
@@ -266,80 +209,4 @@ pub struct DealsActivationInput {
     pub sector_expiry: ChainEpoch,
     pub sector_number: SectorNumber,
     pub sector_type: RegisteredSealProof,
-}
-
-// Inputs for activating builtin market deals for one sector
-// and optionally confirming CommD for this sector matches expectation
-struct DataActivationInput {
-    info: DealsActivationInput,
-    expected_commd: Option<Cid>,
-}
-
-impl From<SectorPreCommitOnChainInfo> for DataActivationInput {
-    fn from(pci: SectorPreCommitOnChainInfo) -> DataActivationInput {
-        DataActivationInput {
-            info: DealsActivationInput {
-                deal_ids: pci.info.deal_ids,
-                sector_expiry: pci.info.expiration,
-                sector_number: pci.info.sector_number,
-                sector_type: pci.info.seal_proof,
-            },
-            expected_commd: None, // CommD checks are always performed at precommit time
-        }
-    }
-}
-
-impl From<UpdateAndSectorInfo<'_>> for DataActivationInput {
-    fn from(usi: UpdateAndSectorInfo) -> DataActivationInput {
-        DataActivationInput {
-            info: DealsActivationInput {
-                sector_number: usi.sector_info.sector_number,
-                sector_expiry: usi.sector_info.expiration,
-                deal_ids: usi.update.deals.clone(),
-                sector_type: usi.sector_info.seal_proof,
-            },
-            expected_commd: usi.update.new_unsealed_cid,
-        }
-    }
-}
-
-// Data activation results for one sector
-#[derive(Clone)]
-struct DataActivationOutput {
-    pub unverified_space: BigInt,
-    pub verified_space: BigInt,
-    // None indicates either no deals or computation was not requested.
-    pub unsealed_cid: Option<Cid>,
-}
-
-// Track information needed to update a sector info's data during ProveReplicaUpdate
-#[derive(Clone, Debug)]
-struct UpdateAndSectorInfo<'a> {
-    update: &'a ReplicaUpdateInner,
-    sector_info: SectorOnChainInfo,
-}
-
-// Inputs to proof verification and state update for a single sector replica update.
-struct ReplicaUpdateInputs<'a> {
-    deadline: u64,
-    partition: u64,
-    sector_info: &'a SectorOnChainInfo,
-    proof_inputs: ReplicaUpdateInfo,
-    activated_data: ReplicaUpdateActivatedData,
-}
-
-// Summary of activated data for a replica update.
-struct ReplicaUpdateActivatedData {
-    seal_cid: Cid,
-    deals: Vec<DealID>,
-    unverified_space: BigInt,
-    verified_space: BigInt,
-}
-
-// Network inputs to calculation of sector pledge and associated parameters.
-struct NetworkPledgeInputs {
-    pub network_qap: FilterEstimate,
-    pub network_baseline: StoragePower,
-    pub circulating_supply: TokenAmount,
-    pub epoch_reward: FilterEstimate,
 }
