@@ -818,7 +818,6 @@ version = "6.1.0"
 dependencies = [
  "anyhow",
  "bitflags 2.4.0",
- "byteorder",
  "cid",
  "fil_actor_verifreg_state",
  "fil_actors_shared",
