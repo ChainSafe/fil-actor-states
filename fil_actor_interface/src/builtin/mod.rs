@@ -32,6 +32,7 @@ pub fn is_account_actor(code: &Cid) -> bool {
         || account::is_v9_account_cid(code)
         || account::is_v10_account_cid(code)
         || account::is_v11_account_cid(code)
+        || account::is_v12_account_cid(code)
 }
 
 /// Returns true if the code belongs to a placeholder actor.
