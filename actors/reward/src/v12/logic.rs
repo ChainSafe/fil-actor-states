@@ -208,7 +208,7 @@ mod tests {
         }
 
         // compare test output to golden file used for golang tests; file originally located at filecoin-project/specs-actors/actors/builtin/reward/testdata/TestBaselineReward.golden (current link: https://github.com/filecoin-project/specs-actors/blob/d56b240af24517443ce1f8abfbdab7cb22d331f1/actors/builtin/reward/testdata/TestBaselineReward.golden)
-        let filename = "testdata/TestBaselineReward.golden";
+        let filename = "src/v12/testdata/TestBaselineReward.golden";
         let golden_contents =
             fs::read_to_string(filename).expect("Something went wrong reading the file");
 
