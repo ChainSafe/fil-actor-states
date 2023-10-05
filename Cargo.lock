@@ -680,7 +680,6 @@ version = "6.1.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_macros",
- "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
