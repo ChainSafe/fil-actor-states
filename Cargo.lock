@@ -970,7 +970,6 @@ dependencies = [
  "paste",
  "quickcheck",
  "quickcheck_macros",
- "regex",
  "serde",
  "serde_repr",
  "sha2",

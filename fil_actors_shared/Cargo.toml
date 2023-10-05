@@ -31,7 +31,6 @@ num-derive = { workspace = true }
 num-traits = { workspace = true }
 paste = { workspace = true }
 quickcheck = { workspace = true, optional = true }
-regex.workspace = { workspace = true }
 serde = { workspace = true }
 serde_repr = { workspace = true }
 sha2 = { workspace = true }
