@@ -4,7 +4,6 @@
 use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
-#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
 use fvm_shared4::bigint::BigInt;
@@ -24,7 +23,6 @@ pub mod builtin;
 pub mod runtime;
 pub mod util;
 
-#[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.
