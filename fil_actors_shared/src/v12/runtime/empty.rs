@@ -6,7 +6,7 @@ use std::mem;
 use cid::multihash::Multihash;
 use cid::Cid;
 use fvm_ipld_encoding::DAG_CBOR;
-use fvm_shared3::crypto::hash::SupportedHashes;
+use fvm_shared4::crypto::hash::SupportedHashes;
 
 const fn const_unwrap<T: Copy, E>(r: Result<T, E>) -> T {
     let v = match r {

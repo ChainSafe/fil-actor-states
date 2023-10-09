@@ -4,7 +4,7 @@
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::Error;
-use fvm_shared3::HAMT_BIT_WIDTH;
+use fvm_shared4::HAMT_BIT_WIDTH;
 
 use crate::v12::{make_empty_map, make_map_with_root, BytesKey, Map};
 

@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared3::clock::ChainEpoch;
-use fvm_shared3::sector::StoragePower;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::sector::StoragePower;
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
@@ -236,8 +236,8 @@ impl Policy {
 }
 
 pub mod policy_constants {
-    use fvm_shared3::clock::ChainEpoch;
-    use fvm_shared3::clock::EPOCH_DURATION_SECONDS;
+    use fvm_shared4::clock::ChainEpoch;
+    use fvm_shared4::clock::EPOCH_DURATION_SECONDS;
 
     use crate::v12::builtin::*;
 

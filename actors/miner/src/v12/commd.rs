@@ -2,8 +2,8 @@ use cid::multihash::Multihash;
 use cid::{Cid, Version};
 use fil_actors_shared::actor_error_v12;
 use fil_actors_shared::v12::ActorError;
-use fvm_shared3::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
-use fvm_shared3::sector::RegisteredSealProof;
+use fvm_shared4::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
+use fvm_shared4::sector::RegisteredSealProof;
 use serde::{Deserialize, Serialize};
 
 /// CompactCommD represents a Cid with compact representation of context dependant zero value

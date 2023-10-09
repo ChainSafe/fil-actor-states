@@ -8,7 +8,7 @@ use fil_actors_shared::v12::{ActorDowncast, Array};
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared3::clock::{ChainEpoch, QuantSpec};
+use fvm_shared4::clock::{ChainEpoch, QuantSpec};
 use itertools::Itertools;
 
 /// Wrapper for working with an AMT[ChainEpoch]*Bitfield functioning as a queue, bucketed by epoch.

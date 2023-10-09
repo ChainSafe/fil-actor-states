@@ -4,11 +4,11 @@
 use fil_actors_shared::v12::network::EPOCHS_IN_HOUR;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{strict_bytes, to_vec, Error, RawBytes};
-use fvm_shared3::address::Address;
-use fvm_shared3::clock::ChainEpoch;
-use fvm_shared3::crypto::signature::Signature;
-use fvm_shared3::econ::TokenAmount;
-use fvm_shared3::MethodNum;
+use fvm_shared4::address::Address;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::crypto::signature::Signature;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::MethodNum;
 
 use super::Merge;
 

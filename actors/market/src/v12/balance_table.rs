@@ -5,8 +5,8 @@ use cid::Cid;
 use fil_actors_shared::actor_error_v12;
 use fil_actors_shared::v12::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared3::address::Address;
-use fvm_shared3::econ::TokenAmount;
+use fvm_shared4::address::Address;
+use fvm_shared4::econ::TokenAmount;
 use num_traits::Zero;
 
 /// Balance table which handles getting and updating token balances specifically
@@ -120,8 +120,8 @@ where
 #[cfg(test)]
 mod tests {
     use fvm_ipld_blockstore::MemoryBlockstore;
-    use fvm_shared3::address::Address;
-    use fvm_shared3::econ::TokenAmount;
+    use fvm_shared4::address::Address;
+    use fvm_shared4::econ::TokenAmount;
 
     use crate::v12::balance_table::BalanceTable;
 

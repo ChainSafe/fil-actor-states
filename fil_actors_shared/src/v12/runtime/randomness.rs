@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared3::clock::ChainEpoch;
-use fvm_shared3::randomness::RANDOMNESS_LENGTH;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::randomness::RANDOMNESS_LENGTH;
 use num_derive::FromPrimitive;
 use serde_repr::*;
 

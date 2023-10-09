@@ -1,6 +1,6 @@
-use fvm_shared3::error::ExitCode;
+use fvm_shared4::error::ExitCode;
 
-use fvm_shared3::METHOD_CONSTRUCTOR;
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 mod state;

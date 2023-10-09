@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::METHOD_CONSTRUCTOR;
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 /// System actor methods.

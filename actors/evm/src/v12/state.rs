@@ -1,7 +1,7 @@
 use std::array::TryFromSliceError;
 
 use fil_actor_evm_shared_state::v12::uints::U256;
-use fvm_shared3::ActorID;
+use fvm_shared4::ActorID;
 
 use cid::Cid;
 use fvm_ipld_encoding::strict_bytes;

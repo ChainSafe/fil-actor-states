@@ -5,7 +5,7 @@ use std::collections::BTreeMap;
 use std::ops::AddAssign;
 
 use fvm_ipld_bitfield::BitField;
-use fvm_shared3::clock::ChainEpoch;
+use fvm_shared4::clock::ChainEpoch;
 
 #[derive(Default)]
 pub struct TerminationResult {

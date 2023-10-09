@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fil_actors_shared::v11::FIRST_ACTOR_SPECIFIC_EXIT_CODE;
-use fvm_shared3::error::ExitCode;
-use fvm_shared3::METHOD_CONSTRUCTOR;
+use fvm_shared4::error::ExitCode;
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::deal::*;

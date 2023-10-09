@@ -127,7 +127,7 @@ impl State {
             State::V9(st) => st.into_total_locked(),
             State::V10(st) => from_token_v3_to_v2(st.into_total_locked()),
             State::V11(st) => from_token_v3_to_v2(st.into_total_locked()),
-            State::V12(st) => from_token_v3_to_v2(st.into_total_locked()),
+            State::V12(st) => from_token_v4_to_v2(st.into_total_locked()),
         }
     }
 
@@ -147,7 +147,7 @@ impl State {
                 .miner_power(&s, &from_address_v2_to_v3(*miner))?
                 .map(From::from)),
             State::V12(st) => Ok(st
-                .miner_power(&s, &from_address_v2_to_v3(*miner))?
+                .miner_power(&s, &from_address_v2_to_v4(*miner))?
                 .map(From::from)),
         }
     }
@@ -205,7 +205,7 @@ impl State {
                 from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
             }
             State::V12(st) => {
-                from_filter_estimate_v3_to_v2(st.this_epoch_qa_power_smoothed.clone())
+                from_filter_estimate_v4_to_v2(st.this_epoch_qa_power_smoothed.clone())
             }
         }
     }
@@ -217,7 +217,7 @@ impl State {
             State::V9(st) => st.total_pledge_collateral.clone(),
             State::V10(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
             State::V11(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
-            State::V12(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
+            State::V12(st) => from_token_v4_to_v2(st.total_pledge_collateral.clone()),
         }
     }
 }

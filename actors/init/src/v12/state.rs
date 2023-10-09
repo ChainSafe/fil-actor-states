@@ -6,8 +6,8 @@ use fil_actors_shared::actor_error_v12;
 use fil_actors_shared::v12::{ActorError, Map2, DEFAULT_HAMT_CONFIG, FIRST_NON_SINGLETON_ADDR};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::address::{Address, Protocol};
-use fvm_shared3::ActorID;
+use fvm_shared4::address::{Address, Protocol};
+use fvm_shared4::ActorID;
 
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]
 pub struct State {

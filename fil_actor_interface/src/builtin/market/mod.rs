@@ -1,7 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::convert::from_token_v3_to_v2;
+use crate::convert::{from_token_v3_to_v2, from_token_v4_to_v2};
 use anyhow::Context;
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
@@ -120,7 +120,7 @@ impl State {
             State::V9(st) => st.total_locked(),
             State::V10(st) => from_token_v3_to_v2(st.get_total_locked()),
             State::V11(st) => from_token_v3_to_v2(st.get_total_locked()),
-            State::V12(st) => from_token_v3_to_v2(st.get_total_locked()),
+            State::V12(st) => from_token_v4_to_v2(st.get_total_locked()),
         }
     }
 }

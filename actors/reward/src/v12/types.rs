@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::address::Address;
-use fvm_shared3::bigint::bigint_ser::BigIntDe;
-use fvm_shared3::econ::TokenAmount;
+use fvm_shared4::address::Address;
+use fvm_shared4::bigint::bigint_ser::BigIntDe;
+use fvm_shared4::econ::TokenAmount;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
@@ -20,7 +20,7 @@ pub struct AwardBlockRewardParams {
     pub win_count: i64,
 }
 
-pub use fvm_shared3::reward::ThisEpochRewardReturn;
+pub use fvm_shared4::reward::ThisEpochRewardReturn;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]

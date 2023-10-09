@@ -4,7 +4,7 @@ use fil_actor_evm_shared_state::v12::uints::U256;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
-use fvm_shared3::econ::TokenAmount;
+use fvm_shared4::econ::TokenAmount;
 
 #[derive(Serialize_tuple, Deserialize_tuple)]
 pub struct ConstructorParams {

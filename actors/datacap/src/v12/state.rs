@@ -3,7 +3,7 @@
 
 use fil_actors_shared::frc46_token;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::address::Address;
+use fvm_shared4::address::Address;
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug)]
 pub struct State {

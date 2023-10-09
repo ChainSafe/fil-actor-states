@@ -7,8 +7,8 @@ use fvm_ipld_blockstore::Blockstore;
 #[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
-use fvm_shared3::bigint::BigInt;
-pub use fvm_shared3::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
+use fvm_shared4::bigint::BigInt;
+pub use fvm_shared4::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;

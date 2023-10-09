@@ -12,6 +12,7 @@ keywords = ["filecoin", "web3", "wasm", "evm"]
 fil_actors_shared = { version = "6.1.0", path = "../../fil_actors_shared" }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
+fvm_shared4 = { workspace = true }
 hex = { workspace = true }
 serde = { workspace = true }
 uint = { workspace = true }

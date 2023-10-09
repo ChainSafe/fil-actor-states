@@ -11,12 +11,12 @@ use fil_actors_shared::v12::{
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::address::Address;
-use fvm_shared3::clock::{ChainEpoch, EPOCH_UNDEFINED};
-use fvm_shared3::deal::DealID;
-use fvm_shared3::econ::TokenAmount;
-use fvm_shared3::error::ExitCode;
-use fvm_shared3::HAMT_BIT_WIDTH;
+use fvm_shared4::address::Address;
+use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
+use fvm_shared4::deal::DealID;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::error::ExitCode;
+use fvm_shared4::HAMT_BIT_WIDTH;
 use num_traits::Zero;
 use std::collections::BTreeMap;
 

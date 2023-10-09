@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::address::Address;
-use fvm_shared3::econ::TokenAmount;
+use fvm_shared4::address::Address;
+use fvm_shared4::econ::TokenAmount;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
