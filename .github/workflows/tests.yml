@@ -48,7 +48,7 @@ jobs:
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
-    runs-on: buildjet-8vcpu-ubuntu-2004
+    runs-on: fuzzy
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
