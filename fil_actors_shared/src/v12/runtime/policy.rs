@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_shared4::clock::ChainEpoch;
-use fvm_shared4::sector::StoragePower;
+use fvm_shared4::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
@@ -230,6 +230,8 @@ impl Policy {
             minimum_consensus_power: policy_constants::DEVNET_MINIMUM_CONSENSUS_POWER.into(),
             minimum_verified_allocation_size: 256.into(),
             pre_commit_challenge_delay: 10,
+            valid_post_proof_type: ProofSet::devnet_post_proofs(),
+            valid_pre_commit_proof_type: ProofSet::devnet_seal_proofs(),
             ..Policy::mainnet()
         }
     }
@@ -296,10 +298,7 @@ pub mod policy_constants {
 
     pub const MAX_PRE_COMMIT_RANDOMNESS_LOOKBACK: ChainEpoch = EPOCHS_IN_DAY + CHAIN_FINALITY;
 
-    #[cfg(not(feature = "short-precommit"))]
     pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 150;
-    #[cfg(feature = "short-precommit")]
-    pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 10;
 
     // This lookback exists so that deadline windows can be non-overlapping (which make the programming simpler)
     // but without making the miner wait for chain stability before being able to start on PoSt computation.
@@ -331,10 +330,7 @@ pub mod policy_constants {
     /// This is a conservative value that is chosen via simulations of all known attacks.
     pub const CHAIN_FINALITY: ChainEpoch = 900;
 
-    #[cfg(not(feature = "small-deals"))]
     pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 1 << 20;
-    #[cfg(feature = "small-deals")]
-    pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 256;
     pub const MINIMUM_VERIFIED_ALLOCATION_TERM: i64 = 180 * EPOCHS_IN_DAY;
     pub const MAXIMUM_VERIFIED_ALLOCATION_TERM: i64 = 5 * EPOCHS_IN_YEAR;
     pub const MAXIMUM_VERIFIED_ALLOCATION_EXPIRATION: i64 = 60 * EPOCHS_IN_DAY;
@@ -342,10 +338,7 @@ pub mod policy_constants {
 
     pub const DEAL_UPDATES_INTERVAL: i64 = 30 * EPOCHS_IN_DAY;
 
-    #[cfg(not(feature = "no-provider-deal-collateral"))]
     pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 1;
-    #[cfg(feature = "no-provider-deal-collateral")]
-    pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 0;
 
     pub const PROV_COLLATERAL_PERCENT_SUPPLY_DENOM: i64 = 100;
 
@@ -371,13 +364,40 @@ const REGISTERED_SEAL_PROOF_VARIANTS: usize = 15;
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
-        let proofs = vec![false; REGISTERED_POST_PROOF_VARIANTS];
+        let mut proofs = vec![false; REGISTERED_POST_PROOF_VARIANTS];
+
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1P1) as usize] = true;
+
+        ProofSet(proofs)
+    }
+
+    /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
+    pub fn devnet_post_proofs() -> Self {
+        let mut proofs = vec![false; REGISTERED_POST_PROOF_VARIANTS];
+
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow2KiBV1P1) as usize] = true;
+
         ProofSet(proofs)
     }
 
     /// Create a `ProofSet` for enabled `RegisteredSealProof`s
     pub fn default_seal_proofs() -> Self {
-        let proofs = vec![false; REGISTERED_SEAL_PROOF_VARIANTS];
+        let mut proofs = vec![false; REGISTERED_SEAL_PROOF_VARIANTS];
+
+        proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1_Feat_SyntheticPoRep) as usize] =
+            true;
+
+        ProofSet(proofs)
+    }
+
+    /// Create a `ProofSet` for enabled `RegisteredSealProof`s
+    pub fn devnet_seal_proofs() -> Self {
+        let mut proofs = vec![false; REGISTERED_SEAL_PROOF_VARIANTS];
+
+        proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1_Feat_SyntheticPoRep) as usize] =
+            true;
         ProofSet(proofs)
     }
 
