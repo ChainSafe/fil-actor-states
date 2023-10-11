@@ -19,5 +19,3 @@ pub struct State {
     // builtin actor registry: Vec<(String, Cid)>
     pub builtin_actors: Cid,
 }
-
-impl State {}

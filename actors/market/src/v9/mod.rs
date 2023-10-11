@@ -7,7 +7,6 @@ pub use self::types::*;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-// exports for testing
 pub mod balance_table;
 
 mod deal;

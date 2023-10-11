@@ -13,10 +13,6 @@ mod logic;
 mod state;
 mod types;
 
-// only exported for tests
-#[doc(hidden)]
-pub mod ext;
-
 // * Updated to specs-actors commit: 999e57a151cc7ada020ca2844b651499ab8c0dec (v3.0.1)
 
 /// PenaltyMultiplier is the factor miner penalties are scaled up by

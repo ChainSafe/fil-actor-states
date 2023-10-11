@@ -7,7 +7,6 @@ use num_derive::FromPrimitive;
 pub use self::state::{LaneState, Merge, State};
 pub use self::types::*;
 
-pub mod ext;
 mod state;
 mod types;
 

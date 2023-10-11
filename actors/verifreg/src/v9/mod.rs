@@ -9,7 +9,6 @@ pub use self::state::Claim;
 pub use self::state::State;
 pub use types::*;
 
-pub mod ext;
 pub mod state;
 mod types;
 
