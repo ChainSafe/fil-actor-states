@@ -4,6 +4,7 @@
 use fil_actors_shared::v10::runtime::Policy as PolicyV10;
 use fil_actors_shared::v11::runtime::Policy as PolicyV11;
 use fil_actors_shared::v11::runtime::ProofSet as ProofSetV11;
+use fil_actors_shared::v12::runtime::policy_constants;
 use fil_actors_shared::v12::runtime::Policy as PolicyV12;
 use fil_actors_shared::v12::runtime::ProofSet as ProofSetV12;
 use fil_actors_shared::v9::runtime::Policy as PolicyV9;
@@ -256,6 +257,7 @@ pub fn from_policy_v10_to_v12(policy: &PolicyV10) -> PolicyV12 {
         addressed_partitions_max: policy.addressed_partitions_max,
         declarations_max: policy.declarations_max,
         addressed_sectors_max: policy.addressed_sectors_max,
+        posted_partitions_max: policy_constants::POSTED_PARTITIONS_MAX,
         max_pre_commit_randomness_lookback: policy.max_pre_commit_randomness_lookback,
         pre_commit_challenge_delay: policy.pre_commit_challenge_delay,
         wpost_challenge_lookback: policy.wpost_challenge_lookback,
