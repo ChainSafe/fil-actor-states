@@ -1,9 +1,9 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::evm_shared::v12::address::EthAddress;
+use crate::evm_shared::v12::uints::U256;
 use cid::Cid;
-use fil_actor_evm_shared_state::v12::address::EthAddress;
-use fil_actor_evm_shared_state::v12::uints::U256;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;

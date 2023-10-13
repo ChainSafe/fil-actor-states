@@ -10,12 +10,14 @@ keywords = ["filecoin", "web3", "wasm", "evm"]
 
 [dependencies]
 cid = { workspace = true }
-fil_actor_evm_shared_state = { version = "6.1.0", path = "../evm_shared" }
+fil_actors_shared = { version = "6.1.0", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
+hex = { workspace = true }
 hex-literal = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
+uint = { workspace = true }

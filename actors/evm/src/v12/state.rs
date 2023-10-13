@@ -3,7 +3,7 @@
 
 use std::array::TryFromSliceError;
 
-use fil_actor_evm_shared_state::v12::uints::U256;
+use crate::evm_shared::v12::uints::U256;
 use fvm_shared4::ActorID;
 
 use cid::Cid;
