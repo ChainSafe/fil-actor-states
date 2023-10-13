@@ -7,6 +7,7 @@ concurrency:
 
 on:
   workflow_dispatch:
+  merge_group:
   pull_request:
     branches:
       - main
@@ -48,7 +49,10 @@ jobs:
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
-    runs-on: buildjet-8vcpu-ubuntu-2004
+    runs-on: fuzzy
+    env:
+      # Use local filesystem of `fuzzy` for caching
+      SCCACHE_GHA_ENABLED: "false"
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
