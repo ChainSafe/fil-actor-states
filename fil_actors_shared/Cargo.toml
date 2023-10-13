@@ -22,6 +22,9 @@ fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true, features = ["proofs"] }
 fvm_shared3 = { workspace = true }
+fvm_shared4 = { workspace = true }
+integer-encoding = { workspace = true }
+itertools = { workspace = true }
 multihash = { workspace = true }
 num = { workspace = true }
 num-bigint = { workspace = true }
