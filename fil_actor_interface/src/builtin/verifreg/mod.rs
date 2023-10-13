@@ -22,3 +22,7 @@ pub fn is_v10_verifreg_cid(cid: &Cid) -> bool {
 pub fn is_v11_verifreg_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.verifreg.v11.contains(cid)
 }
+
+pub fn is_v12_verifreg_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.verifreg.v12.contains(cid)
+}

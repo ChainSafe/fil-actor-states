@@ -14,6 +14,7 @@ fil_actors_shared = { version = "7.0.0", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
+fvm_shared4 = { workspace = true }
 hex = { workspace = true }
 hex-literal = { workspace = true }
 num-derive = { workspace = true }

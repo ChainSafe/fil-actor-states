@@ -24,16 +24,18 @@ resolver = "2"
 [workspace.dependencies]
 ahash = "0.8"
 anyhow = "1.0"
+bitflags = "2.4.0"
 byteorder = "1.4.3"
 cid = { version = "0.10", default-features = false, features = ["std"] }
 frc42_macros = "2"
-fvm_ipld_amt = { version = "0.6.1", features = ["go-interop"] }
+fvm_ipld_amt = "0.6.1"
 fvm_ipld_bitfield = "0.6"
 fvm_ipld_blockstore = "0.2"
 fvm_ipld_encoding = "0.4"
 fvm_ipld_hamt = "0.8.0"
 fvm_shared = { version = "~2.6", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3.6", default-features = false }
+fvm_shared4 = { package = "fvm_shared", version = "~4.0.0-alpha.4", default-features = false }
 getrandom = { version = "0.2.10" }
 hex = "0.4.3"
 hex-literal = "0.4"
@@ -60,7 +62,7 @@ serde_json = "1"
 serde_repr = "0.1.14"
 serde_tuple = "0.5"
 serde_yaml = "0.9"
-sha2 = "0.10.5"
+sha2 = "0.10.8"
 thiserror = "1.0"
 toml = "0.7"
 uint = { version = "0.9.3", default-features = false }

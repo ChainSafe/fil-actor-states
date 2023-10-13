@@ -22,6 +22,7 @@ fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
+fvm_shared4 = { workspace = true }
 integer-encoding = { workspace = true }
 lazy_static = { workspace = true }
 num-derive = { workspace = true }

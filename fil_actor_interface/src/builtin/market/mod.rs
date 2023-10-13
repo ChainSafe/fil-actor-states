@@ -1,7 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::convert::from_token_v3_to_v2;
+use crate::convert::{from_token_v3_to_v2, from_token_v4_to_v2};
 use anyhow::Context;
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
@@ -33,6 +33,10 @@ pub fn is_v11_market_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.market.v11.contains(cid)
 }
 
+pub fn is_v12_market_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.market.v12.contains(cid)
+}
+
 /// Market actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -41,6 +45,7 @@ pub enum State {
     V9(fil_actor_market_state::v9::State),
     V10(fil_actor_market_state::v10::State),
     V11(fil_actor_market_state::v11::State),
+    V12(fil_actor_market_state::v12::State),
 }
 
 impl State {
@@ -66,6 +71,11 @@ impl State {
         if is_v11_market_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V11)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v12_market_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V12)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown market actor code {}", code))
@@ -110,6 +120,7 @@ impl State {
             State::V9(st) => st.total_locked(),
             State::V10(st) => from_token_v3_to_v2(st.get_total_locked()),
             State::V11(st) => from_token_v3_to_v2(st.get_total_locked()),
+            State::V12(st) => from_token_v4_to_v2(st.get_total_locked()),
         }
     }
 }

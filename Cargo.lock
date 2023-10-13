@@ -646,6 +646,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -658,6 +659,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -672,6 +674,8 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
+ "lazy_static",
  "num-derive",
  "num-traits",
  "serde",
@@ -682,6 +686,7 @@ name = "fil_actor_eam_state"
 version = "7.0.0"
 dependencies = [
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
 ]
@@ -692,6 +697,7 @@ version = "7.0.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -706,6 +712,7 @@ dependencies = [
  "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "hex",
  "hex-literal",
  "num-derive",
@@ -727,6 +734,7 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -755,6 +763,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "lazy_static",
  "multihash",
  "num",
@@ -780,6 +789,7 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "hex",
  "libipld-core",
  "num-bigint",
@@ -796,6 +806,7 @@ name = "fil_actor_miner_state"
 version = "7.0.0"
 dependencies = [
  "anyhow",
+ "bitflags 2.4.0",
  "cid",
  "fil_actor_verifreg_state",
  "fil_actors_shared",
@@ -808,6 +819,7 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "hex",
  "itertools 0.11.0",
  "lazy_static",
@@ -835,6 +847,7 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "indexmap",
  "integer-encoding",
  "num-derive",
@@ -852,6 +865,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -870,6 +884,7 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "integer-encoding",
  "lazy_static",
  "num-derive",
@@ -884,6 +899,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "lazy_static",
  "num",
  "num-derive",
@@ -898,6 +914,7 @@ dependencies = [
  "cid",
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -915,6 +932,7 @@ dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "num-derive",
  "num-traits",
  "serde",
@@ -935,7 +953,10 @@ dependencies = [
  "fvm_ipld_hamt",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
+ "fvm_shared 4.0.0-alpha.4",
  "hex",
+ "integer-encoding",
+ "itertools 0.11.0",
  "multihash",
  "num",
  "num-bigint",
@@ -1106,9 +1127,9 @@ checksum = "e6d5a32815ae3f33302d95fdcb2ce17862f8c65363dcfd29360480ba1001fc9c"
 
 [[package]]
 name = "fvm_ipld_amt"
-version = "0.6.1"
+version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c0b0ee51ca8defa9717a72e1d35c8cbb85bd8320a835911410b63b9a63dffec"
+checksum = "5fea333475130094f27ce67809aae3f69eb5247541d835950b7c5da733dbbb34"
 dependencies = [
  "anyhow",
  "cid",
@@ -1215,6 +1236,31 @@ name = "fvm_shared"
 version = "3.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6a982610b95be92a4f862c0e1db52b07f2b960958bf4541fb80e284b72ac46d"
+dependencies = [
+ "anyhow",
+ "bitflags 2.4.0",
+ "blake2b_simd",
+ "cid",
+ "data-encoding",
+ "data-encoding-macro",
+ "fvm_ipld_encoding",
+ "lazy_static",
+ "multihash",
+ "num-bigint",
+ "num-derive",
+ "num-integer",
+ "num-traits",
+ "serde",
+ "serde_tuple",
+ "thiserror",
+ "unsigned-varint",
+]
+
+[[package]]
+name = "fvm_shared"
+version = "4.0.0-alpha.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "022bdee26d3a256905d6430b66099868ff7a439a8ceb22c0f351843aa7c5f394"
 dependencies = [
  "anyhow",
  "bitflags 2.4.0",
