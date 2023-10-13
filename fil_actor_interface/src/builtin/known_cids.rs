@@ -28,6 +28,7 @@ pub struct KnownCids {
 pub struct ManifestCids {
     pub mainnet: CidPerVersion,
     pub calibnet: CidPerVersion,
+    pub devnet: CidPerVersion,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
