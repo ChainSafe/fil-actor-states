@@ -49,10 +49,7 @@ jobs:
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
-    runs-on: fuzzy
-    env:
-      # Use local filesystem of `fuzzy` for caching
-      SCCACHE_GHA_ENABLED: "false"
+    runs-on: buildjet-8vcpu-ubuntu-2004
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
