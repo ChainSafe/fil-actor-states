@@ -709,30 +709,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "fil_actor_evm_shared_state"
-version = "6.1.0"
-dependencies = [
- "fil_actors_shared",
- "fvm_ipld_encoding",
- "fvm_shared 3.6.0",
- "hex",
- "serde",
- "uint",
-]
-
-[[package]]
 name = "fil_actor_evm_state"
 version = "6.1.0"
 dependencies = [
  "cid",
- "fil_actor_evm_shared_state",
+ "fil_actors_shared",
  "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
+ "hex",
  "hex-literal",
  "num-derive",
  "num-traits",
  "serde",
+ "uint",
 ]
 
 [[package]]
