@@ -139,9 +139,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.4.0"
+version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b4682ae6287fcf752ecaabbfcc7b6f9b72aa33933dc23a554d853aea8eea8635"
+checksum = "327762f6e5a765692301e5bb513e0d9fef63be86bbc14528052b1cd3e6f03e07"
 dependencies = [
  "serde",
 ]
@@ -806,7 +806,7 @@ name = "fil_actor_miner_state"
 version = "7.0.0-rc.1"
 dependencies = [
  "anyhow",
- "bitflags 2.4.0",
+ "bitflags 2.4.1",
  "cid",
  "fil_actor_verifreg_state",
  "fil_actors_shared",
@@ -1238,7 +1238,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6a982610b95be92a4f862c0e1db52b07f2b960958bf4541fb80e284b72ac46d"
 dependencies = [
  "anyhow",
- "bitflags 2.4.0",
+ "bitflags 2.4.1",
  "blake2b_simd",
  "cid",
  "data-encoding",
@@ -1263,7 +1263,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "022bdee26d3a256905d6430b66099868ff7a439a8ceb22c0f351843aa7c5f394"
 dependencies = [
  "anyhow",
- "bitflags 2.4.0",
+ "bitflags 2.4.1",
  "blake2b_simd",
  "cid",
  "data-encoding",
@@ -1948,9 +1948,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.10.0"
+version = "1.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d119d7c7ca818f8a53c300863d4f87566aac09943aef5b355bb83969dae75d87"
+checksum = "380b951a9c5e80ddfd6136919eef32310721aa4aacd4889a8d39124b026ab343"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1960,9 +1960,9 @@ dependencies = [
 
 [[package]]
 name = "regex-automata"
-version = "0.4.1"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "465c6fc0621e4abc4187a2bda0937bfd4f722c2730b29562e19689ea796c9a4b"
+checksum = "5f804c7828047e88b2d32e2d7fe5a105da8ee3264f01902f796c8e067dc2483f"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1971,9 +1971,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.8.1"
+version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "56d84fdd47036b038fc80dd333d10b6aab10d5d31f4a366e20014def75328d33"
+checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
 
 [[package]]
 name = "ripemd"
@@ -1990,7 +1990,7 @@ version = "0.38.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "745ecfa778e66b2b63c88a61cb36e0eea109e803b0b86bf9879fbc77c70e86ed"
 dependencies = [
- "bitflags 2.4.0",
+ "bitflags 2.4.1",
  "errno",
  "libc",
  "linux-raw-sys",
