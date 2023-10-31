@@ -215,7 +215,7 @@ impl State {
         Ok(())
     }
 }
-#[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, Eq, PartialEq)]
 pub struct Claim {
     // The provider storing the data (from allocation).
     pub provider: ActorID,
