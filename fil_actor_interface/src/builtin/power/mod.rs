@@ -222,7 +222,7 @@ impl State {
     }
 }
 
-#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[derive(Default, Debug, Serialize, Deserialize, Clone, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub struct Claim {
     /// Sum of raw byte power for a miner's sectors.
     pub raw_byte_power: StoragePower,
