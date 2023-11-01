@@ -1,7 +1,7 @@
 [package]
 name = "fil_actors_shared"
 description = "System actors for the Filecoin protocol"
-version = "6.1.0"
+version = "7.0.0-rc.1"
 license = "MIT OR Apache-2.0"
 authors = [
   "ChainSafe Systems <info@chainsafe.io>",
@@ -22,6 +22,9 @@ fvm_ipld_encoding = { workspace = true }
 fvm_ipld_hamt = { workspace = true }
 fvm_shared = { workspace = true, features = ["proofs"] }
 fvm_shared3 = { workspace = true }
+fvm_shared4 = { workspace = true }
+integer-encoding = { workspace = true }
+itertools = { workspace = true }
 multihash = { workspace = true }
 num = { workspace = true }
 num-bigint = { workspace = true }

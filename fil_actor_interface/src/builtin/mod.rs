@@ -32,14 +32,19 @@ pub fn is_account_actor(code: &Cid) -> bool {
         || account::is_v9_account_cid(code)
         || account::is_v10_account_cid(code)
         || account::is_v11_account_cid(code)
+        || account::is_v12_account_cid(code)
 }
 
 /// Returns true if the code belongs to a placeholder actor.
 pub fn is_placeholder_actor(code: &Cid) -> bool {
-    placeholder::is_v10_placeholder_cid(code) || placeholder::is_v11_placeholder_cid(code)
+    placeholder::is_v10_placeholder_cid(code)
+        || placeholder::is_v11_placeholder_cid(code)
+        || placeholder::is_v12_placeholder_cid(code)
 }
 
 /// Returns true if the code belongs to a ethereum account actor.
 pub fn is_eth_account_actor(code: &Cid) -> bool {
-    ethaccount::is_v10_ethaccount_cid(code) || ethaccount::is_v11_ethaccount_cid(code)
+    ethaccount::is_v10_ethaccount_cid(code)
+        || ethaccount::is_v11_ethaccount_cid(code)
+        || ethaccount::is_v12_ethaccount_cid(code)
 }
