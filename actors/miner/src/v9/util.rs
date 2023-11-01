@@ -39,10 +39,11 @@ mod tests {
             ])
             .current_dir(go_compat_tests_dir()?)
             .output()?;
-        println!("Debug: {:#?}", app);
-        if !app.stderr.is_empty() {
-            println!("{}", String::from_utf8_lossy(&app.stderr));
-            anyhow::bail!("Fail to run go test");
+        if !app.status.success() {
+            anyhow::bail!(
+                "Fail to run go test: {}",
+                String::from_utf8_lossy(&app.stderr)
+            );
         }
 
         let key_hex_from_go = String::from_utf8_lossy(&app.stdout);
