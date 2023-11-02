@@ -1,5 +1,5 @@
-use cid::Cid;
 use crate::v12::{make_map_with_root_and_bitwidth, Keyer, Map, MapMap};
+use cid::Cid;
 use fvm_ipld_blockstore::MemoryBlockstore;
 use fvm_shared::HAMT_BIT_WIDTH;
 
@@ -12,23 +12,40 @@ fn mapmap_test() {
     assert!(prev.is_none());
     let prev = mm.put("tree", "evergreen", "cypress".to_string()).unwrap();
     assert_eq!(Some("pine".to_string()), prev);
-    assert_eq!(Some(&"cypress".to_string()), mm.get("tree", "evergreen").unwrap());
+    assert_eq!(
+        Some(&"cypress".to_string()),
+        mm.get("tree", "evergreen").unwrap()
+    );
     // put_if_absent can write to an unassigned key
-    assert!(mm.put_if_absent("rock", "igneous", "basalt".to_string()).unwrap());
+    assert!(mm
+        .put_if_absent("rock", "igneous", "basalt".to_string())
+        .unwrap());
 
     assert!(mm.get("tree", "deciduous").unwrap().is_none());
     mm.put_many(
         "tree",
-        vec![("deciduous", "mango".to_string()), ("evergreen", "larch".to_string())].into_iter(),
+        vec![
+            ("deciduous", "mango".to_string()),
+            ("evergreen", "larch".to_string()),
+        ]
+        .into_iter(),
     )
     .unwrap();
 
     // put_many overwrites and adds new inner keys
-    assert_eq!(Some(&"mango".to_string()), mm.get("tree", "deciduous").unwrap());
-    assert_eq!(Some(&"larch".to_string()), mm.get("tree", "evergreen").unwrap());
+    assert_eq!(
+        Some(&"mango".to_string()),
+        mm.get("tree", "deciduous").unwrap()
+    );
+    assert_eq!(
+        Some(&"larch".to_string()),
+        mm.get("tree", "evergreen").unwrap()
+    );
 
     // put_if_absent won't overwrite
-    assert!(!mm.put_if_absent("tree", "deciduous", "guava".to_string()).unwrap());
+    assert!(!mm
+        .put_if_absent("tree", "deciduous", "guava".to_string())
+        .unwrap());
 
     // for each accounts for all inner keys and values
     let mut count = 0;
@@ -59,7 +76,10 @@ fn mapmap_test() {
     assert!(mm.remove("rock", "sedimentary").unwrap().is_none());
 
     // remove last remaining member of inner map
-    assert_eq!(Some("basalt".to_string()), mm.remove("rock", "igneous").unwrap());
+    assert_eq!(
+        Some("basalt".to_string()),
+        mm.remove("rock", "igneous").unwrap()
+    );
 
     let root = mm.flush().unwrap();
 

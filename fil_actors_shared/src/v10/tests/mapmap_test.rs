@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use cid::Cid;
 use crate::v10::{make_map_with_root_and_bitwidth, Keyer, Map, MapMap};
+use cid::Cid;
 use fvm_ipld_blockstore::MemoryBlockstore;
 use fvm_shared3::HAMT_BIT_WIDTH;
 
