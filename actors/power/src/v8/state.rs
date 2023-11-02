@@ -208,7 +208,7 @@ pub fn epoch_key(e: ChainEpoch) -> BytesKey {
     bz.into()
 }
 
-#[derive(Debug, Serialize_tuple, Deserialize_tuple, Clone, PartialEq)]
+#[derive(Debug, Serialize_tuple, Deserialize_tuple, Clone, PartialEq, Eq)]
 pub struct Claim {
     /// Miner's proof type used to determine minimum miner size
     pub window_post_proof_type: RegisteredPoStProof,
