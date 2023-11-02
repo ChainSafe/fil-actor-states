@@ -23,6 +23,9 @@ pub mod builtin;
 pub mod runtime;
 pub mod util;
 
+#[cfg(test)]
+mod tests;
+
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.
