@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use std::borrow::Cow;
+use std::str::FromStr;
 
 use crate::convert::*;
 use crate::Policy;
@@ -18,6 +19,7 @@ use fvm_shared::{
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
 };
 use num::BigInt;
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 
 use crate::{io::get_obj, power::Claim};
@@ -41,7 +43,12 @@ pub fn is_v11_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v12_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v12.contains(cid)
+    // The following code cid existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
+    // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11363
+    let v12_buggy_miner = Lazy::new(|| {
+        Cid::from_str("bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq").unwrap()
+    });
+    crate::KNOWN_CIDS.actor.miner.v12.contains(cid) || cid == &*v12_buggy_miner
 }
 
 /// Miner actor state.
