@@ -143,9 +143,9 @@ miner:
     mainnet: bafk2bzacec24okjqrp7c7rj3hbrs5ez5apvwah2ruka6haesgfngf37mhk6us
     devnet: bafk2bzacedb7bokkzzs7hnbhivp74pgcpermuy7j6b3ncodylksukkxtnn7ze
   v12:
-    calibnet: bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq
-    mainnet: bafk2bzacea56yi2khvvorofkf2t4rb5fbmltahrjtauszirdjz4jbunt55xsk
-    devnet: bafk2bzaceajgt523lr2sf6cacvzo3goyalljlkaoeehyhxlv57wevkljw2cps
+    calibnet: bafk2bzaced7emkbbnrewv5uvrokxpf5tlm4jslu2jsv77ofw2yqdglg657uie
+    mainnet: bafk2bzacedio7wfaqutc4w6gl2dwqkgpcatz2r223ms74zxiovbjrfxmzeiou
+    devnet: bafk2bzaceckqrzomdnfb35byrhabrmmapxplj66cv3efw7u62qswjaqsuxah4
 multisig:
   v8:
     calibnet: bafk2bzacec66wmb4kohuzvuxsulhcgiwju7sqkldwfpmmgw7dbbwgm5l2574q
