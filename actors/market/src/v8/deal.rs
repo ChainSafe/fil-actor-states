@@ -149,3 +149,66 @@ pub struct DealState {
     // -1 if deal never slashed
     pub slash_epoch: ChainEpoch,
 }
+
+#[cfg(feature = "arb")]
+impl quickcheck::Arbitrary for DealProposal {
+    fn arbitrary(g: &mut quickcheck::Gen) -> Self {
+        use cid::multihash::Code::Blake2b256;
+        use fvm_ipld_encoding::DAG_CBOR;
+
+        Self {
+            piece_cid: Cid::new_v1(DAG_CBOR, Blake2b256.digest(String::arbitrary(g).as_bytes())),
+            verified_deal: bool::arbitrary(g),
+            piece_size: PaddedPieceSize(u64::arbitrary(g)),
+            // address ids greater than u63 upper bound are not supported on go side
+            client: Address::new_id(u32::arbitrary(g) as _),
+            provider: Address::new_id(u32::arbitrary(g) as _),
+            label: Label::String(String::arbitrary(g)),
+            start_epoch: i64::arbitrary(g),
+            end_epoch: i64::arbitrary(g),
+            storage_price_per_epoch: TokenAmount::from_atto(u64::arbitrary(g)),
+            provider_collateral: TokenAmount::from_atto(u64::arbitrary(g)),
+            client_collateral: TokenAmount::from_atto(u64::arbitrary(g)),
+        }
+    }
+}
+
+#[cfg(all(test, feature = "arb"))]
+mod tests {
+    use std::process::Command;
+
+    use anyhow::*;
+    use fil_actors_test_utils::go_compat::{ensure_go_mod_prepared, go_compat_tests_dir};
+    use pretty_assertions::assert_eq;
+    use quickcheck_macros::quickcheck;
+
+    use super::*;
+
+    #[quickcheck]
+    fn test_deal_proposal_cid(proposal: DealProposal) -> Result<()> {
+        ensure_go_mod_prepared();
+
+        let bytes = fvm_ipld_encoding::to_vec(&proposal)?;
+
+        let app = Command::new("go")
+            .args([
+                "run",
+                "actors/market/v8/test_deal_proposal_cid.go",
+                "--data",
+                hex::encode(bytes).as_str(),
+            ])
+            .current_dir(go_compat_tests_dir()?)
+            .output()?;
+
+        if !app.stderr.is_empty() {
+            println!("{}", String::from_utf8_lossy(&app.stderr));
+            anyhow::bail!("Fail to run go test");
+        }
+
+        let cid_from_go = String::from_utf8_lossy(&app.stdout);
+
+        assert_eq!(proposal.cid()?.to_string(), cid_from_go);
+
+        Ok(())
+    }
+}
