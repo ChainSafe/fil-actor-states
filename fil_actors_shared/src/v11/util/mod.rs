@@ -10,7 +10,6 @@ pub use self::set::Set;
 pub use self::set_multimap::SetMultimap;
 
 mod batch_return;
-pub mod cbor;
 mod downcast;
 mod mapmap;
 mod multimap;
