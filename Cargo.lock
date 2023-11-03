@@ -767,6 +767,7 @@ dependencies = [
  "lazy_static",
  "multihash",
  "num",
+ "once_cell",
  "regex",
  "serde",
  "serde_json",
