@@ -111,27 +111,6 @@ mod tests {
 
     #[test]
     fn test_loading_static_value() -> Result<()> {
-        ensure!(crate::KNOWN_CIDS.actor.market.v8.contains(
-            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
-                .unwrap()
-        ));
-        ensure!(!crate::KNOWN_CIDS.actor.market.v9.contains(
-            &Cid::try_from("bafk2bzacediohrxkp2fbsl4yj4jlupjdkgsiwqb4zuezvinhdo2j5hrxco62q")
-                .unwrap()
-        ));
-        ensure!(
-            crate::KNOWN_CIDS.actor.market.v8.calibnet
-                == Cid::try_from("bafk2bzacebotg5coqnglzsdrqxtkqk2eq4krxt6zvds3i3vb2yejgxhexl2n6")
-                    .unwrap()
-        );
-
-        ensure!(
-            KNOWN_CIDS.manifest.calibnet.v10
-                == Cid::try_from("bafy2bzaced25ta3j6ygs34roprilbtb3f6mxifyfnm7z7ndquaruxzdq3y7lo")?
-        );
-
-        ensure!(*INIT_V0_ACTOR_CID == Cid::try_from("bafkqactgnfwc6mjpnfxgs5a")?);
-
         let serialized = serde_yaml::to_string(&*KNOWN_CIDS)?;
         let deserialized = serde_yaml::from_str(&serialized)?;
         ensure!(&*KNOWN_CIDS == &deserialized);

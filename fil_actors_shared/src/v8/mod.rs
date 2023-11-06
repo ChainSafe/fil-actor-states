@@ -26,6 +26,9 @@ pub mod builtin;
 pub mod runtime;
 pub mod util;
 
+#[cfg(test)]
+mod tests;
+
 /// Map type to be used within actors. The underlying type is a HAMT.
 pub type Map<'bs, BS, V> = Hamt<&'bs BS, V, BytesKey>;
 

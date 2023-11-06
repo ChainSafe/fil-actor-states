@@ -17,7 +17,6 @@ pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
 
-#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 
 pub mod actor_error;
@@ -25,7 +24,9 @@ pub mod builtin;
 pub mod runtime;
 pub mod util;
 
-#[cfg(not(feature = "fil-actor"))]
+#[cfg(test)]
+mod tests;
+
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.

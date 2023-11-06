@@ -8,8 +8,6 @@ pub use self::policy::*;
 pub use self::state::*;
 pub use self::types::*;
 
-#[doc(hidden)]
-pub mod ext;
 mod policy;
 mod state;
 mod types;

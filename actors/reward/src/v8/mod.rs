@@ -13,10 +13,6 @@ mod logic;
 mod state;
 mod types;
 
-// only exported for tests
-#[doc(hidden)]
-pub mod ext;
-
 /// `PenaltyMultiplier` is the factor miner penalties are scaled up by
 pub const PENALTY_MULTIPLIER: u64 = 3;
 

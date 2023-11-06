@@ -1,5 +1,5 @@
 use fvm_shared3::clock::ChainEpoch;
-use fvm_shared3::sector::StoragePower;
+use fvm_shared3::sector::{RegisteredPoStProof, RegisteredSealProof, StoragePower};
 use num_traits::FromPrimitive;
 use serde::{Deserialize, Serialize};
 
@@ -316,10 +316,7 @@ pub mod policy_constants {
 
     /// Number of epochs between publishing the precommit and when the challenge for interactive PoRep is drawn
     /// used to ensure it is not predictable by miner.
-    #[cfg(not(feature = "short-precommit"))]
     pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 150;
-    #[cfg(feature = "short-precommit")]
-    pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 10;
 
     /// Lookback from the deadline's challenge window opening from which to sample chain randomness for the challenge seed.
 
@@ -372,10 +369,7 @@ pub mod policy_constants {
     /// The number of total possible types (enum variants) of RegisteredSealProof
     pub const REGISTERED_SEAL_PROOF_VARIANTS: usize = 10;
 
-    #[cfg(not(feature = "small-deals"))]
     pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 1 << 20;
-    #[cfg(feature = "small-deals")]
-    pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 256;
     pub const MINIMUM_VERIFIED_ALLOCATION_TERM: i64 = 180 * EPOCHS_IN_DAY;
     pub const MAXIMUM_VERIFIED_ALLOCATION_TERM: i64 = 5 * EPOCHS_IN_YEAR;
     pub const MAXIMUM_VERIFIED_ALLOCATION_EXPIRATION: i64 = 60 * EPOCHS_IN_DAY;
@@ -386,10 +380,7 @@ pub mod policy_constants {
 
     /// Numerator of the percentage of normalized cirulating
     /// supply that must be covered by provider collateral
-    #[cfg(not(feature = "no-provider-deal-collateral"))]
     pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 1;
-    #[cfg(feature = "no-provider-deal-collateral")]
-    pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 0;
 
     /// Denominator of the percentage of normalized cirulating
     /// supply that must be covered by provider collateral
@@ -410,59 +401,16 @@ pub struct ProofSet(Vec<bool>);
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
-        let proofs = vec![false; policy_constants::REGISTERED_POST_PROOF_VARIANTS];
-        // TODO: v12: cleanup https://github.com/filecoin-project/builtin-actors/issues/1260
-        #[cfg(feature = "sector-2k")]
-        {
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow2KiBV1) as usize] = true;
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow2KiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-8m")]
-        {
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow8MiBV1) as usize] = true;
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow8MiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-512m")]
-        {
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow512MiBV1) as usize] = true;
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow512MiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-32g")]
-        {
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1) as usize] = true;
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-64g")]
-        {
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow64GiBV1) as usize] = true;
-            proofs[i64::from(RegisteredPoStProof::StackedDRGWindow64GiBV1P1) as usize] = true;
-        }
+        let mut proofs = vec![false; policy_constants::REGISTERED_POST_PROOF_VARIANTS];
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1) as usize] = true;
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1P1) as usize] = true;
         ProofSet(proofs)
     }
 
     /// Create a `ProofSet` for enabled `RegisteredSealProof`s
     pub fn default_seal_proofs() -> Self {
-        let proofs = vec![false; policy_constants::REGISTERED_SEAL_PROOF_VARIANTS];
-        #[cfg(feature = "sector-2k")]
-        {
-            proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-8m")]
-        {
-            proofs[i64::from(RegisteredSealProof::StackedDRG8MiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-512m")]
-        {
-            proofs[i64::from(RegisteredSealProof::StackedDRG512MiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-32g")]
-        {
-            proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1) as usize] = true;
-        }
-        #[cfg(feature = "sector-64g")]
-        {
-            proofs[i64::from(RegisteredSealProof::StackedDRG64GiBV1P1) as usize] = true;
-        }
+        let mut proofs = vec![false; policy_constants::REGISTERED_SEAL_PROOF_VARIANTS];
+        proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1) as usize] = true;
         ProofSet(proofs)
     }
 

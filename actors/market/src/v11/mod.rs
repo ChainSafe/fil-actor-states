@@ -10,7 +10,6 @@ pub use self::deal::*;
 pub use self::state::*;
 pub use self::types::*;
 
-// exports for testing
 pub mod balance_table;
 pub mod policy;
 

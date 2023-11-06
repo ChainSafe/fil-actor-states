@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 pub use self::batch_return::BatchReturn;
-pub use self::batch_return::BatchReturnGen;
 pub use self::batch_return::FailCode;
 pub use self::downcast::*;
 pub use self::mapmap::MapMap;
