@@ -93,7 +93,6 @@ pub enum Method {
     ChangeBeneficiary = 30,
     GetBeneficiary = 31,
     ExtendSectorExpiration2 = 32,
-    MovePartitions = 33,
     // Method numbers derived from FRC-0042 standards
     ChangeWorkerAddressExported = frc42_macros::method_hash!("ChangeWorkerAddress"),
     ChangePeerIDExported = frc42_macros::method_hash!("ChangePeerID"),
