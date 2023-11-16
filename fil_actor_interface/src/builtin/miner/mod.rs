@@ -1,9 +1,6 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::borrow::Cow;
-use std::str::FromStr;
-
 use crate::convert::*;
 use crate::Policy;
 use anyhow::Context;
@@ -18,9 +15,11 @@ use fvm_shared::{
     econ::TokenAmount,
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
 };
+use lazy_static::lazy_static;
 use num::BigInt;
-use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
+use std::str::FromStr;
 
 use crate::{io::get_obj, power::Claim};
 /// Miner actor method.
@@ -43,12 +42,21 @@ pub fn is_v11_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v12_miner_cid(cid: &Cid) -> bool {
-    // The following code cid existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
+    // The following code cid's existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
     // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11363
-    let v12_buggy_miner = Lazy::new(|| {
-        Cid::from_str("bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq").unwrap()
-    });
-    crate::KNOWN_CIDS.actor.miner.v12.contains(cid) || cid == &*v12_buggy_miner
+    lazy_static! {
+        static ref V12_POSSIBLE_MINERS: Vec<Cid> = {
+            let cids = vec![
+                "bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq",
+                "bafk2bzaced7emkbbnrewv5uvrokxpf5tlm4jslu2jsv77ofw2yqdglg657uie",
+            ];
+
+            cids.into_iter()
+                .filter_map(|s| Cid::from_str(s).ok())
+                .collect()
+        };
+    }
+    crate::KNOWN_CIDS.actor.miner.v12.contains(cid) || V12_POSSIBLE_MINERS.contains(cid)
 }
 
 /// Miner actor state.
