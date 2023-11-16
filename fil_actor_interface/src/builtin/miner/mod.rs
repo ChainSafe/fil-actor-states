@@ -42,7 +42,7 @@ pub fn is_v11_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v12_miner_cid(cid: &Cid) -> bool {
-    // The following code cid's existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
+    // The following code cids existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
     // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11363
     lazy_static! {
         static ref V12_POSSIBLE_MINERS: Vec<Cid> = {
