@@ -48,18 +48,10 @@ pub fn is_v12_miner_cid(cid: &Cid) -> bool {
         static ref V12_POSSIBLE_MINERS: Vec<Cid> = {
             let cids = vec![
                 // Calibnet
-                "bafk2bzacedwyggrdnk5ofh6fbfw57is2sokduvv77pmtnmhr5ri3nhswvocse", // v12.0.0-dev.0
-                "bafk2bzacea7u5i6mqmruz25alik636jpbr4ln5ap5sdlwlz5jslq2ooj2bc3m", // v12.0.0-dev.1
-                "bafk2bzacedes62nulops6p46n7uys4wsidss3nne4wt3m37l5jnu2jfgbttww", // v12.0.0-dev.2
-                "bafk2bzaceawgt57i7ixpp2bnrek2ewa5g7h5jx3plnsyvho45zfrxrulo4gsk", // v12.0.0-dev.3
                 "bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq", // v12.0.0-rc.1
                 "bafk2bzaced7emkbbnrewv5uvrokxpf5tlm4jslu2jsv77ofw2yqdglg657uie", // v12.0.0-rc.2
                 "bafk2bzaceb7qzqsi5uyxe4o5iuasi47l2hnznvmqr2eu4pl3qscvarjqlnuxo", // v12.0.0-rc.3
                 // Devnet
-                "bafk2bzaced7bmvrtqzxfpyffijxedgi6jq7ysgwynfuu3n6hndqewoowmf7yi", // v12.0.0-dev.0
-                "bafk2bzaceanlq5n6ndlos66bqpftunzylua7pwoaruvpbik46tiopajd6oziq", // v12.0.0-dev.1
-                "bafk2bzacea3encig7orwntdkry64mlillvejonxzuczxj4tamtpi3rcmnbr5m", // v12.0.0-dev.2
-                "bafk2bzaced42ufdfvd2xk6zyittektpjpnawas6c5cojnxxyvpvigobbbn7cw", // v12.0.0-dev.3
                 "bafk2bzaceajgt523lr2sf6cacvzo3goyalljlkaoeehyhxlv57wevkljw2cps", // v12.0.0-rc.1
                 "bafk2bzaceckqrzomdnfb35byrhabrmmapxplj66cv3efw7u62qswjaqsuxah4", // v12.0.0-rc.2
                 "bafk2bzacecs262232b3awcrilyzpdketeayyqzzwgoavtxilgjvayrz55ovk4", // v12.0.0-rc.3
