@@ -50,11 +50,9 @@ pub fn is_v12_miner_cid(cid: &Cid) -> bool {
                 // Calibnet
                 "bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq", // v12.0.0-rc.1
                 "bafk2bzaced7emkbbnrewv5uvrokxpf5tlm4jslu2jsv77ofw2yqdglg657uie", // v12.0.0-rc.2
-                "bafk2bzaceb7qzqsi5uyxe4o5iuasi47l2hnznvmqr2eu4pl3qscvarjqlnuxo", // v12.0.0-rc.3
                 // Devnet
                 "bafk2bzaceajgt523lr2sf6cacvzo3goyalljlkaoeehyhxlv57wevkljw2cps", // v12.0.0-rc.1
                 "bafk2bzaceckqrzomdnfb35byrhabrmmapxplj66cv3efw7u62qswjaqsuxah4", // v12.0.0-rc.2
-                "bafk2bzacecs262232b3awcrilyzpdketeayyqzzwgoavtxilgjvayrz55ovk4", // v12.0.0-rc.3
             ];
 
             cids.into_iter()
