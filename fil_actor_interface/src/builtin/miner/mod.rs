@@ -290,7 +290,7 @@ impl State {
 }
 
 /// Static information about miner
-#[derive(Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct MinerInfo {
     pub owner: Address,
