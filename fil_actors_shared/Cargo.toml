@@ -40,6 +40,7 @@ unsigned-varint = { workspace = true }
 
 [features]
 default = []
+json = ["fvm_ipld_bitfield/json"]
 arb = ["quickcheck"]
 
 [package.metadata.cargo-udeps.ignore]
