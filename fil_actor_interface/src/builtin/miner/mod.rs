@@ -568,6 +568,14 @@ pub struct SectorOnChainInfo {
     /// Expected twenty day projection of reward for sector computed at
     /// activation time
     pub expected_storage_pledge: TokenAmount,
+    /// Age of sector this sector replaced or zero
+    pub replaced_sector_age: ChainEpoch,
+    /// Day reward of sector this sector replace or zero
+    pub replaced_day_reward: TokenAmount,
+    /// The original `SealedSectorCID`, only gets set on the first `ReplicaUpdate`
+    pub sector_key_cid: Option<Cid>,
+    // Flag for QA power mechanism introduced in fip 0045
+    pub simple_qa_power: bool,
 }
 
 impl From<fil_actor_miner_state::v8::SectorOnChainInfo> for SectorOnChainInfo {
@@ -584,6 +592,10 @@ impl From<fil_actor_miner_state::v8::SectorOnChainInfo> for SectorOnChainInfo {
             initial_pledge: info.initial_pledge,
             expected_day_reward: info.expected_day_reward,
             expected_storage_pledge: info.expected_storage_pledge,
+            replaced_sector_age: ChainEpoch::default(),
+            replaced_day_reward: TokenAmount::default(),
+            sector_key_cid: info.sector_key_cid,
+            simple_qa_power: bool::default(),
         }
     }
 }
@@ -602,6 +614,10 @@ impl From<fil_actor_miner_state::v9::SectorOnChainInfo> for SectorOnChainInfo {
             initial_pledge: info.initial_pledge,
             expected_day_reward: info.expected_day_reward,
             expected_storage_pledge: info.expected_storage_pledge,
+            replaced_sector_age: info.replaced_sector_age,
+            replaced_day_reward: info.replaced_day_reward,
+            sector_key_cid: info.sector_key_cid,
+            simple_qa_power: info.simple_qa_power,
         }
     }
 }
@@ -620,6 +636,10 @@ impl From<fil_actor_miner_state::v10::SectorOnChainInfo> for SectorOnChainInfo {
             initial_pledge: from_token_v3_to_v2(info.initial_pledge),
             expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
             expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
+            replaced_sector_age: info.replaced_sector_age,
+            replaced_day_reward: from_token_v3_to_v2(info.replaced_day_reward),
+            sector_key_cid: info.sector_key_cid,
+            simple_qa_power: info.simple_qa_power,
         }
     }
 }
@@ -638,6 +658,10 @@ impl From<fil_actor_miner_state::v11::SectorOnChainInfo> for SectorOnChainInfo {
             initial_pledge: from_token_v3_to_v2(info.initial_pledge),
             expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
             expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
+            replaced_sector_age: info.replaced_sector_age,
+            replaced_day_reward: from_token_v3_to_v2(info.replaced_day_reward),
+            sector_key_cid: info.sector_key_cid,
+            simple_qa_power: info.simple_qa_power,
         }
     }
 }
@@ -656,6 +680,10 @@ impl From<fil_actor_miner_state::v12::SectorOnChainInfo> for SectorOnChainInfo {
             initial_pledge: from_token_v4_to_v2(info.initial_pledge),
             expected_day_reward: from_token_v4_to_v2(info.expected_day_reward),
             expected_storage_pledge: from_token_v4_to_v2(info.expected_storage_pledge),
+            replaced_sector_age: ChainEpoch::default(),
+            replaced_day_reward: from_token_v4_to_v2(info.replaced_day_reward),
+            sector_key_cid: info.sector_key_cid,
+            simple_qa_power: bool::default(),
         }
     }
 }

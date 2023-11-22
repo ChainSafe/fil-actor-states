@@ -1,4 +1,4 @@
 [toolchain]
-channel = "1.72"
+channel = "1.74.0"
 components = ["clippy", "llvm-tools-preview", "rustfmt"]
 targets = []

@@ -950,7 +950,6 @@ fn group_expiration_set(
     let mut total_pledge = TokenAmount::default();
 
     for u in es.on_time_sectors.iter() {
-        let u = u;
         if include_set.remove(&u) {
             let sector = sectors.get(&u).expect("index should exist in sector set");
             sector_numbers.push(u);
