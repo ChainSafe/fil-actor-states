@@ -5,6 +5,7 @@ use crate::convert::*;
 use crate::Policy;
 use anyhow::Context;
 use cid::Cid;
+use fil_actor_miner_state::v12::{BeneficiaryTerm, PendingBeneficiaryChange};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::{serde_bytes, BytesDe};
@@ -305,6 +306,10 @@ pub struct MinerInfo {
     pub sector_size: SectorSize,
     pub window_post_partition_sectors: u64,
     pub consensus_fault_elapsed: ChainEpoch,
+    pub pending_owner_address: Option<Address>,
+    pub beneficiary: Address,
+    pub beneficiary_term: BeneficiaryTerm,
+    pub pending_beneficiary_term: Option<PendingBeneficiaryChange>,
 }
 
 impl From<fil_actor_miner_state::v8::MinerInfo> for MinerInfo {
@@ -328,6 +333,10 @@ impl From<fil_actor_miner_state::v8::MinerInfo> for MinerInfo {
             sector_size: info.sector_size,
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address,
+            beneficiary: info.owner,
+            beneficiary_term: BeneficiaryTerm::default(),
+            pending_beneficiary_term: None,
         }
     }
 }
@@ -353,6 +362,22 @@ impl From<fil_actor_miner_state::v9::MinerInfo> for MinerInfo {
             sector_size: info.sector_size,
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address,
+            beneficiary: info.beneficiary,
+            beneficiary_term: BeneficiaryTerm {
+                expiration: info.beneficiary_term.expiration,
+                quota: from_token_v2_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v2_to_v4(info.beneficiary_term.used_quota),
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v2_to_v4(term.new_beneficiary),
+                    new_quota: from_token_v2_to_v4(term.new_quota),
+                    new_expiration: term.new_expiration,
+                    approved_by_beneficiary: term.approved_by_beneficiary,
+                    approved_by_nominee: term.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -381,6 +406,22 @@ impl From<fil_actor_miner_state::v10::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
+            beneficiary: from_address_v3_to_v2(info.beneficiary),
+            beneficiary_term: BeneficiaryTerm {
+                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                expiration: info.beneficiary_term.expiration,
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v3_to_v4(term.new_beneficiary),
+                    new_quota: from_token_v3_to_v4(term.new_quota),
+                    new_expiration: term.new_expiration,
+                    approved_by_beneficiary: term.approved_by_beneficiary,
+                    approved_by_nominee: term.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -409,6 +450,22 @@ impl From<fil_actor_miner_state::v11::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
+            beneficiary: from_address_v3_to_v2(info.beneficiary),
+            beneficiary_term: BeneficiaryTerm {
+                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                expiration: info.beneficiary_term.expiration,
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|change| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v3_to_v4(change.new_beneficiary),
+                    new_quota: from_token_v3_to_v4(change.new_quota),
+                    new_expiration: change.new_expiration,
+                    approved_by_beneficiary: change.approved_by_beneficiary,
+                    approved_by_nominee: change.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -437,6 +494,10 @@ impl From<fil_actor_miner_state::v12::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v4_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v4_to_v2),
+            beneficiary: from_address_v4_to_v2(info.beneficiary),
+            beneficiary_term: info.beneficiary_term,
+            pending_beneficiary_term: info.pending_beneficiary_term,
         }
     }
 }
