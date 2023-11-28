@@ -54,7 +54,7 @@ pub fn from_address_v2_to_v4(addr: AddressV2) -> AddressV4 {
 
 pub fn from_address_v3_to_v4(addr: AddressV3) -> AddressV4 {
     AddressV4::from_bytes(&addr.to_bytes())
-        .expect("Couldn't convert between FVM2 and FVM4 addresses.")
+        .expect("Couldn't convert between FVM3 and FVM4 addresses.")
 }
 
 pub fn from_address_v4_to_v2(addr: AddressV4) -> AddressV2 {
