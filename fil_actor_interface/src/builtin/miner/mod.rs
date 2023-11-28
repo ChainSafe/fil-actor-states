@@ -492,6 +492,28 @@ impl Deadline {
             }),
         }
     }
+
+    /// Returns number of partitions posted
+    pub fn partitions_posted(&self) -> BitField {
+        match self {
+            Deadline::V8(dl) => dl.partitions_posted.clone(),
+            Deadline::V9(dl) => dl.partitions_posted.clone(),
+            Deadline::V10(dl) => dl.partitions_posted.clone(),
+            Deadline::V11(dl) => dl.partitions_posted.clone(),
+            Deadline::V12(dl) => dl.partitions_posted.clone(),
+        }
+    }
+
+    /// Returns disputable proof count of the deadline
+    pub fn disputable_proof_count<BS: Blockstore>(&self, store: &BS) -> anyhow::Result<u64> {
+        match self {
+            Deadline::V8(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V9(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V10(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V11(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V12(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+        }
+    }
 }
 
 #[allow(clippy::large_enum_variant)]
