@@ -11,6 +11,7 @@ pub mod known_cids;
 pub mod market;
 pub mod miner;
 pub mod multisig;
+pub mod paych;
 pub mod placeholder;
 pub mod power;
 pub mod reward;
@@ -47,4 +48,14 @@ pub fn is_eth_account_actor(code: &Cid) -> bool {
     ethaccount::is_v10_ethaccount_cid(code)
         || ethaccount::is_v11_ethaccount_cid(code)
         || ethaccount::is_v12_ethaccount_cid(code)
+}
+
+/// Returns true if the code belongs to a payment channel actor.
+pub fn is_paych_actor(code: &Cid) -> bool {
+    paych::is_v10_paych_cid(code) || paych::is_v11_paych_cid(code) || paych::is_v12_paych_cid(code)
+}
+
+/// Returns true if the code belongs to an evm actor.
+pub fn is_evm_actor(code: &Cid) -> bool {
+    evm::is_v10_evm_cid(code) || evm::is_v11_evm_cid(code) || evm::is_v12_evm_cid(code)
 }

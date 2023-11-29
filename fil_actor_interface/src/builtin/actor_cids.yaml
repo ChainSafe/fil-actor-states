@@ -263,3 +263,24 @@ verifreg:
     calibnet: bafk2bzaceavldupmf7bimeeacs67z5xdfdlfca6p7sn6bev3mt5ggepfqvhqo
     mainnet: bafk2bzacedudgflxc75c77c6zkmfyq4u2xuk7k6xw6dfdccarjrvxx453b77q
     devnet: bafk2bzacec37mddea65nvh4htsagtryfa3sq6i67utcupslyhzbhjhoy6hopa
+paymentchannel:
+  v8:
+    calibnet: bafk2bzaceblot4pemhfgwb3lceellwrpgxaqkpselzbpqu32maffpopdunlha
+    mainnet: bafk2bzacebalad3f72wyk7qyilvfjijcwubdspytnyzlrhvn73254gqis44rq
+    devnet: bafk2bzaceb3isfguytt6cs4xecyoonbhhekmngfbap2msggbwyde7zch3a6w4
+  v9:
+    calibnet: bafk2bzacec4kg3bfjtssvv2b4wizlbdk3pdtrg5aknzgeb3a6rmksgurpynca
+    mainnet: bafk2bzacebhdvjbjcgupklddfavzef4e4gnkt3xk3rbmgfmk7xhecszhfxeds
+    devnet: bafk2bzacedhsdoo4ww47rm44pizu5qqpho753cizzbbvnd5yz3nm3347su5cy
+  v10:
+    calibnet: bafk2bzacea7ngq44gedftjlar3j3ql3dmd7e7xkkb6squgxinfncybfmppmlc
+    mainnet: bafk2bzaceartlg4mrbwgzcwric6mtvyawpbgx2xclo2vj27nna57nxynf3pgc
+    devnet: bafk2bzacectov7vawkhsvq7aobyjq3oppamytq425wpkxejmq65vvcdm4bt2e
+  v11:
+    calibnet: bafk2bzaceazwhm63kyp47pste5i5acnuhosrgythyagf3kc5clogiqqx6vkzk
+    mainnet: bafk2bzaceb4e6cnsnviegmqvsmoxzncruvhra54piq7bwiqfqevle6oob2gvo
+    devnet: bafk2bzaceafgrz5wepbein35gie7rnsu7zttxvgllgdneuefmmy4j5izydtza
+  v12:
+    calibnet: bafk2bzacebaxhk4itfiuvbftg7kz5zxugqnvdgerobitjq4vl6q4orcwk6wqg
+    mainnet: bafk2bzacectv4cm47bnhga5febf3lo3fq47g72kmmp2xd5s6tcxz7hiqdywa4
+    devnet: bafk2bzaceaupjw3djghaqw3g3hd4tw7uuas3njkszgzx2fhmgqh5eh4e6q2by
