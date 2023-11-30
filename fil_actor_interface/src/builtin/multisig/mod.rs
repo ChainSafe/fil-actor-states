@@ -84,7 +84,7 @@ impl State {
             State::V9(st) => st.amount_locked(height),
             State::V10(st) => from_token_v3_to_v2(st.amount_locked(height)),
             State::V11(st) => from_token_v3_to_v2(st.amount_locked(height)),
-            State::V12(st) => from_token_v3_to_v2(st.amount_locked(height)), // Why not `from_token_v4_to_v2` here?
+            State::V12(st) => from_token_v3_to_v2(st.amount_locked(height)),
         })
     }
 }
