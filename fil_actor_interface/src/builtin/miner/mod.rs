@@ -287,6 +287,11 @@ impl State {
             State::V12(st) => from_token_v4_to_v2(st.fee_debt.clone()),
         }
     }
+
+    pub fn available_balance(&self, balance: &BigInt) -> anyhow::Result<TokenAmount> {
+        // TODO
+        Ok(TokenAmount::default())
+    }
 }
 
 /// Static information about miner

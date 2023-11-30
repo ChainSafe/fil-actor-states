@@ -59,3 +59,21 @@ pub fn is_paych_actor(code: &Cid) -> bool {
 pub fn is_evm_actor(code: &Cid) -> bool {
     evm::is_v10_evm_cid(code) || evm::is_v11_evm_cid(code) || evm::is_v12_evm_cid(code)
 }
+
+/// Returns true if the code belongs to a storage miner actor.
+pub fn is_miner_actor(code: &Cid) -> bool {
+    miner::is_v8_miner_cid(code)
+        || miner::is_v9_miner_cid(code)
+        || miner::is_v10_miner_cid(code)
+        || miner::is_v11_miner_cid(code)
+        || miner::is_v12_miner_cid(code)
+}
+
+/// Returns true if the code belongs to a multisig account actor.
+pub fn is_multisig_actor(code: &Cid) -> bool {
+    multisig::is_v8_multisig_cid(code)
+        || multisig::is_v9_multisig_cid(code)
+        || multisig::is_v10_multisig_cid(code)
+        || multisig::is_v11_multisig_cid(code)
+        || multisig::is_v12_multisig_cid(code)
+}
