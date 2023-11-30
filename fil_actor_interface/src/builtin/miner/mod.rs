@@ -289,6 +289,7 @@ impl State {
         }
     }
 
+    /// Unclaimed funds. Actor balance - (locked funds, precommit deposit, ip requirement) Can go negative if the miner is in IP debt.
     pub fn available_balance(&self, balance: &BigInt) -> anyhow::Result<TokenAmount> {
         let balance: TokenAmount = TokenAmount::from_atto(balance.clone());
         let balance_v3 = from_token_v2_to_v3(balance.clone());
