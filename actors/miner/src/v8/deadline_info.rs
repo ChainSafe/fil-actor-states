@@ -28,14 +28,14 @@ pub struct DeadlineInfo {
 
     // Protocol parameters (This is intentionally included in the JSON response for deadlines)
     #[serde(rename = "WPoStPeriodDeadlines")]
-    w_post_period_deadlines: u64,
+    pub w_post_period_deadlines: u64,
     #[serde(rename = "WPoStProvingPeriod")]
-    w_post_proving_period: ChainEpoch,
+    pub w_post_proving_period: ChainEpoch,
     #[serde(rename = "WPoStChallengeWindow")]
-    w_post_challenge_window: ChainEpoch,
+    pub w_post_challenge_window: ChainEpoch,
     #[serde(rename = "WPoStChallengeLookback")]
-    w_post_challenge_lookback: ChainEpoch,
-    fault_declaration_cutoff: ChainEpoch,
+    pub w_post_challenge_lookback: ChainEpoch,
+    pub fault_declaration_cutoff: ChainEpoch,
 }
 
 impl DeadlineInfo {
