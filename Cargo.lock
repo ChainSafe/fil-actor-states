@@ -640,7 +640,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "frc42_macros",
  "fvm_ipld_encoding",
@@ -654,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -667,7 +667,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_datacap_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_macros",
@@ -683,7 +683,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_eam_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "fvm_shared 3.6.0",
  "fvm_shared 4.0.0",
@@ -693,7 +693,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_ethaccount_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
@@ -705,7 +705,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -723,7 +723,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -742,7 +742,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_interface"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -776,7 +776,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -804,7 +804,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "bitflags 2.4.1",
@@ -837,7 +837,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -858,7 +858,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -874,7 +874,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -895,7 +895,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -910,7 +910,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding",
@@ -923,7 +923,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_state"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -941,7 +941,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_shared"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -2024,9 +2024,9 @@ checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
 
 [[package]]
 name = "serde"
-version = "1.0.192"
+version = "1.0.193"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bca2a08484b285dcb282d0f67b26cadc0df8b19f8c12502c13d966bf9482f001"
+checksum = "25dd9975e68d0cb5aa1120c288333fc98731bd1dd12f561e468ea4728c042b89"
 dependencies = [
  "serde_derive",
 ]
@@ -2051,9 +2051,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.192"
+version = "1.0.193"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d6c7207fbec9faa48073f3e3074cbe553af6ea512d7c21ba46e434e70ea9fbc1"
+checksum = "43576ca501357b9b071ac53cdc7da8ef0cbd9493d8df094cd821777ea6e894d3"
 dependencies = [
  "proc-macro2",
  "quote",

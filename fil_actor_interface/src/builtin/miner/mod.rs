@@ -5,12 +5,13 @@ use crate::convert::*;
 use crate::Policy;
 use anyhow::Context;
 use cid::Cid;
+use fil_actor_miner_state::v12::{BeneficiaryTerm, PendingBeneficiaryChange};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::{serde_bytes, BytesDe};
 use fvm_shared::{
     address::Address,
-    clock::ChainEpoch,
+    clock::{ChainEpoch, QuantSpec},
     deal::DealID,
     econ::TokenAmount,
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
@@ -300,6 +301,25 @@ impl State {
             State::V12(st) => Ok(from_token_v4_to_v2(st.get_available_balance(&balance_v4)?)),
         }
     }
+
+    /// Returns deadline calculations for the current (according to state) proving period.
+    pub fn deadline_info(&self, policy: &Policy, current_epoch: ChainEpoch) -> DeadlineInfo {
+        match self {
+            State::V8(st) => st
+                .deadline_info(&from_policy_v10_to_v9(policy), current_epoch)
+                .into(),
+            State::V9(st) => st
+                .deadline_info(&from_policy_v10_to_v9(policy), current_epoch)
+                .into(),
+            State::V10(st) => st.deadline_info(policy, current_epoch).into(),
+            State::V11(st) => st
+                .deadline_info(&from_policy_v10_to_v11(policy), current_epoch)
+                .into(),
+            State::V12(st) => st
+                .deadline_info(&from_policy_v10_to_v12(policy), current_epoch)
+                .into(),
+        }
+    }
 }
 
 /// Static information about miner
@@ -318,6 +338,10 @@ pub struct MinerInfo {
     pub sector_size: SectorSize,
     pub window_post_partition_sectors: u64,
     pub consensus_fault_elapsed: ChainEpoch,
+    pub pending_owner_address: Option<Address>,
+    pub beneficiary: Address,
+    pub beneficiary_term: BeneficiaryTerm,
+    pub pending_beneficiary_term: Option<PendingBeneficiaryChange>,
 }
 
 impl From<fil_actor_miner_state::v8::MinerInfo> for MinerInfo {
@@ -341,6 +365,10 @@ impl From<fil_actor_miner_state::v8::MinerInfo> for MinerInfo {
             sector_size: info.sector_size,
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address,
+            beneficiary: info.owner,
+            beneficiary_term: BeneficiaryTerm::default(),
+            pending_beneficiary_term: None,
         }
     }
 }
@@ -366,6 +394,22 @@ impl From<fil_actor_miner_state::v9::MinerInfo> for MinerInfo {
             sector_size: info.sector_size,
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address,
+            beneficiary: info.beneficiary,
+            beneficiary_term: BeneficiaryTerm {
+                expiration: info.beneficiary_term.expiration,
+                quota: from_token_v2_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v2_to_v4(info.beneficiary_term.used_quota),
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v2_to_v4(term.new_beneficiary),
+                    new_quota: from_token_v2_to_v4(term.new_quota),
+                    new_expiration: term.new_expiration,
+                    approved_by_beneficiary: term.approved_by_beneficiary,
+                    approved_by_nominee: term.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -394,6 +438,22 @@ impl From<fil_actor_miner_state::v10::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
+            beneficiary: from_address_v3_to_v2(info.beneficiary),
+            beneficiary_term: BeneficiaryTerm {
+                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                expiration: info.beneficiary_term.expiration,
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v3_to_v4(term.new_beneficiary),
+                    new_quota: from_token_v3_to_v4(term.new_quota),
+                    new_expiration: term.new_expiration,
+                    approved_by_beneficiary: term.approved_by_beneficiary,
+                    approved_by_nominee: term.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -422,6 +482,22 @@ impl From<fil_actor_miner_state::v11::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v3_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
+            beneficiary: from_address_v3_to_v2(info.beneficiary),
+            beneficiary_term: BeneficiaryTerm {
+                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                expiration: info.beneficiary_term.expiration,
+            },
+            pending_beneficiary_term: info.pending_beneficiary_term.map(|change| {
+                PendingBeneficiaryChange {
+                    new_beneficiary: from_address_v3_to_v4(change.new_beneficiary),
+                    new_quota: from_token_v3_to_v4(change.new_quota),
+                    new_expiration: change.new_expiration,
+                    approved_by_beneficiary: change.approved_by_beneficiary,
+                    approved_by_nominee: change.approved_by_nominee,
+                }
+            }),
         }
     }
 }
@@ -450,6 +526,10 @@ impl From<fil_actor_miner_state::v12::MinerInfo> for MinerInfo {
             sector_size: from_sector_size_v4_to_v2(info.sector_size),
             window_post_partition_sectors: info.window_post_partition_sectors,
             consensus_fault_elapsed: info.consensus_fault_elapsed,
+            pending_owner_address: info.pending_owner_address.map(from_address_v4_to_v2),
+            beneficiary: from_address_v4_to_v2(info.beneficiary),
+            beneficiary_term: info.beneficiary_term,
+            pending_beneficiary_term: info.pending_beneficiary_term,
         }
     }
 }
@@ -503,6 +583,28 @@ impl Deadline {
             Deadline::V12(dl) => dl.for_each(&store, |idx, part| {
                 f(idx, Partition::V12(Cow::Borrowed(part)))
             }),
+        }
+    }
+
+    /// Returns number of partitions posted
+    pub fn partitions_posted(&self) -> BitField {
+        match self {
+            Deadline::V8(dl) => dl.partitions_posted.clone(),
+            Deadline::V9(dl) => dl.partitions_posted.clone(),
+            Deadline::V10(dl) => dl.partitions_posted.clone(),
+            Deadline::V11(dl) => dl.partitions_posted.clone(),
+            Deadline::V12(dl) => dl.partitions_posted.clone(),
+        }
+    }
+
+    /// Returns disputable proof count of the deadline
+    pub fn disputable_proof_count<BS: Blockstore>(&self, store: &BS) -> anyhow::Result<u64> {
+        match self {
+            Deadline::V8(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V9(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V10(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V11(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
+            Deadline::V12(dl) => Ok(dl.optimistic_proofs_snapshot_amt(store)?.count()),
         }
     }
 }
@@ -697,6 +799,327 @@ impl From<fil_actor_miner_state::v12::SectorOnChainInfo> for SectorOnChainInfo {
             replaced_day_reward: from_token_v4_to_v2(info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
             simple_qa_power: bool::default(),
+        }
+    }
+}
+
+/// Deadline calculations with respect to a current epoch.
+/// "Deadline" refers to the window during which proofs may be submitted.
+/// Windows are non-overlapping ranges [Open, Close), but the challenge epoch for a window occurs
+/// before the window opens.
+#[derive(Default, Debug, Serialize, Deserialize, PartialEq, Eq, Copy, Clone)]
+#[serde(rename_all = "PascalCase")]
+pub struct DeadlineInfo {
+    /// Epoch at which this info was calculated.
+    pub current_epoch: ChainEpoch,
+    /// First epoch of the proving period (<= CurrentEpoch).
+    pub period_start: ChainEpoch,
+    /// Current deadline index, in [0..WPoStProvingPeriodDeadlines).
+    pub index: u64,
+    /// First epoch from which a proof may be submitted (>= CurrentEpoch).
+    pub open: ChainEpoch,
+    /// First epoch from which a proof may no longer be submitted (>= Open).
+    pub close: ChainEpoch,
+    /// Epoch at which to sample the chain for challenge (< Open).
+    pub challenge: ChainEpoch,
+    /// First epoch at which a fault declaration is rejected (< Open).
+    pub fault_cutoff: ChainEpoch,
+
+    // Protocol parameters (This is intentionally included in the JSON response for deadlines)
+    #[serde(rename = "WPoStPeriodDeadlines")]
+    w_post_period_deadlines: u64,
+    #[serde(rename = "WPoStProvingPeriod")]
+    w_post_proving_period: ChainEpoch,
+    #[serde(rename = "WPoStChallengeWindow")]
+    w_post_challenge_window: ChainEpoch,
+    #[serde(rename = "WPoStChallengeLookback")]
+    w_post_challenge_lookback: ChainEpoch,
+    fault_declaration_cutoff: ChainEpoch,
+}
+
+impl DeadlineInfo {
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        period_start: ChainEpoch,
+        deadline_idx: u64,
+        current_epoch: ChainEpoch,
+        w_post_period_deadlines: u64,
+        w_post_proving_period: ChainEpoch,
+        w_post_challenge_window: ChainEpoch,
+        w_post_challenge_lookback: ChainEpoch,
+        fault_declaration_cutoff: ChainEpoch,
+    ) -> Self {
+        if deadline_idx < w_post_period_deadlines {
+            let deadline_open = period_start + (deadline_idx as i64 * w_post_challenge_window);
+            Self {
+                current_epoch,
+                period_start,
+                index: deadline_idx,
+                open: deadline_open,
+                close: deadline_open + w_post_challenge_window,
+                challenge: deadline_open - w_post_challenge_lookback,
+                fault_cutoff: deadline_open - fault_declaration_cutoff,
+                w_post_period_deadlines,
+                w_post_proving_period,
+                w_post_challenge_window,
+                w_post_challenge_lookback,
+                fault_declaration_cutoff,
+            }
+        } else {
+            let after_last_deadline = period_start + w_post_proving_period;
+            Self {
+                current_epoch,
+                period_start,
+                index: deadline_idx,
+                open: after_last_deadline,
+                close: after_last_deadline,
+                challenge: after_last_deadline,
+                fault_cutoff: 0,
+                w_post_period_deadlines,
+                w_post_proving_period,
+                w_post_challenge_window,
+                w_post_challenge_lookback,
+                fault_declaration_cutoff,
+            }
+        }
+    }
+
+    /// Whether the proving period has begun.
+    pub fn period_started(&self) -> bool {
+        self.current_epoch >= self.period_start
+    }
+
+    /// Whether the proving period has elapsed.
+    pub fn period_elapsed(&self) -> bool {
+        self.current_epoch >= self.next_period_start()
+    }
+
+    /// The last epoch in the proving period.
+    pub fn period_end(&self) -> ChainEpoch {
+        self.period_start + self.w_post_proving_period - 1
+    }
+
+    /// The first epoch in the next proving period.
+    pub fn next_period_start(&self) -> ChainEpoch {
+        self.period_start + self.w_post_proving_period
+    }
+
+    /// Whether the current deadline is currently open.
+    pub fn is_open(&self) -> bool {
+        self.current_epoch >= self.open && self.current_epoch < self.close
+    }
+
+    /// Whether the current deadline has already closed.
+    pub fn has_elapsed(&self) -> bool {
+        self.current_epoch >= self.close
+    }
+
+    /// The last epoch during which a proof may be submitted.
+    pub fn last(&self) -> ChainEpoch {
+        self.close - 1
+    }
+
+    /// Epoch at which the subsequent deadline opens.
+    pub fn next_open(&self) -> ChainEpoch {
+        self.close
+    }
+
+    /// Whether the deadline's fault cutoff has passed.
+    pub fn fault_cutoff_passed(&self) -> bool {
+        self.current_epoch >= self.fault_cutoff
+    }
+
+    /// Returns the next instance of this deadline that has not yet elapsed.
+    pub fn next_not_elapsed(self) -> Self {
+        if !self.has_elapsed() {
+            return self;
+        }
+
+        // has elapsed, advance by some multiples of w_post_proving_period
+        let gap = self.current_epoch - self.close;
+        let delta_periods = 1 + gap / self.w_post_proving_period;
+
+        Self::new(
+            self.period_start + self.w_post_proving_period * delta_periods,
+            self.index,
+            self.current_epoch,
+            self.w_post_period_deadlines,
+            self.w_post_proving_period,
+            self.w_post_challenge_window,
+            self.w_post_challenge_lookback,
+            self.fault_declaration_cutoff,
+        )
+    }
+
+    pub fn quant_spec(&self) -> QuantSpec {
+        QuantSpec {
+            unit: self.w_post_proving_period,
+            offset: self.last(),
+        }
+    }
+}
+
+impl From<fil_actor_miner_state::v8::DeadlineInfo> for DeadlineInfo {
+    fn from(info: fil_actor_miner_state::v8::DeadlineInfo) -> Self {
+        let fil_actor_miner_state::v8::DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        } = info;
+        DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        }
+    }
+}
+
+impl From<fil_actor_miner_state::v9::DeadlineInfo> for DeadlineInfo {
+    fn from(info: fil_actor_miner_state::v9::DeadlineInfo) -> Self {
+        let fil_actor_miner_state::v9::DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        } = info;
+        DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        }
+    }
+}
+
+impl From<fil_actor_miner_state::v10::DeadlineInfo> for DeadlineInfo {
+    fn from(info: fil_actor_miner_state::v10::DeadlineInfo) -> Self {
+        let fil_actor_miner_state::v10::DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        } = info;
+        DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        }
+    }
+}
+
+impl From<fil_actor_miner_state::v11::DeadlineInfo> for DeadlineInfo {
+    fn from(info: fil_actor_miner_state::v11::DeadlineInfo) -> Self {
+        let fil_actor_miner_state::v11::DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        } = info;
+        DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        }
+    }
+}
+
+impl From<fil_actor_miner_state::v12::DeadlineInfo> for DeadlineInfo {
+    fn from(info: fil_actor_miner_state::v12::DeadlineInfo) -> Self {
+        let fil_actor_miner_state::v12::DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
+        } = info;
+        DeadlineInfo {
+            current_epoch,
+            period_start,
+            index,
+            open,
+            close,
+            challenge,
+            fault_cutoff,
+            w_post_period_deadlines,
+            w_post_proving_period,
+            w_post_challenge_window,
+            w_post_challenge_lookback,
+            fault_declaration_cutoff,
         }
     }
 }
