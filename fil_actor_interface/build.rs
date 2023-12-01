@@ -110,6 +110,12 @@ fn main() -> anyhow::Result<()> {
             "verifreg",
             cfg.actors.verifiedregistry,
         ));
+        combinations.push((
+            normalize(&cfg.network),
+            cfg.version,
+            "paymentchannel",
+            cfg.actors.paymentchannel,
+        ));
     }
 
     let mut tests = String::new();

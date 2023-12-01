@@ -289,6 +289,20 @@ impl State {
         }
     }
 
+    /// Unclaimed funds. Actor balance - (locked funds, precommit deposit, ip requirement) Can go negative if the miner is in IP debt.
+    pub fn available_balance(&self, balance: &BigInt) -> anyhow::Result<TokenAmount> {
+        let balance: TokenAmount = TokenAmount::from_atto(balance.clone());
+        let balance_v3 = from_token_v2_to_v3(balance.clone());
+        let balance_v4 = from_token_v2_to_v4(balance.clone());
+        match self {
+            State::V8(st) => st.get_available_balance(&balance),
+            State::V9(st) => st.get_available_balance(&balance),
+            State::V10(st) => Ok(from_token_v3_to_v2(st.get_available_balance(&balance_v3)?)),
+            State::V11(st) => Ok(from_token_v3_to_v2(st.get_available_balance(&balance_v3)?)),
+            State::V12(st) => Ok(from_token_v4_to_v2(st.get_available_balance(&balance_v4)?)),
+        }
+    }
+
     /// Returns deadline calculations for the current (according to state) proving period.
     pub fn deadline_info(&self, policy: &Policy, current_epoch: ChainEpoch) -> DeadlineInfo {
         match self {

@@ -78,6 +78,10 @@ pub fn from_token_v4_to_v2(token: TokenAmountV4) -> TokenAmountV2 {
     TokenAmountV2::from_atto(token.atto().clone())
 }
 
+pub fn from_token_v2_to_v3(token: TokenAmountV2) -> TokenAmountV3 {
+    TokenAmountV3::from_atto(token.atto().clone())
+}
+
 pub fn from_sector_size_v3_to_v2(proof: SectorSizeV3) -> SectorSizeV2 {
     match proof {
         SectorSizeV3::_2KiB => SectorSizeV2::_2KiB,
