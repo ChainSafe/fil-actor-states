@@ -657,6 +657,15 @@ impl Partition<'_> {
             Partition::V12(dl) => dl.active_sectors(),
         }
     }
+    pub fn recovering_sectors(&self) -> &BitField {
+        match self {
+            Partition::V8(dl) => &dl.recoveries,
+            Partition::V9(dl) => &dl.recoveries,
+            Partition::V10(dl) => &dl.recoveries,
+            Partition::V11(dl) => &dl.recoveries,
+            Partition::V12(dl) => &dl.recoveries,
+        }
+    }
 }
 
 #[derive(Serialize)]
