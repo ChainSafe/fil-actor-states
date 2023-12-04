@@ -4,7 +4,7 @@ mainnet:
   v8: bafy2bzacebogjbpiemi7npzxchgcjjki3tfxon4ims55obfyfleqntteljsea
   v9: bafy2bzaceb6j6666h36xnhksu3ww4kxb6e25niayfgkdnifaqi6m6ooc66i6i
   v10: bafy2bzacecsuyf7mmvrhkx2evng5gnz5canlnz2fdlzu2lvcgptiq2pzuovos
-  v11: bafy2bzacebgfsebvidddy6l6zplsgmibmuqiyfwxotnvoxknvnnhxerjnrgke
+  v11: bafy2bzacecnhaiwcrpyjvzl4uv4q3jzoif26okl3m66q3cijp3dfwlcxwztwo
   v12: bafy2bzaceapkgfggvxyllnmuogtwasmsv5qi2qzhc2aybockd6kag2g5lzaio
 calibnet:
   v8: bafy2bzacedrdn6z3z7xz7lx4wll3tlgktirhllzqxb766dxpaqp3ukxsjfsba
@@ -18,3 +18,9 @@ devnet:
   v10: bafy2bzacebzz376j5kizfck56366kdz5aut6ktqrvqbi3efa2d4l2o2m653ts
   v11: bafy2bzaceay35go4xbjb45km6o46e5bib3bi46panhovcbedrynzwmm3drr4i
   v12: bafy2bzaceasjdukhhyjbegpli247vbf5h64f7uvxhhebdihuqsj2mwisdwa6o
+butterflynet:
+  v8: bafy2bzaceba5qgs4z3imhlxwds5vamahngatvuuglbv5yl3ftfiosj6ud5chs
+  v9: bafy2bzacec35by4erhcdgcsgzp7yb3j57utydlxxfc73m3k5pep67ehvvyv6i
+  v10: bafy2bzaceckjhsggacixv2d377zfdcnuio4hzkveprio3xnhm3gohi3zy3zco
+  v11: bafy2bzaceaiy4dsxxus5xp5n5i4tjzkb7sc54mjz7qnk2efhgmsrobjesxnza
+  v12: bafy2bzacectxvbk77ntedhztd6sszp2btrtvsmy7lp2ypnrk6yl74zb34t2cq
