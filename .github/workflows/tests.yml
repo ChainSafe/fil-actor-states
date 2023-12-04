@@ -119,31 +119,6 @@ jobs:
           CC: "sccache clang"
           CXX: "sccache clang++"
 
-  codecov:
-    name: Code coverage
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.3
-        timeout-minutes: 5
-        continue-on-error: true
-      - uses: actions/setup-go@v4
-        with:
-          go-version-file: "./go_compat/go.mod"
-      - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@cargo-llvm-cov
-      - name: Generate code coverage
-        run: |
-          cargo llvm-cov --workspace --all-features --all-targets --lcov --output-path lcov.info
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
-      - name: Upload CodeCov
-        uses: codecov/codecov-action@v3
-        with:
-          files: lcov.info
-          fail_ci_if_error: true
   cargo-dependency-check:
     name: Check cargo files for duplicates
     runs-on: ubuntu-latest
