@@ -29,6 +29,7 @@ pub struct ManifestCids {
     pub mainnet: CidPerVersion,
     pub calibnet: CidPerVersion,
     pub devnet: CidPerVersion,
+    pub butterflynet: CidPerVersion,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -96,11 +97,16 @@ pub struct CidPerNetwork {
     pub calibnet: Cid,
     #[serde(default, with = "cid_serde")]
     pub devnet: Cid,
+    #[serde(default, with = "cid_serde")]
+    pub butterflynet: Cid,
 }
 
 impl CidPerNetwork {
     pub fn contains(&self, cid: &Cid) -> bool {
-        self.mainnet == *cid || self.calibnet == *cid || self.devnet == *cid
+        self.mainnet == *cid
+            || self.calibnet == *cid
+            || self.devnet == *cid
+            || self.butterflynet == *cid
     }
 }
 
