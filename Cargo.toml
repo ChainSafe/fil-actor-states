@@ -21,6 +21,18 @@ members = [
 ]
 resolver = "2"
 
+[workspace.package]
+version = "9.1.0"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/ChainSafe/fil-actor-states"
+authors = [
+  "ChainSafe Systems <info@chainsafe.io>",
+  "Protocol Labs",
+  "Filecoin Core Devs",
+]
+edition = "2021"
+keywords = ["filecoin", "web3", "wasm"]
+
 [workspace.dependencies]
 ahash = "0.8"
 anyhow = "1.0"

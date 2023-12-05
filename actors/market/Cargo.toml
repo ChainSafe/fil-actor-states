@@ -1,16 +1,12 @@
 [package]
 name = "fil_actor_market_state"
 description = "Builtin market actor for Filecoin"
-version = "9.1.0"
-license = "MIT OR Apache-2.0"
-authors = [
-  "ChainSafe Systems <info@chainsafe.io>",
-  "Protocol Labs",
-  "Filecoin Core Devs",
-]
-edition = "2021"
-repository = "https://github.com/ChainSafe/fil-actor-states"
-keywords = ["filecoin", "web3", "wasm"]
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+keywords.workspace = true
 
 [features]
 arb = ["dep:quickcheck"]
