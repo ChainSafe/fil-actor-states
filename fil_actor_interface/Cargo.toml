@@ -1,11 +1,12 @@
 [package]
 name = "fil_actor_interface"
 description = "Backward compatibility layer for all versions of builtin actor released v8 onwards."
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/ChainSafe/fil-actor-states"
-version = "9.1.0"
-authors = ["ChainSafe Systems <info@chainsafe.io>"]
-edition = "2021"
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+keywords.workspace = true
 
 [dependencies]
 fil_actor_account_state = { version = "9.1.0", path = "../actors/account" }
