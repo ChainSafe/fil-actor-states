@@ -94,6 +94,62 @@ impl State {
         }
     }
 
+    /// Returns the addresses of every miner that has claimed power in the power actor
+    pub fn list_all_miners<BS: Blockstore>(self, store: &BS) -> anyhow::Result<Vec<Address>> {
+        match self {
+            State::V8(st) => {
+                let claims =
+                    fil_actors_shared::v8::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|bz, _claim| {
+                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+            State::V9(st) => {
+                let claims =
+                    fil_actors_shared::v9::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|bz, _claim| {
+                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+            State::V10(st) => {
+                let claims =
+                    fil_actors_shared::v10::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|bz, _claim| {
+                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+            State::V11(st) => {
+                let claims =
+                    fil_actors_shared::v11::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|bz, _claim| {
+                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+            State::V12(st) => {
+                let claims =
+                    fil_actors_shared::v12::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|bz, _claim| {
+                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+        }
+    }
+
     /// Returns the total power claim.
     pub fn total_power(&self) -> Claim {
         match self {
