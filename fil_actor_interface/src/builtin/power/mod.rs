@@ -138,11 +138,10 @@ impl State {
                 Ok(miners)
             }
             State::V12(st) => {
-                let claims =
-                    fil_actors_shared::v12::make_map_with_root::<_, Claim>(&st.claims, store)?;
+                let claims = st.load_claims(store)?;
                 let mut miners = Vec::new();
-                claims.for_each(|bz, _claim| {
-                    miners.push(Address::from_bytes(&bz).expect("Cannot get address from bytes"));
+                claims.for_each(|addr, _claim| {
+                    miners.push(from_address_v4_to_v2(addr));
                     Ok(())
                 })?;
                 Ok(miners)
