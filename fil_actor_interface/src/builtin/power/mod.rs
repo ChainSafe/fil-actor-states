@@ -101,8 +101,8 @@ impl State {
                 let claims =
                     fil_actors_shared::v8::make_map_with_root::<_, Claim>(&st.claims, store)?;
                 let mut miners = Vec::new();
-                claims.for_each(|bz, _claim| {
-                    miners.push(Address::from_bytes(bz).expect("Cannot get address from bytes"));
+                claims.for_each(|bytes, _claim| {
+                    miners.push(Address::from_bytes(bytes).expect("Cannot get address from bytes"));
                     Ok(())
                 })?;
                 Ok(miners)
@@ -111,8 +111,8 @@ impl State {
                 let claims =
                     fil_actors_shared::v9::make_map_with_root::<_, Claim>(&st.claims, store)?;
                 let mut miners = Vec::new();
-                claims.for_each(|bz, _claim| {
-                    miners.push(Address::from_bytes(bz).expect("Cannot get address from bytes"));
+                claims.for_each(|bytes, _claim| {
+                    miners.push(Address::from_bytes(bytes).expect("Cannot get address from bytes"));
                     Ok(())
                 })?;
                 Ok(miners)
@@ -121,8 +121,8 @@ impl State {
                 let claims =
                     fil_actors_shared::v10::make_map_with_root::<_, Claim>(&st.claims, store)?;
                 let mut miners = Vec::new();
-                claims.for_each(|bz, _claim| {
-                    miners.push(Address::from_bytes(bz).expect("Cannot get address from bytes"));
+                claims.for_each(|bytes, _claim| {
+                    miners.push(Address::from_bytes(bytes).expect("Cannot get address from bytes"));
                     Ok(())
                 })?;
                 Ok(miners)
@@ -131,8 +131,8 @@ impl State {
                 let claims =
                     fil_actors_shared::v11::make_map_with_root::<_, Claim>(&st.claims, store)?;
                 let mut miners = Vec::new();
-                claims.for_each(|bz, _claim| {
-                    miners.push(Address::from_bytes(bz).expect("Cannot get address from bytes"));
+                claims.for_each(|bytes, _claim| {
+                    miners.push(Address::from_bytes(bytes).expect("Cannot get address from bytes"));
                     Ok(())
                 })?;
                 Ok(miners)
