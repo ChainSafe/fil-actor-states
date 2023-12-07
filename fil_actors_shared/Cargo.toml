@@ -1,15 +1,12 @@
 [package]
 name = "fil_actors_shared"
 description = "System actors for the Filecoin protocol"
-version = "9.1.0"
-license = "MIT OR Apache-2.0"
-authors = [
-  "ChainSafe Systems <info@chainsafe.io>",
-  "Protocol Labs",
-  "Filecoin Core Devs",
-]
-edition = "2021"
-repository = "https://github.com/ChainSafe/fil-actor-states"
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+keywords.workspace = true
 
 [dependencies]
 anyhow = { workspace = true }
