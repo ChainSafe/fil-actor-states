@@ -4,7 +4,7 @@
 //! This build script generates test cases from https://github.com/filecoin-project/lotus/blob/master/build/builtin_actors_gen.go
 
 mod src;
-use src::NetworkManifest;
+use src::{KnownCids, NetworkManifest};
 
 use std::path::Path;
 
@@ -18,122 +18,13 @@ fn main() -> anyhow::Result<()> {
 
     let json = to_json()?;
 
-    std::fs::write(
-        out_dir.join("network_manifests.json"),
-        serde_json::to_string_pretty(&json)?,
-    )?;
+    let actors: KnownCids = json.into();
+    let actors_yaml = serde_yaml::to_string(&actors.actor)?;
+    std::fs::write(out_dir.join(cids_filename!(actors)), actors_yaml)?;
 
-    let mut combinations = vec![];
-    for cfg in json.iter() {
-        match cfg.network.as_str() {
-            "mainnet" | "calibrationnet" | "devnet" | "butterflynet" => {}
-            _ => {
-                continue;
-            }
-        }
+    let manifests_yaml = serde_yaml::to_string(&actors.manifest)?;
+    std::fs::write(out_dir.join(cids_filename!(manifests)), manifests_yaml)?;
 
-        fn normalize(network: &str) -> String {
-            network.replace('-', "_")
-        }
-
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "account",
-            cfg.actors.account,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "cron",
-            cfg.actors.cron,
-        ));
-        if let Some(cid) = cfg.actors.datacap {
-            if cfg.version == 10 {
-                combinations.push((normalize(&cfg.network), cfg.version, "datacap", cid));
-            }
-        }
-        if let Some(cid) = cfg.actors.ethaccount {
-            combinations.push((normalize(&cfg.network), cfg.version, "ethaccount", cid));
-        }
-        if let Some(cid) = cfg.actors.evm {
-            combinations.push((normalize(&cfg.network), cfg.version, "evm", cid));
-        }
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "init",
-            cfg.actors.init,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "market",
-            cfg.actors.storagemarket,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "miner",
-            cfg.actors.storageminer,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "multisig",
-            cfg.actors.multisig,
-        ));
-        if let Some(cid) = cfg.actors.placeholder {
-            combinations.push((normalize(&cfg.network), cfg.version, "placeholder", cid));
-        }
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "power",
-            cfg.actors.storagepower,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "reward",
-            cfg.actors.reward,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "system",
-            cfg.actors.system,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "verifreg",
-            cfg.actors.verifiedregistry,
-        ));
-        combinations.push((
-            normalize(&cfg.network),
-            cfg.version,
-            "paymentchannel",
-            cfg.actors.paymentchannel,
-        ));
-    }
-
-    let mut tests = String::new();
-    for (network, version, actor, cid) in combinations {
-        tests.push_str(&format!(
-            "
-        
-        #[test]
-        fn test_{actor}_{}_{version} () {{
-            assert!(is_v{version}_{actor}_cid(&cid::Cid::try_from(\"{cid}\").unwrap()));
-        }}
-
-        ",
-            network.replace('-', "_"),
-        ));
-    }
-
-    std::fs::write(out_dir.join("network_manifest_tests.rs"), tests)?;
     Ok(())
 }
 
