@@ -14,6 +14,9 @@ use crate::io::get_obj;
 /// Datacap actor method.
 pub type Method = fil_actor_datacap_state::v10::Method;
 
+/// Datacap actor address.
+pub const ADDRESS: Address = Address::new_id(7);
+
 /// Datacap actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
