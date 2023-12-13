@@ -1,12 +1,15 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use anyhow::Context;
-use cid::Cid;
-use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::address::Address;
-use serde::Serialize;
 use crate::io::get_obj;
+use anyhow::{anyhow, Context};
+use cid::Cid;
+use fil_actors_shared::v8::{make_map_with_root_and_bitwidth, HAMT_BIT_WIDTH};
+use fil_actors_shared::v9::Keyer;
+use fvm_ipld_blockstore::Blockstore;
+use fvm_shared::address::{Address, Protocol};
+use num::BigInt;
+use serde::Serialize;
 
 /// verifreg actor address.
 pub const ADDRESS: Address = Address::new_id(6);
@@ -44,8 +47,8 @@ pub fn is_v12_verifreg_cid(cid: &Cid) -> bool {
 
 impl State {
     pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-        where
-            BS: Blockstore,
+    where
+        BS: Blockstore,
     {
         if is_v8_verifreg_cid(&code) {
             return get_obj(store, &state)?
@@ -73,5 +76,30 @@ impl State {
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown verifreg actor code {}", code))
+    }
+
+    pub fn verified_client_data_cap<BS>(
+        &self,
+        store: &BS,
+        addr: Address,
+    ) -> anyhow::Result<Option<BigInt>>
+    where
+        BS: Blockstore,
+    {
+        if addr.protocol() != Protocol::ID {
+            return Err(anyhow!("can only look up ID addresses"));
+        }
+
+        match self {
+            State::V8(state) => {
+                let vh = make_map_with_root_and_bitwidth(
+                    &state.verified_clients,
+                    store,
+                    HAMT_BIT_WIDTH,
+                )?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigInt| int.to_owned()))
+            }
+            _ => Err(anyhow!("not supported in actors > v8")),
+        }
     }
 }
