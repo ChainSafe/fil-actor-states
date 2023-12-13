@@ -8,7 +8,7 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared::address::Address;
 use fvm_shared::HAMT_BIT_WIDTH;
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     pub root_key: Address,
     pub verifiers: Cid,

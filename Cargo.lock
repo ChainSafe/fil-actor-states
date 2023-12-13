@@ -757,6 +757,7 @@ dependencies = [
  "fil_actor_power_state",
  "fil_actor_reward_state",
  "fil_actor_system_state",
+ "fil_actor_verifreg_state",
  "fil_actors_shared",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
