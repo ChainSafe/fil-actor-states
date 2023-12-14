@@ -4,8 +4,23 @@
 use crate::convert::{from_token_v3_to_v2, from_token_v4_to_v2};
 use anyhow::Context;
 use cid::Cid;
+use fil_actor_market_state::v10::DealArray as V10DealArray;
+use fil_actor_market_state::v10::DealMetaArray as V10DealMetaArray;
+use fil_actor_market_state::v11::DealArray as V11DealArray;
+use fil_actor_market_state::v11::DealMetaArray as V11DealMetaArray;
+use fil_actor_market_state::v12::DealArray as V12DealArray;
+use fil_actor_market_state::v12::DealMetaArray as V12DealMetaArray;
+use fil_actor_market_state::v9::DealArray as V9DealArray;
+use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
+use fil_actors_shared::v10::AsActorError as V10AsActorError;
+use fil_actors_shared::v11::AsActorError as V11AsActorError;
+use fil_actors_shared::v12::AsActorError as V12AsActorError;
+use fil_actors_shared::v9::AsActorError as V9AsActorError;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared::error::ExitCode as FVMExitCode;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::PaddedPieceSize};
+use fvm_shared3::error::ExitCode as FVM3ExitCode;
+use fvm_shared4::error::ExitCode as FVM4ExitCode;
 use serde::Serialize;
 use std::marker::PhantomData;
 
@@ -98,19 +113,50 @@ impl State {
     }
 
     /// Deal proposals
-    pub fn proposals<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<DealProposals<'bs, BS>>
+    pub fn proposals<'bs, BS>(&'bs self, store: &'bs BS) -> anyhow::Result<DealProposals<'bs, BS>>
     where
         BS: Blockstore,
     {
-        unimplemented!()
+        match self {
+            // TODO: `get_proposal_array` DNE for V8
+            State::V8(_st) => unimplemented!(),
+            // TODO: `get_proposal_array` DNE for V9
+            State::V9(_st) => unimplemented!(),
+            State::V10(st) => Ok(DealProposals::V10(st.get_proposal_array(store)?)),
+            State::V11(st) => Ok(DealProposals::V11(st.get_proposal_array(store)?)),
+            State::V12(st) => Ok(DealProposals::V12(st.get_proposal_array(store)?)),
+        }
     }
 
     /// Deal proposal meta data.
-    pub fn states<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<DealStates<'bs, BS>>
+    pub fn states<'bs, BS>(&self, store: &'bs BS) -> anyhow::Result<DealStates<'bs, BS>>
     where
         BS: Blockstore,
     {
-        unimplemented!()
+        match self {
+            // TODO: `DealMetaArray::load` DNE for V8
+            State::V8(_st) => unimplemented!(),
+            State::V9(st) => Ok(DealStates::V9(V9AsActorError::context_code(
+                V9DealMetaArray::load(&st.states, store),
+                FVMExitCode::USR_ILLEGAL_STATE,
+                "failed to load deal state array",
+            )?)),
+            State::V10(st) => Ok(DealStates::V10(V10AsActorError::context_code(
+                V10DealMetaArray::load(&st.states, store),
+                FVM3ExitCode::USR_ILLEGAL_STATE,
+                "failed to load deal state array",
+            )?)),
+            State::V11(st) => Ok(DealStates::V11(V11AsActorError::context_code(
+                V11DealMetaArray::load(&st.states, store),
+                FVM3ExitCode::USR_ILLEGAL_STATE,
+                "failed to load deal state array",
+            )?)),
+            State::V12(st) => Ok(DealStates::V12(V12AsActorError::context_code(
+                V12DealMetaArray::load(&st.states, store),
+                FVM4ExitCode::USR_ILLEGAL_STATE,
+                "failed to load deal state array",
+            )?)),
+        }
     }
 
     /// Consume state to return just total funds locked
@@ -129,8 +175,13 @@ pub enum BalanceTable<'a, BS> {
     UnusedBalanceTable(PhantomData<&'a BS>),
 }
 
-pub enum DealProposals<'a, BS> {
-    UnusedDealProposal(PhantomData<&'a BS>),
+pub enum DealProposals<'bs, BS> {
+    // TODO: use correct V8 type
+    V8(V9DealArray<'bs, BS>),
+    V9(V9DealArray<'bs, BS>),
+    V10(V10DealArray<'bs, BS>),
+    V11(V11DealArray<'bs, BS>),
+    V12(V12DealArray<'bs, BS>),
 }
 
 impl<BS> DealProposals<'_, BS> {
@@ -163,8 +214,12 @@ pub struct DealProposal {
     pub client_collateral: TokenAmount,
 }
 
-pub enum DealStates<'a, BS> {
-    DealStates(PhantomData<&'a BS>),
+pub enum DealStates<'bs, BS> {
+    V8(V9DealMetaArray<'bs, BS>),
+    V9(V9DealMetaArray<'bs, BS>),
+    V10(V10DealMetaArray<'bs, BS>),
+    V11(V11DealMetaArray<'bs, BS>),
+    V12(V12DealMetaArray<'bs, BS>),
 }
 
 impl<BS> DealStates<'_, BS>
