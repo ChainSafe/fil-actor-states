@@ -5,6 +5,7 @@ use anyhow::{anyhow, Context};
 use cid::Cid;
 use fil_actors_shared::v9::Keyer;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared4::bigint::bigint_ser::BigIntDe;
 use fvm_shared::address::{Address, Protocol};
 use num::BigInt;
 use serde::Serialize;
@@ -90,7 +91,7 @@ impl State {
                     store,
                     state.token.hamt_bit_width,
                 )?;
-                Ok(vh.get(&addr.key())?.map(|int: &BigInt| int.to_owned()))
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
             State::V11(state) => {
                 let vh = fil_actors_shared::v11::make_map_with_root_and_bitwidth(
@@ -98,7 +99,7 @@ impl State {
                     store,
                     state.token.hamt_bit_width,
                 )?;
-                Ok(vh.get(&addr.key())?.map(|int: &BigInt| int.to_owned()))
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
             State::V12(state) => {
                 let vh = fil_actors_shared::v12::make_map_with_root_and_bitwidth(
@@ -106,7 +107,7 @@ impl State {
                     store,
                     state.token.hamt_bit_width,
                 )?;
-                Ok(vh.get(&addr.key())?.map(|int: &BigInt| int.to_owned()))
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
             _ => Err(anyhow!("not supported in actors > v8")),
         }
