@@ -21,7 +21,7 @@ use fvm_shared::error::ExitCode as FVMExitCode;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::PaddedPieceSize};
 use fvm_shared3::error::ExitCode as FVM3ExitCode;
 use fvm_shared4::error::ExitCode as FVM4ExitCode;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 
 use crate::io::get_obj;
@@ -196,7 +196,7 @@ impl<BS> DealProposals<'_, BS> {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub struct DealProposal {
     #[serde(rename = "PieceCID")]
@@ -231,7 +231,7 @@ where
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub struct DealState {
     pub sector_start_epoch: ChainEpoch, // -1 if not yet included in proven sector
