@@ -271,29 +271,29 @@ impl<BS> DealStates<'_, BS>
 where
     BS: Blockstore,
 {
-    pub fn get(&self, _key: u64) -> anyhow::Result<Option<DealState>> {
+    pub fn get(&self, key: u64) -> anyhow::Result<Option<DealState>> {
         match self {
-            DealStates::V8(deal_array) => Ok(deal_array.get(_key)?.map(|deal_state| DealState {
+            DealStates::V8(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
             })),
-            DealStates::V9(deal_array) => Ok(deal_array.get(_key)?.map(|deal_state| DealState {
+            DealStates::V9(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
             })),
-            DealStates::V10(deal_array) => Ok(deal_array.get(_key)?.map(|deal_state| DealState {
+            DealStates::V10(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
             })),
-            DealStates::V11(deal_array) => Ok(deal_array.get(_key)?.map(|deal_state| DealState {
+            DealStates::V11(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
             })),
-            DealStates::V12(deal_array) => Ok(deal_array.get(_key)?.map(|deal_state| DealState {
+            DealStates::V12(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
