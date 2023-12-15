@@ -10,6 +10,7 @@ use fil_actors_shared::v12::runtime::ProofSet as ProofSetV12;
 use fil_actors_shared::v9::runtime::Policy as PolicyV9;
 use fvm_shared::address::Address as AddressV2;
 use fvm_shared::econ::TokenAmount as TokenAmountV2;
+use fvm_shared::piece::PaddedPieceSize as PaddedPieceSizeV2;
 use fvm_shared::sector::RegisteredPoStProof as RegisteredPoStProofV2;
 use fvm_shared::sector::RegisteredSealProof as RegisteredSealProofV2;
 use fvm_shared::sector::SectorSize as SectorSizeV2;
@@ -22,10 +23,15 @@ use fvm_shared3::sector::SectorSize as SectorSizeV3;
 use fvm_shared3::smooth::FilterEstimate as FilterEstimateV3;
 use fvm_shared4::address::Address as AddressV4;
 use fvm_shared4::econ::TokenAmount as TokenAmountV4;
+use fvm_shared4::piece::PaddedPieceSize as PaddedPieceSizeV4;
 use fvm_shared4::sector::RegisteredPoStProof as RegisteredPoStProofV4;
 use fvm_shared4::sector::RegisteredSealProof as RegisteredSealProofV4;
 use fvm_shared4::sector::SectorSize as SectorSizeV4;
 use fvm_shared4::smooth::FilterEstimate as FilterEstimateV4;
+
+pub fn from_padded_piece_size_v4_to_v2(size: PaddedPieceSizeV4) -> PaddedPieceSizeV2 {
+    PaddedPieceSizeV2(size.0)
+}
 
 pub fn from_reg_seal_proof_v3_to_v2(proof: RegisteredSealProofV3) -> RegisteredSealProofV2 {
     let num_id: i64 = proof.into();

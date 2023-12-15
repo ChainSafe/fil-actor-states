@@ -1,7 +1,10 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::convert::{from_token_v3_to_v2, from_token_v4_to_v2};
+use crate::convert::{
+    from_address_v4_to_v2, from_padded_piece_size_v4_to_v2, from_token_v3_to_v2,
+    from_token_v4_to_v2,
+};
 use anyhow::Context;
 use cid::Cid;
 use fil_actor_market_state::v10::DealArray as V10DealArray;
@@ -12,9 +15,13 @@ use fil_actor_market_state::v12::DealArray as V12DealArray;
 use fil_actor_market_state::v12::DealMetaArray as V12DealMetaArray;
 use fil_actor_market_state::v9::DealArray as V9DealArray;
 use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
+use fil_actors_shared::v10::ActorError as V10ActorError;
 use fil_actors_shared::v10::AsActorError as V10AsActorError;
+use fil_actors_shared::v11::ActorError as V11ActorError;
 use fil_actors_shared::v11::AsActorError as V11AsActorError;
+use fil_actors_shared::v12::ActorError as V12ActorError;
 use fil_actors_shared::v12::AsActorError as V12AsActorError;
+use fil_actors_shared::v9::ActorError as V9ActorError;
 use fil_actors_shared::v9::AsActorError as V9AsActorError;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::error::ExitCode as FVMExitCode;
@@ -187,12 +194,50 @@ pub enum DealProposals<'bs, BS> {
 impl<BS> DealProposals<'_, BS> {
     pub fn for_each(
         &self,
-        _f: impl FnMut(u64, DealProposal) -> anyhow::Result<(), anyhow::Error>,
+        mut f: impl FnMut(u64, DealProposal) -> anyhow::Result<(), anyhow::Error>,
     ) -> anyhow::Result<()>
     where
         BS: Blockstore,
     {
-        unimplemented!()
+        match self {
+            // TODO: finish V8, V9, V10, V11
+            DealProposals::V8(_deal_array) => unimplemented!(),
+            DealProposals::V9(_deal_array) => unimplemented!(),
+            DealProposals::V10(_deal_array) => unimplemented!(),
+            DealProposals::V11(_deal_array) => unimplemented!(),
+            DealProposals::V12(deal_array) => {
+                deal_array.for_each(|key, deal_proposal| {
+                    f(
+                        key,
+                        DealProposal {
+                            piece_cid: deal_proposal.piece_cid,
+                            piece_size: from_padded_piece_size_v4_to_v2(deal_proposal.piece_size),
+                            verified_deal: deal_proposal.verified_deal,
+                            client: from_address_v4_to_v2(deal_proposal.client),
+                            provider: from_address_v4_to_v2(deal_proposal.provider),
+                            label: match &deal_proposal.label {
+                                fil_actor_market_state::v12::Label::String(s) => s.clone(),
+                                fil_actor_market_state::v12::Label::Bytes(b) => {
+                                    String::from_utf8(b.clone()).unwrap()
+                                }
+                            },
+                            start_epoch: deal_proposal.start_epoch,
+                            end_epoch: deal_proposal.end_epoch,
+                            storage_price_per_epoch: from_token_v4_to_v2(
+                                deal_proposal.storage_price_per_epoch.clone(),
+                            ),
+                            provider_collateral: from_token_v4_to_v2(
+                                deal_proposal.provider_collateral.clone(),
+                            ),
+                            client_collateral: from_token_v4_to_v2(
+                                deal_proposal.client_collateral.clone(),
+                            ),
+                        },
+                    )
+                })?;
+                Ok(())
+            }
+        }
     }
 }
 
