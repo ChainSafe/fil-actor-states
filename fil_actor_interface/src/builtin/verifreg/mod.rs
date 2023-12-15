@@ -7,8 +7,8 @@ use cid::Cid;
 use fil_actors_shared::v8::{make_map_with_root_and_bitwidth, HAMT_BIT_WIDTH};
 use fil_actors_shared::v9::Keyer;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared4::bigint::bigint_ser::BigIntDe;
 use fvm_shared::address::{Address, Protocol};
+use fvm_shared4::bigint::bigint_ser::BigIntDe;
 use num::BigInt;
 use serde::Serialize;
 
