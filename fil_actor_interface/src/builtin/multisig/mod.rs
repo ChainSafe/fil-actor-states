@@ -4,13 +4,9 @@
 use crate::convert::{
     from_address_v3_to_v2, from_address_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
 };
+use crate::parse_transactions;
 use anyhow::Context;
 use cid::Cid;
-use fil_actor_multisig_state::v10::Transaction as TransactionV10;
-use fil_actor_multisig_state::v11::Transaction as TransactionV11;
-use fil_actor_multisig_state::v12::Transaction as TransactionV12;
-use fil_actor_multisig_state::v8::Transaction as TransactionV8;
-use fil_actor_multisig_state::v9::Transaction as TransactionV9;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::RawBytes;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, MethodNum};
@@ -112,91 +108,35 @@ impl State {
         let mut res = Vec::new();
         match self {
             State::V8(st) => {
-                let txns = fil_actors_shared::v8::make_map_with_root(&st.pending_txs, store)?;
-                txns.for_each(|tx_key, txn: &TransactionV8| {
-                    match integer_encoding::VarInt::decode_var(&tx_key) {
-                        Some((tx_id, _)) => {
-                            res.push(Transaction {
-                                id: tx_id,
-                                to: txn.to,
-                                value: txn.value.clone(),
-                                method: txn.method,
-                                params: txn.params.clone(),
-                                approved: txn.approved.clone(),
-                            });
-                        }
-                        None => anyhow::bail!("Error decoding varint"),
-                    }
-                    Ok(())
-                })?;
+                let txns = fil_actors_shared::v8::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v8::Transaction,
+                >(&st.pending_txs, store)?;
+                parse_transactions!(res, txns);
                 Ok(res)
             }
             State::V9(st) => {
-                let txns = fil_actors_shared::v9::make_map_with_root(&st.pending_txs, store)?;
-                txns.for_each(|tx_key, txn: &TransactionV9| {
-                    match integer_encoding::VarInt::decode_var(&tx_key) {
-                        Some((tx_id, _)) => {
-                            res.push(Transaction {
-                                id: tx_id,
-                                to: txn.to,
-                                value: txn.value.clone(),
-                                method: txn.method,
-                                params: txn.params.clone(),
-                                approved: txn.approved.clone(),
-                            });
-                        }
-                        None => anyhow::bail!("Error decoding varint"),
-                    }
-                    Ok(())
-                })?;
+                let txns = fil_actors_shared::v9::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v9::Transaction,
+                >(&st.pending_txs, store)?;
+                parse_transactions!(res, txns);
                 Ok(res)
             }
             State::V10(st) => {
-                let txns = fil_actors_shared::v10::make_map_with_root(&st.pending_txs, store)?;
-                txns.for_each(|tx_key, txn: &TransactionV10| {
-                    match integer_encoding::VarInt::decode_var(&tx_key) {
-                        Some((tx_id, _)) => {
-                            res.push(Transaction {
-                                id: tx_id,
-                                to: from_address_v3_to_v2(txn.to),
-                                value: from_token_v3_to_v2(txn.value.clone()),
-                                method: txn.method,
-                                params: txn.params.clone(),
-                                approved: txn
-                                    .approved
-                                    .iter()
-                                    .map(|&addr| from_address_v3_to_v2(addr))
-                                    .collect(),
-                            });
-                        }
-                        None => anyhow::bail!("Error decoding varint"),
-                    }
-                    Ok(())
-                })?;
+                let txns = fil_actors_shared::v10::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v10::Transaction,
+                >(&st.pending_txs, store)?;
+                parse_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
                 Ok(res)
             }
             State::V11(st) => {
-                let txns = fil_actors_shared::v11::make_map_with_root(&st.pending_txs, store)?;
-                txns.for_each(|tx_key, txn: &TransactionV11| {
-                    match integer_encoding::VarInt::decode_var(&tx_key) {
-                        Some((tx_id, _)) => {
-                            res.push(Transaction {
-                                id: tx_id,
-                                to: from_address_v3_to_v2(txn.to),
-                                value: from_token_v3_to_v2(txn.value.clone()),
-                                method: txn.method,
-                                params: txn.params.clone(),
-                                approved: txn
-                                    .approved
-                                    .iter()
-                                    .map(|&addr| from_address_v3_to_v2(addr))
-                                    .collect(),
-                            });
-                        }
-                        None => anyhow::bail!("Error decoding varint"),
-                    }
-                    Ok(())
-                })?;
+                let txns = fil_actors_shared::v11::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v11::Transaction,
+                >(&st.pending_txs, store)?;
+                parse_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
                 Ok(res)
             }
             State::V12(st) => {
@@ -207,7 +147,7 @@ impl State {
                     "pending txns",
                 )
                 .expect("Could not load pending transactions");
-                txns.for_each(|tx_id, txn: &TransactionV12| {
+                txns.for_each(|tx_id, txn| {
                     res.push(Transaction {
                         id: tx_id.0,
                         to: from_address_v4_to_v2(txn.to),
