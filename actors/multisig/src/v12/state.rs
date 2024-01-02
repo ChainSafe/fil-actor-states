@@ -5,11 +5,11 @@ use cid::Cid;
 use fil_actors_shared::v12::{ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::BigInt;
-use fvm_shared::bigint::Integer;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared4::address::Address;
+use fvm_shared4::bigint::BigInt;
+use fvm_shared4::bigint::Integer;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
