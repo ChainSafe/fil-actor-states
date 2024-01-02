@@ -222,6 +222,10 @@ impl CidPerNetwork {
     }
 }
 
+fn make_builtin(bz: &[u8]) -> Cid {
+    Cid::new_v1(RAW, Code::Identity.digest(bz))
+}
+
 #[cfg(test)]
 mod tests {
     use anyhow::{ensure, Ok, Result};
@@ -236,8 +240,4 @@ mod tests {
 
         Ok(())
     }
-}
-
-fn make_builtin(bz: &[u8]) -> Cid {
-    Cid::new_v1(RAW, Code::Identity.digest(bz))
 }
