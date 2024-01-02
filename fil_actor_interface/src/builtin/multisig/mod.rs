@@ -4,7 +4,7 @@
 use crate::convert::{
     from_address_v3_to_v2, from_address_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
 };
-use crate::parse_transactions;
+use crate::parse_pending_transactions;
 use anyhow::Context;
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
@@ -112,7 +112,7 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v8::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_transactions!(res, txns);
+                parse_pending_transactions!(res, txns);
                 Ok(res)
             }
             State::V9(st) => {
@@ -120,7 +120,7 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v9::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_transactions!(res, txns);
+                parse_pending_transactions!(res, txns);
                 Ok(res)
             }
             State::V10(st) => {
@@ -128,7 +128,7 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v10::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
+                parse_pending_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
                 Ok(res)
             }
             State::V11(st) => {
@@ -136,7 +136,7 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v11::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
+                parse_pending_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
                 Ok(res)
             }
             State::V12(st) => {

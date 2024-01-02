@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 #[macro_export]
-macro_rules! parse_transactions {
+macro_rules! parse_pending_transactions {
     ($res:ident, $txns:expr, $from_address:expr, $from_token:expr) => {
         $txns.for_each(|tx_key, txn| {
             match integer_encoding::VarInt::decode_var(&tx_key) {
