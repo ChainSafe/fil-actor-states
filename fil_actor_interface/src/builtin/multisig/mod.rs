@@ -128,7 +128,13 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v10::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_pending_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
+                parse_pending_transactions!(
+                    res,
+                    txns,
+                    from_address_v3_to_v2,
+                    from_token_v3_to_v2,
+                    :decode
+                );
                 Ok(res)
             }
             State::V11(st) => {
@@ -136,7 +142,13 @@ impl State {
                     BS,
                     fil_actor_multisig_state::v11::Transaction,
                 >(&st.pending_txs, store)?;
-                parse_pending_transactions!(res, txns, from_address_v3_to_v2, from_token_v3_to_v2);
+                parse_pending_transactions!(
+                    res,
+                    txns,
+                    from_address_v3_to_v2,
+                    from_token_v3_to_v2,
+                    :decode
+                );
                 Ok(res)
             }
             State::V12(st) => {
@@ -147,21 +159,13 @@ impl State {
                     "pending txns",
                 )
                 .expect("Could not load pending transactions");
-                txns.for_each(|tx_id, txn| {
-                    res.push(Transaction {
-                        id: tx_id.0,
-                        to: from_address_v4_to_v2(txn.to),
-                        value: from_token_v4_to_v2(txn.value.clone()),
-                        method: txn.method,
-                        params: txn.params.clone(),
-                        approved: txn
-                            .approved
-                            .iter()
-                            .map(|&addr| from_address_v4_to_v2(addr))
-                            .collect(),
-                    });
-                    Ok(())
-                })?;
+                parse_pending_transactions!(
+                    res,
+                    txns,
+                    from_address_v4_to_v2,
+                    from_token_v4_to_v2,
+                    :no_decode
+                );
                 Ok(res)
             }
         }
