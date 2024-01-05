@@ -4,6 +4,7 @@
 mod builtin;
 mod convert;
 mod io;
+mod macros;
 mod r#mod;
 
 pub use self::builtin::*;
