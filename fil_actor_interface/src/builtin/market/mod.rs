@@ -39,6 +39,8 @@ pub const ADDRESS: Address = Address::new_id(5);
 /// Market actor method.
 pub type Method = fil_actor_market_state::v8::Method;
 
+pub type AllocationID = u64;
+
 pub fn is_v8_market_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.market.v8.contains(cid)
 }
@@ -277,26 +279,31 @@ where
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
             })),
             DealStates::V9(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
             })),
             DealStates::V10(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
             })),
             DealStates::V11(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
             })),
             DealStates::V12(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
             })),
         }
     }
@@ -308,6 +315,7 @@ pub struct DealState {
     pub sector_start_epoch: ChainEpoch, // -1 if not yet included in proven sector
     pub last_updated_epoch: ChainEpoch, // -1 if deal state never updated
     pub slash_epoch: ChainEpoch,        // -1 if deal never slashed
+    pub verified_claim: AllocationID,   // ID of the verified registry allocation/claim for this deal's data (0 if none).
 }
 
 impl<BS> BalanceTable<'_, BS>
