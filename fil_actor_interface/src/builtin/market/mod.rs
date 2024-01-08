@@ -243,7 +243,7 @@ impl<BS> DealProposals<'_, BS> {
     }
 }
 
-#[derive(Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub struct DealProposal {
     #[serde(rename = "PieceCID")]
@@ -309,7 +309,7 @@ where
     }
 }
 
-#[derive(Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub struct DealState {
     pub sector_start_epoch: ChainEpoch, // -1 if not yet included in proven sector
