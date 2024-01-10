@@ -123,9 +123,9 @@ impl State {
         BS: Blockstore,
     {
         match self {
-            // `get_proposal_array` DNE for V8
+            // `get_proposal_array` does not exist for V8
             State::V8(_st) => unimplemented!(),
-            // `get_proposal_array` DNE for V9
+            // `get_proposal_array` does not exist for V9
             State::V9(_st) => unimplemented!(),
             State::V10(st) => Ok(DealProposals::V10(st.get_proposal_array(store)?)),
             State::V11(st) => Ok(DealProposals::V11(st.get_proposal_array(store)?)),
