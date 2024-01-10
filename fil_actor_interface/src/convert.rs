@@ -17,6 +17,7 @@ use fvm_shared::sector::SectorSize as SectorSizeV2;
 use fvm_shared::smooth::FilterEstimate as FilterEstimateV2;
 use fvm_shared3::address::Address as AddressV3;
 use fvm_shared3::econ::TokenAmount as TokenAmountV3;
+use fvm_shared3::piece::PaddedPieceSize as PaddedPieceSizeV3;
 use fvm_shared3::sector::RegisteredPoStProof as RegisteredPoStProofV3;
 use fvm_shared3::sector::RegisteredSealProof as RegisteredSealProofV3;
 use fvm_shared3::sector::SectorSize as SectorSizeV3;
@@ -30,6 +31,10 @@ use fvm_shared4::sector::SectorSize as SectorSizeV4;
 use fvm_shared4::smooth::FilterEstimate as FilterEstimateV4;
 
 pub fn from_padded_piece_size_v4_to_v2(size: PaddedPieceSizeV4) -> PaddedPieceSizeV2 {
+    PaddedPieceSizeV2(size.0)
+}
+
+pub fn from_padded_piece_size_v3_to_v2(size: PaddedPieceSizeV3) -> PaddedPieceSizeV2 {
     PaddedPieceSizeV2(size.0)
 }
 
