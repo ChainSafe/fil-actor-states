@@ -124,9 +124,9 @@ impl State {
     {
         match self {
             // `get_proposal_array` does not exist for V8
-            State::V8(_st) => unimplemented!(),
+            State::V8(_st) => anyhow::bail!("unimplemented"),
             // `get_proposal_array` does not exist for V9
-            State::V9(_st) => unimplemented!(),
+            State::V9(_st) => anyhow::bail!("unimplemented"),
             State::V10(st) => Ok(DealProposals::V10(st.get_proposal_array(store)?)),
             State::V11(st) => Ok(DealProposals::V11(st.get_proposal_array(store)?)),
             State::V12(st) => Ok(DealProposals::V12(st.get_proposal_array(store)?)),
@@ -140,7 +140,7 @@ impl State {
     {
         match self {
             // `DealMetaArray::load` does not exist for V8
-            State::V8(_st) => unimplemented!(),
+            State::V8(_st) => anyhow::bail!("unimplemented"),
             State::V9(st) => Ok(DealStates::V9(V9AsActorError::context_code(
                 V9DealMetaArray::load(&st.states, store),
                 FVMExitCode::USR_ILLEGAL_STATE,
