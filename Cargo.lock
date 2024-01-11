@@ -24,9 +24,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.75"
+version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4668cab20f66d8d020e1fbc0ebe47217433c1b6c8f2040faf858554e394ace6"
+checksum = "080e9890a082662b09c1ad45f567faeeb47f22b5fb23895fbe1e651e718e25ca"
 
 [[package]]
 name = "arrayref"
@@ -54,7 +54,7 @@ checksum = "a66537f1bb974b254c98ed142ff995236e81b9d0fe4db0575f46612cb15eb0f9"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -597,7 +597,7 @@ checksum = "ce8cd46a041ad005ab9c71263f9a0ff5b529eac0fe4cc9b4a20f4f0765d8cf4b"
 dependencies = [
  "execute-command-tokens",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -640,7 +640,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_account_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "frc42_macros",
  "fvm_ipld_encoding",
@@ -654,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_cron_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -667,7 +667,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_datacap_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "fil_actors_shared",
  "frc42_macros",
@@ -683,7 +683,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_eam_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "fvm_shared 3.6.0",
  "fvm_shared 4.0.0",
@@ -693,7 +693,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_ethaccount_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
@@ -705,7 +705,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_evm_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -723,7 +723,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_init_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -742,7 +742,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_interface"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -765,6 +765,7 @@ dependencies = [
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
  "fvm_shared 4.0.0",
+ "integer-encoding",
  "lazy_static",
  "multihash",
  "num",
@@ -777,7 +778,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_market_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -805,7 +806,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_miner_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "bitflags 2.4.1",
@@ -838,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_multisig_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -859,7 +860,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_paych_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "cid",
  "fil_actors_shared",
@@ -875,7 +876,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_power_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -896,7 +897,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_reward_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -911,7 +912,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_system_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "cid",
  "fvm_ipld_encoding",
@@ -924,7 +925,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actor_verifreg_state"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -942,7 +943,7 @@ dependencies = [
 
 [[package]]
 name = "fil_actors_shared"
-version = "9.2.0"
+version = "9.3.0"
 dependencies = [
  "anyhow",
  "cid",
@@ -1654,7 +1655,7 @@ checksum = "cfb77679af88f8b125209d354a202862602672222e7f2313fdd6dc349bad4712"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -1845,9 +1846,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.70"
+version = "1.0.76"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39278fbbf5fb4f646ce651690877f89d1c5811a3d4acb27700c1cb3cdb78fd3b"
+checksum = "95fc56cda0b5c3325f5fbbd7ff9fda9e02bb00bb3dac51252d2f1bfa1cb8cc8c"
 dependencies = [
  "unicode-ident",
 ]
@@ -1876,9 +1877,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.33"
+version = "1.0.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae"
+checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
 dependencies = [
  "proc-macro2",
 ]
@@ -2034,9 +2035,9 @@ checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
 
 [[package]]
 name = "serde"
-version = "1.0.193"
+version = "1.0.195"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25dd9975e68d0cb5aa1120c288333fc98731bd1dd12f561e468ea4728c042b89"
+checksum = "63261df402c67811e9ac6def069e4786148c4563f4b50fd4bf30aa370d626b02"
 dependencies = [
  "serde_derive",
 ]
@@ -2061,13 +2062,13 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.193"
+version = "1.0.195"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43576ca501357b9b071ac53cdc7da8ef0cbd9493d8df094cd821777ea6e894d3"
+checksum = "46fe8f8603d81ba86327b23a2e9cdf49e1255fb94a4c5f297f6ee0547178ea2c"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -2084,9 +2085,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.108"
+version = "1.0.111"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d1c7e3eac408d115102c4c24ad393e0821bb3a5df4d506a80f85f7a742a526b"
+checksum = "176e46fa42316f18edd598015a5166857fc835ec732f5215eac6b7bdbf0a84f4"
 dependencies = [
  "itoa",
  "ryu",
@@ -2095,13 +2096,13 @@ dependencies = [
 
 [[package]]
 name = "serde_repr"
-version = "0.1.17"
+version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3081f5ffbb02284dda55132aa26daecedd7372a42417bbbab6f14ab7d6bb9145"
+checksum = "0b2e6b945e9d3df726b65d6ee24060aff8e3533d431f677a9695db04eff9dfdb"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -2136,9 +2137,9 @@ dependencies = [
 
 [[package]]
 name = "serde_yaml"
-version = "0.9.27"
+version = "0.9.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3cc7a1570e38322cfe4154732e5110f887ea57e22b76f4bfd32b5bdd3368666c"
+checksum = "b1bf28c79a99f70ee1f1d83d10c875d2e70618417fda01ad1785e027579d9d38"
 dependencies = [
  "indexmap",
  "itoa",
@@ -2363,9 +2364,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.39"
+version = "2.0.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "23e78b90f2fcf45d3e842032ce32e3f2d1545ba6636271dcbf24fa306d87be7a"
+checksum = "0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2405,22 +2406,22 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.50"
+version = "1.0.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9a7210f5c9a7156bb50aa36aed4c95afb51df0df00713949448cf9e97d382d2"
+checksum = "d54378c645627613241d077a3a79db965db602882668f9136ac42af9ecb730ad"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.50"
+version = "1.0.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "266b2e40bc00e5a6c09c3584011e08b06f123c00362c92b975ba9843aaaa14b8"
+checksum = "fa0faa943b50f3db30a20aa7e265dbc66076993efed8463e8de414e5d06d3471"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -2518,9 +2519,9 @@ checksum = "f962df74c8c05a667b5ee8bcf162993134c104e96440b663c8daa176dc772d8c"
 
 [[package]]
 name = "unsafe-libyaml"
-version = "0.2.9"
+version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f28467d3e1d3c6586d8f25fa243f544f5800fec42d97032474e17222c2b75cfa"
+checksum = "ab4c90930b95a82d00dc9e9ac071b4991924390d46cbd0dfe566148667605e4b"
 
 [[package]]
 name = "unsigned-varint"
@@ -2751,5 +2752,5 @@ checksum = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.39",
+ "syn 2.0.48",
 ]
