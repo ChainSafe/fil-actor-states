@@ -209,7 +209,7 @@ impl<BS> DealProposals<'_, BS> {
                             label: match &deal_proposal.label {
                                 fil_actor_market_state::v9::Label::String(s) => s.clone(),
                                 fil_actor_market_state::v9::Label::Bytes(b) => {
-                                    String::from_utf8(b.clone()).unwrap()
+                                    String::from_utf8(b.clone())?
                                 }
                             },
                             start_epoch: deal_proposal.start_epoch,
@@ -235,7 +235,7 @@ impl<BS> DealProposals<'_, BS> {
                             label: match &deal_proposal.label {
                                 fil_actor_market_state::v10::Label::String(s) => s.clone(),
                                 fil_actor_market_state::v10::Label::Bytes(b) => {
-                                    String::from_utf8(b.clone()).unwrap()
+                                    String::from_utf8(b.clone())?
                                 }
                             },
                             start_epoch: deal_proposal.start_epoch,
@@ -267,7 +267,7 @@ impl<BS> DealProposals<'_, BS> {
                             label: match &deal_proposal.label {
                                 fil_actor_market_state::v11::Label::String(s) => s.clone(),
                                 fil_actor_market_state::v11::Label::Bytes(b) => {
-                                    String::from_utf8(b.clone()).unwrap()
+                                    String::from_utf8(b.clone())?
                                 }
                             },
                             start_epoch: deal_proposal.start_epoch,
@@ -299,7 +299,7 @@ impl<BS> DealProposals<'_, BS> {
                             label: match &deal_proposal.label {
                                 fil_actor_market_state::v12::Label::String(s) => s.clone(),
                                 fil_actor_market_state::v12::Label::Bytes(b) => {
-                                    String::from_utf8(b.clone()).unwrap()
+                                    String::from_utf8(b.clone())?
                                 }
                             },
                             start_epoch: deal_proposal.start_epoch,
