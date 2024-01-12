@@ -57,7 +57,7 @@ pub mod frc46_token {
         /// Map<ActorId, Map<ActorId, TokenAmount>> as a Hamt. Allowances are stored balances[owner][operator]
         pub allowances: Cid,
         /// Bit-width to use when loading Hamts
-        pub hamt_bit_width: u32,
+        hamt_bit_width: u32,
     }
 
     impl TokenState {
