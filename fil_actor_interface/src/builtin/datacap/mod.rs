@@ -4,10 +4,8 @@
 use anyhow::{anyhow, Context};
 use cid::Cid;
 use fil_actor_datacap_state::v12::DATACAP_GRANULARITY;
-use fil_actors_shared::fvm_ipld_hamt::BytesKey;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::address::{Address, Protocol};
-use fvm_shared4::bigint::bigint_ser::BigIntDe;
+use fvm_shared::address::{Address, Payload};
 use num::traits::Euclid;
 use num::BigInt;
 use serde::Serialize;
@@ -82,43 +80,19 @@ impl State {
     where
         BS: Blockstore,
     {
-        if addr.protocol() != Protocol::ID {
-            return Err(anyhow!("can only look up ID addresses"));
-        }
+        let id = match addr.payload() {
+            Payload::ID(id) => Ok(*id),
+            _ => Err(anyhow!("can only look up ID addresses")),
+        }?;
 
         let int = match self {
-            State::V9(state) => {
-                let vh = fil_actors_shared::v9::make_map_with_root_and_bitwidth(
-                    &state.token.balances,
-                    store,
-                    state.token.hamt_bit_width,
-                )?;
-                Ok(vh
-                    .get::<BytesKey>(&addr.payload().to_raw_bytes().into())?
-                    .map(|int: &BigIntDe| int.0.to_owned()))
-            }
-            State::V11(state) => {
-                let vh = fil_actors_shared::v11::make_map_with_root_and_bitwidth(
-                    &state.token.balances,
-                    store,
-                    state.token.hamt_bit_width,
-                )?;
-                Ok(vh
-                    .get::<BytesKey>(&addr.payload().to_raw_bytes().into())?
-                    .map(|int: &BigIntDe| int.0.to_owned()))
-            }
-            State::V12(state) => {
-                let vh = fil_actors_shared::v12::make_map_with_root_and_bitwidth(
-                    &state.token.balances,
-                    store,
-                    state.token.hamt_bit_width,
-                )?;
-                Ok(vh
-                    .get::<BytesKey>(&addr.payload().to_raw_bytes().into())?
-                    .map(|int: &BigIntDe| int.0.to_owned()))
-            }
-            _ => Err(anyhow!("not supported in actors > v8")),
-        };
-        int.map(|opt| opt.map(|int| int.div_euclid(&BigInt::from(DATACAP_GRANULARITY))))
+            State::V9(state) => state.token.get_balance(store, id),
+            State::V11(state) => state.token.get_balance(store, id),
+            State::V12(state) => state.token.get_balance(store, id),
+            _ => return Err(anyhow!("not supported in actors > v8")),
+        }?;
+        Ok(int
+            .map(|amount| amount.atto().to_owned())
+            .map(|opt| opt.div_euclid(&BigInt::from(DATACAP_GRANULARITY))))
     }
 }
