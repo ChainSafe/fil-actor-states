@@ -102,11 +102,7 @@ pub mod frc46_token {
             &self,
             bs: &'bs BS,
         ) -> Result<BalanceMap<'bs, BS>> {
-            Ok(BalanceMap::load_with_bit_width(
-                &self.balances,
-                bs,
-                self.hamt_bit_width,
-            )?)
+            BalanceMap::load_with_bit_width(&self.balances, bs, self.hamt_bit_width)
         }
     }
 }
