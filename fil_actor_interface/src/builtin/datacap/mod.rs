@@ -1,15 +1,22 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use anyhow::Context;
+use anyhow::{anyhow, Context};
 use cid::Cid;
+use fil_actor_datacap_state::v12::DATACAP_GRANULARITY;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared::address::{Address, Payload};
+use num::traits::Euclid;
+use num::BigInt;
 use serde::Serialize;
 
 use crate::io::get_obj;
 
 /// Datacap actor method.
 pub type Method = fil_actor_datacap_state::v10::Method;
+
+/// Datacap actor address.
+pub const ADDRESS: Address = Address::new_id(7);
 
 /// Datacap actor state.
 #[derive(Serialize, Debug)]
@@ -63,5 +70,29 @@ impl State {
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown datacap actor code {}", code))
+    }
+
+    pub fn verified_client_data_cap<BS>(
+        &self,
+        store: &BS,
+        addr: Address,
+    ) -> anyhow::Result<Option<BigInt>>
+    where
+        BS: Blockstore,
+    {
+        let id = match addr.payload() {
+            Payload::ID(id) => Ok(*id),
+            _ => Err(anyhow!("can only look up ID addresses")),
+        }?;
+
+        let int = match self {
+            State::V9(state) => state.token.get_balance(store, id),
+            State::V11(state) => state.token.get_balance(store, id),
+            State::V12(state) => state.token.get_balance(store, id),
+            _ => return Err(anyhow!("not supported in actors > v8")),
+        }?;
+        Ok(int
+            .map(|amount| amount.atto().to_owned())
+            .map(|opt| opt.div_euclid(&BigInt::from(DATACAP_GRANULARITY))))
     }
 }

@@ -1,12 +1,15 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::convert::from_token_v3_to_v2;
+use crate::convert::{
+    from_address_v3_to_v2, from_address_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
+};
 use anyhow::Context;
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::{clock::ChainEpoch, econ::TokenAmount};
-use serde::Serialize;
+use fvm_ipld_encoding::RawBytes;
+use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, MethodNum};
+use serde::{Deserialize, Serialize};
 
 use crate::io::get_obj;
 
@@ -21,7 +24,18 @@ pub enum State {
     V9(fil_actor_multisig_state::v9::State),
     V10(fil_actor_multisig_state::v10::State),
     V11(fil_actor_multisig_state::v11::State),
-    V12(fil_actor_multisig_state::v11::State),
+    V12(fil_actor_multisig_state::v12::State),
+}
+
+/// Transaction type used in multisig actor
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, Debug)]
+pub struct Transaction {
+    pub id: i64,
+    pub to: Address,
+    pub value: TokenAmount,
+    pub method: MethodNum,
+    pub params: RawBytes,
+    pub approved: Vec<Address>,
 }
 
 pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
@@ -84,7 +98,57 @@ impl State {
             State::V9(st) => st.amount_locked(height),
             State::V10(st) => from_token_v3_to_v2(st.amount_locked(height)),
             State::V11(st) => from_token_v3_to_v2(st.amount_locked(height)),
-            State::V12(st) => from_token_v3_to_v2(st.amount_locked(height)),
+            State::V12(st) => from_token_v4_to_v2(st.amount_locked(height)),
         })
+    }
+
+    /// Returns pending transactions for the given multisig wallet
+    pub fn get_pending_txn<BS: Blockstore>(&self, store: &BS) -> anyhow::Result<Vec<Transaction>> {
+        let mut res = Vec::new();
+        match self {
+            State::V8(st) => {
+                let txns = fil_actors_shared::v8::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v8::Transaction,
+                >(&st.pending_txs, store)?;
+                crate::parse_pending_transactions!(res, txns);
+                Ok(res)
+            }
+            State::V9(st) => {
+                let txns = fil_actors_shared::v9::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v9::Transaction,
+                >(&st.pending_txs, store)?;
+                crate::parse_pending_transactions!(res, txns);
+                Ok(res)
+            }
+            State::V10(st) => {
+                let txns = fil_actors_shared::v10::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v10::Transaction,
+                >(&st.pending_txs, store)?;
+                crate::parse_pending_transactions_v3!(res, txns);
+                Ok(res)
+            }
+            State::V11(st) => {
+                let txns = fil_actors_shared::v11::make_map_with_root::<
+                    BS,
+                    fil_actor_multisig_state::v11::Transaction,
+                >(&st.pending_txs, store)?;
+                crate::parse_pending_transactions_v3!(res, txns);
+                Ok(res)
+            }
+            State::V12(st) => {
+                let txns = fil_actor_multisig_state::v12::PendingTxnMap::load(
+                    store,
+                    &st.pending_txs,
+                    fil_actor_multisig_state::v12::PENDING_TXN_CONFIG,
+                    "pending txns",
+                )
+                .expect("Could not load pending transactions");
+                crate::parse_pending_transactions_v4!(res, txns);
+                Ok(res)
+            }
+        }
     }
 }
