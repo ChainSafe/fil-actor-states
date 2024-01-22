@@ -36,7 +36,7 @@ keywords = ["filecoin", "web3", "wasm"]
 [workspace.dependencies]
 ahash = "0.8"
 anyhow = "1.0"
-bitflags = "2.4.1"
+bitflags = "2.4.2"
 byteorder = "1.4.3"
 cid = { version = "0.10", default-features = false, features = ["std"] }
 frc42_macros = "3"
