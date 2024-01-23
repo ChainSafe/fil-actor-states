@@ -197,19 +197,47 @@ impl<BS> DealProposals<'_, BS> {
     {
         match self {
             DealProposals::V9(deal_array) => {
-                deal_array.for_each(|key, deal_proposal| f(key, deal_proposal.into()))?;
+                deal_array.for_each(|key, deal_proposal| {
+                    f(
+                        key,
+                        deal_proposal
+                            .try_into()
+                            .expect("failed to convert V9 deal proposal to builtin version"),
+                    )
+                })?;
                 Ok(())
             }
             DealProposals::V10(deal_array) => {
-                deal_array.for_each(|key, deal_proposal| f(key, deal_proposal.into()))?;
+                deal_array.for_each(|key, deal_proposal| {
+                    f(
+                        key,
+                        deal_proposal
+                            .try_into()
+                            .expect("failed to convert V10 deal proposal to builtin version"),
+                    )
+                })?;
                 Ok(())
             }
             DealProposals::V11(deal_array) => {
-                deal_array.for_each(|key, deal_proposal| f(key, deal_proposal.into()))?;
+                deal_array.for_each(|key, deal_proposal| {
+                    f(
+                        key,
+                        deal_proposal
+                            .try_into()
+                            .expect("failed to convert V11 deal proposal to builtin version"),
+                    )
+                })?;
                 Ok(())
             }
             DealProposals::V12(deal_array) => {
-                deal_array.for_each(|key, deal_proposal| f(key, deal_proposal.into()))?;
+                deal_array.for_each(|key, deal_proposal| {
+                    f(
+                        key,
+                        deal_proposal
+                            .try_into()
+                            .expect("failed to convert V12 deal proposal to builtin version"),
+                    )
+                })?;
                 Ok(())
             }
         }
@@ -234,43 +262,53 @@ pub struct DealProposal {
     pub client_collateral: TokenAmount,
 }
 
-impl From<&fil_actor_market_state::v9::DealProposal> for DealProposal {
-    fn from(deal_proposal: &fil_actor_market_state::v9::DealProposal) -> Self {
-        Self {
+impl TryFrom<&fil_actor_market_state::v9::DealProposal> for DealProposal {
+    type Error = String;
+
+    fn try_from(
+        deal_proposal: &fil_actor_market_state::v9::DealProposal,
+    ) -> Result<Self, Self::Error> {
+        let label = match &deal_proposal.label {
+            fil_actor_market_state::v9::Label::String(s) => s.clone(),
+            fil_actor_market_state::v9::Label::Bytes(b) => {
+                String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
+            }
+        };
+        Ok(Self {
             piece_cid: deal_proposal.piece_cid,
             piece_size: deal_proposal.piece_size,
             verified_deal: deal_proposal.verified_deal,
             client: deal_proposal.client,
             provider: deal_proposal.provider,
-            label: match &deal_proposal.label {
-                fil_actor_market_state::v9::Label::String(s) => s.clone(),
-                fil_actor_market_state::v9::Label::Bytes(b) => {
-                    String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
-                }
-            },
+            label,
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
             storage_price_per_epoch: deal_proposal.storage_price_per_epoch.clone(),
             provider_collateral: deal_proposal.provider_collateral.clone(),
             client_collateral: deal_proposal.client_collateral.clone(),
-        }
+        })
     }
 }
 
-impl From<&fil_actor_market_state::v10::DealProposal> for DealProposal {
-    fn from(deal_proposal: &fil_actor_market_state::v10::DealProposal) -> Self {
-        Self {
+impl TryFrom<&fil_actor_market_state::v10::DealProposal> for DealProposal {
+    type Error = String;
+
+    fn try_from(
+        deal_proposal: &fil_actor_market_state::v10::DealProposal,
+    ) -> Result<Self, Self::Error> {
+        let label = match &deal_proposal.label {
+            fil_actor_market_state::v10::Label::String(s) => s.clone(),
+            fil_actor_market_state::v10::Label::Bytes(b) => {
+                String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
+            }
+        };
+        Ok(Self {
             piece_cid: deal_proposal.piece_cid,
             piece_size: from_padded_piece_size_v3_to_v2(deal_proposal.piece_size),
             verified_deal: deal_proposal.verified_deal,
             client: from_address_v3_to_v2(deal_proposal.client),
             provider: from_address_v3_to_v2(deal_proposal.provider),
-            label: match &deal_proposal.label {
-                fil_actor_market_state::v10::Label::String(s) => s.clone(),
-                fil_actor_market_state::v10::Label::Bytes(b) => {
-                    String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
-                }
-            },
+            label,
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
             storage_price_per_epoch: from_token_v3_to_v2(
@@ -278,24 +316,29 @@ impl From<&fil_actor_market_state::v10::DealProposal> for DealProposal {
             ),
             provider_collateral: from_token_v3_to_v2(deal_proposal.provider_collateral.clone()),
             client_collateral: from_token_v3_to_v2(deal_proposal.client_collateral.clone()),
-        }
+        })
     }
 }
 
-impl From<&fil_actor_market_state::v11::DealProposal> for DealProposal {
-    fn from(deal_proposal: &fil_actor_market_state::v11::DealProposal) -> Self {
-        Self {
+impl TryFrom<&fil_actor_market_state::v11::DealProposal> for DealProposal {
+    type Error = String;
+
+    fn try_from(
+        deal_proposal: &fil_actor_market_state::v11::DealProposal,
+    ) -> Result<Self, Self::Error> {
+        let label = match &deal_proposal.label {
+            fil_actor_market_state::v11::Label::String(s) => s.clone(),
+            fil_actor_market_state::v11::Label::Bytes(b) => {
+                String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
+            }
+        };
+        Ok(Self {
             piece_cid: deal_proposal.piece_cid,
             piece_size: from_padded_piece_size_v3_to_v2(deal_proposal.piece_size),
             verified_deal: deal_proposal.verified_deal,
             client: from_address_v3_to_v2(deal_proposal.client),
             provider: from_address_v3_to_v2(deal_proposal.provider),
-            label: match &deal_proposal.label {
-                fil_actor_market_state::v11::Label::String(s) => s.clone(),
-                fil_actor_market_state::v11::Label::Bytes(b) => {
-                    String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
-                }
-            },
+            label,
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
             storage_price_per_epoch: from_token_v3_to_v2(
@@ -303,24 +346,29 @@ impl From<&fil_actor_market_state::v11::DealProposal> for DealProposal {
             ),
             provider_collateral: from_token_v3_to_v2(deal_proposal.provider_collateral.clone()),
             client_collateral: from_token_v3_to_v2(deal_proposal.client_collateral.clone()),
-        }
+        })
     }
 }
 
-impl From<&fil_actor_market_state::v12::DealProposal> for DealProposal {
-    fn from(deal_proposal: &fil_actor_market_state::v12::DealProposal) -> Self {
-        Self {
+impl TryFrom<&fil_actor_market_state::v12::DealProposal> for DealProposal {
+    type Error = String;
+
+    fn try_from(
+        deal_proposal: &fil_actor_market_state::v12::DealProposal,
+    ) -> Result<Self, Self::Error> {
+        let label = match &deal_proposal.label {
+            fil_actor_market_state::v12::Label::String(s) => s.clone(),
+            fil_actor_market_state::v12::Label::Bytes(b) => {
+                String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
+            }
+        };
+        Ok(Self {
             piece_cid: deal_proposal.piece_cid,
             piece_size: from_padded_piece_size_v4_to_v2(deal_proposal.piece_size),
             verified_deal: deal_proposal.verified_deal,
             client: from_address_v4_to_v2(deal_proposal.client),
             provider: from_address_v4_to_v2(deal_proposal.provider),
-            label: match &deal_proposal.label {
-                fil_actor_market_state::v12::Label::String(s) => s.clone(),
-                fil_actor_market_state::v12::Label::Bytes(b) => {
-                    String::from_utf8(b.clone()).expect("failed to deserialize utf8 string")
-                }
-            },
+            label,
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
             storage_price_per_epoch: from_token_v4_to_v2(
@@ -328,7 +376,7 @@ impl From<&fil_actor_market_state::v12::DealProposal> for DealProposal {
             ),
             provider_collateral: from_token_v4_to_v2(deal_proposal.provider_collateral.clone()),
             client_collateral: from_token_v4_to_v2(deal_proposal.client_collateral.clone()),
-        }
+        })
     }
 }
 
