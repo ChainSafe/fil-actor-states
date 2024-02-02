@@ -16,6 +16,8 @@ crate-type = ["cdylib", "lib"]
 [dependencies]
 cid = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
+fvm_ipld_blockstore = { workspace = true }
+fil_actors_shared = { version = "9.4.0", path = "../../fil_actors_shared" }
 fvm_shared = { workspace = true }
 fvm_shared4 = { workspace = true }
 num-derive = { workspace = true }
