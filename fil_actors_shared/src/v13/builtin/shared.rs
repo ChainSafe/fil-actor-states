@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::actor_error;
+use crate::actor_error_v13;
 use crate::v13::runtime::builtins::Type;
 use crate::v13::{ActorContext, ActorError};
 use fvm_ipld_encoding::ipld_block::IpldBlock;
@@ -47,12 +47,12 @@ pub fn resolve_to_actor_id(
         // check for actor existence
         if check_existence {
             rt.get_actor_code_cid(&id)
-                .ok_or_else(|| actor_error!(not_found, "no code for address {}", address))?;
+                .ok_or_else(|| actor_error_v13!(not_found, "no code for address {}", address))?;
         }
         return Ok(id);
     }
 
-    Err(actor_error!(
+    Err(actor_error_v13!(
         illegal_argument,
         "failed to resolve or initialize address {}",
         address
@@ -78,7 +78,7 @@ where
     match code_cid {
         None => {
             return Err(
-                actor_error!(forbidden; "no code for caller {} of method {}", caller, method),
+                actor_error_v13!(forbidden; "no code for caller {} of method {}", caller, method),
             );
         }
         Some(code_cid) => {
@@ -86,7 +86,7 @@ where
             match builtin_type {
                 None | Some(Type::EVM) => {
                     return Err(
-                        actor_error!(forbidden; "caller {} of method {} must be built-in", caller, method),
+                        actor_error_v13!(forbidden; "caller {} of method {} must be built-in", caller, method),
                     );
                 }
 
@@ -116,17 +116,17 @@ impl From<SendError> for ActorError {
             // before or after the underlying VM send syscall.
             fvm_shared4::error::ErrorNumber::NotFound => {
                 // This means that the receiving actor doesn't exist.
-                actor_error!(unspecified; "receiver not found")
+                actor_error_v13!(unspecified; "receiver not found")
             }
             fvm_shared4::error::ErrorNumber::InsufficientFunds => {
                 // This means that the send failed because we have insufficient funds. We will
                 // get a _syscall error_, not an exit code, because the target actor will not
                 // run (and therefore will not exit).
-                actor_error!(insufficient_funds; "not enough funds")
+                actor_error_v13!(insufficient_funds; "not enough funds")
             }
             fvm_shared4::error::ErrorNumber::LimitExceeded => {
                 // This means we've exceeded the recursion limit.
-                actor_error!(assertion_failed; "recursion limit exceeded")
+                actor_error_v13!(assertion_failed; "recursion limit exceeded")
             }
             fvm_shared4::error::ErrorNumber::ReadOnly => ActorError::unchecked(
                 fvm_shared4::error::ExitCode::USR_READ_ONLY,
@@ -134,7 +134,7 @@ impl From<SendError> for ActorError {
             ),
             err => {
                 // We don't expect any other syscall exit codes.
-                actor_error!(assertion_failed; "unexpected error: {}", err)
+                actor_error_v13!(assertion_failed; "unexpected error: {}", err)
             }
         }
     }

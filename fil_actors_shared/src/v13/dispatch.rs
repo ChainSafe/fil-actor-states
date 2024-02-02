@@ -63,7 +63,7 @@ macro_rules! actor_dispatch {
                 $($(#[$m])*
                   $crate::actor_dispatch!(@pattern $($method)|*) =>
                   $crate::actor_dispatch!(@target rt args method $func $($tag)?),)*
-                None => Err(actor_error!(unhandled_message; "invalid method: {}", method)),
+                None => Err(actor_error_v13!(unhandled_message; "invalid method: {}", method)),
             }
         }
     };
@@ -97,7 +97,7 @@ macro_rules! actor_dispatch_unrestricted {
                 $($(#[$m])*
                   $crate::actor_dispatch!(@pattern $($method)|*) =>
                   $crate::actor_dispatch!(@target rt args method $func $($tag)?),)*
-                None => Err(actor_error!(unhandled_message; "invalid method: {}", method)),
+                None => Err(actor_error_v13!(unhandled_message; "invalid method: {}", method)),
             }
         }
     };

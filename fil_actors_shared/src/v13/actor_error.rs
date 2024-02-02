@@ -207,7 +207,7 @@ impl From<fvm_sdk::error::StateUpdateError> for ActorError {
 
 /// Convenience macro for generating Actor Errors
 #[macro_export]
-macro_rules! actor_error {
+macro_rules! actor_error_v13 {
     // Error with only one stringable expression
     ( $code:ident; $msg:expr ) => { $crate::v13::ActorError::$code($msg.to_string()) };
 
@@ -217,11 +217,11 @@ macro_rules! actor_error {
     };
 
     // Error with only one stringable expression, with comma separator
-    ( $code:ident, $msg:expr ) => { $crate::actor_error!($code; $msg) };
+    ( $code:ident, $msg:expr ) => { $crate::actor_error_v13!($code; $msg) };
 
     // String with positional arguments, with comma separator
     ( $code:ident, $msg:literal $(, $ex:expr)+ ) => {
-        $crate::actor_error!($code; $msg $(, $ex)*)
+        $crate::actor_error_v13!($code; $msg $(, $ex)*)
     };
 }
 

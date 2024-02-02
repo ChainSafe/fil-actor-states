@@ -16,7 +16,7 @@ use serde::Serialize;
 pub use self::actor_code::*;
 pub use self::policy::*;
 pub use self::randomness::DomainSeparationTag;
-use crate::actor_error;
+use crate::actor_error_v13;
 use crate::v13::runtime::builtins::Type;
 use crate::v13::{ActorError, SendError};
 
@@ -125,11 +125,11 @@ pub trait Runtime: Primitives + RuntimePolicy {
         let root = self.get_state_root()?;
         if root != EMPTY_ARR_CID {
             return Err(
-                actor_error!(illegal_state; "failed to create state; expected empty array CID, got: {}", root),
+                actor_error_v13!(illegal_state; "failed to create state; expected empty array CID, got: {}", root),
             );
         }
         let new_root = self.store().put_cbor(obj, Code::Blake2b256)
-            .map_err(|e| actor_error!(illegal_argument; "failed to write actor state during creation: {}", e.to_string()))?;
+            .map_err(|e| actor_error_v13!(illegal_argument; "failed to write actor state during creation: {}", e.to_string()))?;
         self.set_state_root(&new_root)?;
         Ok(())
     }
@@ -139,7 +139,7 @@ pub trait Runtime: Primitives + RuntimePolicy {
         Ok(self
             .store()
             .get_cbor(&self.get_state_root()?)
-            .map_err(|_| actor_error!(illegal_argument; "failed to get actor for Readonly state"))?
+            .map_err(|_| actor_error_v13!(illegal_argument; "failed to get actor for Readonly state"))?
             .expect("State does not exist for actor state root"))
     }
 

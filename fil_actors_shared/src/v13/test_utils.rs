@@ -951,7 +951,7 @@ impl Runtime for MockRuntime {
             }
         }
         expectations.expect_validate_caller_addr = None;
-        Err(actor_error!(forbidden;
+        Err(actor_error_v13!(forbidden;
                 "caller address {:?} forbidden, allowed: {:?}",
                 self.message().caller(), &addrs
         ))
@@ -1002,7 +1002,7 @@ impl Runtime for MockRuntime {
             }
         }
         expectations.expect_validate_caller_addr = None;
-        Err(actor_error!(forbidden;
+        Err(actor_error_v13!(forbidden;
                 "caller address {:?} forbidden, allowed: {:?}",
                 self.message().caller(), &namespaces
         ))
@@ -1045,7 +1045,7 @@ impl Runtime for MockRuntime {
 
         self.expectations.borrow_mut().expect_validate_caller_type = None;
         Err(
-            actor_error!(forbidden; "caller type {:?} forbidden, allowed: {:?}",
+            actor_error_v13!(forbidden; "caller type {:?} forbidden, allowed: {:?}",
                 self.caller_type, types),
         )
     }
@@ -1164,7 +1164,7 @@ impl Runtime for MockRuntime {
 
     fn create<T: Serialize>(&self, obj: &T) -> Result<(), ActorError> {
         if self.state.borrow().is_some() {
-            return Err(actor_error!(illegal_state; "state already constructed"));
+            return Err(actor_error_v13!(illegal_state; "state already constructed"));
         }
         self.state.replace(Some(self.store_put(obj)));
         Ok(())
@@ -1189,7 +1189,7 @@ impl Runtime for MockRuntime {
         F: FnOnce(&mut S, &Self) -> Result<RT, ActorError>,
     {
         if *self.in_transaction.borrow() {
-            return Err(actor_error!(assertion_failed; "nested transaction"));
+            return Err(actor_error_v13!(assertion_failed; "nested transaction"));
         }
         let mut read_only = self.state()?;
         self.in_transaction.replace(true);
@@ -1306,7 +1306,7 @@ impl Runtime for MockRuntime {
     ) -> Result<(), ActorError> {
         self.require_in_call();
         if *self.in_transaction.borrow() {
-            return Err(actor_error!(assertion_failed; "side-effect within transaction"));
+            return Err(actor_error_v13!(assertion_failed; "side-effect within transaction"));
         }
         let expect_create_actor = self
             .expectations
@@ -1331,7 +1331,7 @@ impl Runtime for MockRuntime {
     fn delete_actor(&self) -> Result<(), ActorError> {
         self.require_in_call();
         if *self.in_transaction.borrow() {
-            return Err(actor_error!(assertion_failed; "side-effect within transaction"));
+            return Err(actor_error_v13!(assertion_failed; "side-effect within transaction"));
         }
         *self.state.borrow_mut() = None;
         let mut exp = self.expectations.borrow_mut();
@@ -1398,7 +1398,7 @@ impl Runtime for MockRuntime {
         // - epochs beyond FINALITY of current epoch
         if offset <= 0 || epoch < 0 || offset > self.policy.chain_finality {
             return Err(
-                actor_error!(illegal_argument; "invalid epoch to fetch tipset_cid {}", epoch),
+                actor_error_v13!(illegal_argument; "invalid epoch to fetch tipset_cid {}", epoch),
             );
         }
         Ok(*self.tipset_cids.get(epoch as usize).unwrap())

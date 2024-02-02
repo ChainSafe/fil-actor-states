@@ -69,7 +69,7 @@ impl Default for FvmRuntime {
 impl<B> FvmRuntime<B> {
     fn assert_not_validated(&self) -> Result<(), ActorError> {
         if *self.caller_validated.borrow() {
-            return Err(actor_error!(
+            return Err(actor_error_v13!(
                 assertion_failed,
                 "Method must validate caller identity exactly once"
             ));
@@ -150,7 +150,7 @@ where
             self.caller_validated.replace(true);
             Ok(())
         } else {
-            Err(actor_error!(forbidden;
+            Err(actor_error_v13!(forbidden;
                 "caller {} is not one of supported", caller_addr
             ))
         }
@@ -172,7 +172,7 @@ where
             self.caller_validated.replace(true);
             Ok(())
         } else {
-            Err(actor_error!(forbidden;
+            Err(actor_error_v13!(forbidden;
                 "caller's namespace {} is not one of supported", caller_addr
             ))
         }
@@ -194,7 +194,7 @@ where
                 self.caller_validated.replace(true);
                 Ok(())
             }
-            _ => Err(actor_error!(forbidden;
+            _ => Err(actor_error_v13!(forbidden;
                     "caller cid type {} not one of supported", caller_cid)),
         }
     }
@@ -236,9 +236,9 @@ where
         let digest = fvm::rand::get_chain_randomness(rand_epoch).map_err(|e| {
             match e {
                 ErrorNumber::LimitExceeded => {
-                    actor_error!(illegal_argument; "randomness lookback exceeded: {}", e)
+                    actor_error_v13!(illegal_argument; "randomness lookback exceeded: {}", e)
                 }
-                e => actor_error!(assertion_failed; "get chain randomness failed with an unexpected error: {}", e),
+                e => actor_error_v13!(assertion_failed; "get chain randomness failed with an unexpected error: {}", e),
             }
         })?;
         Ok(draw_randomness(
@@ -259,9 +259,9 @@ where
         let digest = fvm::rand::get_beacon_randomness(rand_epoch).map_err(|e| {
             match e {
                 ErrorNumber::LimitExceeded => {
-                    actor_error!(illegal_argument; "randomness lookback exceeded: {}", e)
+                    actor_error_v13!(illegal_argument; "randomness lookback exceeded: {}", e)
                 }
-                e => actor_error!(assertion_failed; "get beacon randomness failed with an unexpected error: {}", e),
+                e => actor_error_v13!(assertion_failed; "get beacon randomness failed with an unexpected error: {}", e),
             }
         })?;
         Ok(draw_randomness(
@@ -287,11 +287,11 @@ where
         F: FnOnce(&mut S, &Self) -> Result<RT, ActorError>,
     {
         let state_cid = fvm::sself::root()
-            .map_err(|_| actor_error!(illegal_argument; "failed to get actor root state CID"))?;
+            .map_err(|_| actor_error_v13!(illegal_argument; "failed to get actor root state CID"))?;
 
         let mut state = ActorBlockstore
             .get_cbor::<S>(&state_cid)
-            .map_err(|_| actor_error!(illegal_argument; "failed to get actor state"))?
+            .map_err(|_| actor_error_v13!(illegal_argument; "failed to get actor state"))?
             .expect("State does not exist for actor state root");
 
         self.in_transaction.replace(true);
@@ -300,7 +300,7 @@ where
 
         let ret = result?;
         let new_root = ActorBlockstore.put_cbor(&state, Code::Blake2b256)
-            .map_err(|e| actor_error!(illegal_argument; "failed to write actor state in transaction: {}", e.to_string()))?;
+            .map_err(|e| actor_error_v13!(illegal_argument; "failed to write actor state in transaction: {}", e.to_string()))?;
         fvm::sself::set_root(&new_root)?;
         Ok(ret)
     }
@@ -339,7 +339,7 @@ where
     ) -> Result<(), ActorError> {
         if *self.in_transaction.borrow() {
             return Err(
-                actor_error!(assertion_failed; "create_actor is not allowed during transaction"),
+                actor_error_v13!(assertion_failed; "create_actor is not allowed during transaction"),
             );
         }
         fvm::actor::create_actor(actor_id, &code_id, predictable_address).map_err(|e| match e {
@@ -347,14 +347,14 @@ where
                 ActorError::illegal_argument("failed to create actor".into())
             }
             ErrorNumber::Forbidden => ActorError::forbidden("actor already exists".into()),
-            _ => actor_error!(assertion_failed; "create failed with unknown error: {}", e),
+            _ => actor_error_v13!(assertion_failed; "create failed with unknown error: {}", e),
         })
     }
 
     fn delete_actor(&self) -> Result<(), ActorError> {
         if *self.in_transaction.borrow() {
             return Err(
-                actor_error!(assertion_failed; "delete_actor is not allowed during transaction"),
+                actor_error_v13!(assertion_failed; "delete_actor is not allowed during transaction"),
             );
         }
         Ok(fvm::sself::self_destruct(false)?)
@@ -382,7 +382,7 @@ where
 
     fn tipset_cid(&self, epoch: i64) -> Result<Cid, ActorError> {
         fvm::network::tipset_cid(epoch)
-            .map_err(|_| actor_error!(illegal_argument; "invalid epoch to query tipset_cid"))
+            .map_err(|_| actor_error_v13!(illegal_argument; "invalid epoch to query tipset_cid"))
     }
 
     fn emit_event(&self, event: &ActorEvent) -> Result<(), ActorError> {
