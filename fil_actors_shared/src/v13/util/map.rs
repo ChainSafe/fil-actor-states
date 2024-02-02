@@ -263,7 +263,7 @@ impl MapKey for Cid {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::v13::test_blockstores::MemoryBlockstore;
+    use fvm_ipld_blockstore::MemoryBlockstore;
 
     #[test]
     fn basic_put_get() {
