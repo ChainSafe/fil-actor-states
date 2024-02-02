@@ -28,7 +28,10 @@ impl fvm_ipld_blockstore::Blockstore for ActorBlockstore {
             .map_err(|e| actor_error_v13!(serialization, e.to_string()))?;
         let k2 = self.put(code, &Block::new(k.codec(), block))?;
         if k != &k2 {
-            Err(actor_error_v13!(serialization; "put block with cid {} but has cid {}", k, k2).into())
+            Err(
+                actor_error_v13!(serialization; "put block with cid {} but has cid {}", k, k2)
+                    .into(),
+            )
         } else {
             Ok(())
         }

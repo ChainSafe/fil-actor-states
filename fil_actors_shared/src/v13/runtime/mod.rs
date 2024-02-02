@@ -139,7 +139,9 @@ pub trait Runtime: Primitives + RuntimePolicy {
         Ok(self
             .store()
             .get_cbor(&self.get_state_root()?)
-            .map_err(|_| actor_error_v13!(illegal_argument; "failed to get actor for Readonly state"))?
+            .map_err(
+                |_| actor_error_v13!(illegal_argument; "failed to get actor for Readonly state"),
+            )?
             .expect("State does not exist for actor state root"))
     }
 

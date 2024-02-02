@@ -286,8 +286,9 @@ where
         S: Serialize + DeserializeOwned,
         F: FnOnce(&mut S, &Self) -> Result<RT, ActorError>,
     {
-        let state_cid = fvm::sself::root()
-            .map_err(|_| actor_error_v13!(illegal_argument; "failed to get actor root state CID"))?;
+        let state_cid = fvm::sself::root().map_err(
+            |_| actor_error_v13!(illegal_argument; "failed to get actor root state CID"),
+        )?;
 
         let mut state = ActorBlockstore
             .get_cbor::<S>(&state_cid)
