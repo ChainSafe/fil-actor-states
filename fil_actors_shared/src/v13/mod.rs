@@ -15,7 +15,6 @@ use unsigned_varint::decode::Error as UVarintError;
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
-pub use dispatch::{dispatch, dispatch_default, WithCodec};
 pub use {fvm_ipld_amt, fvm_ipld_hamt};
 
 pub mod actor_error;
@@ -24,7 +23,6 @@ pub mod runtime;
 pub mod util;
 pub mod vm_api;
 
-mod dispatch;
 #[macro_export]
 macro_rules! wasm_trampoline {
     ($target:ty) => {
