@@ -18,11 +18,17 @@ pub struct BatchReturn {
 
 impl BatchReturn {
     pub const fn empty() -> Self {
-        Self { success_count: 0, fail_codes: Vec::new() }
+        Self {
+            success_count: 0,
+            fail_codes: Vec::new(),
+        }
     }
 
     pub const fn ok(n: u32) -> Self {
-        Self { success_count: n, fail_codes: Vec::new() }
+        Self {
+            success_count: n,
+            fail_codes: Vec::new(),
+        }
     }
 
     pub fn of(codes: &[ExitCode]) -> Self {
@@ -61,7 +67,11 @@ impl BatchReturn {
     /// Panics if `items` is not the same length as this batch return.
     pub fn successes<'i, T>(&self, items: &'i [T]) -> Vec<&'i T> {
         if items.len() != self.size() {
-            panic!("items length {} does not match batch size {}", items.len(), self.size());
+            panic!(
+                "items length {} does not match batch size {}",
+                items.len(),
+                self.size()
+            );
         }
         let mut ret = Vec::new();
         let mut fail_idx = 0;
@@ -119,10 +129,16 @@ pub fn stack(batch_returns: &[BatchReturn]) -> BatchReturn {
             .fail_codes
             .iter()
             .map(|nxt_fail| {
-                while base_fail.next_if(|f| f.idx <= nxt_fail.idx + offset).is_some() {
+                while base_fail
+                    .next_if(|f| f.idx <= nxt_fail.idx + offset)
+                    .is_some()
+                {
                     offset += 1;
                 }
-                FailCode { idx: nxt_fail.idx + offset, code: nxt_fail.code }
+                FailCode {
+                    idx: nxt_fail.idx + offset,
+                    code: nxt_fail.code,
+                }
             })
             .collect();
         base.fail_codes.extend(new_fail_codes);
@@ -130,7 +146,10 @@ pub fn stack(batch_returns: &[BatchReturn]) -> BatchReturn {
         base.success_count = nxt.success_count;
     }
     assert_eq!(base.size(), batch_returns[0].size());
-    assert_eq!(base.success_count, batch_returns[batch_returns.len() - 1].success_count);
+    assert_eq!(
+        base.success_count,
+        batch_returns[batch_returns.len() - 1].success_count
+    );
     base
 }
 
@@ -144,7 +163,11 @@ pub struct BatchReturnGen {
 
 impl BatchReturnGen {
     pub fn new(expect_count: usize) -> Self {
-        BatchReturnGen { success_count: 0, fail_codes: Vec::new(), expect_count }
+        BatchReturnGen {
+            success_count: 0,
+            fail_codes: Vec::new(),
+            expect_count,
+        }
     }
 
     pub fn add_success(&mut self) -> &mut Self {
@@ -157,8 +180,10 @@ impl BatchReturnGen {
     }
 
     pub fn add_fail(&mut self, code: ExitCode) -> &mut Self {
-        self.fail_codes
-            .push(FailCode { idx: (self.success_count + self.fail_codes.len()) as u32, code });
+        self.fail_codes.push(FailCode {
+            idx: (self.success_count + self.fail_codes.len()) as u32,
+            code,
+        });
         self
     }
 
@@ -172,7 +197,10 @@ impl BatchReturnGen {
 
     pub fn gen(self) -> BatchReturn {
         assert_eq!(self.expect_count, self.success_count + self.fail_codes.len(), "programmer error, mismatched batch size {} and processed count {} batch return must include success/fail for all inputs", self.expect_count, self.success_count + self.fail_codes.len());
-        BatchReturn { success_count: self.success_count as u32, fail_codes: self.fail_codes }
+        BatchReturn {
+            success_count: self.success_count as u32,
+            fail_codes: self.fail_codes,
+        }
     }
 }
 
@@ -245,7 +273,12 @@ mod test {
 
         assert_stack(
             &[ERR2, ERR1, OK, ERR3, ERR2],
-            &[&[OK; 5], &[OK, ERR1, OK, OK, OK], &[ERR2, OK, OK, ERR2], &[OK, ERR3]],
+            &[
+                &[OK; 5],
+                &[OK, ERR1, OK, OK, OK],
+                &[ERR2, OK, OK, ERR2],
+                &[OK, ERR3],
+            ],
         );
     }
 

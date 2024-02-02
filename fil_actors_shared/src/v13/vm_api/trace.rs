@@ -145,7 +145,13 @@ impl ExpectInvocation {
                 self.fmt_expect_invocs(expect_subinvocs),
                 self.fmt_invocs(subinvocs)
             );
-            assert_eq!(subinvocs.len(), expect_subinvocs.len(), "{} {}", id, panic_str);
+            assert_eq!(
+                subinvocs.len(),
+                expect_subinvocs.len(),
+                "{} {}",
+                id,
+                panic_str
+            );
 
             for (i, invoc) in subinvocs.iter().enumerate() {
                 let expect_invoc = expect_subinvocs.get(i).unwrap();

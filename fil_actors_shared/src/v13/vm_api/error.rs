@@ -24,5 +24,7 @@ impl From<fvm_ipld_hamt::Error> for VMError {
 }
 
 pub fn vm_err(msg: &str) -> VMError {
-    VMError { msg: msg.to_string() }
+    VMError {
+        msg: msg.to_string(),
+    }
 }

@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::v13::runtime::builtins::Type;
 use crate::actor_error;
+use crate::v13::runtime::builtins::Type;
 use crate::v13::{ActorContext, ActorError};
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 use fvm_shared4::address::Address;
@@ -52,7 +52,11 @@ pub fn resolve_to_actor_id(
         return Ok(id);
     }
 
-    Err(actor_error!(illegal_argument, "failed to resolve or initialize address {}", address))
+    Err(actor_error!(
+        illegal_argument,
+        "failed to resolve or initialize address {}",
+        address
+    ))
 }
 
 // The lowest FRC-42 method number.

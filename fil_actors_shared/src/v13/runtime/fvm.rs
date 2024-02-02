@@ -162,8 +162,9 @@ where
     {
         self.assert_not_validated()?;
         let caller_addr = self.message().caller();
-        let caller_f4 =
-            self.lookup_delegated_address(caller_addr.id().unwrap()).map(|a| *a.payload());
+        let caller_f4 = self
+            .lookup_delegated_address(caller_addr.id().unwrap())
+            .map(|a| *a.payload());
         if addresses
             .into_iter()
             .any(|a| matches!(caller_f4, Some(Payload::Delegated(d)) if d.namespace() == a))
@@ -572,7 +573,10 @@ pub fn trampoline<C: ActorCode>(params: u32) -> u32 {
     init_logging(C::name());
 
     std::panic::set_hook(Box::new(|info| {
-        fvm::vm::abort(ExitCode::USR_ASSERTION_FAILED.value(), Some(&format!("{}", info)))
+        fvm::vm::abort(
+            ExitCode::USR_ASSERTION_FAILED.value(),
+            Some(&format!("{}", info)),
+        )
     }));
 
     let method = fvm::message::method_number();
@@ -589,7 +593,10 @@ pub fn trampoline<C: ActorCode>(params: u32) -> u32 {
     // We do this after handling the error, because the actor may have encountered an error before
     // it even could validate the caller.
     if !*rt.caller_validated.borrow() {
-        fvm::vm::abort(ExitCode::USR_ASSERTION_FAILED.value(), Some("failed to validate caller"))
+        fvm::vm::abort(
+            ExitCode::USR_ASSERTION_FAILED.value(),
+            Some("failed to validate caller"),
+        )
     }
 
     // Then handle the return value.
@@ -640,7 +647,10 @@ fn init_logging(actor_name: &'static str) {
     }
 
     if fvm::debug::enabled() {
-        let logger = Box::new(Logger { actor_name, actor_id: fvm::message::receiver() });
+        let logger = Box::new(Logger {
+            actor_name,
+            actor_id: fvm::message::receiver(),
+        });
         log::set_boxed_logger(logger).expect("failed to enable logging");
         log::set_max_level(log::LevelFilter::Trace);
     }

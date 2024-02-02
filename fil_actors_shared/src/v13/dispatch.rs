@@ -134,7 +134,10 @@ pub struct Dispatcher<F, A> {
 
 impl<F, A> Dispatcher<F, A> {
     const fn new(f: F) -> Self {
-        Dispatcher { func: f, _marker: PhantomData }
+        Dispatcher {
+            func: f,
+            _marker: PhantomData,
+        }
     }
 }
 
@@ -169,7 +172,11 @@ where
     A: DeserializeOwned + Default,
     R: Serialize,
 {
-    let arg = arg.as_ref().map(|b| b.deserialize()).transpose()?.unwrap_or_default();
+    let arg = arg
+        .as_ref()
+        .map(|b| b.deserialize())
+        .transpose()?
+        .unwrap_or_default();
     // TODO: make this codec configurable
     maybe_into_block((func)(rt, arg)?, CBOR)
 }
@@ -210,7 +217,9 @@ where
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
             None => maybe_into_block((self.func)(rt)?, CBOR),
-            Some(_) => Err(ActorError::illegal_argument("method expects no arguments".into())),
+            Some(_) => Err(ActorError::illegal_argument(
+                "method expects no arguments".into(),
+            )),
         }
     }
 }
@@ -228,7 +237,9 @@ where
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
             None => maybe_into_block((self.func)(rt)?.0, CODEC),
-            Some(_) => Err(ActorError::illegal_argument("method expects arguments".into())),
+            Some(_) => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
         }
     }
 }
@@ -246,7 +257,9 @@ where
         args: Option<IpldBlock>,
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
-            None => Err(ActorError::illegal_argument("method expects arguments".into())),
+            None => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
             Some(arg) => maybe_into_block((self.func)(rt, arg.deserialize()?)?, CBOR),
         }
     }
@@ -265,7 +278,9 @@ where
         args: Option<IpldBlock>,
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
-            None => Err(ActorError::illegal_argument("method expects arguments".into())),
+            None => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
             Some(arg) if arg.codec != CODEC => Err(ActorError::illegal_argument(format!(
                 "method expects parameters with codec {}, got codec {}",
                 CODEC, arg.codec,
@@ -288,7 +303,9 @@ where
         args: Option<IpldBlock>,
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
-            None => Err(ActorError::illegal_argument("method expects arguments".into())),
+            None => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
             Some(arg) => maybe_into_block((self.func)(rt, arg.deserialize()?)?.0, CODEC),
         }
     }
@@ -308,7 +325,9 @@ where
         args: Option<IpldBlock>,
     ) -> Result<Option<IpldBlock>, ActorError> {
         match args {
-            None => Err(ActorError::illegal_argument("method expects arguments".into())),
+            None => Err(ActorError::illegal_argument(
+                "method expects arguments".into(),
+            )),
             Some(arg) if arg.codec != A_CODEC => Err(ActorError::illegal_argument(format!(
                 "method expects parameters with codec {}, got codec {}",
                 A_CODEC, arg.codec,
@@ -385,12 +404,28 @@ fn test_dispatch() {
         .expect("failed to serialize arguments");
 
     // Correct dispatch
-    assert!(dispatch(&rt, 1, with_arg, arg.clone()).expect("failed to dispatch").is_none());
-    assert!(dispatch(&rt, 1, without_arg, None).expect("failed to dispatch").is_none());
-    assert_eq!(dispatch(&rt, 1, with_arg_ret, arg.clone()).expect("failed to dispatch"), arg);
-    assert_eq!(dispatch(&rt, 1, raw, arg.clone()).expect("failed to dispatch"), arg);
-    assert_eq!(dispatch(&rt, 1, codec_in, arg_dag.clone()).expect("failed to dispatch"), arg);
-    assert_eq!(dispatch(&rt, 1, codec_out, arg.clone()).expect("failed to dispatch"), arg_dag);
+    assert!(dispatch(&rt, 1, with_arg, arg.clone())
+        .expect("failed to dispatch")
+        .is_none());
+    assert!(dispatch(&rt, 1, without_arg, None)
+        .expect("failed to dispatch")
+        .is_none());
+    assert_eq!(
+        dispatch(&rt, 1, with_arg_ret, arg.clone()).expect("failed to dispatch"),
+        arg
+    );
+    assert_eq!(
+        dispatch(&rt, 1, raw, arg.clone()).expect("failed to dispatch"),
+        arg
+    );
+    assert_eq!(
+        dispatch(&rt, 1, codec_in, arg_dag.clone()).expect("failed to dispatch"),
+        arg
+    );
+    assert_eq!(
+        dispatch(&rt, 1, codec_out, arg.clone()).expect("failed to dispatch"),
+        arg_dag
+    );
     assert_eq!(
         dispatch(&rt, 1, codec_inout, arg_dag.clone()).expect("failed to dispatch"),
         arg_dag
