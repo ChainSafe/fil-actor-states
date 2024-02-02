@@ -39,7 +39,6 @@ anyhow = "1.0"
 base64 = "0.21.2"
 bitflags = "2.4.2"
 byteorder = "1.4.3"
-castaway = "0.2.2"
 cid = { version = "0.10", default-features = false, features = ["std"] }
 frc42_macros = "3"
 frc46_token = "9.0.0"

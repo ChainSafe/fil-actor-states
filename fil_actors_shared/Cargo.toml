@@ -10,7 +10,6 @@ keywords.workspace = true
 
 [dependencies]
 anyhow = { workspace = true }
-castaway = { workspace = true }
 cid = { workspace = true }
 filecoin-proofs-api = { version = "16", default-features = false }
 fvm_ipld_amt = { workspace = true }
