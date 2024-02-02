@@ -59,6 +59,8 @@ libipld-core = "0.16"
 log = "0.4"
 multihash = "0.18"
 num = "0.4.0"
+base64 = "0.21.2"
+castaway = "0.2.2"
 num-bigint = { version = "0.4.3", features = ["serde"] }
 num-derive = "0.4"
 num-traits = "0.2"
