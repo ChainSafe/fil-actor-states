@@ -39,6 +39,7 @@ fn create_manifest_cids_per_version(manifests: &[NetworkManifest], network: &str
         v10: find_network_manifest(manifests, network, 10),
         v11: find_network_manifest(manifests, network, 11),
         v12: find_network_manifest(manifests, network, 12),
+        v13: find_network_manifest(manifests, network, 13),
     }
 }
 
@@ -83,6 +84,7 @@ macro_rules! create_actor_cids_per_version {
             v10: create_cids_per_network!($manifests, $actor, 10),
             v11: create_cids_per_network!($manifests, $actor, 11),
             v12: create_cids_per_network!($manifests, $actor, 12),
+            v13: create_cids_per_network!($manifests, $actor, 13),
         }
     };
     ("V9Onwards", $manifests:ident,$actor:tt) => {
@@ -91,6 +93,7 @@ macro_rules! create_actor_cids_per_version {
             v10: create_cids_per_network_option!($manifests, $actor, 10),
             v11: create_cids_per_network_option!($manifests, $actor, 11),
             v12: create_cids_per_network_option!($manifests, $actor, 12),
+            v13: create_cids_per_network_option!($manifests, $actor, 13),
         }
     };
     ("V10Onwards", $manifests:ident,$actor:tt) => {
@@ -98,6 +101,7 @@ macro_rules! create_actor_cids_per_version {
             v10: create_cids_per_network_option!($manifests, $actor, 10),
             v11: create_cids_per_network_option!($manifests, $actor, 11),
             v12: create_cids_per_network_option!($manifests, $actor, 12),
+            v13: create_cids_per_network_option!($manifests, $actor, 13),
         }
     };
 }
@@ -175,6 +179,8 @@ pub struct CidPerVersion {
     pub v11: Cid,
     #[serde(with = "cid_serde")]
     pub v12: Cid,
+    #[serde(with = "cid_serde")]
+    pub v13: Cid,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -184,6 +190,7 @@ pub struct V8Onwards {
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
     pub v12: CidPerNetwork,
+    pub v13: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -192,6 +199,7 @@ pub struct V9Onwards {
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
     pub v12: CidPerNetwork,
+    pub v13: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -199,6 +207,7 @@ pub struct V10Onwards {
     pub v10: CidPerNetwork,
     pub v11: CidPerNetwork,
     pub v12: CidPerNetwork,
+    pub v13: CidPerNetwork,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]

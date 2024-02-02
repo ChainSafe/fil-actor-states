@@ -40,6 +40,10 @@ pub fn is_v12_init_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.init.v12.contains(cid)
 }
 
+pub fn is_v13_init_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.init.v13.contains(cid)
+}
+
 /// Init actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -50,6 +54,7 @@ pub enum State {
     V10(fil_actor_init_state::v10::State),
     V11(fil_actor_init_state::v11::State),
     V12(fil_actor_init_state::v12::State),
+    V13(fil_actor_init_state::v13::State),
 }
 
 impl State {
@@ -87,6 +92,11 @@ impl State {
                 .map(State::V12)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v13_init_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V13)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown init actor code {}", code))
     }
 
@@ -98,6 +108,7 @@ impl State {
             State::V10(st) => st.network_name,
             State::V11(st) => st.network_name,
             State::V12(st) => st.network_name,
+            State::V13(st) => st.network_name,
         }
     }
 }

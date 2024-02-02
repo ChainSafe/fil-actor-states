@@ -24,6 +24,7 @@ pub enum State {
     V10(fil_actor_system_state::v10::State),
     V11(fil_actor_system_state::v11::State),
     V12(fil_actor_system_state::v12::State),
+    V13(fil_actor_system_state::v13::State),
 }
 
 pub fn is_v8_system_cid(cid: &Cid) -> bool {
@@ -44,6 +45,10 @@ pub fn is_v11_system_cid(cid: &Cid) -> bool {
 
 pub fn is_v12_system_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.system.v12.contains(cid)
+}
+
+pub fn is_v13_system_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.system.v13.contains(cid)
 }
 
 impl State {
@@ -74,6 +79,11 @@ impl State {
         if is_v12_system_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V12)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v13_system_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V13)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown system actor code {}", code))

@@ -25,6 +25,7 @@ pub enum State {
     V10(fil_actor_multisig_state::v10::State),
     V11(fil_actor_multisig_state::v11::State),
     V12(fil_actor_multisig_state::v12::State),
+    V13(fil_actor_multisig_state::v13::State),
 }
 
 /// Transaction type used in multisig actor
@@ -58,6 +59,10 @@ pub fn is_v12_multisig_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.multisig.v12.contains(cid)
 }
 
+pub fn is_v13_multisig_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.multisig.v13.contains(cid)
+}
+
 impl State {
     pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
     where
@@ -88,6 +93,11 @@ impl State {
                 .map(State::V12)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v13_multisig_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V13)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown multisig actor code {}", code))
     }
 
@@ -99,6 +109,7 @@ impl State {
             State::V10(st) => from_token_v3_to_v2(st.amount_locked(height)),
             State::V11(st) => from_token_v3_to_v2(st.amount_locked(height)),
             State::V12(st) => from_token_v4_to_v2(st.amount_locked(height)),
+            State::V13(st) => from_token_v4_to_v2(st.amount_locked(height)),
         })
     }
 
@@ -143,6 +154,17 @@ impl State {
                     store,
                     &st.pending_txs,
                     fil_actor_multisig_state::v12::PENDING_TXN_CONFIG,
+                    "pending txns",
+                )
+                .expect("Could not load pending transactions");
+                crate::parse_pending_transactions_v4!(res, txns);
+                Ok(res)
+            }
+            State::V13(st) => {
+                let txns = fil_actor_multisig_state::v13::PendingTxnMap::load(
+                    store,
+                    &st.pending_txs,
+                    fil_actor_multisig_state::v13::PENDING_TXN_CONFIG,
                     "pending txns",
                 )
                 .expect("Could not load pending transactions");
