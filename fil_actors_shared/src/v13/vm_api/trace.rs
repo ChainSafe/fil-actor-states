@@ -168,7 +168,7 @@ impl ExpectInvocation {
             .iter()
             .enumerate()
             .fold(String::new(), |mut acc, (i, invoc)| {
-                let _ = write!(acc, "{}: [{}:{}],\n", i, invoc.to, invoc.method);
+                let _ = writeln!(acc, "{}: [{}:{}],\n", i, invoc.to, invoc.method);
                 acc
             })
     }
@@ -177,7 +177,7 @@ impl ExpectInvocation {
         exs.iter()
             .enumerate()
             .fold(String::new(), |mut acc, (i, ex)| {
-                let _ = write!(acc, "{}: [{}:{}],\n", i, ex.to, ex.method);
+                let _ = writeln!(acc, "{}: [{}:{}],\n", i, ex.to, ex.method);
                 acc
             })
     }
