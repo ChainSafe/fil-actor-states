@@ -13,24 +13,15 @@ use fvm_shared4::{ActorID, MethodNum, Response};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
-pub use self::actor_code::*;
 pub use self::policy::*;
 pub use self::randomness::DomainSeparationTag;
 use crate::actor_error_v13;
 use crate::v13::runtime::builtins::Type;
 use crate::v13::{ActorError, SendError};
 
-mod actor_code;
 pub mod builtins;
 pub mod policy;
 mod randomness;
-
-#[cfg(feature = "fil-actor")]
-mod actor_blockstore;
-#[cfg(feature = "fil-actor")]
-pub mod fvm;
-#[cfg(feature = "fil-actor")]
-pub(crate) mod hash_algorithm;
 
 pub(crate) mod empty;
 

@@ -4,7 +4,6 @@
 use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
-#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
 use fvm_shared4::bigint::BigInt;
@@ -13,16 +12,11 @@ use serde::de::DeserializeOwned;
 use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;
 
-pub use dispatch::{dispatch, dispatch_default, WithCodec};
-pub use {fvm_ipld_amt, fvm_ipld_hamt};
-
-#[cfg(feature = "fil-actor")]
-use crate::runtime::hash_algorithm::FvmHashSha256;
-use crate::v13::runtime::Runtime;
-
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
+pub use dispatch::{dispatch, dispatch_default, WithCodec};
+pub use {fvm_ipld_amt, fvm_ipld_hamt};
 
 pub mod actor_error;
 pub mod builtin;
@@ -31,9 +25,6 @@ pub mod util;
 pub mod vm_api;
 
 mod dispatch;
-pub mod test_blockstores;
-#[cfg(feature = "test_utils")]
-pub mod test_utils;
 #[macro_export]
 macro_rules! wasm_trampoline {
     ($target:ty) => {
@@ -44,10 +35,6 @@ macro_rules! wasm_trampoline {
     };
 }
 
-#[cfg(feature = "fil-actor")]
-type Hasher = FvmHashSha256;
-
-#[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.
