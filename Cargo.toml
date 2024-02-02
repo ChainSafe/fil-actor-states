@@ -36,8 +36,10 @@ keywords = ["filecoin", "web3", "wasm"]
 [workspace.dependencies]
 ahash = "0.8"
 anyhow = "1.0"
+base64 = "0.21.2"
 bitflags = "2.4.2"
 byteorder = "1.4.3"
+castaway = "0.2.2"
 cid = { version = "0.10", default-features = false, features = ["std"] }
 frc42_macros = "3"
 frc46_token = "9.0.0"
@@ -60,8 +62,6 @@ libipld-core = "0.16"
 log = "0.4"
 multihash = "0.18"
 num = "0.4.0"
-base64 = "0.21.2"
-castaway = "0.2.2"
 num-bigint = { version = "0.4.3", features = ["serde"] }
 num-derive = "0.4"
 num-traits = "0.2"
