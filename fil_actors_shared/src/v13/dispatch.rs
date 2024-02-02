@@ -341,7 +341,7 @@ where
 
 #[test]
 fn test_dispatch() {
-    use crate::ActorError;
+    use crate::v13::ActorError;
     use fvm_ipld_encoding::ipld_block::IpldBlock;
     use fvm_ipld_encoding::DAG_CBOR;
     use serde::{Deserialize, Serialize};

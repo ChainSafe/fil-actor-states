@@ -4,6 +4,7 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::{ErrorNumber, ExitCode};
 use fvm_shared4::event::ActorEvent;
 use fvm_shared4::{ActorID, MethodNum};
+use std::fmt::Write;
 
 type ReturnValue = Option<IpldBlock>;
 
@@ -166,15 +167,19 @@ impl ExpectInvocation {
         invocs
             .iter()
             .enumerate()
-            .map(|(i, invoc)| format!("{}: [{}:{}],\n", i, invoc.to, invoc.method))
-            .collect()
+            .fold(String::new(), |mut acc, (i, invoc)| {
+                let _ = write!(acc, "{}: [{}:{}],\n", i, invoc.to, invoc.method);
+                acc
+            })
     }
 
     pub fn fmt_expect_invocs(&self, exs: &[ExpectInvocation]) -> String {
         exs.iter()
             .enumerate()
-            .map(|(i, ex)| format!("{}: [{}:{}],\n", i, ex.to, ex.method))
-            .collect()
+            .fold(String::new(), |mut acc, (i, ex)| {
+                let _ = write!(acc, "{}: [{}:{}],\n", i, ex.to, ex.method);
+                acc
+            })
     }
 
     pub fn quick_match(&self, invoc: &InvocationTrace, extra_msg: String) {
