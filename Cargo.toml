@@ -47,7 +47,7 @@ fvm_ipld_encoding = "0.4"
 fvm_ipld_hamt = "0.9.0"
 fvm_shared = { version = "~2.6", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3.6", default-features = false }
-fvm_shared4 = { package = "fvm_shared", version = "4.0.0", default-features = false }
+fvm_shared4 = { package = "fvm_shared", version = "~4.1.2", default-features = false }
 getrandom = { version = "0.2.12" }
 hex = "0.4.3"
 hex-literal = "0.4"
