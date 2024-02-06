@@ -11,6 +11,8 @@ keywords.workspace = true
 [dependencies]
 fil_actors_shared = { version = "9.4.0", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
+frc46_token = { workspace = true }
+fvm_ipld_blockstore = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }

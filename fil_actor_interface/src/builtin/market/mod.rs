@@ -18,6 +18,7 @@ use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
 use fil_actors_shared::v10::AsActorError as V10AsActorError;
 use fil_actors_shared::v11::AsActorError as V11AsActorError;
 use fil_actors_shared::v12::AsActorError as V12AsActorError;
+use fil_actors_shared::v12::AsActorError as V13AsActorError;
 use fil_actors_shared::v9::AsActorError as V9AsActorError;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::error::ExitCode as FVMExitCode;
@@ -57,6 +58,10 @@ pub fn is_v12_market_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.market.v12.contains(cid)
 }
 
+pub fn is_v13_market_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.market.v13.contains(cid)
+}
+
 /// Market actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -66,6 +71,7 @@ pub enum State {
     V10(fil_actor_market_state::v10::State),
     V11(fil_actor_market_state::v11::State),
     V12(fil_actor_market_state::v12::State),
+    V13(fil_actor_market_state::v13::State),
 }
 
 impl State {
@@ -96,6 +102,11 @@ impl State {
         if is_v12_market_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V12)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v13_market_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V13)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown market actor code {}", code))
@@ -130,6 +141,8 @@ impl State {
             State::V10(st) => Ok(DealProposals::V10(st.get_proposal_array(store)?)),
             State::V11(st) => Ok(DealProposals::V11(st.get_proposal_array(store)?)),
             State::V12(st) => Ok(DealProposals::V12(st.get_proposal_array(store)?)),
+            // `get_proposal_array` does not exist for V13
+            State::V13(_st) => anyhow::bail!("unimplemented"),
         }
     }
 
@@ -161,6 +174,11 @@ impl State {
                 FVM4ExitCode::USR_ILLEGAL_STATE,
                 "failed to load deal state array",
             )?)),
+            State::V13(st) => Ok(DealStates::V13(V13AsActorError::context_code(
+                V12DealMetaArray::load(&st.states, store),
+                FVM4ExitCode::USR_ILLEGAL_STATE,
+                "failed to load deal state array",
+            )?)),
         }
     }
 
@@ -172,6 +190,7 @@ impl State {
             State::V10(st) => from_token_v3_to_v2(st.get_total_locked()),
             State::V11(st) => from_token_v3_to_v2(st.get_total_locked()),
             State::V12(st) => from_token_v4_to_v2(st.get_total_locked()),
+            State::V13(st) => from_token_v4_to_v2(st.get_total_locked()),
         }
     }
 }
@@ -185,6 +204,7 @@ pub enum DealProposals<'bs, BS> {
     V10(V10DealArray<'bs, BS>),
     V11(V11DealArray<'bs, BS>),
     V12(V12DealArray<'bs, BS>),
+    V13(V12DealArray<'bs, BS>),
 }
 
 impl<BS> DealProposals<'_, BS> {
@@ -203,6 +223,8 @@ impl<BS> DealProposals<'_, BS> {
             DealProposals::V11(deal_array) => Ok(deal_array
                 .for_each(|key, deal_proposal| f(key, DealProposal::try_from(deal_proposal)))?),
             DealProposals::V12(deal_array) => Ok(deal_array
+                .for_each(|key, deal_proposal| f(key, DealProposal::try_from(deal_proposal)))?),
+            DealProposals::V13(deal_array) => Ok(deal_array
                 .for_each(|key, deal_proposal| f(key, DealProposal::try_from(deal_proposal)))?),
         }
     }
@@ -338,6 +360,7 @@ pub enum DealStates<'bs, BS> {
     V10(V10DealMetaArray<'bs, BS>),
     V11(V11DealMetaArray<'bs, BS>),
     V12(V12DealMetaArray<'bs, BS>),
+    V13(V12DealMetaArray<'bs, BS>),
 }
 
 impl<BS> DealStates<'_, BS>
@@ -371,6 +394,12 @@ where
                 verified_claim: deal_state.verified_claim,
             })),
             DealStates::V12(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
+                sector_start_epoch: deal_state.sector_start_epoch,
+                last_updated_epoch: deal_state.last_updated_epoch,
+                slash_epoch: deal_state.slash_epoch,
+                verified_claim: deal_state.verified_claim,
+            })),
+            DealStates::V13(deal_array) => Ok(deal_array.get(key)?.map(|deal_state| DealState {
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,

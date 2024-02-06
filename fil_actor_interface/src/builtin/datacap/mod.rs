@@ -26,6 +26,7 @@ pub enum State {
     V10(fil_actor_datacap_state::v10::State),
     V11(fil_actor_datacap_state::v11::State),
     V12(fil_actor_datacap_state::v12::State),
+    V13(fil_actor_datacap_state::v13::State),
 }
 
 pub fn is_v9_datacap_cid(cid: &Cid) -> bool {
@@ -42,6 +43,10 @@ pub fn is_v11_datacap_cid(cid: &Cid) -> bool {
 
 pub fn is_v12_datacap_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.datacap.v12.contains(cid)
+}
+
+pub fn is_v13_datacap_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.datacap.v13.contains(cid)
 }
 
 impl State {
@@ -69,6 +74,11 @@ impl State {
                 .map(State::V12)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v13_datacap_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V13)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown datacap actor code {}", code))
     }
 
@@ -89,6 +99,11 @@ impl State {
             State::V9(state) => state.token.get_balance(store, id),
             State::V11(state) => state.token.get_balance(store, id),
             State::V12(state) => state.token.get_balance(store, id),
+            State::V13(state) => state
+                .token
+                .get_balance(store, id)
+                .map(|balance| Some(crate::convert::from_token_v4_to_v3(balance)))
+                .map_err(|e| e.to_string().into()),
             _ => return Err(anyhow!("not supported in actors > v8")),
         }?;
         Ok(int

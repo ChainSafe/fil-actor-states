@@ -34,6 +34,7 @@ pub fn is_account_actor(code: &Cid) -> bool {
         || account::is_v10_account_cid(code)
         || account::is_v11_account_cid(code)
         || account::is_v12_account_cid(code)
+        || account::is_v13_account_cid(code)
 }
 
 /// Returns true if the code belongs to a placeholder actor.
@@ -41,6 +42,7 @@ pub fn is_placeholder_actor(code: &Cid) -> bool {
     placeholder::is_v10_placeholder_cid(code)
         || placeholder::is_v11_placeholder_cid(code)
         || placeholder::is_v12_placeholder_cid(code)
+        || placeholder::is_v13_placeholder_cid(code)
 }
 
 /// Returns true if the code belongs to a ethereum account actor.
@@ -48,16 +50,23 @@ pub fn is_eth_account_actor(code: &Cid) -> bool {
     ethaccount::is_v10_ethaccount_cid(code)
         || ethaccount::is_v11_ethaccount_cid(code)
         || ethaccount::is_v12_ethaccount_cid(code)
+        || ethaccount::is_v13_ethaccount_cid(code)
 }
 
 /// Returns true if the code belongs to a payment channel actor.
 pub fn is_paych_actor(code: &Cid) -> bool {
-    paych::is_v10_paych_cid(code) || paych::is_v11_paych_cid(code) || paych::is_v12_paych_cid(code)
+    paych::is_v10_paych_cid(code)
+        || paych::is_v11_paych_cid(code)
+        || paych::is_v12_paych_cid(code)
+        || paych::is_v13_paych_cid(code)
 }
 
 /// Returns true if the code belongs to an evm actor.
 pub fn is_evm_actor(code: &Cid) -> bool {
-    evm::is_v10_evm_cid(code) || evm::is_v11_evm_cid(code) || evm::is_v12_evm_cid(code)
+    evm::is_v10_evm_cid(code)
+        || evm::is_v11_evm_cid(code)
+        || evm::is_v12_evm_cid(code)
+        || evm::is_v13_evm_cid(code)
 }
 
 /// Returns true if the code belongs to a storage miner actor.
@@ -67,6 +76,7 @@ pub fn is_miner_actor(code: &Cid) -> bool {
         || miner::is_v10_miner_cid(code)
         || miner::is_v11_miner_cid(code)
         || miner::is_v12_miner_cid(code)
+        || miner::is_v13_miner_cid(code)
 }
 
 /// Returns true if the code belongs to a multisig account actor.
@@ -76,4 +86,5 @@ pub fn is_multisig_actor(code: &Cid) -> bool {
         || multisig::is_v10_multisig_cid(code)
         || multisig::is_v11_multisig_cid(code)
         || multisig::is_v12_multisig_cid(code)
+        || multisig::is_v13_multisig_cid(code)
 }
