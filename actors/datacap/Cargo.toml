@@ -9,7 +9,7 @@ version.workspace = true
 keywords.workspace = true
 
 [dependencies]
-fil_actors_shared = { version = "9.4.0", path = "../../fil_actors_shared" }
+fil_actors_shared = { version = "10.0.0-dev.1", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
 frc46_token = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
