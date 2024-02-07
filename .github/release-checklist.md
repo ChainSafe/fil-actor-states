@@ -13,10 +13,15 @@ Make a pull request with the following changes:
 - Tag `Release` label to this pull request, this enables additional forest sync check test to
   ensure no breaking changes are released.
 
+## Release on GitHub
+
+- Create a [new release][1]. Click on `Choose a tag` button and create a new
+  one. The tag must start with a lowercase `v`, e.g., `v10.0.0`. Follow the
+  title convention of the previous releases, and write a small summary of the
+  release.
+
 ## Release on crates.io
 
-- Create a version tag using `git tag -a <version> -m "Tag message"`
-  Replace `<version>` with the actual version number or tag name you want to create,
-  and "Tag message" with a brief description of the tag (e.g., "v1.0.0 - Initial release").
-- Push the newly created version tag to GitHub using `git push origin <version>` (e.g., git push origin v1.0.0)
-- Once the push is successful, all `fil-actor-states` crates will be build and published to [crates.io](https://crates.io/).
+- `fil-actor-states` crates will be automatically built and published on a successful GH release.
+
+  [1]: https://github.com/ChainSafe/fil-actor-states/releases/new
