@@ -9,8 +9,6 @@ pub use self::state::Claim;
 pub use self::state::State;
 pub use types::*;
 
-pub mod expiration;
-pub mod ext;
 pub mod state;
 pub mod types;
 
