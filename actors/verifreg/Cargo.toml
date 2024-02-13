@@ -23,7 +23,6 @@ fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
-log = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }

@@ -929,7 +929,6 @@ dependencies = [
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
  "fvm_shared 4.1.2",
- "log",
  "num-derive",
  "num-traits",
  "serde",
