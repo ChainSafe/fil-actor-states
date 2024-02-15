@@ -1,4 +1,4 @@
-name: Publish and Release 
+name: Publish Crates
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
     - v*
 
 jobs:
-  publish_release:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,17 +16,7 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.4
         timeout-minutes: 5
         continue-on-error: true
-      - name: Publish
+      - name: Publish crates
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
         run: ./scripts/publish.sh
-      - name: Create Pre-Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Release notes for version ${{ github.ref }}:
-          prerelease: true
