@@ -942,6 +942,7 @@ dependencies = [
  "cid",
  "fil_actors_test_utils",
  "filecoin-proofs-api",
+ "frc46_token",
  "fvm_ipld_amt",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",

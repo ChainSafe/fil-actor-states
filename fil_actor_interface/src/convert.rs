@@ -91,10 +91,6 @@ pub fn from_token_v4_to_v2(token: TokenAmountV4) -> TokenAmountV2 {
     TokenAmountV2::from_atto(token.atto().clone())
 }
 
-pub fn from_token_v4_to_v3(token: TokenAmountV4) -> TokenAmountV3 {
-    TokenAmountV3::from_atto(token.atto().clone())
-}
-
 pub fn from_token_v2_to_v3(token: TokenAmountV2) -> TokenAmountV3 {
     TokenAmountV3::from_atto(token.atto().clone())
 }

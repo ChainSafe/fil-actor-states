@@ -4,10 +4,10 @@
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 
-use fil_actors_shared::frc46_token;
+use frc46_token::token;
 
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {
     pub governor: Address,
-    pub token: frc46_token::TokenState,
+    pub token: token::state::TokenState,
 }
