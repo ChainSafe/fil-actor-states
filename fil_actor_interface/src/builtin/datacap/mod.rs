@@ -4,6 +4,7 @@
 use anyhow::{anyhow, Context};
 use cid::Cid;
 use fil_actor_datacap_state::v12::DATACAP_GRANULARITY;
+use fil_actors_shared::ext::TokenStateExt;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::address::{Address, Payload};
 use num::traits::Euclid;
@@ -82,6 +83,7 @@ impl State {
         Err(anyhow::anyhow!("Unknown datacap actor code {}", code))
     }
 
+    // NOTE: This code currently mimics that of Lotus and is only used for RPC compatibility.
     pub fn verified_client_data_cap<BS>(
         &self,
         store: &BS,
@@ -96,14 +98,10 @@ impl State {
         }?;
 
         let int = match self {
-            State::V9(state) => state.token.get_balance(store, id),
-            State::V11(state) => state.token.get_balance(store, id),
-            State::V12(state) => state.token.get_balance(store, id),
-            State::V13(state) => state
-                .token
-                .get_balance(store, id)
-                .map(|balance| Some(crate::convert::from_token_v4_to_v3(balance)))
-                .map_err(|e| e.to_string().into()),
+            State::V9(state) => state.token.get_balance_opt(store, id),
+            State::V11(state) => state.token.get_balance_opt(store, id),
+            State::V12(state) => state.token.get_balance_opt(store, id),
+            State::V13(state) => state.token.get_balance_opt(store, id),
             _ => return Err(anyhow!("not supported in actors > v8")),
         }?;
         Ok(int
