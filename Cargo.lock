@@ -631,7 +631,7 @@ dependencies = [
 name = "fil_actor_account_state"
 version = "10.0.0-dev.2"
 dependencies = [
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
@@ -659,7 +659,7 @@ name = "fil_actor_datacap_state"
 version = "10.0.0-dev.2"
 dependencies = [
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "frc46_token",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
@@ -700,7 +700,7 @@ version = "10.0.0-dev.2"
 dependencies = [
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 3.6.0",
  "fvm_shared 4.1.2",
@@ -719,7 +719,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
@@ -776,7 +776,7 @@ dependencies = [
  "fil_actor_verifreg_state",
  "fil_actors_shared",
  "fil_actors_test_utils",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
@@ -805,7 +805,7 @@ dependencies = [
  "fil_actor_verifreg_state",
  "fil_actors_shared",
  "fil_actors_test_utils",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_amt",
  "fvm_ipld_bitfield",
  "fvm_ipld_blockstore",
@@ -835,7 +835,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
@@ -855,7 +855,7 @@ version = "10.0.0-dev.2"
 dependencies = [
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
  "fvm_shared 3.6.0",
@@ -872,7 +872,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_ipld_hamt",
@@ -923,7 +923,7 @@ dependencies = [
  "anyhow",
  "cid",
  "fil_actors_shared",
- "frc42_macros 3.0.0",
+ "frc42_macros",
  "fvm_ipld_blockstore",
  "fvm_ipld_encoding",
  "fvm_shared 2.6.0",
@@ -1091,19 +1091,10 @@ version = "6.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a1704e27193af21e58435974ff20f2be25cc59338afb89920abdb540ad3182b"
 dependencies = [
- "frc42_hasher 4.0.0",
- "frc42_macros 4.0.0",
+ "frc42_hasher",
+ "frc42_macros",
  "fvm_ipld_encoding",
  "fvm_shared 4.1.2",
- "thiserror",
-]
-
-[[package]]
-name = "frc42_hasher"
-version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08a35e7214108f81cefc17b0466be01279f384faf913918a12dbc8528bb758a4"
-dependencies = [
  "thiserror",
 ]
 
@@ -1120,25 +1111,12 @@ dependencies = [
 
 [[package]]
 name = "frc42_macros"
-version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6f50cd62b077775194bde67eef8076b31f915b9c099f3a7fd1a760363d65f145"
-dependencies = [
- "blake2b_simd",
- "frc42_hasher 3.0.0",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "frc42_macros"
 version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5a9ce38a981bab5e0d3c0835baa86f83066afe9afaf0aec23cee421f6d8c628e"
 dependencies = [
  "blake2b_simd",
- "frc42_hasher 4.0.0",
+ "frc42_hasher",
  "proc-macro2",
  "quote",
  "syn 1.0.109",
