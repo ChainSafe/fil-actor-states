@@ -22,7 +22,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "10.0.0-dev.2"
+version = "10.0.0-dev.3"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/ChainSafe/fil-actor-states"
 authors = [
