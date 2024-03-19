@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
   push:
     tags:
-    - v*
+      - v*
+env:
+  RUSTC_WRAPPER: "sccache"
 
 jobs:
   publish:
