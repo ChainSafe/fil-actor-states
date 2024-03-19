@@ -13,6 +13,8 @@ use fil_actor_market_state::v11::DealArray as V11DealArray;
 use fil_actor_market_state::v11::DealMetaArray as V11DealMetaArray;
 use fil_actor_market_state::v12::DealArray as V12DealArray;
 use fil_actor_market_state::v12::DealMetaArray as V12DealMetaArray;
+use fil_actor_market_state::v13::DealArray as V13DealArray;
+use fil_actor_market_state::v13::DealMetaArray as V13DealMetaArray;
 use fil_actor_market_state::v9::DealArray as V9DealArray;
 use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
 use fil_actors_shared::v10::AsActorError as V10AsActorError;
@@ -141,8 +143,7 @@ impl State {
             State::V10(st) => Ok(DealProposals::V10(st.get_proposal_array(store)?)),
             State::V11(st) => Ok(DealProposals::V11(st.get_proposal_array(store)?)),
             State::V12(st) => Ok(DealProposals::V12(st.get_proposal_array(store)?)),
-            // `get_proposal_array` does not exist for V13
-            State::V13(_st) => anyhow::bail!("unimplemented"),
+            State::V13(st) => Ok(DealProposals::V13(st.load_proposals(store)?)),
         }
     }
 
@@ -175,7 +176,7 @@ impl State {
                 "failed to load deal state array",
             )?)),
             State::V13(st) => Ok(DealStates::V13(V13AsActorError::context_code(
-                V12DealMetaArray::load(&st.states, store),
+                V13DealMetaArray::load(&st.states, store),
                 FVM4ExitCode::USR_ILLEGAL_STATE,
                 "failed to load deal state array",
             )?)),
@@ -204,7 +205,7 @@ pub enum DealProposals<'bs, BS> {
     V10(V10DealArray<'bs, BS>),
     V11(V11DealArray<'bs, BS>),
     V12(V12DealArray<'bs, BS>),
-    V13(V12DealArray<'bs, BS>),
+    V13(V13DealArray<'bs, BS>),
 }
 
 impl<BS> DealProposals<'_, BS>
@@ -365,13 +366,40 @@ impl TryFrom<&fil_actor_market_state::v12::DealProposal> for DealProposal {
     }
 }
 
+impl TryFrom<&fil_actor_market_state::v13::DealProposal> for DealProposal {
+    type Error = anyhow::Error;
+
+    fn try_from(
+        deal_proposal: &fil_actor_market_state::v13::DealProposal,
+    ) -> Result<Self, Self::Error> {
+        Ok(Self {
+            piece_cid: deal_proposal.piece_cid,
+            piece_size: from_padded_piece_size_v4_to_v2(deal_proposal.piece_size),
+            verified_deal: deal_proposal.verified_deal,
+            client: from_address_v4_to_v2(deal_proposal.client),
+            provider: from_address_v4_to_v2(deal_proposal.provider),
+            label: match &deal_proposal.label {
+                fil_actor_market_state::v13::Label::String(s) => s.clone(),
+                fil_actor_market_state::v13::Label::Bytes(b) => String::from_utf8(b.clone())?,
+            },
+            start_epoch: deal_proposal.start_epoch,
+            end_epoch: deal_proposal.end_epoch,
+            storage_price_per_epoch: from_token_v4_to_v2(
+                deal_proposal.storage_price_per_epoch.clone(),
+            ),
+            provider_collateral: from_token_v4_to_v2(deal_proposal.provider_collateral.clone()),
+            client_collateral: from_token_v4_to_v2(deal_proposal.client_collateral.clone()),
+        })
+    }
+}
+
 pub enum DealStates<'bs, BS> {
     V8(V9DealMetaArray<'bs, BS>),
     V9(V9DealMetaArray<'bs, BS>),
     V10(V10DealMetaArray<'bs, BS>),
     V11(V11DealMetaArray<'bs, BS>),
     V12(V12DealMetaArray<'bs, BS>),
-    V13(V12DealMetaArray<'bs, BS>),
+    V13(V13DealMetaArray<'bs, BS>),
 }
 
 impl<BS> DealStates<'_, BS>
@@ -414,7 +442,7 @@ where
                 sector_start_epoch: deal_state.sector_start_epoch,
                 last_updated_epoch: deal_state.last_updated_epoch,
                 slash_epoch: deal_state.slash_epoch,
-                verified_claim: deal_state.verified_claim,
+                verified_claim: 0,
             })),
         }
     }
