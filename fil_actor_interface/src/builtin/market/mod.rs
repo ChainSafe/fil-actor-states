@@ -207,14 +207,14 @@ pub enum DealProposals<'bs, BS> {
     V13(V12DealArray<'bs, BS>),
 }
 
-impl<BS> DealProposals<'_, BS> {
+impl<BS> DealProposals<'_, BS>
+where
+    BS: Blockstore,
+{
     pub fn for_each(
         &self,
         mut f: impl FnMut(u64, Result<DealProposal, anyhow::Error>) -> anyhow::Result<(), anyhow::Error>,
-    ) -> anyhow::Result<()>
-    where
-        BS: Blockstore,
-    {
+    ) -> anyhow::Result<()> {
         match self {
             DealProposals::V9(deal_array) => Ok(deal_array
                 .for_each(|key, deal_proposal| f(key, DealProposal::try_from(deal_proposal)))?),
@@ -227,6 +227,17 @@ impl<BS> DealProposals<'_, BS> {
             DealProposals::V13(deal_array) => Ok(deal_array
                 .for_each(|key, deal_proposal| f(key, DealProposal::try_from(deal_proposal)))?),
         }
+    }
+
+    pub fn get(&self, key: u64) -> anyhow::Result<Option<DealProposal>> {
+        match self {
+            DealProposals::V9(deal_array) => deal_array.get(key)?.map(TryFrom::try_from),
+            DealProposals::V10(deal_array) => deal_array.get(key)?.map(TryFrom::try_from),
+            DealProposals::V11(deal_array) => deal_array.get(key)?.map(TryFrom::try_from),
+            DealProposals::V12(deal_array) => deal_array.get(key)?.map(TryFrom::try_from),
+            DealProposals::V13(deal_array) => deal_array.get(key)?.map(TryFrom::try_from),
+        }
+        .transpose()
     }
 }
 
@@ -416,6 +427,18 @@ pub struct DealState {
     pub last_updated_epoch: ChainEpoch, // -1 if deal state never updated
     pub slash_epoch: ChainEpoch,        // -1 if deal never slashed
     pub verified_claim: AllocationID, // ID of the verified registry allocation/claim for this deal's data (0 if none).
+}
+
+impl DealState {
+    /// Empty deal state
+    pub const fn empty() -> Self {
+        Self {
+            sector_start_epoch: -1,
+            last_updated_epoch: -1,
+            slash_epoch: -1,
+            verified_claim: 0,
+        }
+    }
 }
 
 impl<BS> BalanceTable<'_, BS>
