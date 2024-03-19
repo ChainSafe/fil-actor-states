@@ -174,10 +174,11 @@ where
         // wrapped in a hamt::Error::Dynamic.
         F: FnMut(K, &V) -> Result<(), ActorError>,
     {
-        match self.hamt.for_each(|k, v| {
+        let handler = |k: &hamt::BytesKey, v: &V| {
             let key = K::from_bytes(k).context_code(ExitCode::USR_ILLEGAL_STATE, "invalid key")?;
             f(key, v).map_err(|e| anyhow!(e))
-        }) {
+        };
+        match self.hamt.for_each(handler) {
             Ok(_) => Ok(()),
             Err(hamt_err) => match hamt_err {
                 hamt::Error::Dynamic(e) => match e.downcast::<ActorError>() {
