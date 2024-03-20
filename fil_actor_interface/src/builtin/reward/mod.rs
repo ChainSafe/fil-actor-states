@@ -108,7 +108,7 @@ impl State {
     }
 
     /// The baseline power the network is targeting at this state's epoch.
-    pub fn this_epoch_baseline_power(self) -> StoragePower {
+    pub fn this_epoch_baseline_power(&self) -> StoragePower {
         match self {
             State::V8(st) => st.this_epoch_baseline_power,
             State::V9(st) => st.this_epoch_baseline_power,
