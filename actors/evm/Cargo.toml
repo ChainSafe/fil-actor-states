@@ -10,7 +10,7 @@ keywords.workspace = true
 
 [dependencies]
 cid = { workspace = true }
-fil_actors_shared = { version = "10.0.0-dev.5", path = "../../fil_actors_shared" }
+fil_actors_shared = { version = "10.0.0", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
