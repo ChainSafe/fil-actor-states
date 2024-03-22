@@ -23,6 +23,9 @@ pub mod runtime;
 pub mod util;
 pub mod vm_api;
 
+#[cfg(test)]
+mod tests;
+
 #[macro_export]
 macro_rules! wasm_trampoline {
     ($target:ty) => {
