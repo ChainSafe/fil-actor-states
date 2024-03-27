@@ -11,6 +11,7 @@ use fvm_shared::address::{Address, Protocol};
 use fvm_shared4::bigint::bigint_ser::BigIntDe;
 use num::BigInt;
 use serde::Serialize;
+use std::str::FromStr;
 
 /// verifreg actor address.
 pub const ADDRESS: Address = Address::new_id(6);
@@ -48,7 +49,14 @@ pub fn is_v12_verifreg_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v13_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid)
+    // The following CID existed in the NV22 network, but was fixed as a patch.
+    // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11776
+    lazy_static::lazy_static! {
+        static ref PATCH_VERIFREG_V13: Cid =
+            Cid::from_str("bafk2bzacednskl3bykz5qpo54z2j2p4q44t5of4ktd6vs6ymmg2zebsbxazkm")
+                .expect("hardcoded CID must be valid");
+    }
+    crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid) || cid == &*PATCH_VERIFREG_V13
 }
 
 impl State {

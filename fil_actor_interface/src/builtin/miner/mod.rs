@@ -65,21 +65,7 @@ pub fn is_v12_miner_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v13_miner_cid(cid: &Cid) -> bool {
-    // The following code cids existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
-    // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11363
-    lazy_static! {
-        static ref V13_POSSIBLE_MINERS: Vec<Cid> = {
-            let cids = vec![
-                // Calibnet
-                // Devnet
-            ];
-
-            cids.into_iter()
-                .filter_map(|s| Cid::from_str(s).ok())
-                .collect()
-        };
-    }
-    crate::KNOWN_CIDS.actor.miner.v13.contains(cid) || V13_POSSIBLE_MINERS.contains(cid)
+    crate::KNOWN_CIDS.actor.miner.v13.contains(cid)
 }
 
 /// Miner actor state.
