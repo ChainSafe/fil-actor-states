@@ -1,19 +1,27 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::convert::{from_token_v3_to_v2, from_token_v4_to_v2};
+use crate::convert::{
+    from_padded_piece_size_v2_to_v3, from_padded_piece_size_v2_to_v4, from_policy_v10_to_v11,
+    from_policy_v10_to_v12, from_policy_v10_to_v13, from_token_v2_to_v3, from_token_v2_to_v4,
+    from_token_v3_to_v2, from_token_v4_to_v2,
+};
 use crate::io::get_obj;
 use anyhow::Context;
 use cid::Cid;
+use fil_actor_market_state::v11::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v11;
+use fil_actor_market_state::v12::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v12;
+use fil_actor_market_state::v13::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v13;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::sector::StoragePower;
 use fvm_shared::{address::Address, econ::TokenAmount, piece::PaddedPieceSize, TOTAL_FILECOIN};
-use num::bigint::Sign;
 use num::traits::Euclid;
 use num::BigInt;
 use serde::Serialize;
 use std::convert::Into;
 use std::ops::Mul;
+
+use fil_actors_shared::v10::runtime::Policy;
 
 /// Reward actor address.
 pub const ADDRESS: Address = Address::new_id(2);
@@ -119,7 +127,9 @@ impl State {
         }
     }
 
-    pub fn deal_provider_collateral_bounds(
+    fn deal_provider_collateral_bounds_pre_v11(
+        &self,
+        policy: &Policy,
         size: PaddedPieceSize,
         raw_byte_power: StoragePower,
         baseline_power: StoragePower,
@@ -128,10 +138,8 @@ impl State {
         // The percentage of normalized circulating supply that must be covered by provider
         // collateral in a deal.
         // See: https://github.com/filecoin-project/go-state-types/blob/master/builtin/v12/market/policy.go#L9-L14.
-        // Note that as of v13 the logic is exactly the same (copy-paste) for all the versions.
-        // Should that change - the code here is going to need some adjustment.
-        let numerator = BigInt::new(Sign::Plus, vec![1]);
-        let denominator = BigInt::new(Sign::Plus, vec![100]);
+        let numerator = BigInt::from(policy.prov_collateral_percent_supply_num);
+        let denominator = BigInt::from(policy.prov_collateral_percent_supply_denom);
 
         let lock_target_numerator = numerator.mul(network_circulating_supply);
         let lock_target_denominator = denominator;
@@ -153,5 +161,68 @@ impl State {
             TokenAmount::from_atto(min_collateral),
             TOTAL_FILECOIN.clone(),
         )
+    }
+
+    pub fn deal_provider_collateral_bounds(
+        &self,
+        policy: &Policy,
+        size: PaddedPieceSize,
+        raw_byte_power: StoragePower,
+        baseline_power: StoragePower,
+        network_circulating_supply: TokenAmount,
+    ) -> (TokenAmount, TokenAmount) {
+        match self {
+            State::V8(_) => self.deal_provider_collateral_bounds_pre_v11(
+                policy,
+                size,
+                raw_byte_power,
+                baseline_power,
+                network_circulating_supply,
+            ),
+            State::V9(_) => self.deal_provider_collateral_bounds_pre_v11(
+                policy,
+                size,
+                raw_byte_power,
+                baseline_power,
+                network_circulating_supply,
+            ),
+            State::V10(_) => self.deal_provider_collateral_bounds_pre_v11(
+                policy,
+                size,
+                raw_byte_power,
+                baseline_power,
+                network_circulating_supply,
+            ),
+            State::V11(_) => {
+                let (min, max) = deal_provider_collateral_bounds_v11(
+                    &from_policy_v10_to_v11(policy),
+                    from_padded_piece_size_v2_to_v3(size),
+                    &raw_byte_power,
+                    &baseline_power,
+                    &from_token_v2_to_v3(network_circulating_supply),
+                );
+                (from_token_v3_to_v2(min), from_token_v3_to_v2(max))
+            }
+            State::V12(_) => {
+                let (min, max) = deal_provider_collateral_bounds_v12(
+                    &from_policy_v10_to_v12(policy),
+                    from_padded_piece_size_v2_to_v4(size),
+                    &raw_byte_power,
+                    &baseline_power,
+                    &from_token_v2_to_v4(network_circulating_supply),
+                );
+                (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
+            }
+            State::V13(_) => {
+                let (min, max) = deal_provider_collateral_bounds_v13(
+                    &from_policy_v10_to_v13(policy),
+                    from_padded_piece_size_v2_to_v4(size),
+                    &raw_byte_power,
+                    &baseline_power,
+                    &from_token_v2_to_v4(network_circulating_supply),
+                );
+                (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
+            }
+        }
     }
 }
