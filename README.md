@@ -4,4 +4,7 @@
 
 These crates may be used to inspect and validate the internal state of Filecoin Actors.
 
-For the smart-contracts, see: https://github.com/filecoin-project/builtin-actors
+For the smart-contracts, see: https://github.com/filecoin-project/builtin-actors  
+NOTE: Some of the code is copy-pasted from the above repository. Therefore, it's advised to avoid
+refactoring such code in order to facilitate a smoother version upgrade process and potentially
+automate it.
