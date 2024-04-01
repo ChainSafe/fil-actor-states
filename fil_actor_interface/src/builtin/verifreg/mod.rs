@@ -49,14 +49,19 @@ pub fn is_v12_verifreg_cid(cid: &Cid) -> bool {
 }
 
 pub fn is_v13_verifreg_cid(cid: &Cid) -> bool {
-    // The following CID existed in the NV22 network, but was fixed as a patch.
+    // The following CIDs existed in the NV22 network, but was fixed as a patch.
     // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11776
     lazy_static::lazy_static! {
-        static ref PATCH_VERIFREG_V13: Cid =
+        static ref PATCH_VERIFREG_V13_CALIBNET: Cid =
             Cid::from_str("bafk2bzacednskl3bykz5qpo54z2j2p4q44t5of4ktd6vs6ymmg2zebsbxazkm")
                 .expect("hardcoded CID must be valid");
+        static ref PATCH_VERIFREG_V13_DEVNET: Cid =
+            Cid::from_str("bafk2bzacebjwc4fp4n556agi5i4pccuzn4bhn2tl24l4cskgvmwgadycff3oo")
+                .expect("hardcoded CID must be valid");
     }
-    crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid) || cid == &*PATCH_VERIFREG_V13
+    crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid)
+        || cid == &*PATCH_VERIFREG_V13_CALIBNET
+        || cid == &*PATCH_VERIFREG_V13_DEVNET
 }
 
 impl State {
