@@ -127,6 +127,9 @@ impl State {
         }
     }
 
+    // The code for versions lower than `v11` does not exist in the original Rust repo, but it does
+    // exist for Lotus. The logic is exactly the same for all the versions, therefore it has been
+    // decided to introduce a shared helper for all of these versions to match Lotus behaviour.
     fn deal_provider_collateral_bounds_pre_v11(
         &self,
         policy: &Policy,
