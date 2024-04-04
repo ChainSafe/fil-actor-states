@@ -13,13 +13,12 @@ use fil_actor_market_state::v11::policy::deal_provider_collateral_bounds as deal
 use fil_actor_market_state::v12::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v12;
 use fil_actor_market_state::v13::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v13;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared::bigint::Integer;
 use fvm_shared::sector::StoragePower;
 use fvm_shared::{address::Address, econ::TokenAmount, piece::PaddedPieceSize, TOTAL_FILECOIN};
-use num::traits::Euclid;
 use num::BigInt;
 use serde::Serialize;
-use std::convert::Into;
-use std::ops::Mul;
+use std::cmp::max;
 
 use fil_actors_shared::v10::runtime::Policy;
 
@@ -134,34 +133,24 @@ impl State {
         &self,
         policy: &Policy,
         size: PaddedPieceSize,
-        raw_byte_power: StoragePower,
+        network_raw_power: StoragePower,
         baseline_power: StoragePower,
         network_circulating_supply: TokenAmount,
     ) -> (TokenAmount, TokenAmount) {
-        // The percentage of normalized circulating supply that must be covered by provider
-        // collateral in a deal.
-        // See: https://github.com/filecoin-project/go-state-types/blob/master/builtin/v12/market/policy.go#L9-L14.
-        let numerator = BigInt::from(policy.prov_collateral_percent_supply_num);
-        let denominator = BigInt::from(policy.prov_collateral_percent_supply_denom);
+        // minimumProviderCollateral = ProviderCollateralSupplyTarget * normalizedCirculatingSupply
+        // normalizedCirculatingSupply = networkCirculatingSupply * dealPowerShare
+        // dealPowerShare = dealRawPower / max(BaselinePower(t), NetworkRawPower(t), dealRawPower)
 
-        let lock_target_numerator = numerator.mul(network_circulating_supply);
-        let lock_target_denominator = denominator;
+        let lock_target_num =
+            network_circulating_supply * policy.prov_collateral_percent_supply_num;
+        let power_share_num = BigInt::from(size.0);
+        let power_share_denom =
+            max(max(&network_raw_power, &baseline_power), &power_share_num).clone();
 
-        let power_share_numerator: BigInt = size.0.into();
-        let power_share_denominator = BigInt::max(
-            BigInt::max(raw_byte_power, baseline_power),
-            power_share_numerator.clone(),
-        );
-
-        let collateral_numerator = lock_target_numerator.mul(power_share_numerator);
-        let collateral_denominator = lock_target_denominator.mul(power_share_denominator);
-
-        let min_collateral = collateral_numerator
-            .atto()
-            .div_euclid(&collateral_denominator);
-
+        let num: BigInt = power_share_num * lock_target_num.atto();
+        let denom: BigInt = power_share_denom * policy.prov_collateral_percent_supply_denom;
         (
-            TokenAmount::from_atto(min_collateral),
+            TokenAmount::from_atto(num.div_floor(&denom)),
             TOTAL_FILECOIN.clone(),
         )
     }
