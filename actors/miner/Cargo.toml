@@ -17,8 +17,8 @@ crate-type = ["cdylib", "lib"]
 anyhow = { workspace = true }
 bitflags = { workspace = true }
 cid = { workspace = true }
-fil_actor_verifreg_state = { version = "10.1.0", path = "../verifreg" }
-fil_actors_shared = { version = "10.1.0", path = "../../fil_actors_shared" }
+fil_actor_verifreg_state = { version = "10.1.1", path = "../verifreg" }
+fil_actors_shared = { version = "10.1.1", path = "../../fil_actors_shared" }
 frc42_macros = { workspace = true }
 fvm_ipld_amt = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }

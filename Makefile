@@ -32,8 +32,7 @@ clean:
 	@echo "Done cleaning."
 
 update-forest:
-	# Set GIT_LFS_SKIP_SMUDGE=1 explicitly to not waste git lfs bandwidth
-	GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive
+	git submodule update --init --recursive --remote
 
 modify-forest:
 	# Keep forest separate from the local workspace
