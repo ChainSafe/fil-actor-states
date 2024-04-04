@@ -114,17 +114,15 @@ impl State {
         }
     }
 
-    /// The baseline power the network is targeting at this state's epoch. This needs to be cloned
-    /// as the value is later used in e.g. `deal_provider_collateral_bounds` and would otherwise
-    /// require loading the state twice.
-    pub fn this_epoch_baseline_power(&self) -> StoragePower {
+    /// The baseline power the network is targeting at this state's epoch.
+    pub fn this_epoch_baseline_power(&self) -> &StoragePower {
         match self {
-            State::V8(st) => st.this_epoch_baseline_power.clone(),
-            State::V9(st) => st.this_epoch_baseline_power.clone(),
-            State::V10(st) => st.this_epoch_baseline_power.clone(),
-            State::V11(st) => st.this_epoch_baseline_power.clone(),
-            State::V12(st) => st.this_epoch_baseline_power.clone(),
-            State::V13(st) => st.this_epoch_baseline_power.clone(),
+            State::V8(st) => &st.this_epoch_baseline_power,
+            State::V9(st) => &st.this_epoch_baseline_power,
+            State::V10(st) => &st.this_epoch_baseline_power,
+            State::V11(st) => &st.this_epoch_baseline_power,
+            State::V12(st) => &st.this_epoch_baseline_power,
+            State::V13(st) => &st.this_epoch_baseline_power,
         }
     }
 
@@ -135,8 +133,8 @@ impl State {
         &self,
         policy: &Policy,
         size: PaddedPieceSize,
-        network_raw_power: StoragePower,
-        baseline_power: StoragePower,
+        network_raw_power: &StoragePower,
+        baseline_power: &StoragePower,
         network_circulating_supply: TokenAmount,
     ) -> (TokenAmount, TokenAmount) {
         // minimumProviderCollateral = ProviderCollateralSupplyTarget * normalizedCirculatingSupply
@@ -147,7 +145,7 @@ impl State {
             network_circulating_supply * policy.prov_collateral_percent_supply_num;
         let power_share_num = BigInt::from(size.0);
         let power_share_denom =
-            max(max(&network_raw_power, &baseline_power), &power_share_num).clone();
+            max(max(network_raw_power, baseline_power), &power_share_num).clone();
 
         let num: BigInt = power_share_num * lock_target_num.atto();
         let denom: BigInt = power_share_denom * policy.prov_collateral_percent_supply_denom;
@@ -161,8 +159,8 @@ impl State {
         &self,
         policy: &Policy,
         size: PaddedPieceSize,
-        raw_byte_power: StoragePower,
-        baseline_power: StoragePower,
+        raw_byte_power: &StoragePower,
+        baseline_power: &StoragePower,
         network_circulating_supply: TokenAmount,
     ) -> (TokenAmount, TokenAmount) {
         match self {
