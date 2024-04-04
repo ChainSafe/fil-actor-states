@@ -45,6 +45,14 @@ pub fn from_reg_seal_proof_v3_to_v2(proof: RegisteredSealProofV3) -> RegisteredS
     RegisteredSealProofV2::from(num_id)
 }
 
+pub fn from_padded_piece_size_v2_to_v3(size: PaddedPieceSizeV2) -> PaddedPieceSizeV3 {
+    PaddedPieceSizeV3(size.0)
+}
+
+pub fn from_padded_piece_size_v2_to_v4(size: PaddedPieceSizeV2) -> PaddedPieceSizeV4 {
+    PaddedPieceSizeV4(size.0)
+}
+
 pub fn from_reg_seal_proof_v4_to_v2(proof: RegisteredSealProofV4) -> RegisteredSealProofV2 {
     let num_id: i64 = proof.into();
     RegisteredSealProofV2::from(num_id)
