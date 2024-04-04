@@ -114,15 +114,17 @@ impl State {
         }
     }
 
-    /// The baseline power the network is targeting at this state's epoch.
-    pub fn this_epoch_baseline_power(self) -> StoragePower {
+    /// The baseline power the network is targeting at this state's epoch. This needs to be cloned
+    /// as the value is later used in e.g. `deal_provider_collateral_bounds` and would otherwise
+    /// require loading the state twice.
+    pub fn this_epoch_baseline_power(&self) -> StoragePower {
         match self {
-            State::V8(st) => st.this_epoch_baseline_power,
-            State::V9(st) => st.this_epoch_baseline_power,
-            State::V10(st) => st.this_epoch_baseline_power,
-            State::V11(st) => st.this_epoch_baseline_power,
-            State::V12(st) => st.this_epoch_baseline_power,
-            State::V13(st) => st.this_epoch_baseline_power,
+            State::V8(st) => st.this_epoch_baseline_power.clone(),
+            State::V9(st) => st.this_epoch_baseline_power.clone(),
+            State::V10(st) => st.this_epoch_baseline_power.clone(),
+            State::V11(st) => st.this_epoch_baseline_power.clone(),
+            State::V12(st) => st.this_epoch_baseline_power.clone(),
+            State::V13(st) => st.this_epoch_baseline_power.clone(),
         }
     }
 
