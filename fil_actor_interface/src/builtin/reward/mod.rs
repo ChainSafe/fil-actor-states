@@ -189,8 +189,8 @@ impl State {
                 let (min, max) = deal_provider_collateral_bounds_v11(
                     &from_policy_v10_to_v11(policy),
                     from_padded_piece_size_v2_to_v3(size),
-                    &raw_byte_power,
-                    &baseline_power,
+                    raw_byte_power,
+                    baseline_power,
                     &from_token_v2_to_v3(network_circulating_supply),
                 );
                 (from_token_v3_to_v2(min), from_token_v3_to_v2(max))
@@ -199,8 +199,8 @@ impl State {
                 let (min, max) = deal_provider_collateral_bounds_v12(
                     &from_policy_v10_to_v12(policy),
                     from_padded_piece_size_v2_to_v4(size),
-                    &raw_byte_power,
-                    &baseline_power,
+                    raw_byte_power,
+                    baseline_power,
                     &from_token_v2_to_v4(network_circulating_supply),
                 );
                 (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
@@ -209,8 +209,8 @@ impl State {
                 let (min, max) = deal_provider_collateral_bounds_v13(
                     &from_policy_v10_to_v13(policy),
                     from_padded_piece_size_v2_to_v4(size),
-                    &raw_byte_power,
-                    &baseline_power,
+                    raw_byte_power,
+                    baseline_power,
                     &from_token_v2_to_v4(network_circulating_supply),
                 );
                 (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
