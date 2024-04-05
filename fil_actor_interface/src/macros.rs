@@ -44,7 +44,7 @@ macro_rules! parse_pending_transactions_v3 {
                     $res.push(Transaction {
                         id: tx_id,
                         to: from_address_v3_to_v2(txn.to),
-                        value: from_token_v3_to_v2(txn.value.clone()),
+                        value: from_token_v3_to_v2(&txn.value),
                         method: txn.method,
                         params: txn.params.clone(),
                         approved: txn
@@ -75,7 +75,7 @@ macro_rules! parse_pending_transactions_v4 {
             $res.push(Transaction {
                 id: tx_id.0,
                 to: from_address_v4_to_v2(txn.to),
-                value: from_token_v4_to_v2(txn.value.clone()),
+                value: from_token_v4_to_v2(&txn.value),
                 method: txn.method,
                 params: txn.params.clone(),
                 approved: txn

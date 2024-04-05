@@ -318,25 +318,25 @@ impl State {
         match self {
             State::V8(st) => st.fee_debt.clone(),
             State::V9(st) => st.fee_debt.clone(),
-            State::V10(st) => from_token_v3_to_v2(st.fee_debt.clone()),
-            State::V11(st) => from_token_v3_to_v2(st.fee_debt.clone()),
-            State::V12(st) => from_token_v4_to_v2(st.fee_debt.clone()),
-            State::V13(st) => from_token_v4_to_v2(st.fee_debt.clone()),
+            State::V10(st) => from_token_v3_to_v2(&st.fee_debt),
+            State::V11(st) => from_token_v3_to_v2(&st.fee_debt),
+            State::V12(st) => from_token_v4_to_v2(&st.fee_debt),
+            State::V13(st) => from_token_v4_to_v2(&st.fee_debt),
         }
     }
 
     /// Unclaimed funds. Actor balance - (locked funds, precommit deposit, ip requirement) Can go negative if the miner is in IP debt.
     pub fn available_balance(&self, balance: &BigInt) -> anyhow::Result<TokenAmount> {
         let balance: TokenAmount = TokenAmount::from_atto(balance.clone());
-        let balance_v3 = from_token_v2_to_v3(balance.clone());
-        let balance_v4 = from_token_v2_to_v4(balance.clone());
+        let balance_v3 = from_token_v2_to_v3(&balance);
+        let balance_v4 = from_token_v2_to_v4(&balance);
         match self {
             State::V8(st) => st.get_available_balance(&balance),
             State::V9(st) => st.get_available_balance(&balance),
-            State::V10(st) => Ok(from_token_v3_to_v2(st.get_available_balance(&balance_v3)?)),
-            State::V11(st) => Ok(from_token_v3_to_v2(st.get_available_balance(&balance_v3)?)),
-            State::V12(st) => Ok(from_token_v4_to_v2(st.get_available_balance(&balance_v4)?)),
-            State::V13(st) => Ok(from_token_v4_to_v2(st.get_available_balance(&balance_v4)?)),
+            State::V10(st) => Ok(from_token_v3_to_v2(&st.get_available_balance(&balance_v3)?)),
+            State::V11(st) => Ok(from_token_v3_to_v2(&st.get_available_balance(&balance_v3)?)),
+            State::V12(st) => Ok(from_token_v4_to_v2(&st.get_available_balance(&balance_v4)?)),
+            State::V13(st) => Ok(from_token_v4_to_v2(&st.get_available_balance(&balance_v4)?)),
         }
     }
 
@@ -439,13 +439,13 @@ impl From<fil_actor_miner_state::v9::MinerInfo> for MinerInfo {
             beneficiary: info.beneficiary,
             beneficiary_term: BeneficiaryTerm {
                 expiration: info.beneficiary_term.expiration,
-                quota: from_token_v2_to_v4(info.beneficiary_term.quota),
-                used_quota: from_token_v2_to_v4(info.beneficiary_term.used_quota),
+                quota: from_token_v2_to_v4(&info.beneficiary_term.quota),
+                used_quota: from_token_v2_to_v4(&info.beneficiary_term.used_quota),
             },
             pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
                 PendingBeneficiaryChange {
                     new_beneficiary: from_address_v2_to_v4(term.new_beneficiary),
-                    new_quota: from_token_v2_to_v4(term.new_quota),
+                    new_quota: from_token_v2_to_v4(&term.new_quota),
                     new_expiration: term.new_expiration,
                     approved_by_beneficiary: term.approved_by_beneficiary,
                     approved_by_nominee: term.approved_by_nominee,
@@ -482,14 +482,14 @@ impl From<fil_actor_miner_state::v10::MinerInfo> for MinerInfo {
             pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
             beneficiary: from_address_v3_to_v2(info.beneficiary),
             beneficiary_term: BeneficiaryTerm {
-                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
-                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                quota: from_token_v3_to_v4(&info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(&info.beneficiary_term.used_quota),
                 expiration: info.beneficiary_term.expiration,
             },
             pending_beneficiary_term: info.pending_beneficiary_term.map(|term| {
                 PendingBeneficiaryChange {
                     new_beneficiary: from_address_v3_to_v4(term.new_beneficiary),
-                    new_quota: from_token_v3_to_v4(term.new_quota),
+                    new_quota: from_token_v3_to_v4(&term.new_quota),
                     new_expiration: term.new_expiration,
                     approved_by_beneficiary: term.approved_by_beneficiary,
                     approved_by_nominee: term.approved_by_nominee,
@@ -526,14 +526,14 @@ impl From<fil_actor_miner_state::v11::MinerInfo> for MinerInfo {
             pending_owner_address: info.pending_owner_address.map(from_address_v3_to_v2),
             beneficiary: from_address_v3_to_v2(info.beneficiary),
             beneficiary_term: BeneficiaryTerm {
-                quota: from_token_v3_to_v4(info.beneficiary_term.quota),
-                used_quota: from_token_v3_to_v4(info.beneficiary_term.used_quota),
+                quota: from_token_v3_to_v4(&info.beneficiary_term.quota),
+                used_quota: from_token_v3_to_v4(&info.beneficiary_term.used_quota),
                 expiration: info.beneficiary_term.expiration,
             },
             pending_beneficiary_term: info.pending_beneficiary_term.map(|change| {
                 PendingBeneficiaryChange {
                     new_beneficiary: from_address_v3_to_v4(change.new_beneficiary),
-                    new_quota: from_token_v3_to_v4(change.new_quota),
+                    new_quota: from_token_v3_to_v4(&change.new_quota),
                     new_expiration: change.new_expiration,
                     approved_by_beneficiary: change.approved_by_beneficiary,
                     approved_by_nominee: change.approved_by_nominee,
@@ -854,11 +854,11 @@ impl From<fil_actor_miner_state::v10::SectorOnChainInfo> for SectorOnChainInfo {
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: from_token_v3_to_v2(info.initial_pledge),
-            expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
-            expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
+            initial_pledge: from_token_v3_to_v2(&info.initial_pledge),
+            expected_day_reward: from_token_v3_to_v2(&info.expected_day_reward),
+            expected_storage_pledge: from_token_v3_to_v2(&info.expected_storage_pledge),
             replaced_sector_age: info.replaced_sector_age,
-            replaced_day_reward: from_token_v3_to_v2(info.replaced_day_reward),
+            replaced_day_reward: from_token_v3_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
             simple_qa_power: info.simple_qa_power,
         }
@@ -876,11 +876,11 @@ impl From<fil_actor_miner_state::v11::SectorOnChainInfo> for SectorOnChainInfo {
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: from_token_v3_to_v2(info.initial_pledge),
-            expected_day_reward: from_token_v3_to_v2(info.expected_day_reward),
-            expected_storage_pledge: from_token_v3_to_v2(info.expected_storage_pledge),
+            initial_pledge: from_token_v3_to_v2(&info.initial_pledge),
+            expected_day_reward: from_token_v3_to_v2(&info.expected_day_reward),
+            expected_storage_pledge: from_token_v3_to_v2(&info.expected_storage_pledge),
             replaced_sector_age: info.replaced_sector_age,
-            replaced_day_reward: from_token_v3_to_v2(info.replaced_day_reward),
+            replaced_day_reward: from_token_v3_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
             simple_qa_power: info.simple_qa_power,
         }
@@ -898,11 +898,11 @@ impl From<fil_actor_miner_state::v12::SectorOnChainInfo> for SectorOnChainInfo {
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: from_token_v4_to_v2(info.initial_pledge),
-            expected_day_reward: from_token_v4_to_v2(info.expected_day_reward),
-            expected_storage_pledge: from_token_v4_to_v2(info.expected_storage_pledge),
+            initial_pledge: from_token_v4_to_v2(&info.initial_pledge),
+            expected_day_reward: from_token_v4_to_v2(&info.expected_day_reward),
+            expected_storage_pledge: from_token_v4_to_v2(&info.expected_storage_pledge),
             replaced_sector_age: ChainEpoch::default(),
-            replaced_day_reward: from_token_v4_to_v2(info.replaced_day_reward),
+            replaced_day_reward: from_token_v4_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
             simple_qa_power: bool::default(),
         }
@@ -920,11 +920,11 @@ impl From<fil_actor_miner_state::v13::SectorOnChainInfo> for SectorOnChainInfo {
             expiration: info.expiration,
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
-            initial_pledge: from_token_v4_to_v2(info.initial_pledge),
-            expected_day_reward: from_token_v4_to_v2(info.expected_day_reward),
-            expected_storage_pledge: from_token_v4_to_v2(info.expected_storage_pledge),
+            initial_pledge: from_token_v4_to_v2(&info.initial_pledge),
+            expected_day_reward: from_token_v4_to_v2(&info.expected_day_reward),
+            expected_storage_pledge: from_token_v4_to_v2(&info.expected_storage_pledge),
             replaced_sector_age: ChainEpoch::default(),
-            replaced_day_reward: from_token_v4_to_v2(info.replaced_day_reward),
+            replaced_day_reward: from_token_v4_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
             simple_qa_power: bool::default(),
         }

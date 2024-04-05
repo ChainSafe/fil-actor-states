@@ -169,10 +169,10 @@ impl State {
         match self {
             State::V8(st) => st.into_total_locked(),
             State::V9(st) => st.into_total_locked(),
-            State::V10(st) => from_token_v3_to_v2(st.into_total_locked()),
-            State::V11(st) => from_token_v3_to_v2(st.into_total_locked()),
-            State::V12(st) => from_token_v4_to_v2(st.into_total_locked()),
-            State::V13(st) => from_token_v4_to_v2(st.into_total_locked()),
+            State::V10(st) => from_token_v3_to_v2(&st.into_total_locked()),
+            State::V11(st) => from_token_v3_to_v2(&st.into_total_locked()),
+            State::V12(st) => from_token_v4_to_v2(&st.into_total_locked()),
+            State::V13(st) => from_token_v4_to_v2(&st.into_total_locked()),
         }
     }
 
@@ -274,10 +274,10 @@ impl State {
         match self {
             State::V8(st) => st.total_pledge_collateral.clone(),
             State::V9(st) => st.total_pledge_collateral.clone(),
-            State::V10(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
-            State::V11(st) => from_token_v3_to_v2(st.total_pledge_collateral.clone()),
-            State::V12(st) => from_token_v4_to_v2(st.total_pledge_collateral.clone()),
-            State::V13(st) => from_token_v4_to_v2(st.total_pledge_collateral.clone()),
+            State::V10(st) => from_token_v3_to_v2(&st.total_pledge_collateral),
+            State::V11(st) => from_token_v3_to_v2(&st.total_pledge_collateral),
+            State::V12(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
+            State::V13(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
         }
     }
 }

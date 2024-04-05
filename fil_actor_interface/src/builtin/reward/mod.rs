@@ -107,10 +107,10 @@ impl State {
         match self {
             State::V8(st) => st.into_total_storage_power_reward(),
             State::V9(st) => st.into_total_storage_power_reward(),
-            State::V10(st) => from_token_v3_to_v2(st.into_total_storage_power_reward()),
-            State::V11(st) => from_token_v3_to_v2(st.into_total_storage_power_reward()),
-            State::V12(st) => from_token_v4_to_v2(st.into_total_storage_power_reward()),
-            State::V13(st) => from_token_v4_to_v2(st.into_total_storage_power_reward()),
+            State::V10(st) => from_token_v3_to_v2(&st.into_total_storage_power_reward()),
+            State::V11(st) => from_token_v3_to_v2(&st.into_total_storage_power_reward()),
+            State::V12(st) => from_token_v4_to_v2(&st.into_total_storage_power_reward()),
+            State::V13(st) => from_token_v4_to_v2(&st.into_total_storage_power_reward()),
         }
     }
 
@@ -135,7 +135,7 @@ impl State {
         size: PaddedPieceSize,
         network_raw_power: &StoragePower,
         baseline_power: &StoragePower,
-        network_circulating_supply: TokenAmount,
+        network_circulating_supply: &TokenAmount,
     ) -> (TokenAmount, TokenAmount) {
         // minimumProviderCollateral = ProviderCollateralSupplyTarget * normalizedCirculatingSupply
         // normalizedCirculatingSupply = networkCirculatingSupply * dealPowerShare
@@ -161,7 +161,7 @@ impl State {
         size: PaddedPieceSize,
         raw_byte_power: &StoragePower,
         baseline_power: &StoragePower,
-        network_circulating_supply: TokenAmount,
+        network_circulating_supply: &TokenAmount,
     ) -> (TokenAmount, TokenAmount) {
         match self {
             State::V8(_) => self.deal_provider_collateral_bounds_pre_v11(
@@ -193,7 +193,7 @@ impl State {
                     baseline_power,
                     &from_token_v2_to_v3(network_circulating_supply),
                 );
-                (from_token_v3_to_v2(min), from_token_v3_to_v2(max))
+                (from_token_v3_to_v2(&min), from_token_v3_to_v2(&max))
             }
             State::V12(_) => {
                 let (min, max) = deal_provider_collateral_bounds_v12(
@@ -203,7 +203,7 @@ impl State {
                     baseline_power,
                     &from_token_v2_to_v4(network_circulating_supply),
                 );
-                (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
+                (from_token_v4_to_v2(&min), from_token_v4_to_v2(&max))
             }
             State::V13(_) => {
                 let (min, max) = deal_provider_collateral_bounds_v13(
@@ -213,7 +213,7 @@ impl State {
                     baseline_power,
                     &from_token_v2_to_v4(network_circulating_supply),
                 );
-                (from_token_v4_to_v2(min), from_token_v4_to_v2(max))
+                (from_token_v4_to_v2(&min), from_token_v4_to_v2(&max))
             }
         }
     }
