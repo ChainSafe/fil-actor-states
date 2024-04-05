@@ -83,23 +83,23 @@ pub fn from_address_v4_to_v2(addr: AddressV4) -> AddressV2 {
         .expect("Couldn't convert between FVM4 and FVM2 addresses.")
 }
 
-pub fn from_token_v2_to_v4(token: TokenAmountV2) -> TokenAmountV4 {
+pub fn from_token_v2_to_v4(token: &TokenAmountV2) -> TokenAmountV4 {
     TokenAmountV4::from_atto(token.atto().clone())
 }
 
-pub fn from_token_v3_to_v2(token: TokenAmountV3) -> TokenAmountV2 {
+pub fn from_token_v3_to_v2(token: &TokenAmountV3) -> TokenAmountV2 {
     TokenAmountV2::from_atto(token.atto().clone())
 }
 
-pub fn from_token_v3_to_v4(token: TokenAmountV3) -> TokenAmountV4 {
+pub fn from_token_v3_to_v4(token: &TokenAmountV3) -> TokenAmountV4 {
     TokenAmountV4::from_atto(token.atto().clone())
 }
 
-pub fn from_token_v4_to_v2(token: TokenAmountV4) -> TokenAmountV2 {
+pub fn from_token_v4_to_v2(token: &TokenAmountV4) -> TokenAmountV2 {
     TokenAmountV2::from_atto(token.atto().clone())
 }
 
-pub fn from_token_v2_to_v3(token: TokenAmountV2) -> TokenAmountV3 {
+pub fn from_token_v2_to_v3(token: &TokenAmountV2) -> TokenAmountV3 {
     TokenAmountV3::from_atto(token.atto().clone())
 }
 

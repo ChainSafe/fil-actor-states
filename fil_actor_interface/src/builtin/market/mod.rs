@@ -188,10 +188,10 @@ impl State {
         match self {
             State::V8(st) => st.total_locked(),
             State::V9(st) => st.total_locked(),
-            State::V10(st) => from_token_v3_to_v2(st.get_total_locked()),
-            State::V11(st) => from_token_v3_to_v2(st.get_total_locked()),
-            State::V12(st) => from_token_v4_to_v2(st.get_total_locked()),
-            State::V13(st) => from_token_v4_to_v2(st.get_total_locked()),
+            State::V10(st) => from_token_v3_to_v2(&st.get_total_locked()),
+            State::V11(st) => from_token_v3_to_v2(&st.get_total_locked()),
+            State::V12(st) => from_token_v4_to_v2(&st.get_total_locked()),
+            State::V13(st) => from_token_v4_to_v2(&st.get_total_locked()),
         }
     }
 }
@@ -303,11 +303,9 @@ impl TryFrom<&fil_actor_market_state::v10::DealProposal> for DealProposal {
             },
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
-            storage_price_per_epoch: from_token_v3_to_v2(
-                deal_proposal.storage_price_per_epoch.clone(),
-            ),
-            provider_collateral: from_token_v3_to_v2(deal_proposal.provider_collateral.clone()),
-            client_collateral: from_token_v3_to_v2(deal_proposal.client_collateral.clone()),
+            storage_price_per_epoch: from_token_v3_to_v2(&deal_proposal.storage_price_per_epoch),
+            provider_collateral: from_token_v3_to_v2(&deal_proposal.provider_collateral),
+            client_collateral: from_token_v3_to_v2(&deal_proposal.client_collateral),
         })
     }
 }
@@ -330,11 +328,9 @@ impl TryFrom<&fil_actor_market_state::v11::DealProposal> for DealProposal {
             },
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
-            storage_price_per_epoch: from_token_v3_to_v2(
-                deal_proposal.storage_price_per_epoch.clone(),
-            ),
-            provider_collateral: from_token_v3_to_v2(deal_proposal.provider_collateral.clone()),
-            client_collateral: from_token_v3_to_v2(deal_proposal.client_collateral.clone()),
+            storage_price_per_epoch: from_token_v3_to_v2(&deal_proposal.storage_price_per_epoch),
+            provider_collateral: from_token_v3_to_v2(&deal_proposal.provider_collateral),
+            client_collateral: from_token_v3_to_v2(&deal_proposal.client_collateral),
         })
     }
 }
@@ -357,11 +353,9 @@ impl TryFrom<&fil_actor_market_state::v12::DealProposal> for DealProposal {
             },
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
-            storage_price_per_epoch: from_token_v4_to_v2(
-                deal_proposal.storage_price_per_epoch.clone(),
-            ),
-            provider_collateral: from_token_v4_to_v2(deal_proposal.provider_collateral.clone()),
-            client_collateral: from_token_v4_to_v2(deal_proposal.client_collateral.clone()),
+            storage_price_per_epoch: from_token_v4_to_v2(&deal_proposal.storage_price_per_epoch),
+            provider_collateral: from_token_v4_to_v2(&deal_proposal.provider_collateral),
+            client_collateral: from_token_v4_to_v2(&deal_proposal.client_collateral),
         })
     }
 }
@@ -384,11 +378,9 @@ impl TryFrom<&fil_actor_market_state::v13::DealProposal> for DealProposal {
             },
             start_epoch: deal_proposal.start_epoch,
             end_epoch: deal_proposal.end_epoch,
-            storage_price_per_epoch: from_token_v4_to_v2(
-                deal_proposal.storage_price_per_epoch.clone(),
-            ),
-            provider_collateral: from_token_v4_to_v2(deal_proposal.provider_collateral.clone()),
-            client_collateral: from_token_v4_to_v2(deal_proposal.client_collateral.clone()),
+            storage_price_per_epoch: from_token_v4_to_v2(&deal_proposal.storage_price_per_epoch),
+            provider_collateral: from_token_v4_to_v2(&deal_proposal.provider_collateral),
+            client_collateral: from_token_v4_to_v2(&deal_proposal.client_collateral),
         })
     }
 }
