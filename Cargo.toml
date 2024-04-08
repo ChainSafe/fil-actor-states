@@ -39,7 +39,7 @@ anyhow = "1.0"
 base64 = "0.22"
 bitflags = "2.4.2"
 byteorder = "1.4.3"
-cid = { version = "0.10", default-features = false, features = ["std"] }
+cid = { version = "0.11", default-features = false, features = ["std"] }
 frc42_macros = "4"
 frc46_token = "10.0.0"
 fvm_ipld_amt = "0.6.1"
