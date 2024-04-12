@@ -1,20 +1,27 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use crate::convert::{from_address_v2_to_v3, from_address_v2_to_v4};
 use crate::convert::{
     from_address_v3_to_v2, from_address_v4_to_v2, from_padded_piece_size_v3_to_v2,
     from_padded_piece_size_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
 };
 use anyhow::Context;
 use cid::Cid;
+use fil_actor_market_state::v10::balance_table::BalanceTable as V10BalanceTable;
 use fil_actor_market_state::v10::DealArray as V10DealArray;
 use fil_actor_market_state::v10::DealMetaArray as V10DealMetaArray;
+use fil_actor_market_state::v11::balance_table::BalanceTable as V11BalanceTable;
 use fil_actor_market_state::v11::DealArray as V11DealArray;
 use fil_actor_market_state::v11::DealMetaArray as V11DealMetaArray;
+use fil_actor_market_state::v12::balance_table::BalanceTable as V12BalanceTable;
 use fil_actor_market_state::v12::DealArray as V12DealArray;
 use fil_actor_market_state::v12::DealMetaArray as V12DealMetaArray;
+use fil_actor_market_state::v13::balance_table::BalanceTable as V13BalanceTable;
 use fil_actor_market_state::v13::DealArray as V13DealArray;
 use fil_actor_market_state::v13::DealMetaArray as V13DealMetaArray;
+use fil_actor_market_state::v8::balance_table::BalanceTable as V8BalanceTable;
+use fil_actor_market_state::v9::balance_table::BalanceTable as V9BalanceTable;
 use fil_actor_market_state::v9::DealArray as V9DealArray;
 use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
 use fil_actors_shared::v10::AsActorError as V10AsActorError;
@@ -28,7 +35,6 @@ use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, piece::
 use fvm_shared3::error::ExitCode as FVM3ExitCode;
 use fvm_shared4::error::ExitCode as FVM4ExitCode;
 use serde::{Deserialize, Serialize};
-use std::marker::PhantomData;
 
 use crate::io::get_obj;
 
@@ -115,19 +121,33 @@ impl State {
     }
 
     /// Loads escrow table
-    pub fn escrow_table<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
+    pub fn escrow_table<'bs, BS>(&self, store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
     where
         BS: Blockstore,
     {
-        unimplemented!()
+        Ok(match self {
+            Self::V8(s) => s.escrow_table(store)?.into(),
+            Self::V9(s) => s.escrow_table(store)?.into(),
+            Self::V10(s) => s.escrow_table(store)?.into(),
+            Self::V11(s) => s.escrow_table(store)?.into(),
+            Self::V12(s) => s.escrow_table(store)?.into(),
+            Self::V13(s) => s.escrow_table(store)?.into(),
+        })
     }
 
     /// Loads locked funds table
-    pub fn locked_table<'bs, BS>(&self, _store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
+    pub fn locked_table<'bs, BS>(&self, store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
     where
         BS: Blockstore,
     {
-        unimplemented!()
+        Ok(match self {
+            Self::V8(s) => s.locked_table(store)?.into(),
+            Self::V9(s) => s.locked_table(store)?.into(),
+            Self::V10(s) => s.locked_table(store)?.into(),
+            Self::V11(s) => s.locked_table(store)?.into(),
+            Self::V12(s) => s.locked_table(store)?.into(),
+            Self::V13(s) => s.locked_table(store)?.into(),
+        })
     }
 
     /// Deal proposals
@@ -196,8 +216,49 @@ impl State {
     }
 }
 
-pub enum BalanceTable<'a, BS> {
-    UnusedBalanceTable(PhantomData<&'a BS>),
+pub enum BalanceTable<'bs, BS: Blockstore> {
+    V8(V8BalanceTable<'bs, BS>),
+    V9(V9BalanceTable<'bs, BS>),
+    V10(V10BalanceTable<'bs, BS>),
+    V11(V11BalanceTable<'bs, BS>),
+    V12(V12BalanceTable<&'bs BS>),
+    V13(V13BalanceTable<&'bs BS>),
+}
+
+impl<'bs, BS: Blockstore> From<V8BalanceTable<'bs, BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V8BalanceTable<'bs, BS>) -> Self {
+        Self::V8(value)
+    }
+}
+
+impl<'bs, BS: Blockstore> From<V9BalanceTable<'bs, BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V9BalanceTable<'bs, BS>) -> Self {
+        Self::V9(value)
+    }
+}
+
+impl<'bs, BS: Blockstore> From<V10BalanceTable<'bs, BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V10BalanceTable<'bs, BS>) -> Self {
+        Self::V10(value)
+    }
+}
+
+impl<'bs, BS: Blockstore> From<V11BalanceTable<'bs, BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V11BalanceTable<'bs, BS>) -> Self {
+        Self::V11(value)
+    }
+}
+
+impl<'bs, BS: Blockstore> From<V12BalanceTable<&'bs BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V12BalanceTable<&'bs BS>) -> Self {
+        Self::V12(value)
+    }
+}
+
+impl<'bs, BS: Blockstore> From<V13BalanceTable<&'bs BS>> for BalanceTable<'bs, BS> {
+    fn from(value: V13BalanceTable<&'bs BS>) -> Self {
+        Self::V13(value)
+    }
 }
 
 pub enum DealProposals<'bs, BS> {
@@ -465,7 +526,14 @@ impl<BS> BalanceTable<'_, BS>
 where
     BS: Blockstore,
 {
-    pub fn get(&self, _key: &Address) -> anyhow::Result<TokenAmount> {
-        unimplemented!()
+    pub fn get(&self, key: &Address) -> anyhow::Result<TokenAmount> {
+        Ok(match self {
+            Self::V8(t) => t.get(key)?,
+            Self::V9(t) => t.get(key)?,
+            Self::V10(t) => from_token_v3_to_v2(&t.get(&from_address_v2_to_v3(*key))?),
+            Self::V11(t) => from_token_v3_to_v2(&t.get(&from_address_v2_to_v3(*key))?),
+            Self::V12(t) => from_token_v4_to_v2(&t.get(&from_address_v2_to_v4(*key))?),
+            Self::V13(t) => from_token_v4_to_v2(&t.get(&from_address_v2_to_v4(*key))?),
+        })
     }
 }
