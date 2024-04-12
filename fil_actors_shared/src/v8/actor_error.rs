@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_shared::error::ExitCode;
+use std::fmt::Display;
 use thiserror::Error;
 
 /// The error type returned by actor method calls.
@@ -124,5 +125,80 @@ impl From<fvm_ipld_encoding::Error> for ActorError {
             exit_code: ExitCode::USR_SERIALIZATION,
             msg: e.to_string(),
         }
+    }
+}
+
+// Adapts a target into an actor error.
+pub trait AsActorError<T>: Sized {
+    fn exit_code(self, code: ExitCode) -> Result<T, ActorError>;
+
+    fn context_code<C>(self, code: ExitCode, context: C) -> Result<T, ActorError>
+    where
+        C: Display + 'static;
+
+    fn with_context_code<C, F>(self, code: ExitCode, f: F) -> Result<T, ActorError>
+    where
+        C: Display + 'static,
+        F: FnOnce() -> C;
+}
+
+// Note: E should be std::error::Error, revert to this after anyhow:Error is no longer used.
+impl<T, E: Display> AsActorError<T> for Result<T, E> {
+    fn exit_code(self, code: ExitCode) -> Result<T, ActorError> {
+        self.map_err(|err| ActorError {
+            exit_code: code,
+            msg: err.to_string(),
+        })
+    }
+
+    fn context_code<C>(self, code: ExitCode, context: C) -> Result<T, ActorError>
+    where
+        C: Display + 'static,
+    {
+        self.map_err(|err| ActorError {
+            exit_code: code,
+            msg: format!("{}: {}", context, err),
+        })
+    }
+
+    fn with_context_code<C, F>(self, code: ExitCode, f: F) -> Result<T, ActorError>
+    where
+        C: Display + 'static,
+        F: FnOnce() -> C,
+    {
+        self.map_err(|err| ActorError {
+            exit_code: code,
+            msg: format!("{}: {}", f(), err),
+        })
+    }
+}
+
+impl<T> AsActorError<T> for Option<T> {
+    fn exit_code(self, code: ExitCode) -> Result<T, ActorError> {
+        self.ok_or_else(|| ActorError {
+            exit_code: code,
+            msg: "None".to_string(),
+        })
+    }
+
+    fn context_code<C>(self, code: ExitCode, context: C) -> Result<T, ActorError>
+    where
+        C: Display + 'static,
+    {
+        self.ok_or_else(|| ActorError {
+            exit_code: code,
+            msg: context.to_string(),
+        })
+    }
+
+    fn with_context_code<C, F>(self, code: ExitCode, f: F) -> Result<T, ActorError>
+    where
+        C: Display + 'static,
+        F: FnOnce() -> C,
+    {
+        self.ok_or_else(|| ActorError {
+            exit_code: code,
+            msg: f().to_string(),
+        })
     }
 }

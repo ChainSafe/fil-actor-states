@@ -5,12 +5,13 @@ use super::balance_table::BalanceTable;
 use anyhow::anyhow;
 use cid::Cid;
 use fil_actor_verifreg_state::v9::AllocationID;
-use fil_actors_shared::v9::{make_empty_map, Array, SetMultimap};
+use fil_actors_shared::v9::{make_empty_map, ActorError, Array, AsActorError as _, SetMultimap};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared::deal::DealID;
 use fvm_shared::econ::TokenAmount;
+use fvm_shared::error::ExitCode;
 use fvm_shared::HAMT_BIT_WIDTH;
 
 use super::types::*;
@@ -105,5 +106,21 @@ impl State {
         &self.total_client_locked_collateral
             + &self.total_provider_locked_collateral
             + &self.total_client_storage_fee
+    }
+
+    pub fn escrow_table<'a, BS: Blockstore>(
+        &self,
+        store: &'a BS,
+    ) -> Result<BalanceTable<'a, BS>, ActorError> {
+        BalanceTable::from_root(store, &self.escrow_table)
+            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load escrow table")
+    }
+
+    pub fn locked_table<'a, BS: Blockstore>(
+        &self,
+        store: &'a BS,
+    ) -> Result<BalanceTable<'a, BS>, ActorError> {
+        BalanceTable::from_root(store, &self.locked_table)
+            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load locked table")
     }
 }
