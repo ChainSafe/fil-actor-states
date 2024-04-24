@@ -215,9 +215,9 @@ impl State {
         }
     }
 
-    pub fn verify_deals_for_activation<'bs, BS>(
+    pub fn verify_deals_for_activation<BS>(
         &self,
-        store: &'bs BS,
+        store: &BS,
         addr: Address,
         deal_ids: Vec<u64>,
         sector_exp: i64,
