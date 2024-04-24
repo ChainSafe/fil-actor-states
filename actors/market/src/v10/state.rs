@@ -1150,10 +1150,11 @@ impl State {
 
     /// Verify that a given set of storage deals is valid for a sector currently being PreCommitted
     pub fn verify_deals_for_activation<BS>(
-        &mut self,
+        &self,
         store: &BS,
         addr: &Address,
-        params: VerifyDealsForActivationParams,
+        deal_ids: Vec<DealID>,
+        sector_exp: i64,
         curr_epoch: ChainEpoch,
     ) -> Result<(DealWeight, DealWeight), ActorError>
     where
@@ -1162,15 +1163,13 @@ impl State {
         let proposal_array = self.load_proposals(store)?;
         let mut total_w = BigInt::zero();
         let mut total_vw = BigInt::zero();
-        for sector in params.sectors.iter() {
-            let sector_proposals = get_proposals(&proposal_array, &sector.deal_ids, self.next_id)?;
-            for (deal_id, proposal) in sector_proposals.into_iter() {
-                validate_deal_can_activate(&proposal, addr, sector.sector_expiry, curr_epoch)
-                    .with_context(|| format!("cannot activate deal {}", deal_id))?;
-                let (w, vw) = get_deal_weights(proposal);
-                total_w += w;
-                total_vw += vw;
-            }
+        let sector_proposals = get_proposals(&proposal_array, &deal_ids, self.next_id)?;
+        for (deal_id, proposal) in sector_proposals.into_iter() {
+            validate_deal_can_activate(&proposal, addr, sector_exp, curr_epoch)
+                .with_context(|| format!("cannot activate deal {}", deal_id))?;
+            let (w, vw) = get_deal_weights(proposal);
+            total_w += w;
+            total_vw += vw;
         }
 
         Ok((total_w, total_vw))
