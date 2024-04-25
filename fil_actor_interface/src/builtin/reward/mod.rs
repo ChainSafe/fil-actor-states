@@ -15,6 +15,7 @@ use fil_actor_market_state::v13::policy::deal_provider_collateral_bounds as deal
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::bigint::Integer;
 use fvm_shared::sector::StoragePower;
+use fvm_shared::smooth::FilterEstimate;
 use fvm_shared::{address::Address, econ::TokenAmount, piece::PaddedPieceSize, TOTAL_FILECOIN};
 use num::BigInt;
 use serde::Serialize;
@@ -123,6 +124,42 @@ impl State {
             State::V11(st) => &st.this_epoch_baseline_power,
             State::V12(st) => &st.this_epoch_baseline_power,
             State::V13(st) => &st.this_epoch_baseline_power,
+        }
+    }
+
+    pub fn pre_commit_deposit_for_power(
+        &self,
+        network_qa_power: FilterEstimate,
+        sector_weight: StoragePower,
+    ) -> anyhow::Result<TokenAmount> {
+        match self {
+            State::V8(_st) => anyhow::bail!("unimplemented"),
+            State::V9(_st) => anyhow::bail!("unimplemented"),
+            State::V10(_st) => anyhow::bail!("unimplemented"),
+            State::V11(st) => Ok(from_token_v3_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared3::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+            State::V12(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared4::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+            State::V13(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared4::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
         }
     }
 
