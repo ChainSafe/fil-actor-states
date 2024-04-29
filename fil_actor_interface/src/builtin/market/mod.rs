@@ -218,8 +218,8 @@ impl State {
     pub fn verify_deals_for_activation<BS>(
         &self,
         store: &BS,
-        addr: Address,
         deal_ids: Vec<u64>,
+        addr: Address,
         sector_exp: i64,
         curr_epoch: ChainEpoch,
     ) -> anyhow::Result<(DealWeight, DealWeight)>
@@ -231,29 +231,29 @@ impl State {
             State::V9(_st) => anyhow::bail!("unimplemented"),
             State::V10(st) => Ok(st.verify_deals_for_activation(
                 store,
-                &from_address_v2_to_v3(addr),
                 deal_ids,
+                &from_address_v2_to_v3(addr),
                 sector_exp,
                 curr_epoch,
             )?),
             State::V11(st) => Ok(st.verify_deals_for_activation(
                 store,
-                &from_address_v2_to_v3(addr),
                 deal_ids,
+                &from_address_v2_to_v3(addr),
                 sector_exp,
                 curr_epoch,
             )?),
             State::V12(st) => Ok(st.verify_deals_for_activation(
                 store,
-                &from_address_v2_to_v4(addr),
                 deal_ids,
+                &from_address_v2_to_v4(addr),
                 sector_exp,
                 curr_epoch,
             )?),
             State::V13(st) => Ok(st.verify_deals_for_activation(
                 store,
-                &from_address_v2_to_v4(addr),
                 deal_ids,
+                &from_address_v2_to_v4(addr),
                 sector_exp,
                 curr_epoch,
             )?),
