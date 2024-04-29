@@ -11,7 +11,7 @@ keywords.workspace = true
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
-filecoin-proofs-api = { version = "16", default-features = false }
+filecoin-proofs-api = { version = "17", default-features = false }
 frc46_token = { workspace = true }
 fvm_ipld_amt = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
