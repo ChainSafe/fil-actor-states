@@ -1144,8 +1144,8 @@ impl State {
         store: &BS,
         deal_ids: Vec<DealID>,
         addr: &Address,
-        sector_exp: i64,
         curr_epoch: ChainEpoch,
+        sector_exp: i64,
     ) -> Result<(DealWeight, DealWeight), ActorError>
     where
         BS: Blockstore,
