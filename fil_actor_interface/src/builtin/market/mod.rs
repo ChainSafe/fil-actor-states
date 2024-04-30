@@ -218,10 +218,10 @@ impl State {
     pub fn verify_deals_for_activation<BS>(
         &self,
         store: &BS,
-        deal_ids: Vec<u64>,
         addr: Address,
-        sector_exp: i64,
+        deal_ids: Vec<u64>,
         curr_epoch: ChainEpoch,
+        sector_exp: i64,
     ) -> anyhow::Result<(DealWeight, DealWeight)>
     where
         BS: Blockstore,
