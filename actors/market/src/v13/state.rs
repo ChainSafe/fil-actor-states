@@ -1387,10 +1387,10 @@ impl State {
     pub fn verify_deals_for_activation<BS>(
         &self,
         store: &BS,
-        deal_ids: Vec<DealID>,
         addr: &Address,
-        sector_exp: i64,
+        deal_ids: Vec<DealID>,
         curr_epoch: ChainEpoch,
+        sector_exp: i64,
     ) -> Result<(DealWeight, DealWeight), ActorError>
     where
         BS: Blockstore,
