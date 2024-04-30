@@ -5,6 +5,7 @@ use crate::v12::balance_table::BalanceTable;
 use cid::Cid;
 use fil_actor_verifreg_state::v10::AllocationID;
 use fil_actors_shared::actor_error_v12;
+use fil_actors_shared::v12::DealWeight;
 use fil_actors_shared::v12::{
     ActorContext, ActorError, Array, AsActorError, Config, Map2, Set, SetMultimap,
     DEFAULT_HAMT_CONFIG,
@@ -12,6 +13,7 @@ use fil_actors_shared::v12::{
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
+use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
@@ -19,6 +21,7 @@ use fvm_shared4::error::ExitCode;
 use fvm_shared4::HAMT_BIT_WIDTH;
 use num_traits::Zero;
 use std::collections::BTreeMap;
+use std::collections::BTreeSet;
 
 use super::policy::*;
 use super::types::*;
@@ -79,6 +82,75 @@ pub const PENDING_ALLOCATIONS_CONFIG: Config = Config {
     bit_width: HAMT_BIT_WIDTH,
     ..DEFAULT_HAMT_CONFIG
 };
+
+fn get_proposals<BS: Blockstore>(
+    proposal_array: &DealArray<BS>,
+    deal_ids: &[DealID],
+    next_id: DealID,
+) -> Result<Vec<(DealID, DealProposal)>, ActorError> {
+    let mut proposals = Vec::new();
+    let mut seen_deal_ids = BTreeSet::new();
+    for deal_id in deal_ids {
+        if !seen_deal_ids.insert(deal_id) {
+            return Err(actor_error_v12!(
+                illegal_argument,
+                "duplicate deal ID {} in sector",
+                deal_id
+            ));
+        }
+        let proposal = get_proposal(proposal_array, *deal_id, next_id)?;
+        proposals.push((*deal_id, proposal));
+    }
+    Ok(proposals)
+}
+
+fn validate_deal_can_activate(
+    proposal: &DealProposal,
+    miner_addr: &Address,
+    sector_expiration: ChainEpoch,
+    curr_epoch: ChainEpoch,
+) -> Result<(), ActorError> {
+    if &proposal.provider != miner_addr {
+        return Err(ActorError::forbidden(format!(
+            "proposal has provider {}, must be {}",
+            proposal.provider, miner_addr
+        )));
+    };
+
+    if curr_epoch > proposal.start_epoch {
+        return Err(ActorError::unchecked(
+            // Use the same code as if the proposal had already been cleaned up from state.
+            EX_DEAL_EXPIRED,
+            format!(
+                "proposal start epoch {} has already elapsed at {}",
+                proposal.start_epoch, curr_epoch
+            ),
+        ));
+    };
+
+    if proposal.end_epoch > sector_expiration {
+        return Err(ActorError::illegal_argument(format!(
+            "proposal expiration {} exceeds sector expiration {}",
+            proposal.end_epoch, sector_expiration
+        )));
+    };
+
+    Ok(())
+}
+
+// Returns (deal_weight, verified_deal_weight)
+fn get_deal_weights(deal: DealProposal) -> (DealWeight, DealWeight) {
+    if deal.verified_deal {
+        return (
+            DealWeight::zero(),
+            DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
+        );
+    }
+    (
+        DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
+        DealWeight::zero(),
+    )
+}
 
 impl State {
     pub fn new<BS: Blockstore>(store: &BS) -> Result<Self, ActorError> {
@@ -226,20 +298,22 @@ impl State {
         Ok(deal_proposals)
     }
 
+    pub fn load_proposals<'bs, BS>(&self, store: &'bs BS) -> Result<DealArray<'bs, BS>, ActorError>
+    where
+        BS: Blockstore,
+    {
+        DealArray::load(&self.proposals, store).context_code(
+            ExitCode::USR_ILLEGAL_STATE,
+            "failed to load deal proposal array",
+        )
+    }
+
     pub fn get_proposal<BS: Blockstore>(
         &self,
         store: &BS,
         id: DealID,
     ) -> Result<DealProposal, ActorError> {
-        let found = self.find_proposal(store, id)?.ok_or_else(|| {
-            if id < self.next_id {
-                // If the deal ID has been used, it must have been cleaned up.
-                ActorError::unchecked(EX_DEAL_EXPIRED, format!("deal {} expired", id))
-            } else {
-                ActorError::not_found(format!("no such deal {}", id))
-            }
-        })?;
-        Ok(found)
+        get_proposal(&self.load_proposals(store)?, id, self.next_id)
     }
 
     pub fn find_proposal<BS>(
@@ -250,15 +324,7 @@ impl State {
     where
         BS: Blockstore,
     {
-        let deal_proposals = self.get_proposal_array(store)?;
-
-        let proposal = deal_proposals
-            .get(deal_id)
-            .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-                format!("failed to load deal proposal {}", deal_id)
-            })?;
-
-        Ok(proposal.cloned())
+        find_proposal(&self.load_proposals(store)?, deal_id)
     }
 
     pub fn remove_proposal<BS>(
@@ -988,6 +1054,33 @@ impl State {
         self.escrow_table = escrow_table.root()?;
         self.unlock_balance(store, addr, amount, lock_reason)
     }
+
+    /// Verify that a given set of storage deals is valid for a sector currently being PreCommitted
+    pub fn verify_deals_for_activation<BS>(
+        &self,
+        store: &BS,
+        addr: &Address,
+        deal_ids: Vec<DealID>,
+        curr_epoch: ChainEpoch,
+        sector_exp: i64,
+    ) -> Result<(DealWeight, DealWeight), ActorError>
+    where
+        BS: Blockstore,
+    {
+        let proposal_array = self.load_proposals(store)?;
+        let mut total_w = BigInt::zero();
+        let mut total_vw = BigInt::zero();
+        let sector_proposals = get_proposals(&proposal_array, &deal_ids, self.next_id)?;
+        for (deal_id, proposal) in sector_proposals.into_iter() {
+            validate_deal_can_activate(&proposal, addr, sector_exp, curr_epoch)
+                .with_context(|| format!("cannot activate deal {}", deal_id))?;
+            let (w, vw) = get_deal_weights(proposal);
+            total_w += w;
+            total_vw += vw;
+        }
+
+        Ok((total_w, total_vw))
+    }
 }
 
 fn deal_get_payment_remaining(
@@ -1016,4 +1109,36 @@ fn deal_get_payment_remaining(
     }
 
     Ok(&deal.storage_price_per_epoch * duration_remaining as u64)
+}
+
+pub fn get_proposal<BS: Blockstore>(
+    proposals: &DealArray<BS>,
+    id: DealID,
+    next_id: DealID,
+) -> Result<DealProposal, ActorError> {
+    let found = find_proposal(proposals, id)?.ok_or_else(|| {
+        if id < next_id {
+            // If the deal ID has been used, it must have been cleaned up.
+            ActorError::unchecked(EX_DEAL_EXPIRED, format!("deal {} expired", id))
+        } else {
+            // Never been published.
+            ActorError::not_found(format!("no such deal {}", id))
+        }
+    })?;
+    Ok(found)
+}
+
+pub fn find_proposal<BS>(
+    proposals: &DealArray<BS>,
+    deal_id: DealID,
+) -> Result<Option<DealProposal>, ActorError>
+where
+    BS: Blockstore,
+{
+    let proposal = proposals
+        .get(deal_id)
+        .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+            format!("failed to load deal proposal {}", deal_id)
+        })?;
+    Ok(proposal.cloned())
 }

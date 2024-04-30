@@ -24,7 +24,7 @@ use fil_actor_market_state::v8::balance_table::BalanceTable as V8BalanceTable;
 use fil_actor_market_state::v9::balance_table::BalanceTable as V9BalanceTable;
 use fil_actor_market_state::v9::DealArray as V9DealArray;
 use fil_actor_market_state::v9::DealMetaArray as V9DealMetaArray;
-use fil_actors_shared::v10::AsActorError as V10AsActorError;
+use fil_actors_shared::v10::{AsActorError as V10AsActorError, DealWeight};
 use fil_actors_shared::v11::AsActorError as V11AsActorError;
 use fil_actors_shared::v12::AsActorError as V12AsActorError;
 use fil_actors_shared::v12::AsActorError as V13AsActorError;
@@ -212,6 +212,51 @@ impl State {
             State::V11(st) => from_token_v3_to_v2(&st.get_total_locked()),
             State::V12(st) => from_token_v4_to_v2(&st.get_total_locked()),
             State::V13(st) => from_token_v4_to_v2(&st.get_total_locked()),
+        }
+    }
+
+    pub fn verify_deals_for_activation<BS>(
+        &self,
+        store: &BS,
+        addr: Address,
+        deal_ids: Vec<u64>,
+        curr_epoch: ChainEpoch,
+        sector_exp: i64,
+    ) -> anyhow::Result<(DealWeight, DealWeight)>
+    where
+        BS: Blockstore,
+    {
+        match self {
+            State::V8(_st) => anyhow::bail!("unimplemented"),
+            State::V9(_st) => anyhow::bail!("unimplemented"),
+            State::V10(st) => Ok(st.verify_deals_for_activation(
+                store,
+                &from_address_v2_to_v3(addr),
+                deal_ids,
+                curr_epoch,
+                sector_exp,
+            )?),
+            State::V11(st) => Ok(st.verify_deals_for_activation(
+                store,
+                &from_address_v2_to_v3(addr),
+                deal_ids,
+                curr_epoch,
+                sector_exp,
+            )?),
+            State::V12(st) => Ok(st.verify_deals_for_activation(
+                store,
+                &from_address_v2_to_v4(addr),
+                deal_ids,
+                curr_epoch,
+                sector_exp,
+            )?),
+            State::V13(st) => Ok(st.verify_deals_for_activation(
+                store,
+                &from_address_v2_to_v4(addr),
+                deal_ids,
+                curr_epoch,
+                sector_exp,
+            )?),
         }
     }
 }

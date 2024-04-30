@@ -12,9 +12,13 @@ use cid::Cid;
 use fil_actor_market_state::v11::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v11;
 use fil_actor_market_state::v12::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v12;
 use fil_actor_market_state::v13::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v13;
+use fil_actor_miner_state::v11::initial_pledge_for_power as initial_pledge_for_power_v11;
+use fil_actor_miner_state::v12::initial_pledge_for_power as initial_pledge_for_power_v12;
+use fil_actor_miner_state::v13::initial_pledge_for_power as initial_pledge_for_power_v13;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::bigint::Integer;
 use fvm_shared::sector::StoragePower;
+use fvm_shared::smooth::FilterEstimate;
 use fvm_shared::{address::Address, econ::TokenAmount, piece::PaddedPieceSize, TOTAL_FILECOIN};
 use num::BigInt;
 use serde::Serialize;
@@ -126,6 +130,42 @@ impl State {
         }
     }
 
+    pub fn pre_commit_deposit_for_power(
+        &self,
+        network_qa_power: FilterEstimate,
+        sector_weight: StoragePower,
+    ) -> anyhow::Result<TokenAmount> {
+        match self {
+            State::V8(_st) => anyhow::bail!("unimplemented"),
+            State::V9(_st) => anyhow::bail!("unimplemented"),
+            State::V10(_st) => anyhow::bail!("unimplemented"),
+            State::V11(st) => Ok(from_token_v3_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared3::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+            State::V12(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared4::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+            State::V13(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared4::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+        }
+    }
+
     // The code for versions lower than `v11` does not exist in the original Rust repo, but it does
     // exist for Lotus. The logic is exactly the same for all the versions, therefore it has been
     // decided to introduce a shared helper for all of these versions to match Lotus behaviour.
@@ -214,6 +254,59 @@ impl State {
                     &from_token_v2_to_v4(network_circulating_supply),
                 );
                 (from_token_v4_to_v2(&min), from_token_v4_to_v2(&max))
+            }
+        }
+    }
+
+    pub fn initial_pledge_for_power(
+        &self,
+        qa_power: &StoragePower,
+        _network_total_pledge: TokenAmount,
+        network_qa_power: FilterEstimate,
+        circ_supply: &TokenAmount,
+    ) -> anyhow::Result<TokenAmount> {
+        match self {
+            State::V8(_st) => anyhow::bail!("unimplemented"),
+            State::V9(_st) => anyhow::bail!("unimplemented"),
+            State::V10(_st) => anyhow::bail!("unimplemented"),
+            State::V11(st) => {
+                let pledge = initial_pledge_for_power_v11(
+                    qa_power,
+                    &st.this_epoch_baseline_power,
+                    &st.this_epoch_reward_smoothed,
+                    &fvm_shared3::smooth::FilterEstimate {
+                        position: network_qa_power.position,
+                        velocity: network_qa_power.velocity,
+                    },
+                    &from_token_v2_to_v3(circ_supply),
+                );
+                Ok(from_token_v3_to_v2(&pledge))
+            }
+            State::V12(st) => {
+                let pledge = initial_pledge_for_power_v12(
+                    qa_power,
+                    &st.this_epoch_baseline_power,
+                    &st.this_epoch_reward_smoothed,
+                    &fvm_shared4::smooth::FilterEstimate {
+                        position: network_qa_power.position,
+                        velocity: network_qa_power.velocity,
+                    },
+                    &from_token_v2_to_v4(circ_supply),
+                );
+                Ok(from_token_v4_to_v2(&pledge))
+            }
+            State::V13(st) => {
+                let pledge = initial_pledge_for_power_v13(
+                    qa_power,
+                    &st.this_epoch_baseline_power,
+                    &st.this_epoch_reward_smoothed,
+                    &fvm_shared4::smooth::FilterEstimate {
+                        position: network_qa_power.position,
+                        velocity: network_qa_power.velocity,
+                    },
+                    &from_token_v2_to_v4(circ_supply),
+                );
+                Ok(from_token_v4_to_v2(&pledge))
             }
         }
     }
