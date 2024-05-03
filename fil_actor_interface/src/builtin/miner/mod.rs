@@ -6,6 +6,7 @@ use crate::Policy;
 use anyhow::Context;
 use cid::Cid;
 use fil_actor_miner_state::v12::{BeneficiaryTerm, PendingBeneficiaryChange};
+use fil_actor_miner_state::v13::SectorOnChainInfoFlags;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::{serde_bytes, BytesDe};
@@ -777,6 +778,8 @@ pub struct SectorOnChainInfo {
     pub activation: ChainEpoch,
     /// Epoch during which the sector expires
     pub expiration: ChainEpoch,
+    /// Additional flags, see [`SectorOnChainInfoFlags`]
+    pub flags: u32,
     /// Integral of active deals over sector lifetime
     pub deal_weight: BigInt,
     /// Integral of active verified deals over sector lifetime
@@ -789,14 +792,12 @@ pub struct SectorOnChainInfo {
     /// Expected twenty day projection of reward for sector computed at
     /// activation time
     pub expected_storage_pledge: TokenAmount,
-    /// Age of sector this sector replaced or zero
-    pub replaced_sector_age: ChainEpoch,
+    /// Epoch at which this sector's power was most recently updated
+    pub power_base_epoch: ChainEpoch,
     /// Day reward of sector this sector replace or zero
     pub replaced_day_reward: TokenAmount,
     /// The original `SealedSectorCID`, only gets set on the first `ReplicaUpdate`
     pub sector_key_cid: Option<Cid>,
-    // Flag for QA power mechanism introduced in fip 0045
-    pub simple_qa_power: bool,
 }
 
 impl From<fil_actor_miner_state::v8::SectorOnChainInfo> for SectorOnChainInfo {
@@ -808,15 +809,15 @@ impl From<fil_actor_miner_state::v8::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: Default::default(),
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: info.initial_pledge,
             expected_day_reward: info.expected_day_reward,
             expected_storage_pledge: info.expected_storage_pledge,
-            replaced_sector_age: ChainEpoch::default(),
             replaced_day_reward: TokenAmount::default(),
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: bool::default(),
+            power_base_epoch: info.activation,
         }
     }
 }
@@ -830,15 +831,19 @@ impl From<fil_actor_miner_state::v9::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: if info.simple_qa_power {
+                SectorOnChainInfoFlags::SIMPLE_QA_POWER.bits()
+            } else {
+                Default::default()
+            },
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: info.initial_pledge,
             expected_day_reward: info.expected_day_reward,
             expected_storage_pledge: info.expected_storage_pledge,
-            replaced_sector_age: info.replaced_sector_age,
             replaced_day_reward: info.replaced_day_reward,
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: info.simple_qa_power,
+            power_base_epoch: info.activation,
         }
     }
 }
@@ -852,15 +857,19 @@ impl From<fil_actor_miner_state::v10::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: if info.simple_qa_power {
+                SectorOnChainInfoFlags::SIMPLE_QA_POWER.bits()
+            } else {
+                Default::default()
+            },
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: from_token_v3_to_v2(&info.initial_pledge),
             expected_day_reward: from_token_v3_to_v2(&info.expected_day_reward),
             expected_storage_pledge: from_token_v3_to_v2(&info.expected_storage_pledge),
-            replaced_sector_age: info.replaced_sector_age,
             replaced_day_reward: from_token_v3_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: info.simple_qa_power,
+            power_base_epoch: info.activation,
         }
     }
 }
@@ -874,15 +883,19 @@ impl From<fil_actor_miner_state::v11::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: if info.simple_qa_power {
+                SectorOnChainInfoFlags::SIMPLE_QA_POWER.bits()
+            } else {
+                Default::default()
+            },
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: from_token_v3_to_v2(&info.initial_pledge),
             expected_day_reward: from_token_v3_to_v2(&info.expected_day_reward),
             expected_storage_pledge: from_token_v3_to_v2(&info.expected_storage_pledge),
-            replaced_sector_age: info.replaced_sector_age,
             replaced_day_reward: from_token_v3_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: info.simple_qa_power,
+            power_base_epoch: info.activation,
         }
     }
 }
@@ -896,15 +909,15 @@ impl From<fil_actor_miner_state::v12::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: info.flags.bits(),
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: from_token_v4_to_v2(&info.initial_pledge),
             expected_day_reward: from_token_v4_to_v2(&info.expected_day_reward),
             expected_storage_pledge: from_token_v4_to_v2(&info.expected_storage_pledge),
-            replaced_sector_age: ChainEpoch::default(),
             replaced_day_reward: from_token_v4_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: bool::default(),
+            power_base_epoch: info.power_base_epoch,
         }
     }
 }
@@ -918,15 +931,15 @@ impl From<fil_actor_miner_state::v13::SectorOnChainInfo> for SectorOnChainInfo {
             deal_ids: info.deprecated_deal_ids,
             activation: info.activation,
             expiration: info.expiration,
+            flags: info.flags.bits(),
             deal_weight: info.deal_weight,
             verified_deal_weight: info.verified_deal_weight,
             initial_pledge: from_token_v4_to_v2(&info.initial_pledge),
             expected_day_reward: from_token_v4_to_v2(&info.expected_day_reward),
             expected_storage_pledge: from_token_v4_to_v2(&info.expected_storage_pledge),
-            replaced_sector_age: ChainEpoch::default(),
             replaced_day_reward: from_token_v4_to_v2(&info.replaced_day_reward),
             sector_key_cid: info.sector_key_cid,
-            simple_qa_power: bool::default(),
+            power_base_epoch: info.power_base_epoch,
         }
     }
 }
