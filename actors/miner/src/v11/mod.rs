@@ -111,19 +111,6 @@ pub enum Method {
     GetMultiaddrsExported = frc42_macros::method_hash!("GetMultiaddrs"),
 }
 
-#[derive(Debug, PartialEq, Clone)]
-struct SectorPreCommitInfoInner {
-    pub seal_proof: RegisteredSealProof,
-    pub sector_number: SectorNumber,
-    /// CommR
-    pub sealed_cid: Cid,
-    pub seal_rand_epoch: ChainEpoch,
-    pub deal_ids: Vec<DealID>,
-    pub expiration: ChainEpoch,
-    /// CommD
-    pub unsealed_cid: Option<CompactCommD>,
-}
-
 /// ReplicaUpdate param with Option<Cid> for CommD
 /// None means unknown
 pub struct ReplicaUpdateInner {

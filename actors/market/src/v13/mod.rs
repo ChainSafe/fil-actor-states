@@ -17,7 +17,6 @@ pub mod ext;
 pub mod policy;
 
 mod deal;
-mod emit;
 mod state;
 mod types;
 
