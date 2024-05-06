@@ -112,19 +112,6 @@ pub enum Method {
 
 pub const ERR_BALANCE_INVARIANTS_BROKEN: ExitCode = ExitCode::new(1000);
 
-#[derive(Debug, PartialEq, Clone)]
-struct SectorPreCommitInfoInner {
-    pub seal_proof: RegisteredSealProof,
-    pub sector_number: SectorNumber,
-    /// `CommR`
-    pub sealed_cid: Cid,
-    pub seal_rand_epoch: ChainEpoch,
-    pub deal_ids: Vec<DealID>,
-    pub expiration: ChainEpoch,
-    /// `CommD`
-    pub unsealed_cid: Option<CompactCommD>,
-}
-
 /// `ReplicaUpdate` parameter with `Option<Cid>` for `CommD`
 /// None means unknown
 pub struct ReplicaUpdateInner {
