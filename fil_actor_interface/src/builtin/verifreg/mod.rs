@@ -121,4 +121,40 @@ impl State {
             _ => Err(anyhow!("not supported in actors > v8")),
         }
     }
+
+    pub fn verifier_data_cap<BS>(&self, store: &BS, addr: Address) -> anyhow::Result<Option<BigInt>>
+    where
+        BS: Blockstore,
+    {
+        if addr.protocol() != Protocol::ID {
+            return Err(anyhow!("can only look up ID addresses"));
+        }
+
+        match self {
+            State::V8(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V9(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V10(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V11(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V12(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V13(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+        }
+    }
 }
