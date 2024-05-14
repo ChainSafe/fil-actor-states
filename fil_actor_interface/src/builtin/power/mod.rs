@@ -209,22 +209,26 @@ impl State {
     ) -> anyhow::Result<bool> {
         match self {
             State::V8(st) => st.miner_nominal_power_meets_consensus_minimum(
-                &from_policy_v10_to_v9(policy),
+                &from_policy_v13_to_v9(policy),
                 &s,
                 miner,
             ),
             State::V9(st) => st.miner_nominal_power_meets_consensus_minimum(
-                &from_policy_v10_to_v9(policy),
+                &from_policy_v13_to_v9(policy),
                 &s,
                 miner,
             ),
             State::V10(st) => st
-                .miner_nominal_power_meets_consensus_minimum(policy, &s, miner.id()?)
+                .miner_nominal_power_meets_consensus_minimum(
+                    &from_policy_v13_to_v10(policy),
+                    &s,
+                    miner.id()?,
+                )
                 .map(|(_, bool_val)| bool_val)
                 .map_err(|e| anyhow::anyhow!("{}", e)),
             State::V11(st) => st
                 .miner_nominal_power_meets_consensus_minimum(
-                    &from_policy_v10_to_v11(policy),
+                    &from_policy_v13_to_v11(policy),
                     &s,
                     miner.id()?,
                 )
@@ -232,18 +236,14 @@ impl State {
                 .map_err(|e| anyhow::anyhow!("{}", e)),
             State::V12(st) => st
                 .miner_nominal_power_meets_consensus_minimum(
-                    &from_policy_v10_to_v12(policy),
+                    &from_policy_v13_to_v12(policy),
                     &s,
                     miner.id()?,
                 )
                 .map(|(_, bool_val)| bool_val)
                 .map_err(|e| anyhow::anyhow!("{}", e)),
             State::V13(st) => st
-                .miner_nominal_power_meets_consensus_minimum(
-                    &from_policy_v10_to_v13(policy),
-                    &s,
-                    miner.id()?,
-                )
+                .miner_nominal_power_meets_consensus_minimum(policy, &s, miner.id()?)
                 .map(|(_, bool_val)| bool_val)
                 .map_err(|e| anyhow::anyhow!("{}", e)),
         }

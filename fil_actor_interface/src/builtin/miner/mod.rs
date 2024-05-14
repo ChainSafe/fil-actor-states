@@ -139,20 +139,22 @@ impl State {
     ) -> anyhow::Result<()> {
         match self {
             State::V8(st) => st.load_deadlines(&store)?.for_each(
-                &from_policy_v10_to_v9(policy),
+                &from_policy_v13_to_v9(policy),
                 &store,
                 |idx, dl| f(idx, Deadline::V8(dl)),
             ),
             State::V9(st) => st.load_deadlines(&store)?.for_each(
-                &from_policy_v10_to_v9(policy),
+                &from_policy_v13_to_v9(policy),
                 &store,
                 |idx, dl| f(idx, Deadline::V9(dl)),
             ),
-            State::V10(st) => st
-                .load_deadlines(&store)?
-                .for_each(policy, &store, |idx, dl| f(idx, Deadline::V10(dl))),
+            State::V10(st) => st.load_deadlines(&store)?.for_each(
+                &from_policy_v13_to_v10(policy),
+                &store,
+                |idx, dl| f(idx, Deadline::V10(dl)),
+            ),
             State::V11(st) => st.load_deadlines(&store)?.for_each(
-                &from_policy_v10_to_v11(policy),
+                &from_policy_v13_to_v11(policy),
                 &store,
                 |idx, dl| f(idx, Deadline::V11(dl)),
             ),
@@ -175,19 +177,19 @@ impl State {
         match self {
             State::V8(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(&from_policy_v10_to_v9(policy), store, idx)
+                .load_deadline(&from_policy_v13_to_v9(policy), store, idx)
                 .map(Deadline::V8)?),
             State::V9(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(&from_policy_v10_to_v9(policy), store, idx)
+                .load_deadline(&from_policy_v13_to_v9(policy), store, idx)
                 .map(Deadline::V9)?),
             State::V10(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(policy, store, idx)
+                .load_deadline(&from_policy_v13_to_v10(policy), store, idx)
                 .map(Deadline::V10)?),
             State::V11(st) => Ok(st
                 .load_deadlines(store)?
-                .load_deadline(&from_policy_v10_to_v11(policy), store, idx)
+                .load_deadline(&from_policy_v13_to_v11(policy), store, idx)
                 .map(Deadline::V11)?),
             State::V12(st) => Ok(st
                 .load_deadlines(store)?
@@ -344,21 +346,21 @@ impl State {
     pub fn deadline_info(&self, policy: &Policy, current_epoch: ChainEpoch) -> DeadlineInfo {
         match self {
             State::V8(st) => st
-                .deadline_info(&from_policy_v10_to_v9(policy), current_epoch)
+                .deadline_info(&from_policy_v13_to_v9(policy), current_epoch)
                 .into(),
             State::V9(st) => st
-                .deadline_info(&from_policy_v10_to_v9(policy), current_epoch)
+                .deadline_info(&from_policy_v13_to_v9(policy), current_epoch)
                 .into(),
-            State::V10(st) => st.deadline_info(policy, current_epoch).into(),
+            State::V10(st) => st
+                .deadline_info(&from_policy_v13_to_v10(policy), current_epoch)
+                .into(),
             State::V11(st) => st
-                .deadline_info(&from_policy_v10_to_v11(policy), current_epoch)
+                .deadline_info(&from_policy_v13_to_v11(policy), current_epoch)
                 .into(),
             State::V12(st) => st
-                .deadline_info(&from_policy_v10_to_v12(policy), current_epoch)
+                .deadline_info(&from_policy_v13_to_v12(policy), current_epoch)
                 .into(),
-            State::V13(st) => st
-                .deadline_info(&from_policy_v10_to_v13(policy), current_epoch)
-                .into(),
+            State::V13(st) => st.deadline_info(policy, current_epoch).into(),
         }
     }
 }

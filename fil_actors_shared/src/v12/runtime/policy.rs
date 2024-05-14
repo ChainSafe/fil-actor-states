@@ -156,9 +156,9 @@ pub struct Policy {
     pub minimum_consensus_power: StoragePower,
 }
 
-impl Policy {
-    pub fn mainnet() -> Policy {
-        Policy {
+impl Default for Policy {
+    fn default() -> Policy {
+        Self {
             max_aggregated_sectors: policy_constants::MAX_AGGREGATED_SECTORS,
             min_aggregated_sectors: policy_constants::MIN_AGGREGATED_SECTORS,
             max_aggregated_proof_size: policy_constants::MAX_AGGREGATED_PROOF_SIZE,
@@ -214,29 +214,7 @@ impl Policy {
             market_default_allocation_term_buffer:
                 policy_constants::MARKET_DEFAULT_ALLOCATION_TERM_BUFFER,
 
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::MAINNET_MINIMUM_CONSENSUS_POWER,
-            ),
-        }
-    }
-
-    pub fn calibnet() -> Self {
-        Policy {
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::CALIBNET_MINIMUM_CONSENSUS_POWER,
-            ),
-            ..Policy::mainnet()
-        }
-    }
-
-    pub fn devnet() -> Self {
-        Policy {
-            minimum_consensus_power: policy_constants::DEVNET_MINIMUM_CONSENSUS_POWER.into(),
-            minimum_verified_allocation_size: 256.into(),
-            pre_commit_challenge_delay: 10,
-            valid_post_proof_type: ProofSet::devnet_post_proofs(),
-            valid_pre_commit_proof_type: ProofSet::devnet_seal_proofs(),
-            ..Policy::mainnet()
+            minimum_consensus_power: StoragePower::from(policy_constants::MINIMUM_CONSENSUS_POWER),
         }
     }
 }
@@ -350,9 +328,7 @@ pub mod policy_constants {
 
     pub const MARKET_DEFAULT_ALLOCATION_TERM_BUFFER: i64 = 90 * EPOCHS_IN_DAY;
 
-    pub const CALIBNET_MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
-    pub const MAINNET_MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
-    pub const DEVNET_MINIMUM_CONSENSUS_POWER: i64 = 2048;
+    pub const MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
 }
 
 /// A set indicating which proofs are considered valid, optimised for lookup of a small number of
@@ -367,21 +343,23 @@ const REGISTERED_POST_PROOF_VARIANTS: usize = 15;
 /// The number of total possible types (enum variants) of RegisteredSealProof
 const REGISTERED_SEAL_PROOF_VARIANTS: usize = 15;
 
+impl Default for ProofSet {
+    fn default() -> Self {
+        ProofSet(vec![
+            false;
+            REGISTERED_POST_PROOF_VARIANTS
+                .max(REGISTERED_SEAL_PROOF_VARIANTS)
+        ])
+    }
+}
+
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
         let mut proofs = vec![false; REGISTERED_POST_PROOF_VARIANTS];
 
         proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1P1) as usize] = true;
-
-        ProofSet(proofs)
-    }
-
-    /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
-    pub fn devnet_post_proofs() -> Self {
-        let mut proofs = vec![false; REGISTERED_POST_PROOF_VARIANTS];
-
-        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow2KiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow64GiBV1P1) as usize] = true;
 
         ProofSet(proofs)
     }
@@ -393,17 +371,10 @@ impl ProofSet {
         proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1) as usize] = true;
         proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1_Feat_SyntheticPoRep) as usize] =
             true;
-
-        ProofSet(proofs)
-    }
-
-    /// Create a `ProofSet` for enabled `RegisteredSealProof`s
-    pub fn devnet_seal_proofs() -> Self {
-        let mut proofs = vec![false; REGISTERED_SEAL_PROOF_VARIANTS];
-
-        proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1) as usize] = true;
-        proofs[i64::from(RegisteredSealProof::StackedDRG2KiBV1P1_Feat_SyntheticPoRep) as usize] =
+        proofs[i64::from(RegisteredSealProof::StackedDRG64GiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredSealProof::StackedDRG64GiBV1P1_Feat_SyntheticPoRep) as usize] =
             true;
+
         ProofSet(proofs)
     }
 

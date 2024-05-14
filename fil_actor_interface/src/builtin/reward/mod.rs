@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use crate::convert::{
-    from_padded_piece_size_v2_to_v3, from_padded_piece_size_v2_to_v4, from_policy_v10_to_v11,
-    from_policy_v10_to_v12, from_policy_v10_to_v13, from_token_v2_to_v3, from_token_v2_to_v4,
-    from_token_v3_to_v2, from_token_v4_to_v2,
+    from_padded_piece_size_v2_to_v3, from_padded_piece_size_v2_to_v4, from_policy_v13_to_v11,
+    from_policy_v13_to_v12, from_token_v2_to_v3, from_token_v2_to_v4, from_token_v3_to_v2,
+    from_token_v4_to_v2,
 };
 use crate::io::get_obj;
 use anyhow::Context;
@@ -24,7 +24,7 @@ use num::BigInt;
 use serde::Serialize;
 use std::cmp::max;
 
-use fil_actors_shared::v10::runtime::Policy;
+use crate::Policy;
 
 /// Reward actor address.
 pub const ADDRESS: Address = Address::new_id(2);
@@ -227,7 +227,7 @@ impl State {
             ),
             State::V11(_) => {
                 let (min, max) = deal_provider_collateral_bounds_v11(
-                    &from_policy_v10_to_v11(policy),
+                    &from_policy_v13_to_v11(policy),
                     from_padded_piece_size_v2_to_v3(size),
                     raw_byte_power,
                     baseline_power,
@@ -237,7 +237,7 @@ impl State {
             }
             State::V12(_) => {
                 let (min, max) = deal_provider_collateral_bounds_v12(
-                    &from_policy_v10_to_v12(policy),
+                    &from_policy_v13_to_v12(policy),
                     from_padded_piece_size_v2_to_v4(size),
                     raw_byte_power,
                     baseline_power,
@@ -247,7 +247,7 @@ impl State {
             }
             State::V13(_) => {
                 let (min, max) = deal_provider_collateral_bounds_v13(
-                    &from_policy_v10_to_v13(policy),
+                    policy,
                     from_padded_piece_size_v2_to_v4(size),
                     raw_byte_power,
                     baseline_power,
