@@ -166,9 +166,9 @@ pub struct Policy {
     pub minimum_consensus_power: StoragePower,
 }
 
-impl Policy {
-    pub fn mainnet() -> Self {
-        Policy {
+impl Default for Policy {
+    fn default() -> Self {
+        Self {
             max_aggregated_sectors: policy_constants::MAX_AGGREGATED_SECTORS,
             min_aggregated_sectors: policy_constants::MIN_AGGREGATED_SECTORS,
             max_aggregated_proof_size: policy_constants::MAX_AGGREGATED_PROOF_SIZE,
@@ -230,18 +230,7 @@ impl Policy {
             market_default_allocation_term_buffer:
                 policy_constants::MARKET_DEFAULT_ALLOCATION_TERM_BUFFER,
 
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::MAINNET_MINIMUM_CONSENSUS_POWER,
-            ),
-        }
-    }
-
-    pub fn calibnet() -> Self {
-        Policy {
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::CALIBNET_MINIMUM_CONSENSUS_POWER,
-            ),
-            ..Policy::mainnet()
+            minimum_consensus_power: StoragePower::from(policy_constants::MINIMUM_CONSENSUS_POWER),
         }
     }
 }
@@ -388,6 +377,5 @@ pub mod policy_constants {
 
     pub const MARKET_DEFAULT_ALLOCATION_TERM_BUFFER: i64 = 90 * EPOCHS_IN_DAY;
 
-    pub const CALIBNET_MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
-    pub const MAINNET_MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
+    pub const MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
 }

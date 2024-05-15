@@ -166,9 +166,9 @@ pub struct Policy {
     pub minimum_consensus_power: StoragePower,
 }
 
-impl Policy {
-    pub fn mainnet() -> Policy {
-        Policy {
+impl Default for Policy {
+    fn default() -> Policy {
+        Self {
             max_aggregated_sectors: policy_constants::MAX_AGGREGATED_SECTORS,
             min_aggregated_sectors: policy_constants::MIN_AGGREGATED_SECTORS,
             max_aggregated_proof_size: policy_constants::MAX_AGGREGATED_PROOF_SIZE,
@@ -223,18 +223,7 @@ impl Policy {
             market_default_allocation_term_buffer:
                 policy_constants::MARKET_DEFAULT_ALLOCATION_TERM_BUFFER,
 
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::MAINNET_MINIMUM_CONSENSUS_POWER,
-            ),
-        }
-    }
-
-    pub fn calibnet() -> Self {
-        Policy {
-            minimum_consensus_power: StoragePower::from(
-                policy_constants::CALIBNET_MINIMUM_CONSENSUS_POWER,
-            ),
-            ..Policy::mainnet()
+            minimum_consensus_power: StoragePower::from(policy_constants::MINIMUM_CONSENSUS_POWER),
         }
     }
 }
@@ -388,8 +377,7 @@ pub mod policy_constants {
 
     pub const MARKET_DEFAULT_ALLOCATION_TERM_BUFFER: i64 = 90 * EPOCHS_IN_DAY;
 
-    pub const CALIBNET_MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
-    pub const MAINNET_MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
+    pub const MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
 }
 
 /// A set indicating which proofs are considered valid, optimised for lookup of a small number of
@@ -398,12 +386,25 @@ pub mod policy_constants {
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct ProofSet(Vec<bool>);
 
+impl Default for ProofSet {
+    fn default() -> Self {
+        ProofSet(vec![
+            false;
+            policy_constants::REGISTERED_POST_PROOF_VARIANTS.max(
+                policy_constants::REGISTERED_SEAL_PROOF_VARIANTS
+            )
+        ])
+    }
+}
+
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
         let mut proofs = vec![false; policy_constants::REGISTERED_POST_PROOF_VARIANTS];
         proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1) as usize] = true;
         proofs[i64::from(RegisteredPoStProof::StackedDRGWindow32GiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow64GiBV1) as usize] = true;
+        proofs[i64::from(RegisteredPoStProof::StackedDRGWindow64GiBV1P1) as usize] = true;
         ProofSet(proofs)
     }
 
@@ -411,6 +412,7 @@ impl ProofSet {
     pub fn default_seal_proofs() -> Self {
         let mut proofs = vec![false; policy_constants::REGISTERED_SEAL_PROOF_VARIANTS];
         proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P1) as usize] = true;
+        proofs[i64::from(RegisteredSealProof::StackedDRG64GiBV1P1) as usize] = true;
         ProofSet(proofs)
     }
 
