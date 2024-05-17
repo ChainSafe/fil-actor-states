@@ -170,6 +170,68 @@ impl State {
         }
     }
 
+    pub fn get_allocation<BS>(
+        &self,
+        store: &BS,
+        addr: ActorID,
+        allocation_id: AllocationID,
+    ) -> anyhow::Result<Option<Allocation>>
+    where
+        BS: Blockstore,
+    {
+        match self {
+            State::V8(_) => {
+                // V8 does not have allocations
+                Ok(None)
+            }
+            State::V9(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v9::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V10(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v10::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V11(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v11::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V12(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v12::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V13(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v13::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+        }
+    }
+
     pub fn get_claim<BS>(
         &self,
         store: &BS,
@@ -265,68 +327,6 @@ from_claim!(
     fil_actor_verifreg_state::v10::Claim,
     fil_actor_verifreg_state::v9::Claim,
 );
-    pub fn get_allocation<BS>(
-        &self,
-        store: &BS,
-        addr: ActorID,
-        allocation_id: AllocationID,
-    ) -> anyhow::Result<Option<Allocation>>
-    where
-        BS: Blockstore,
-    {
-        match self {
-            State::V8(_) => {
-                // V8 does not have allocations
-                Ok(None)
-            }
-            State::V9(state) => {
-                let mut map = state.load_allocs(store)?;
-                Ok(fil_actor_verifreg_state::v9::state::get_allocation(
-                    &mut map,
-                    addr,
-                    allocation_id,
-                )?
-                .map(Allocation::from))
-            }
-            State::V10(state) => {
-                let mut map = state.load_allocs(store)?;
-                Ok(fil_actor_verifreg_state::v10::state::get_allocation(
-                    &mut map,
-                    addr,
-                    allocation_id,
-                )?
-                .map(Allocation::from))
-            }
-            State::V11(state) => {
-                let mut map = state.load_allocs(store)?;
-                Ok(fil_actor_verifreg_state::v11::state::get_allocation(
-                    &mut map,
-                    addr,
-                    allocation_id,
-                )?
-                .map(Allocation::from))
-            }
-            State::V12(state) => {
-                let mut map = state.load_allocs(store)?;
-                Ok(fil_actor_verifreg_state::v12::state::get_allocation(
-                    &mut map,
-                    addr,
-                    allocation_id,
-                )?
-                .map(Allocation::from))
-            }
-            State::V13(state) => {
-                let mut map = state.load_allocs(store)?;
-                Ok(fil_actor_verifreg_state::v13::state::get_allocation(
-                    &mut map,
-                    addr,
-                    allocation_id,
-                )?
-                .map(Allocation::from))
-            }
-        }
-    }
-}
 
 pub type AllocationID = u64;
 
