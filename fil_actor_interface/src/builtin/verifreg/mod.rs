@@ -172,8 +172,7 @@ impl State {
     {
         match self {
             State::V8(_) => {
-                // V8 does not have allocations
-                Ok(None)
+                Err(anyhow!("unsupported in actors v8")),
             }
             State::V9(state) => {
                 let mut map = state.load_allocs(store)?;
