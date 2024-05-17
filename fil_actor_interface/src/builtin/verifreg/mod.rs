@@ -9,8 +9,11 @@ use fil_actors_shared::v9::Keyer;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::address::{Address, Protocol};
 use fvm_shared4::bigint::bigint_ser::BigIntDe;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::piece::PaddedPieceSize;
+use fvm_shared4::ActorID;
 use num::BigInt;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
 /// verifreg actor address.
@@ -157,4 +160,112 @@ impl State {
             }
         }
     }
+
+    pub fn get_allocation<BS>(
+        &self,
+        store: &BS,
+        addr: ActorID,
+        allocation_id: AllocationID,
+    ) -> anyhow::Result<Option<Allocation>>
+    where
+        BS: Blockstore,
+    {
+        match self {
+            State::V8(_) => {
+                // V8 does not have allocations
+                Ok(None)
+            }
+            State::V9(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v9::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V10(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v10::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V11(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v11::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V12(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v12::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+            State::V13(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v13::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
+        }
+    }
 }
+
+pub type AllocationID = u64;
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct Allocation {
+    // The verified client which allocated the DataCap.
+    pub client: ActorID,
+    // The provider (miner actor) which may claim the allocation.
+    pub provider: ActorID,
+    // Identifier of the data to be committed.
+    pub data: Cid,
+    // The (padded) size of data.
+    pub size: PaddedPieceSize,
+    // The minimum duration which the provider must commit to storing the piece to avoid
+    // early-termination penalties (epochs).
+    pub term_min: ChainEpoch,
+    // The maximum period for which a provider can earn quality-adjusted power
+    // for the piece (epochs).
+    pub term_max: ChainEpoch,
+    // The latest epoch by which a provider must commit data before the allocation expires.
+    pub expiration: ChainEpoch,
+}
+
+macro_rules! from_allocation {
+    ($type: ty) => {
+        impl From<&$type> for Allocation {
+            fn from(alloc: &$type) -> Self {
+                Self {
+                    client: alloc.client,
+                    provider: alloc.provider,
+                    data: alloc.data,
+                    size: PaddedPieceSize(alloc.size.0),
+                    term_min: alloc.term_min,
+                    term_max: alloc.term_max,
+                    expiration: alloc.expiration,
+                }
+            }
+        }
+    };
+}
+
+from_allocation!(fil_actor_verifreg_state::v13::Allocation);
+from_allocation!(fil_actor_verifreg_state::v12::Allocation);
+from_allocation!(fil_actor_verifreg_state::v11::Allocation);
+from_allocation!(fil_actor_verifreg_state::v10::Allocation);
+from_allocation!(fil_actor_verifreg_state::v9::Allocation);
