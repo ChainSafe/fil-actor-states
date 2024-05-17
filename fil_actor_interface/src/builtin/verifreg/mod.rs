@@ -4,13 +4,22 @@
 use crate::io::get_obj;
 use anyhow::{anyhow, Context};
 use cid::Cid;
+use fil_actor_verifreg_state::v13::ClaimID;
+use fil_actor_verifreg_state::{
+    v10::state::get_claim as get_claim_v10, v11::state::get_claim as get_claim_v11,
+    v12::state::get_claim as get_claim_v12, v13::state::get_claim as get_claim_v13,
+    v9::state::get_claim as get_claim_v9,
+};
 use fil_actors_shared::v8::{make_map_with_root_and_bitwidth, HAMT_BIT_WIDTH};
 use fil_actors_shared::v9::Keyer;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_ipld_encoding::tuple::serde_tuple;
+use fvm_ipld_encoding::tuple::{Deserialize_tuple, Serialize_tuple};
 use fvm_shared::address::{Address, Protocol};
 use fvm_shared4::bigint::bigint_ser::BigIntDe;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::piece::PaddedPieceSize;
+use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::ActorID;
 use num::BigInt;
 use serde::{Deserialize, Serialize};
@@ -222,7 +231,102 @@ impl State {
             }
         }
     }
+
+    pub fn get_claim<BS>(
+        &self,
+        store: &BS,
+        addr: Address,
+        claim_id: ClaimID,
+    ) -> anyhow::Result<Option<Claim>>
+    where
+        BS: Blockstore,
+    {
+        let provider_id = addr.id()?;
+
+        match self {
+            State::V8(_) => Err(anyhow!("unsupported in actors v8")),
+            State::V9(state) => {
+                Ok(
+                    get_claim_v9(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+            State::V10(state) => {
+                Ok(
+                    get_claim_v10(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+            State::V11(state) => {
+                Ok(
+                    get_claim_v11(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+            State::V12(state) => {
+                Ok(
+                    get_claim_v12(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+            State::V13(state) => {
+                Ok(
+                    get_claim_v13(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+        }
+    }
 }
+
+#[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
+pub struct Claim {
+    // The provider storing the data (from allocation).
+    pub provider: ActorID,
+    // The client which allocated the DataCap (from allocation).
+    pub client: ActorID,
+    // Identifier of the data committed (from allocation).
+    pub data: Cid,
+    // The (padded) size of data (from allocation).
+    pub size: PaddedPieceSize,
+    // The min period after term_start which the provider must commit to storing data
+    pub term_min: ChainEpoch,
+    // The max period after term_start for which provider can earn QA-power for the data
+    pub term_max: ChainEpoch,
+    // The epoch at which the (first range of the) piece was committed.
+    pub term_start: ChainEpoch,
+    // ID of the provider's sector in which the data is committed.
+    pub sector: SectorNumber,
+}
+
+macro_rules! from_claim {
+    ($($type:ty),* $(,)*) => {
+        $(
+        impl From<&$type> for Claim {
+            fn from(claim: &$type) -> Self {
+                Self {
+                    provider: claim.client,
+                    client: claim.provider,
+                    data: claim.data,
+                    size: PaddedPieceSize(claim.size.0),
+                    term_min: claim.term_min,
+                    term_max: claim.term_max,
+                    term_start: claim.term_start,
+                    sector: claim.sector,
+                }
+            }
+        }
+        )*
+    };
+}
+
+from_claim!(
+    fil_actor_verifreg_state::v13::Claim,
+    fil_actor_verifreg_state::v12::Claim,
+    fil_actor_verifreg_state::v11::Claim,
+    fil_actor_verifreg_state::v10::Claim,
+    fil_actor_verifreg_state::v9::Claim,
+);
 
 pub type AllocationID = u64;
 
