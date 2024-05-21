@@ -9,7 +9,7 @@ version.workspace = true
 keywords.workspace = true
 
 [dependencies]
-fil_actor_miner_state = { version = "12.0.0", path = "../miner" }
+fil_actor_miner_state = { version = "13.0.0", path = "../miner" }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
