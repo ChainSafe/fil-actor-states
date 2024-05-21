@@ -55,7 +55,7 @@ hex = "0.4.3"
 hex-literal = "0.4"
 indexmap = { version = "2", features = ["serde"] }
 integer-encoding = { version = "4", default-features = false }
-itertools = "0.12"
+itertools = "0.13"
 lazy_static = "1.4"
 libipld-core = "0.16"
 log = "0.4"
