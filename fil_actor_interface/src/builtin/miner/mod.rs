@@ -315,6 +315,23 @@ impl State {
         }
     }
 
+    /// Returns the deadline and partition index for a sector number.
+    pub fn find_sector<BS: Blockstore>(
+        &self,
+        store: &BS,
+        sector_number: SectorNumber,
+        policy: &Policy,
+    ) -> anyhow::Result<(u64, u64)> {
+        match self {
+            State::V8(st) => st.find_sector(&from_policy_v13_to_v9(policy), store, sector_number),
+            State::V9(st) => st.find_sector(&from_policy_v13_to_v9(policy), store, sector_number),
+            State::V10(st) => st.find_sector(&from_policy_v13_to_v10(policy), store, sector_number),
+            State::V11(st) => st.find_sector(&from_policy_v13_to_v11(policy), store, sector_number),
+            State::V12(st) => st.find_sector(store, sector_number),
+            State::V13(st) => st.find_sector(store, sector_number),
+        }
+    }
+
     /// Gets fee debt of miner state
     pub fn fee_debt(&self) -> TokenAmount {
         match self {
