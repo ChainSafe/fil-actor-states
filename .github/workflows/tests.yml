@@ -81,7 +81,7 @@ jobs:
       - name: Install forest
         run: |
           cd forest
-          make install
+          make install-minimum-quick
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
