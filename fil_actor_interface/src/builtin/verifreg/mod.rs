@@ -302,8 +302,8 @@ macro_rules! from_claim {
         impl From<&$type> for Claim {
             fn from(claim: &$type) -> Self {
                 Self {
-                    provider: claim.client,
-                    client: claim.provider,
+                    provider: claim.provider,
+                    client: claim.client,
                     data: claim.data,
                     size: PaddedPieceSize(claim.size.0),
                     term_min: claim.term_min,
