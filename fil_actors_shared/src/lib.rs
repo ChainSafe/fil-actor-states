@@ -10,6 +10,7 @@ pub mod v8;
 pub mod v9;
 
 // Re-exports
+pub extern crate filecoin_proofs_api;
 pub extern crate frc46_token;
 pub extern crate fvm_ipld_amt;
 pub extern crate fvm_ipld_bitfield;

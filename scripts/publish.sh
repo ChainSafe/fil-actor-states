@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 crates=(
     "fil_actors_shared"
