@@ -137,17 +137,3 @@ jobs:
           gem install toml-rb --no-document
           ruby scripts/find_duplicate_deps.rb && \
           ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield
-
-  cargo-publish-dry-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-      - name: Publish crates
-        env:
-          SCCACHE_GHA_ENABLED: "false"
-        run: ./scripts/publish.sh --dry-run

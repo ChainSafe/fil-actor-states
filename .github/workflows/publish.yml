@@ -21,4 +21,4 @@ jobs:
       - name: Publish crates
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: ./scripts/publish.sh --token "$CRATES_IO_TOKEN"
+        run: ./scripts/publish.sh

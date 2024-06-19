@@ -22,11 +22,6 @@ crates=(
 )
 
 for crate in "${crates[@]}"; do
-    crate_manifest=$(cargo metadata --no-deps --format-version 1 |
-    jq -r --arg crate "$crate" '.packages[] |
-    select(.name == $crate) |
-    .manifest_path')
-
     # Publish to crates.io
-    cargo publish --manifest-path "$crate_manifest" "$@" || echo "failed"
+    cargo publish --package "$crate" --token "$CRATES_IO_TOKEN" || echo "failed"
 done
