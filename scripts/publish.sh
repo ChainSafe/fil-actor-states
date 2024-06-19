@@ -9,7 +9,6 @@ crates=(
     "fil_actor_datacap_state"
     "fil_actor_eam_state"
     "fil_actor_ethaccount_state"
-    "fil_actor_evm_shared_state"
     "fil_actor_evm_state"
     "fil_actor_init_state"
     "fil_actor_market_state"
@@ -29,6 +28,6 @@ for crate in "${crates[@]}"; do
     .manifest_path')
 
     # Publish to crates.io
-    cargo publish --manifest-path "$crate_manifest" --token "$CRATES_IO_TOKEN"
+    cargo publish --manifest-path "$crate_manifest" "$@"
     cargo clean --manifest-path "$crate_manifest"
 done
