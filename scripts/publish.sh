@@ -23,5 +23,5 @@ crates=(
 
 for crate in "${crates[@]}"; do
     # Publish to crates.io
-    cargo publish --package "$crate" --token "$CRATES_IO_TOKEN" || echo "failed"
+    cargo publish --package "$crate" --token "$CRATES_IO_TOKEN"
 done
