@@ -28,6 +28,5 @@ for crate in "${crates[@]}"; do
     .manifest_path')
 
     # Publish to crates.io
-    cargo publish --manifest-path "$crate_manifest" "$@"
-    cargo clean --manifest-path "$crate_manifest"
+    cargo publish --manifest-path "$crate_manifest" "$@" || echo "failed"
 done
