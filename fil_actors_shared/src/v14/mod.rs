@@ -4,18 +4,23 @@
 use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
+#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
 use fvm_shared4::bigint::BigInt;
-pub use fvm_shared4::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;
 
+pub use crate::{fvm_ipld_amt, fvm_ipld_hamt};
+
+#[cfg(feature = "fil-actor")]
+use crate::v14::runtime::hash_algorithm::FvmHashSha256;
+use crate::v14::runtime::Runtime;
+
 pub use self::actor_error::*;
 pub use self::builtin::*;
 pub use self::util::*;
-pub use {fvm_ipld_amt, fvm_ipld_hamt};
 
 pub mod actor_error;
 pub mod builtin;
@@ -23,11 +28,11 @@ pub mod runtime;
 pub mod util;
 pub mod vm_api;
 
-#[cfg(test)]
-mod tests;
-
+pub mod test_blockstores;
+#[cfg(feature = "test_utils")]
+pub mod test_utils;
 #[macro_export]
-macro_rules! wasm_trampoline_v13 {
+macro_rules! wasm_trampoline_v14 {
     ($target:ty) => {
         #[no_mangle]
         pub extern "C" fn invoke(param: u32) -> u32 {
@@ -36,6 +41,10 @@ macro_rules! wasm_trampoline_v13 {
     };
 }
 
+#[cfg(feature = "fil-actor")]
+type Hasher = FvmHashSha256;
+
+#[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.
@@ -55,19 +64,6 @@ where
     V: DeserializeOwned + Serialize,
 {
     Map::<_, V>::new_with_bit_width(store, bitwidth)
-}
-
-/// Create a map with a root cid.
-#[inline]
-pub fn make_map_with_root<'bs, BS, V>(
-    root: &Cid,
-    store: &'bs BS,
-) -> Result<Map<'bs, BS, V>, HamtError>
-where
-    BS: Blockstore,
-    V: DeserializeOwned + Serialize,
-{
-    Map::<_, V>::load_with_bit_width(root, store, HAMT_BIT_WIDTH)
 }
 
 /// Create a map with a root cid.
