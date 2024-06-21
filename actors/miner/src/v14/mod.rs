@@ -36,9 +36,6 @@ pub use vesting_state::*;
 // They're not expected to ever happen, but if they do, distinguished codes can help us
 // diagnose the problem.
 
-#[cfg(feature = "fil-actor")]
-fil_actors_shared::v14::wasm_trampoline!(Actor);
-
 mod beneficiary;
 mod bitfield_queue;
 mod commd;

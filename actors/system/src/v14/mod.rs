@@ -9,9 +9,6 @@ use fvm_shared4::error::ExitCode;
 use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_runtime::wasm_trampoline!(Actor);
-
 /// System actor methods.
 #[derive(FromPrimitive)]
 #[repr(u64)]

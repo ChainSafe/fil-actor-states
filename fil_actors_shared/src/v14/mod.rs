@@ -14,8 +14,6 @@ use unsigned_varint::decode::Error as UVarintError;
 
 pub use crate::{fvm_ipld_amt, fvm_ipld_hamt};
 
-#[cfg(feature = "fil-actor")]
-use crate::v14::runtime::hash_algorithm::FvmHashSha256;
 use crate::v14::runtime::Runtime;
 
 pub use self::actor_error::*;
@@ -40,9 +38,6 @@ macro_rules! wasm_trampoline_v14 {
         }
     };
 }
-
-#[cfg(feature = "fil-actor")]
-type Hasher = FvmHashSha256;
 
 #[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;

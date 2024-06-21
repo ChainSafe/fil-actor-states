@@ -20,9 +20,6 @@ mod deal;
 mod state;
 mod types;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_shared::v14::wasm_trampoline!(Actor);
-
 pub const NO_ALLOCATION_ID: u64 = 0;
 
 // Indicates that information about a past deal is no longer available.

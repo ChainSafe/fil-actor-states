@@ -9,9 +9,6 @@ pub use self::policy::*;
 pub use self::state::*;
 pub use self::types::*;
 
-#[cfg(feature = "fil-actor")]
-fil_actors_shared::v14::wasm_trampoline!(Actor);
-
 #[doc(hidden)]
 pub mod ext;
 mod policy;
