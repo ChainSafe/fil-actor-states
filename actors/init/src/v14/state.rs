@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_shared::actor_error_v13;
+use fil_actors_shared::actor_error_v14;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::{Address, Protocol};
@@ -64,7 +64,7 @@ impl State {
         // Map the robust address to the ID, failing if it's already mapped to anything.
         let is_new = map.set_if_absent(robust_addr, id)?;
         if !is_new {
-            return Err(actor_error_v13!(
+            return Err(actor_error_v14!(
                 forbidden,
                 "robust address {} is already allocated in the address map",
                 robust_addr
