@@ -28,6 +28,8 @@ libipld-core = { workspace = true }
 num-bigint = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
+lazy_static = { workspace = true }
+frc42_dispatch = { workspace = true }
 quickcheck = { workspace = true, optional = true }
 serde = { workspace = true }
 
