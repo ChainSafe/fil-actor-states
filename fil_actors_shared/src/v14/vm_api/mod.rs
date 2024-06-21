@@ -7,7 +7,7 @@ use fvm_ipld_encoding::{
     ipld_block::IpldBlock,
     tuple::{serde_tuple, Deserialize_tuple, Serialize_tuple},
 };
-use fvm_shared::{
+use fvm_shared4::{
     address::Address,
     clock::ChainEpoch,
     consensus::ConsensusFault,

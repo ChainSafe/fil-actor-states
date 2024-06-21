@@ -40,7 +40,8 @@ use crate::runtime::{
     ActorCode, DomainSeparationTag, MessageInfo, Policy, Primitives, Runtime, RuntimePolicy,
     EMPTY_ARR_CID,
 };
-use crate::{actor_error, ActorError, SendError};
+use crate::{ActorError, SendError};
+use fil_actors_shared::actor_error_v14;
 use libsecp256k1::{recover, Message, RecoveryId, Signature as EcsdaSignature};
 use rand::prelude::*;
 use serde::Serialize;
