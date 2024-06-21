@@ -38,7 +38,10 @@ pub fn deal_provider_collateral_bounds(
 
     let num: BigInt = power_share_num * lock_target_num.atto();
     let denom: BigInt = power_share_denom * policy.prov_collateral_percent_supply_denom;
-    (TokenAmount::from_atto(num.div_floor(&denom)), TOTAL_FILECOIN.clone())
+    (
+        TokenAmount::from_atto(num.div_floor(&denom)),
+        TOTAL_FILECOIN.clone(),
+    )
 }
 
 /// Penalty to provider deal collateral if the deadline expires before sector commitment.

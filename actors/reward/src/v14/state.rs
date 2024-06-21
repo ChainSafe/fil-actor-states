@@ -11,9 +11,7 @@ use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 
-use fvm_shared4::smooth::{
-    AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA,
-};
+use fvm_shared4::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
 
 /// The unit of spacetime committed to the network
 pub type Spacetime = BigInt;
@@ -139,8 +137,11 @@ impl State {
     }
 
     pub(super) fn _update_smoothed_estimates(&mut self, delta: ChainEpoch) {
-        let filter_reward =
-            AlphaBetaFilter::load(&self.this_epoch_reward_smoothed, &DEFAULT_ALPHA, &DEFAULT_BETA);
+        let filter_reward = AlphaBetaFilter::load(
+            &self.this_epoch_reward_smoothed,
+            &DEFAULT_ALPHA,
+            &DEFAULT_BETA,
+        );
         self.this_epoch_reward_smoothed =
             filter_reward.next_estimate(self.this_epoch_reward.atto(), delta);
     }

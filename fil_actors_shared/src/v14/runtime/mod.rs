@@ -16,9 +16,9 @@ use serde::Serialize;
 pub use self::actor_code::*;
 pub use self::policy::*;
 pub use self::randomness::DomainSeparationTag;
+use crate::actor_error_v14;
 use crate::v14::runtime::builtins::Type;
 use crate::v14::{ActorError, SendError};
-use crate::actor_error_v14;
 
 mod actor_code;
 pub mod builtins;
@@ -34,13 +34,13 @@ pub(crate) mod hash_algorithm;
 
 pub(crate) mod empty;
 
+pub use crate::v14::vm_api::Primitives;
 use cid::multihash::Code;
 pub use empty::EMPTY_ARR_CID;
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 use fvm_shared4::chainid::ChainID;
 use fvm_shared4::event::ActorEvent;
 use fvm_shared4::sys::SendFlags;
-pub use crate::v14::vm_api::Primitives;
 
 /// Runtime is the VM's internal runtime object.
 /// this is everything that is accessible to actors, beyond parameters.
@@ -139,7 +139,9 @@ pub trait Runtime: Primitives + RuntimePolicy {
         Ok(self
             .store()
             .get_cbor(&self.get_state_root()?)
-            .map_err(|_| actor_error_v14!(illegal_argument; "failed to get actor for Readonly state"))?
+            .map_err(
+                |_| actor_error_v14!(illegal_argument; "failed to get actor for Readonly state"),
+            )?
             .expect("State does not exist for actor state root"))
     }
 

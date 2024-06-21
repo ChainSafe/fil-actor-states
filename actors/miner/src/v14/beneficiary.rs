@@ -32,7 +32,11 @@ impl BeneficiaryTerm {
         used_quota: TokenAmount,
         expiration: ChainEpoch,
     ) -> BeneficiaryTerm {
-        BeneficiaryTerm { quota, expiration, used_quota }
+        BeneficiaryTerm {
+            quota,
+            expiration,
+            used_quota,
+        }
     }
 
     /// Get the amount that the beneficiary has not yet withdrawn

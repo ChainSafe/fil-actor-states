@@ -22,7 +22,10 @@ pub struct BitFieldQueue<'db, BS> {
 
 impl<'db, BS: Blockstore> BitFieldQueue<'db, BS> {
     pub fn new(store: &'db BS, root: &Cid, quant: QuantSpec) -> Result<Self, AmtError> {
-        Ok(Self { amt: Array::load(root, store)?, quant })
+        Ok(Self {
+            amt: Array::load(root, store)?,
+            quant,
+        })
     }
 
     /// Adds values to the queue entry for an epoch.
@@ -103,7 +106,8 @@ impl<'db, BS: Blockstore> BitFieldQueue<'db, BS> {
         while let Some(&(epoch, _)) = iter.peek() {
             self.add_to_queue_values(
                 epoch,
-                iter.peeking_take_while(|&(e, _)| e == epoch).map(|(_, v)| v),
+                iter.peeking_take_while(|&(e, _)| e == epoch)
+                    .map(|(_, v)| v),
             )?;
         }
 

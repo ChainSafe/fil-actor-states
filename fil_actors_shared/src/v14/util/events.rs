@@ -16,7 +16,9 @@ pub struct EventBuilder {
 impl EventBuilder {
     /// Creates a new builder with no values.
     pub fn new() -> Self {
-        Self { entries: Ok(Vec::new()) }
+        Self {
+            entries: Ok(Vec::new()),
+        }
     }
 
     /// Initialise the "type" of the event i.e. Actor event type.
@@ -36,7 +38,9 @@ impl EventBuilder {
 
     /// Returns an actor event ready to emit (consuming self).
     pub fn build(self) -> Result<ActorEvent, ActorError> {
-        Ok(ActorEvent { entries: self.entries? })
+        Ok(ActorEvent {
+            entries: self.entries?,
+        })
     }
 
     /// Pushes an entry with an IPLD-CBOR-serialized value.
@@ -48,9 +52,12 @@ impl EventBuilder {
     ) -> Self {
         if let Ok(ref mut entries) = self.entries {
             match serialize_vec(&value, "event value") {
-                Ok(value) => {
-                    entries.push(Entry { flags, key: key.to_string(), codec: IPLD_CBOR, value })
-                }
+                Ok(value) => entries.push(Entry {
+                    flags,
+                    key: key.to_string(),
+                    codec: IPLD_CBOR,
+                    value,
+                }),
                 Err(e) => {
                     self.entries = Err(e);
                 }
@@ -75,7 +82,11 @@ mod test {
 
     #[test]
     fn event_type() {
-        let e = EventBuilder::new().typ("l1").field_indexed("v1", "abc").build().unwrap();
+        let e = EventBuilder::new()
+            .typ("l1")
+            .field_indexed("v1", "abc")
+            .build()
+            .unwrap();
 
         let l1_cbor = serialize_vec("l1", "event value").unwrap();
         let v_cbor = serialize_vec("abc", "event value").unwrap();
@@ -103,7 +114,11 @@ mod test {
 
     #[test]
     fn values() {
-        let e = EventBuilder::new().field("v1", &3).field_indexed("v2", "abc").build().unwrap();
+        let e = EventBuilder::new()
+            .field("v1", &3)
+            .field_indexed("v2", "abc")
+            .build()
+            .unwrap();
         assert_eq!(
             ActorEvent {
                 entries: vec![

@@ -146,7 +146,13 @@ pub fn new_actor(
     balance: TokenAmount,
     delegated_address: Option<Address>,
 ) -> ActorState {
-    ActorState { code, state, sequence, balance, delegated_address }
+    ActorState {
+        code,
+        state,
+        sequence,
+        balance,
+        delegated_address,
+    }
 }
 
 /// Pure functions implemented as primitives by the runtime.

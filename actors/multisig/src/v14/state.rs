@@ -12,8 +12,8 @@ use fvm_shared4::econ::TokenAmount;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
-use fil_actors_shared::v14::{ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
 use fil_actors_shared::actor_error_v14;
+use fil_actors_shared::v14::{ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
 
 use super::types::Transaction;
 use super::TxnID;

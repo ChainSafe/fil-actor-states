@@ -155,6 +155,9 @@ impl DeadlineInfo {
     }
 
     pub fn quant_spec(&self) -> QuantSpec {
-        QuantSpec { unit: self.w_post_proving_period, offset: self.last() }
+        QuantSpec {
+            unit: self.w_post_proving_period,
+            offset: self.last(),
+        }
     }
 }

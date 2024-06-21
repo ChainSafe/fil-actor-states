@@ -121,7 +121,9 @@ mod tests {
     // x => x/(2^128)
     fn q128_to_f64(x: BigInt) -> f64 {
         let denom = BigInt::from(1u64).shl(u128::BITS);
-        BigRational::new(x, denom).to_f64().expect("BigInt cannot be expressed as a 64bit float")
+        BigRational::new(x, denom)
+            .to_f64()
+            .expect("BigInt cannot be expressed as a 64bit float")
     }
 
     // Converted from: https://github.com/filecoin-project/specs-actors/blob/d56b240af24517443ce1f8abfbdab7cb22d331f1/actors/builtin/reward/reward_logic_test.go#L25
@@ -261,17 +263,35 @@ mod tests {
 
         let cases: [GrowthTestCase; 7] = [
             // 1 byte
-            GrowthTestCase { start_val: StoragePower::from(1i64), err_bound: 1.0 },
+            GrowthTestCase {
+                start_val: StoragePower::from(1i64),
+                err_bound: 1.0,
+            },
             // GiB
-            GrowthTestCase { start_val: StoragePower::from(1i64 << 30), err_bound: 1e-3 },
+            GrowthTestCase {
+                start_val: StoragePower::from(1i64 << 30),
+                err_bound: 1e-3,
+            },
             // TiB
-            GrowthTestCase { start_val: StoragePower::from(1i64 << 40), err_bound: 1e-6 },
+            GrowthTestCase {
+                start_val: StoragePower::from(1i64 << 40),
+                err_bound: 1e-6,
+            },
             // PiB
-            GrowthTestCase { start_val: StoragePower::from(1i64 << 50), err_bound: 1e-8 },
+            GrowthTestCase {
+                start_val: StoragePower::from(1i64 << 50),
+                err_bound: 1e-8,
+            },
             // EiB
-            GrowthTestCase { start_val: BASELINE_INITIAL_VALUE.clone(), err_bound: 1e-8 },
+            GrowthTestCase {
+                start_val: BASELINE_INITIAL_VALUE.clone(),
+                err_bound: 1e-8,
+            },
             // ZiB
-            GrowthTestCase { start_val: StoragePower::from(1u128 << 70), err_bound: 1e-8 },
+            GrowthTestCase {
+                start_val: StoragePower::from(1u128 << 70),
+                err_bound: 1e-8,
+            },
             // non power of 2 ~ 1 EiB
             GrowthTestCase {
                 start_val: StoragePower::from(513_633_559_722_596_517_u128),

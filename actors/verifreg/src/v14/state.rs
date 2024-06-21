@@ -12,10 +12,8 @@ use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 
-use fil_actors_shared::v14::{
-    ActorError, AsActorError, Config, Map2, MapMap, DEFAULT_HAMT_CONFIG,
-};
 use fil_actors_shared::actor_error_v14;
+use fil_actors_shared::v14::{ActorError, AsActorError, Config, Map2, MapMap, DEFAULT_HAMT_CONFIG};
 
 use crate::v14::{AddrPairKey, AllocationID, ClaimID};
 use crate::v14::{DataCap, RemoveDataCapProposalID};
@@ -111,16 +109,20 @@ impl State {
             HAMT_BIT_WIDTH,
             HAMT_BIT_WIDTH,
         )
-        .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load allocations table")
+        .context_code(
+            ExitCode::USR_ILLEGAL_STATE,
+            "failed to load allocations table",
+        )
     }
 
     pub fn save_allocs<BS: Blockstore>(
         &mut self,
         allocs: &mut MapMap<'_, BS, Allocation, ActorID, AllocationID>,
     ) -> Result<(), ActorError> {
-        self.allocations = allocs
-            .flush()
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to flush allocations table")?;
+        self.allocations = allocs.flush().context_code(
+            ExitCode::USR_ILLEGAL_STATE,
+            "failed to flush allocations table",
+        )?;
         Ok(())
     }
 
@@ -246,9 +248,10 @@ pub fn get_allocation<'a, BS>(
 where
     BS: Blockstore,
 {
-    allocations
-        .get(client, id)
-        .context_code(ExitCode::USR_ILLEGAL_STATE, "HAMT lookup failure getting allocation")
+    allocations.get(client, id).context_code(
+        ExitCode::USR_ILLEGAL_STATE,
+        "HAMT lookup failure getting allocation",
+    )
 }
 
 pub fn get_claim<'a, BS>(
@@ -259,7 +262,8 @@ pub fn get_claim<'a, BS>(
 where
     BS: Blockstore,
 {
-    claims
-        .get(provider, id)
-        .context_code(ExitCode::USR_ILLEGAL_STATE, "HAMT lookup failure getting claim")
+    claims.get(provider, id).context_code(
+        ExitCode::USR_ILLEGAL_STATE,
+        "HAMT lookup failure getting claim",
+    )
 }

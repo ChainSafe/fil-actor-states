@@ -34,7 +34,10 @@ lazy_static! {
 /// The maximum number of partitions that may be required to be loaded in a single invocation,
 /// when all the sector infos for the partitions will be loaded.
 pub fn load_partitions_sectors_max(policy: &Policy, partition_sector_count: u64) -> u64 {
-    cmp::min(policy.addressed_sectors_max / partition_sector_count, policy.addressed_partitions_max)
+    cmp::min(
+        policy.addressed_sectors_max / partition_sector_count,
+        policy.addressed_partitions_max,
+    )
 }
 
 /// Prefix for sealed sector CIDs (CommR).
@@ -164,7 +167,12 @@ pub fn qa_power_for_weight(
 /// Returns the quality-adjusted power for a sector.
 pub fn qa_power_for_sector(size: SectorSize, sector: &SectorOnChainInfo) -> StoragePower {
     let duration = sector.expiration - sector.power_base_epoch;
-    qa_power_for_weight(size, duration, &sector.deal_weight, &sector.verified_deal_weight)
+    qa_power_for_weight(
+        size,
+        duration,
+        &sector.deal_weight,
+        &sector.verified_deal_weight,
+    )
 }
 
 pub fn raw_power_for_sector(size: SectorSize) -> StoragePower {

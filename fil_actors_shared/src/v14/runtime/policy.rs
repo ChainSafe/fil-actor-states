@@ -420,8 +420,7 @@ impl ProofSet {
 
     pub fn default_seal_ni_proofs() -> Self {
         let mut proofs = vec![false; REGISTERED_SEAL_PROOF_VARIANTS];
-        proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P2_Feat_NiPoRep) as usize] =
-            true;
+        proofs[i64::from(RegisteredSealProof::StackedDRG32GiBV1P2_Feat_NiPoRep) as usize] = true;
         ProofSet(proofs)
     }
 

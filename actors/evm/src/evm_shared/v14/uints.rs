@@ -41,7 +41,12 @@ impl U256 {
 
     #[inline(always)]
     pub const fn from_u128_words(high: u128, low: u128) -> U256 {
-        U256([low as u64, (low >> u64::BITS) as u64, high as u64, (high >> u64::BITS) as u64])
+        U256([
+            low as u64,
+            (low >> u64::BITS) as u64,
+            high as u64,
+            (high >> u64::BITS) as u64,
+        ])
     }
 
     #[inline(always)]
@@ -177,7 +182,10 @@ impl From<&U256> for TokenAmount {
     fn from(ui: &U256) -> TokenAmount {
         let mut bits = [0u8; 32];
         ui.to_big_endian(&mut bits);
-        TokenAmount::from_atto(BigInt::from_bytes_be(fvm_shared4::bigint::Sign::Plus, &bits))
+        TokenAmount::from_atto(BigInt::from_bytes_be(
+            fvm_shared4::bigint::Sign::Plus,
+            &bits,
+        ))
     }
 }
 
@@ -328,6 +336,8 @@ mod tests {
     #[test]
     fn u256_overflow() {
         let encoded = RawBytes::serialize(BytesSer(&[1; 33])).unwrap();
-        encoded.deserialize::<U256>().expect_err("should have failed to decode an over-large u256");
+        encoded
+            .deserialize::<U256>()
+            .expect_err("should have failed to decode an over-large u256");
     }
 }

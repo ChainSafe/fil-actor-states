@@ -19,7 +19,10 @@ pub struct FilterEstimate {
 impl FilterEstimate {
     /// Create a new filter estimate given two Q.0 format ints.
     pub fn new(position: BigInt, velocity: BigInt) -> Self {
-        FilterEstimate { position: position << PRECISION, velocity: velocity << PRECISION }
+        FilterEstimate {
+            position: position << PRECISION,
+            velocity: velocity << PRECISION,
+        }
     }
 
     /// Returns the Q.0 position estimate of the filter
@@ -43,7 +46,11 @@ pub struct AlphaBetaFilter<'a, 'b, 'f> {
 
 impl<'a, 'b, 'f> AlphaBetaFilter<'a, 'b, 'f> {
     pub fn load(prev_est: &'f FilterEstimate, alpha: &'a BigInt, beta: &'b BigInt) -> Self {
-        Self { alpha, beta, prev_est }
+        Self {
+            alpha,
+            beta,
+            prev_est,
+        }
     }
 
     pub fn next_estimate(&self, obs: &BigInt, epoch_delta: ChainEpoch) -> FilterEstimate {
@@ -125,7 +132,12 @@ mod tests {
         let analytic = ecsor(delta, t0, num, denom);
         let iterative = iterative_cum_sum_of_ratio(num, denom, t0, delta);
         let actual_err = per_million_error(&analytic, &iterative);
-        assert!(actual_err < err_bound, "Values are {} and {}", actual_err, err_bound);
+        assert!(
+            actual_err < err_bound,
+            "Values are {} and {}",
+            actual_err,
+            err_bound
+        );
     }
 
     // Returns an estimate with position val and velocity 0
@@ -204,14 +216,26 @@ mod tests {
     fn both_positive_velocity() {
         let num_estimate = testing_estimate(BigInt::from(111), BigInt::from(12));
         let denom_estimate = testing_estimate(BigInt::from(3456), BigInt::from(8));
-        assert_err_bound(&num_estimate, &denom_estimate, 10_000, 0, BigInt::from(ERR_BOUND));
+        assert_err_bound(
+            &num_estimate,
+            &denom_estimate,
+            10_000,
+            0,
+            BigInt::from(ERR_BOUND),
+        );
     }
 
     #[test]
     fn flipped_signs() {
         let num_estimate = testing_estimate(BigInt::from(1_000_000), BigInt::from(-100));
         let denom_estimate = testing_estimate(BigInt::from(70_000), BigInt::from(1000));
-        assert_err_bound(&num_estimate, &denom_estimate, 100_000, 0, BigInt::from(ERR_BOUND));
+        assert_err_bound(
+            &num_estimate,
+            &denom_estimate,
+            100_000,
+            0,
+            BigInt::from(ERR_BOUND),
+        );
     }
 
     #[test]
@@ -269,7 +293,9 @@ mod tests {
             position: "12340768897043811082913117521041414330876498465539749838848"
                 .parse()
                 .unwrap(),
-            velocity: "-37396269384748225153347462373739139597454335279104".parse().unwrap(),
+            velocity: "-37396269384748225153347462373739139597454335279104"
+                .parse()
+                .unwrap(),
         };
         let filter_reward = AlphaBetaFilter::load(&fe, &DEFAULT_ALPHA, &DEFAULT_BETA);
         let next = filter_reward.next_estimate(&36266252337034982540u128.into(), 3);

@@ -107,16 +107,17 @@ impl AsRef<[u8]> for EthAddress {
 
 #[cfg(test)]
 mod tests {
-    use super::EthAddress;
     use super::super::uints::U256;
+    use super::EthAddress;
 
     // padding (12 bytes)
     const TYPE_PADDING: &[u8] = &[0; 12];
     // ID address marker (1 byte)
     const ID_ADDRESS_MARKER: &[u8] = &[0xff];
     // ID address marker (1 byte)
-    const GOOD_ADDRESS_PADDING: &[u8] =
-        &[0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]; // padding for inner u64 (11 bytes)
+    const GOOD_ADDRESS_PADDING: &[u8] = &[
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    ]; // padding for inner u64 (11 bytes)
 
     macro_rules! id_address_test {
         ($($name:ident: $input:expr => $expectation:expr,)*) => {

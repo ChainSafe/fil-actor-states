@@ -68,7 +68,9 @@ mod tests {
             .decode("GOobxkrhS1hiFA1EYUKZM3xsyVfy5Xy3bQ0gLPnecYs=")
             .unwrap();
 
-        let entropy = base64::engine::general_purpose::STANDARD.decode("RACZyzQ=").unwrap();
+        let entropy = base64::engine::general_purpose::STANDARD
+            .decode("RACZyzQ=")
+            .unwrap();
 
         assert_eq!(
             expected_randomness,

@@ -20,6 +20,7 @@ use integer_encoding::VarInt;
 use lazy_static::lazy_static;
 use num_traits::Signed;
 
+use fil_actors_shared::actor_error_v14;
 use fil_actors_shared::v14::builtin::reward::smooth::{
     AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA,
 };
@@ -28,7 +29,6 @@ use fil_actors_shared::v14::{
     ActorContext, ActorDowncast, ActorError, AsActorError, Config, Map2, Multimap,
     DEFAULT_HAMT_CONFIG,
 };
-use fil_actors_shared::actor_error_v14;
 
 use super::CONSENSUS_MINER_MIN_MINERS;
 
@@ -88,7 +88,10 @@ impl State {
         let empty_claims = ClaimsMap::empty(store, CLAIMS_CONFIG, "empty").flush()?;
         let empty_mmap = Multimap::new(store, CRON_QUEUE_HAMT_BITWIDTH, CRON_QUEUE_AMT_BITWIDTH)
             .root()
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "Failed to get empty multimap cid")?;
+            .context_code(
+                ExitCode::USR_ILLEGAL_STATE,
+                "Failed to get empty multimap cid",
+            )?;
         Ok(State {
             cron_event_queue: empty_mmap,
             claims: empty_claims,
@@ -113,9 +116,11 @@ impl State {
     ) -> Result<(StoragePower, bool), ActorError> {
         let claims = self.load_claims(s)?;
         let a = &Address::new_id(miner);
-        let claim = claims.get(a)?.with_context_code(ExitCode::USR_ILLEGAL_ARGUMENT, || {
-            format!("no claim for actor: {}", miner)
-        })?;
+        let claim = claims
+            .get(a)?
+            .with_context_code(ExitCode::USR_ILLEGAL_ARGUMENT, || {
+                format!("no claim for actor: {}", miner)
+            })?;
 
         let miner_nominal_power = claim.raw_byte_power.clone();
         let miner_min_power = consensus_miner_min_power(policy, claim.window_post_proof_type)
@@ -132,7 +137,10 @@ impl State {
             Ok((miner_nominal_power, false))
         } else {
             // if fewer miners than consensus minimum, return true if non-zero power
-            Ok((miner_nominal_power.clone(), miner_nominal_power.is_positive()))
+            Ok((
+                miner_nominal_power.clone(),
+                miner_nominal_power.is_positive(),
+            ))
         }
     }
 
@@ -253,9 +261,15 @@ impl State {
 
     pub fn current_total_power(&self) -> (StoragePower, StoragePower) {
         if self.miner_above_min_power_count < CONSENSUS_MINER_MIN_MINERS {
-            (self.total_bytes_committed.clone(), self.total_qa_bytes_committed.clone())
+            (
+                self.total_bytes_committed.clone(),
+                self.total_qa_bytes_committed.clone(),
+            )
         } else {
-            (self.total_raw_byte_power.clone(), self.total_quality_adj_power.clone())
+            (
+                self.total_raw_byte_power.clone(),
+                self.total_quality_adj_power.clone(),
+            )
         }
     }
 
@@ -324,7 +338,10 @@ impl State {
             None => {
                 return Ok(());
             }
-            Some(claim) => (claim.raw_byte_power.clone(), claim.quality_adj_power.clone()),
+            Some(claim) => (
+                claim.raw_byte_power.clone(),
+                claim.quality_adj_power.clone(),
+            ),
         };
 
         // Subtract from stats to remove power

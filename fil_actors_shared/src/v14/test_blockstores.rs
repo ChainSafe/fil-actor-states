@@ -32,7 +32,10 @@ pub struct MemoryBlockstore {
 
 impl MemoryBlockstore {
     pub fn new() -> Self {
-        Self { blocks: Default::default(), stats: Default::default() }
+        Self {
+            blocks: Default::default(),
+            stats: Default::default(),
+        }
     }
 }
 
@@ -77,34 +80,70 @@ mod tests {
 
         let block = Block::new(0x55, &b"foobar"[..]);
         tr_store.get(&block.cid(Code::Blake2b256)).unwrap();
-        assert_eq!(*tr_store.stats.borrow(), BSStats { r: 1, ..Default::default() });
+        assert_eq!(
+            *tr_store.stats.borrow(),
+            BSStats {
+                r: 1,
+                ..Default::default()
+            }
+        );
 
         let put_cid = tr_store.put(Code::Sha2_256, &block).unwrap();
         assert_eq!(tr_store.get(&put_cid).unwrap().as_deref(), Some(block.data));
         assert_eq!(
             *tr_store.stats.borrow(),
-            BSStats { r: 2, br: block.len(), w: 1, bw: block.len() }
+            BSStats {
+                r: 2,
+                br: block.len(),
+                w: 1,
+                bw: block.len()
+            }
         );
 
         let block2 = Block::new(0x55, &b"b2"[..]);
         let block3 = Block::new(0x55, &b"b3"[..]);
-        tr_store.put_many(vec![block2, block3].into_iter().map(|b| (Code::Sha2_256, b))).unwrap();
+        tr_store
+            .put_many(
+                vec![block2, block3]
+                    .into_iter()
+                    .map(|b| (Code::Sha2_256, b)),
+            )
+            .unwrap();
 
         let total_len = block.len() + block2.len() + block3.len();
 
         // Read and assert blocks and tracking stats
         assert_eq!(
-            tr_store.get(&block2.cid(Code::Sha2_256)).unwrap().as_deref(),
+            tr_store
+                .get(&block2.cid(Code::Sha2_256))
+                .unwrap()
+                .as_deref(),
             Some(block2.data)
         );
         assert_eq!(
             *tr_store.stats.borrow(),
-            BSStats { r: 3, br: total_len - block3.len(), w: 3, bw: total_len }
+            BSStats {
+                r: 3,
+                br: total_len - block3.len(),
+                w: 3,
+                bw: total_len
+            }
         );
         assert_eq!(
-            tr_store.get(&block3.cid(Code::Sha2_256)).unwrap().as_deref(),
+            tr_store
+                .get(&block3.cid(Code::Sha2_256))
+                .unwrap()
+                .as_deref(),
             Some(block3.data)
         );
-        assert_eq!(*tr_store.stats.borrow(), BSStats { r: 4, br: total_len, w: 3, bw: total_len });
+        assert_eq!(
+            *tr_store.stats.borrow(),
+            BSStats {
+                r: 4,
+                br: total_len,
+                w: 3,
+                bw: total_len
+            }
+        );
     }
 }

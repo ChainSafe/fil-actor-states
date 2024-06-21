@@ -33,8 +33,11 @@ pub trait MapKey: Sized + Debug {
 
 pub type Config = hamt::Config;
 
-pub const DEFAULT_HAMT_CONFIG: Config =
-    Config { bit_width: HAMT_BIT_WIDTH, min_data_depth: 0, max_array_width: 3 };
+pub const DEFAULT_HAMT_CONFIG: Config = Config {
+    bit_width: HAMT_BIT_WIDTH,
+    min_data_depth: 0,
+    max_array_width: 3,
+};
 
 impl<BS, K, V> Map2<BS, K, V>
 where
@@ -82,9 +85,11 @@ where
     /// Flushes the map's contents to the store.
     /// Returns the root node CID.
     pub fn flush(&mut self) -> Result<Cid, ActorError> {
-        self.hamt.flush().with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-            format!("failed to flush HAMT '{}'", self.name)
-        })
+        self.hamt
+            .flush()
+            .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+                format!("failed to flush HAMT '{}'", self.name)
+            })
     }
 
     /// Returns a reference to the underlying blockstore.
@@ -99,17 +104,25 @@ where
 
     /// Returns a reference to the value associated with a key, if present.
     pub fn get(&self, key: &K) -> Result<Option<&V>, ActorError> {
-        let k = key.to_bytes().context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
-        self.hamt.get(&k).with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-            format!("failed to get key {key:?} from HAMT '{}'", self.name)
-        })
+        let k = key
+            .to_bytes()
+            .context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
+        self.hamt
+            .get(&k)
+            .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+                format!("failed to get key {key:?} from HAMT '{}'", self.name)
+            })
     }
 
     pub fn contains_key(&self, key: &K) -> Result<bool, ActorError> {
-        let k = key.to_bytes().context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
-        self.hamt.contains_key(&k).with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-            format!("failed to check key {key:?} in HAMT '{}'", self.name)
-        })
+        let k = key
+            .to_bytes()
+            .context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
+        self.hamt
+            .contains_key(&k)
+            .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+                format!("failed to check key {key:?} in HAMT '{}'", self.name)
+            })
     }
 
     /// Inserts a key-value pair into the map.
@@ -118,10 +131,14 @@ where
     where
         V: PartialEq,
     {
-        let k = key.to_bytes().context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
-        self.hamt.set(k.into(), value).with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-            format!("failed to set key {key:?} in HAMT '{}'", self.name)
-        })
+        let k = key
+            .to_bytes()
+            .context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
+        self.hamt
+            .set(k.into(), value)
+            .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+                format!("failed to set key {key:?} in HAMT '{}'", self.name)
+            })
     }
 
     /// Inserts a key-value pair only if the key does not already exist.
@@ -130,7 +147,9 @@ where
     where
         V: PartialEq,
     {
-        let k = key.to_bytes().context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
+        let k = key
+            .to_bytes()
+            .context_code(ExitCode::USR_ASSERTION_FAILED, "invalid key")?;
         self.hamt
             .set_if_absent(k.into(), value)
             .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
@@ -141,7 +160,9 @@ where
     pub fn delete(&mut self, key: &K) -> Result<Option<V>, ActorError> {
         let k = key
             .to_bytes()
-            .with_context_code(ExitCode::USR_ASSERTION_FAILED, || format!("invalid key {key:?}"))?;
+            .with_context_code(ExitCode::USR_ASSERTION_FAILED, || {
+                format!("invalid key {key:?}")
+            })?;
         self.hamt
             .delete(&k)
             .map(|delete_result| delete_result.map(|(_k, v)| v))

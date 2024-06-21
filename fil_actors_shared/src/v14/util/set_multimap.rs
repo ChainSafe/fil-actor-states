@@ -66,7 +66,11 @@ where
     pub fn put(&mut self, key: &K, value: V) -> Result<(), ActorError> {
         // Load HAMT from retrieved cid or create a new empty one.
         let mut inner = self.get(key)?.unwrap_or_else(|| {
-            Set::empty(self.outer.store(), self.inner_config.clone(), "multimap inner")
+            Set::empty(
+                self.outer.store(),
+                self.inner_config.clone(),
+                "multimap inner",
+            )
         });
 
         inner.put(&value)?;
@@ -78,7 +82,11 @@ where
     /// Puts slice of values in the hash set associated with a key.
     pub fn put_many(&mut self, key: &K, values: &[V]) -> Result<(), ActorError> {
         let mut inner = self.get(key)?.unwrap_or_else(|| {
-            Set::empty(self.outer.store(), self.inner_config.clone(), "multimap inner")
+            Set::empty(
+                self.outer.store(),
+                self.inner_config.clone(),
+                "multimap inner",
+            )
         });
 
         for v in values {

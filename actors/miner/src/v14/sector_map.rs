@@ -22,15 +22,24 @@ impl DeadlineSectorMap {
     /// contained within the map, and returns an error if they exceed the given
     /// maximums.
     pub fn check(&mut self, max_partitions: u64, max_sectors: u64) -> anyhow::Result<()> {
-        let (partition_count, sector_count) =
-            self.count().map_err(|e| anyhow!("failed to count sectors: {:?}", e))?;
+        let (partition_count, sector_count) = self
+            .count()
+            .map_err(|e| anyhow!("failed to count sectors: {:?}", e))?;
 
         if partition_count > max_partitions {
-            return Err(anyhow!("too many partitions {}, max {}", partition_count, max_partitions));
+            return Err(anyhow!(
+                "too many partitions {}, max {}",
+                partition_count,
+                max_partitions
+            ));
         }
 
         if sector_count > max_sectors {
-            return Err(anyhow!("too many sectors {}, max {}", sector_count, max_sectors));
+            return Err(anyhow!(
+                "too many sectors {}, max {}",
+                sector_count,
+                max_sectors
+            ));
         }
 
         Ok(())
@@ -38,19 +47,22 @@ impl DeadlineSectorMap {
 
     /// Counts the number of partitions & sectors within the map.
     pub fn count(&mut self) -> anyhow::Result<(/* partitions */ u64, /* sectors */ u64)> {
-        self.0.iter_mut().try_fold((0_u64, 0_u64), |(partitions, sectors), (deadline_idx, pm)| {
-            let (partition_count, sector_count) = pm
-                .count()
-                .map_err(|e| anyhow!("when counting deadline {}: {:?}", deadline_idx, e))?;
-            Ok((
-                partitions
-                    .checked_add(partition_count)
-                    .ok_or_else(|| anyhow!("integer overflow when counting partitions"))?,
-                sectors
-                    .checked_add(sector_count)
-                    .ok_or_else(|| anyhow!("integer overflow when counting sectors"))?,
-            ))
-        })
+        self.0.iter_mut().try_fold(
+            (0_u64, 0_u64),
+            |(partitions, sectors), (deadline_idx, pm)| {
+                let (partition_count, sector_count) = pm
+                    .count()
+                    .map_err(|e| anyhow!("when counting deadline {}: {:?}", deadline_idx, e))?;
+                Ok((
+                    partitions
+                        .checked_add(partition_count)
+                        .ok_or_else(|| anyhow!("integer overflow when counting partitions"))?,
+                    sectors
+                        .checked_add(sector_count)
+                        .ok_or_else(|| anyhow!("integer overflow when counting sectors"))?,
+                ))
+            },
+        )
     }
 
     /// Records the given sector bitfield at the given deadline/partition index.
@@ -65,7 +77,10 @@ impl DeadlineSectorMap {
             return Err(anyhow!("invalid deadline {}", deadline_idx));
         }
 
-        self.0.entry(deadline_idx).or_default().add(partition_idx, sector_numbers)
+        self.0
+            .entry(deadline_idx)
+            .or_default()
+            .add(partition_idx, sector_numbers)
     }
 
     /// Records the given sectors at the given deadline/partition index.
@@ -124,14 +139,21 @@ impl PartitionSectorMap {
 
     /// Counts the number of partitions & sectors within the map.
     pub fn count(&mut self) -> anyhow::Result<(/* partitions */ u64, /* sectors */ u64)> {
-        let sectors = self.0.iter_mut().try_fold(0_u64, |sectors, (partition_idx, bf)| {
-            let validated = bf.validate().map_err(|e| {
-                anyhow!("failed to parse bitmap for partition {}: {}", partition_idx, e)
+        let sectors = self
+            .0
+            .iter_mut()
+            .try_fold(0_u64, |sectors, (partition_idx, bf)| {
+                let validated = bf.validate().map_err(|e| {
+                    anyhow!(
+                        "failed to parse bitmap for partition {}: {}",
+                        partition_idx,
+                        e
+                    )
+                })?;
+                sectors
+                    .checked_add(validated.len())
+                    .ok_or_else(|| anyhow!("integer overflow when counting sectors"))
             })?;
-            sectors
-                .checked_add(validated.len())
-                .ok_or_else(|| anyhow!("integer overflow when counting sectors"))
-        })?;
         Ok((self.0.len() as u64, sectors))
     }
 

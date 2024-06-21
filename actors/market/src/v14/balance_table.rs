@@ -7,15 +7,16 @@ use fvm_shared4::address::Address;
 use fvm_shared4::econ::TokenAmount;
 use num_traits::Zero;
 
-use fil_actors_shared::v14::{
-    ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG,
-};
 use fil_actors_shared::actor_error_v14;
+use fil_actors_shared::v14::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
 
 /// Balance table which handles getting and updating token balances specifically
 pub struct BalanceTable<BS: Blockstore>(pub Map2<BS, Address, TokenAmount>);
 
-const CONF: Config = Config { bit_width: 6, ..DEFAULT_HAMT_CONFIG };
+const CONF: Config = Config {
+    bit_width: 6,
+    ..DEFAULT_HAMT_CONFIG
+};
 
 impl<BS> BalanceTable<BS>
 where
@@ -80,7 +81,8 @@ where
         let sub: TokenAmount = std::cmp::min(&available, req).clone();
 
         if sub.is_positive() {
-            self.add(key, &-sub.clone()).context("subtracting balance")?;
+            self.add(key, &-sub.clone())
+                .context("subtracting balance")?;
         }
 
         Ok(sub)
@@ -139,10 +141,26 @@ mod tests {
             total: u64,
         }
         let cases = [
-            TotalTestCase { amount: 10, addr: &addr1, total: 10 },
-            TotalTestCase { amount: 20, addr: &addr1, total: 30 },
-            TotalTestCase { amount: 40, addr: &addr2, total: 70 },
-            TotalTestCase { amount: 50, addr: &addr2, total: 120 },
+            TotalTestCase {
+                amount: 10,
+                addr: &addr1,
+                total: 10,
+            },
+            TotalTestCase {
+                amount: 20,
+                addr: &addr1,
+                total: 30,
+            },
+            TotalTestCase {
+                amount: 40,
+                addr: &addr2,
+                total: 70,
+            },
+            TotalTestCase {
+                amount: 50,
+                addr: &addr2,
+                total: 120,
+            },
         ];
 
         for t in cases.iter() {
@@ -185,10 +203,13 @@ mod tests {
         assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(60u8));
 
         // Test must subtract success
-        bt.must_subtract(&addr, &TokenAmount::from_atto(10u8)).unwrap();
+        bt.must_subtract(&addr, &TokenAmount::from_atto(10u8))
+            .unwrap();
         assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(50u8));
 
         // Test subtracting more than available
-        assert!(bt.must_subtract(&addr, &TokenAmount::from_atto(100u8)).is_err());
+        assert!(bt
+            .must_subtract(&addr, &TokenAmount::from_atto(100u8))
+            .is_err());
     }
 }

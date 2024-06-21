@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_shared4::bigint::{BigInt, Integer};
-use lazy_static::lazy_static;
 use fvm_shared4::math::{poly_parse, poly_val, PRECISION};
+use lazy_static::lazy_static;
 
 lazy_static! {
     static ref EXP_NUM_COEF: Vec<BigInt> = poly_parse(&[

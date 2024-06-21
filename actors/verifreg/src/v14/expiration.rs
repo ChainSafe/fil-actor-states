@@ -48,7 +48,10 @@ where
             }
             Ok(())
         })
-        .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to iterate over allocations/claims")?;
+        .context_code(
+            ExitCode::USR_ILLEGAL_STATE,
+            "failed to iterate over allocations/claims",
+        )?;
     Ok(found_ids)
 }
 
@@ -81,7 +84,10 @@ where
             }
         } else {
             ret_gen.add_fail(ExitCode::USR_NOT_FOUND);
-            info!("allocation/claim references id {} that does not belong to {}", id, owner,);
+            info!(
+                "allocation/claim references id {} that does not belong to {}",
+                id, owner,
+            );
         }
     }
     Ok(ret_gen.gen())
