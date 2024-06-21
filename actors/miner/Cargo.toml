@@ -21,7 +21,6 @@ fil_actor_verifreg_state = { workspace = true }
 fil_actors_shared = { workspace = true }
 frc42_macros = { workspace = true }
 fvm_ipld_amt = { workspace = true }
-log = { workspace = true }
 fvm_ipld_bitfield = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
 frc42_dispatch = { workspace = true }
