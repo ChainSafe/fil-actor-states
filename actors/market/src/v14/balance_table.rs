@@ -120,7 +120,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use fil_actors_shared::v14::test_blockstores::MemoryBlockstore;
+    use fvm_ipld_blockstore::MemoryBlockstore;
     use fvm_shared4::address::Address;
     use fvm_shared4::econ::TokenAmount;
 

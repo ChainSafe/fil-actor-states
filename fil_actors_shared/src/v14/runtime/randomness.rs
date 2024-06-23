@@ -50,37 +50,3 @@ pub fn draw_randomness(
     //
     // fvm::crypto::hash_blake2b(&data)
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::runtime::randomness::draw_randomness;
-    use crate::runtime::DomainSeparationTag;
-    use crate::test_utils::blake2b_256;
-    use base64::Engine;
-
-    #[test]
-    fn draw_randomness_test() {
-        let expected_randomness = base64::engine::general_purpose::STANDARD
-            .decode("3MCqcLHKZ+pil4MqTS9wjsd+yPvTuTrq8PkGjEo3tYQ=")
-            .unwrap();
-
-        let digest = base64::engine::general_purpose::STANDARD
-            .decode("GOobxkrhS1hiFA1EYUKZM3xsyVfy5Xy3bQ0gLPnecYs=")
-            .unwrap();
-
-        let entropy = base64::engine::general_purpose::STANDARD
-            .decode("RACZyzQ=")
-            .unwrap();
-
-        assert_eq!(
-            expected_randomness,
-            draw_randomness(
-                blake2b_256,
-                <&[u8; 32]>::try_from(digest.as_slice()).unwrap(),
-                DomainSeparationTag::SealRandomness,
-                2797727,
-                entropy.as_slice(),
-            )
-        );
-    }
-}

@@ -26,9 +26,6 @@ pub mod runtime;
 pub mod util;
 pub mod vm_api;
 
-pub mod test_blockstores;
-#[cfg(feature = "test_utils")]
-pub mod test_utils;
 #[macro_export]
 macro_rules! wasm_trampoline_v14 {
     ($target:ty) => {

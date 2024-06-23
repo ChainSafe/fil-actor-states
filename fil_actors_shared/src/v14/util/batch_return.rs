@@ -207,8 +207,8 @@ impl BatchReturnGen {
 // Unit tests
 #[cfg(test)]
 mod test {
-    use crate::util::batch_return::stack;
-    use crate::{BatchReturn, FailCode};
+    use crate::v14::util::batch_return::stack;
+    use crate::v14::{BatchReturn, FailCode};
     use fvm_shared4::error::ExitCode;
 
     const OK: ExitCode = ExitCode::OK;
