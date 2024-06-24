@@ -13,14 +13,12 @@ use fvm_shared4::{ActorID, MethodNum, Response};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
-pub use self::actor_code::*;
 pub use self::policy::*;
 pub use self::randomness::DomainSeparationTag;
 use crate::actor_error_v14;
 use crate::v14::runtime::builtins::Type;
 use crate::v14::{ActorError, SendError};
 
-mod actor_code;
 pub mod builtins;
 pub mod policy;
 mod randomness;

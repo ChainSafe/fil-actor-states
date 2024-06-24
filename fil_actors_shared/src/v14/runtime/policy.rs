@@ -302,10 +302,7 @@ pub mod policy_constants {
 
     pub const MAX_PRE_COMMIT_RANDOMNESS_LOOKBACK: ChainEpoch = EPOCHS_IN_DAY + CHAIN_FINALITY;
 
-    #[cfg(not(feature = "short-precommit"))]
     pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 150;
-    #[cfg(feature = "short-precommit")]
-    pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 10;
 
     // Maximum number of epochs within which to fetch a valid seal randomness from the chain for
     // a non-interactive PoRep proof. This balances the need to tie the seal to a particular chain with
@@ -347,10 +344,7 @@ pub mod policy_constants {
     /// This is a conservative value that is chosen via simulations of all known attacks.
     pub const CHAIN_FINALITY: ChainEpoch = 900;
 
-    #[cfg(not(feature = "small-deals"))]
     pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 1 << 20;
-    #[cfg(feature = "small-deals")]
-    pub const MINIMUM_VERIFIED_ALLOCATION_SIZE: i32 = 256;
     pub const MINIMUM_VERIFIED_ALLOCATION_TERM: i64 = 180 * EPOCHS_IN_DAY;
     pub const MAXIMUM_VERIFIED_ALLOCATION_TERM: i64 = 5 * EPOCHS_IN_YEAR;
     pub const MAXIMUM_VERIFIED_ALLOCATION_EXPIRATION: i64 = 60 * EPOCHS_IN_DAY;
@@ -358,26 +352,12 @@ pub mod policy_constants {
 
     pub const DEAL_UPDATES_INTERVAL: i64 = 30 * EPOCHS_IN_DAY;
 
-    #[cfg(not(feature = "no-provider-deal-collateral"))]
     pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 1;
-    #[cfg(feature = "no-provider-deal-collateral")]
-    pub const PROV_COLLATERAL_PERCENT_SUPPLY_NUM: i64 = 0;
 
     pub const PROV_COLLATERAL_PERCENT_SUPPLY_DENOM: i64 = 100;
 
     pub const MARKET_DEFAULT_ALLOCATION_TERM_BUFFER: i64 = 90 * EPOCHS_IN_DAY;
 
-    #[cfg(feature = "min-power-2k")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 2 << 10;
-    #[cfg(feature = "min-power-2g")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 2 << 30;
-    #[cfg(feature = "min-power-32g")]
-    pub const MINIMUM_CONSENSUS_POWER: i64 = 32 << 30;
-    #[cfg(not(any(
-        feature = "min-power-2k",
-        feature = "min-power-2g",
-        feature = "min-power-32g"
-    )))]
     pub const MINIMUM_CONSENSUS_POWER: i64 = 10 << 40;
 }
 

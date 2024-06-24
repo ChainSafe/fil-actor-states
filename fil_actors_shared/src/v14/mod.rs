@@ -4,7 +4,6 @@
 use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
-#[cfg(not(feature = "fil-actor"))]
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
 use fvm_shared4::bigint::BigInt;
@@ -13,8 +12,6 @@ use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;
 
 pub use crate::{fvm_ipld_amt, fvm_ipld_hamt};
-
-use crate::v14::runtime::Runtime;
 
 pub use self::actor_error::*;
 pub use self::builtin::*;
@@ -36,7 +33,6 @@ macro_rules! wasm_trampoline_v14 {
     };
 }
 
-#[cfg(not(feature = "fil-actor"))]
 type Hasher = Sha256;
 
 /// Map type to be used within actors. The underlying type is a HAMT.
