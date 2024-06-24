@@ -19,6 +19,7 @@ pub enum State {
     V11(fil_actor_evm_state::v11::State),
     V12(fil_actor_evm_state::v12::State),
     V13(fil_actor_evm_state::v13::State),
+    V14(fil_actor_evm_state::v14::State),
 }
 
 pub fn is_v10_evm_cid(cid: &Cid) -> bool {
@@ -35,6 +36,10 @@ pub fn is_v12_evm_cid(cid: &Cid) -> bool {
 
 pub fn is_v13_evm_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.evm.v13.contains(cid)
+}
+
+pub fn is_v14_evm_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.evm.v14.contains(cid)
 }
 
 impl State {
@@ -60,6 +65,11 @@ impl State {
         if is_v13_evm_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V13)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v14_evm_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V14)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown evm actor code {}", code))

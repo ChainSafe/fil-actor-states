@@ -18,3 +18,7 @@ pub fn is_v12_ethaccount_cid(cid: &Cid) -> bool {
 pub fn is_v13_ethaccount_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.ethaccount.v13.contains(cid)
 }
+
+pub fn is_v14_ethaccount_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.ethaccount.v14.contains(cid)
+}

@@ -3,8 +3,8 @@
 
 use crate::convert::{
     from_padded_piece_size_v2_to_v3, from_padded_piece_size_v2_to_v4, from_policy_v13_to_v11,
-    from_policy_v13_to_v12, from_token_v2_to_v3, from_token_v2_to_v4, from_token_v3_to_v2,
-    from_token_v4_to_v2,
+    from_policy_v13_to_v12, from_policy_v13_to_v14, from_token_v2_to_v3, from_token_v2_to_v4,
+    from_token_v3_to_v2, from_token_v4_to_v2,
 };
 use crate::io::get_obj;
 use anyhow::Context;
@@ -12,9 +12,11 @@ use cid::Cid;
 use fil_actor_market_state::v11::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v11;
 use fil_actor_market_state::v12::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v12;
 use fil_actor_market_state::v13::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v13;
+use fil_actor_market_state::v14::policy::deal_provider_collateral_bounds as deal_provider_collateral_bounds_v14;
 use fil_actor_miner_state::v11::initial_pledge_for_power as initial_pledge_for_power_v11;
 use fil_actor_miner_state::v12::initial_pledge_for_power as initial_pledge_for_power_v12;
 use fil_actor_miner_state::v13::initial_pledge_for_power as initial_pledge_for_power_v13;
+use fil_actor_miner_state::v14::initial_pledge_for_power as initial_pledge_for_power_v14;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::bigint::Integer;
 use fvm_shared::sector::StoragePower;
@@ -56,6 +58,10 @@ pub fn is_v13_reward_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.reward.v13.contains(cid)
 }
 
+pub fn is_v14_reward_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.reward.v14.contains(cid)
+}
+
 /// Reward actor state.
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
@@ -66,6 +72,7 @@ pub enum State {
     V11(fil_actor_reward_state::v11::State),
     V12(fil_actor_reward_state::v12::State),
     V13(fil_actor_reward_state::v13::State),
+    V14(fil_actor_reward_state::v14::State),
 }
 
 impl State {
@@ -103,6 +110,11 @@ impl State {
                 .map(State::V13)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v14_reward_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V14)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown reward actor code {}", code))
     }
 
@@ -115,6 +127,7 @@ impl State {
             State::V11(st) => from_token_v3_to_v2(&st.into_total_storage_power_reward()),
             State::V12(st) => from_token_v4_to_v2(&st.into_total_storage_power_reward()),
             State::V13(st) => from_token_v4_to_v2(&st.into_total_storage_power_reward()),
+            State::V14(st) => from_token_v4_to_v2(&st.into_total_storage_power_reward()),
         }
     }
 
@@ -127,6 +140,7 @@ impl State {
             State::V11(st) => &st.this_epoch_baseline_power,
             State::V12(st) => &st.this_epoch_baseline_power,
             State::V13(st) => &st.this_epoch_baseline_power,
+            State::V14(st) => &st.this_epoch_baseline_power,
         }
     }
 
@@ -156,6 +170,14 @@ impl State {
                 &sector_weight,
             ))),
             State::V13(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
+                &st.this_epoch_reward_smoothed,
+                &fvm_shared4::smooth::FilterEstimate {
+                    position: network_qa_power.position,
+                    velocity: network_qa_power.velocity,
+                },
+                &sector_weight,
+            ))),
+            State::V14(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
                 &st.this_epoch_reward_smoothed,
                 &fvm_shared4::smooth::FilterEstimate {
                     position: network_qa_power.position,
@@ -255,6 +277,16 @@ impl State {
                 );
                 (from_token_v4_to_v2(&min), from_token_v4_to_v2(&max))
             }
+            State::V14(_) => {
+                let (min, max) = deal_provider_collateral_bounds_v14(
+                    &from_policy_v13_to_v14(policy),
+                    from_padded_piece_size_v2_to_v4(size),
+                    raw_byte_power,
+                    baseline_power,
+                    &from_token_v2_to_v4(network_circulating_supply),
+                );
+                (from_token_v4_to_v2(&min), from_token_v4_to_v2(&max))
+            }
         }
     }
 
@@ -301,6 +333,22 @@ impl State {
                     &st.this_epoch_baseline_power,
                     &st.this_epoch_reward_smoothed,
                     &fvm_shared4::smooth::FilterEstimate {
+                        position: network_qa_power.position,
+                        velocity: network_qa_power.velocity,
+                    },
+                    &from_token_v2_to_v4(circ_supply),
+                );
+                Ok(from_token_v4_to_v2(&pledge))
+            }
+            State::V14(st) => {
+                let pledge = initial_pledge_for_power_v14(
+                    qa_power,
+                    &st.this_epoch_baseline_power,
+                    &fil_actors_shared::v14::reward::FilterEstimate {
+                        position: st.this_epoch_reward_smoothed.position.clone(),
+                        velocity: st.this_epoch_reward_smoothed.velocity.clone(),
+                    },
+                    &fil_actors_shared::v14::reward::FilterEstimate {
                         position: network_qa_power.position,
                         velocity: network_qa_power.velocity,
                     },

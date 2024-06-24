@@ -8,7 +8,7 @@ use fil_actor_verifreg_state::v13::ClaimID;
 use fil_actor_verifreg_state::{
     v10::state::get_claim as get_claim_v10, v11::state::get_claim as get_claim_v11,
     v12::state::get_claim as get_claim_v12, v13::state::get_claim as get_claim_v13,
-    v9::state::get_claim as get_claim_v9,
+    v14::state::get_claim as get_claim_v14, v9::state::get_claim as get_claim_v9,
 };
 use fil_actors_shared::v8::{make_map_with_root_and_bitwidth, HAMT_BIT_WIDTH};
 use fil_actors_shared::v9::Keyer;
@@ -38,6 +38,7 @@ pub enum State {
     V11(fil_actor_verifreg_state::v11::State),
     V12(fil_actor_verifreg_state::v12::State),
     V13(fil_actor_verifreg_state::v13::State),
+    V14(fil_actor_verifreg_state::v14::State),
 }
 
 pub fn is_v8_verifreg_cid(cid: &Cid) -> bool {
@@ -69,6 +70,10 @@ pub fn is_v13_verifreg_cid(cid: &Cid) -> bool {
                 .expect("hardcoded CID must be valid");
     }
     crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid) || cid == &*PATCH_VERIFREG_V13
+}
+
+pub fn is_v14_verifreg_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.verifreg.v14.contains(cid)
 }
 
 impl State {
@@ -104,6 +109,11 @@ impl State {
         if is_v13_verifreg_cid(&code) {
             return get_obj(store, &state)?
                 .map(State::V13)
+                .context("Actor state doesn't exist in store");
+        }
+        if is_v14_verifreg_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V14)
                 .context("Actor state doesn't exist in store");
         }
         Err(anyhow::anyhow!("Unknown verifreg actor code {}", code))
@@ -167,6 +177,10 @@ impl State {
                 let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
                 Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
+            State::V14(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
         }
     }
 
@@ -226,6 +240,15 @@ impl State {
                 )?
                 .map(Allocation::from))
             }
+            State::V14(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v14::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
         }
     }
 
@@ -269,6 +292,12 @@ impl State {
             State::V13(state) => {
                 Ok(
                     get_claim_v13(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
+            State::V14(state) => {
+                Ok(
+                    get_claim_v14(&mut state.load_claims(store)?, provider_id, claim_id)?
                         .map(Claim::from),
                 )
             }
@@ -318,6 +347,7 @@ macro_rules! from_claim {
 }
 
 from_claim!(
+    fil_actor_verifreg_state::v14::Claim,
     fil_actor_verifreg_state::v13::Claim,
     fil_actor_verifreg_state::v12::Claim,
     fil_actor_verifreg_state::v11::Claim,
@@ -365,6 +395,7 @@ macro_rules! from_allocation {
     };
 }
 
+from_allocation!(fil_actor_verifreg_state::v14::Allocation);
 from_allocation!(fil_actor_verifreg_state::v13::Allocation);
 from_allocation!(fil_actor_verifreg_state::v12::Allocation);
 from_allocation!(fil_actor_verifreg_state::v11::Allocation);
