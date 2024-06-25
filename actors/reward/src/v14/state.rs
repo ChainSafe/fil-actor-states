@@ -1,6 +1,9 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use fil_actors_shared::v14::reward::smooth::{
+    AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA,
+};
 use fvm_ipld_encoding::repr::*;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::bigint::bigint_ser;
@@ -10,8 +13,6 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
-
-use fvm_shared4::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
 
 /// The unit of spacetime committed to the network
 pub type Spacetime = BigInt;
@@ -156,7 +157,7 @@ impl State {
         network_qa_power_estimate: &FilterEstimate,
         qa_sector_power: &StoragePower,
     ) -> TokenAmount {
-        fil_actor_miner_state::v13::pre_commit_deposit_for_power(
+        fil_actor_miner_state::v14::pre_commit_deposit_for_power(
             reward_estimate,
             network_qa_power_estimate,
             qa_sector_power,

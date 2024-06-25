@@ -11,7 +11,7 @@ use serde::de::DeserializeOwned;
 use serde::Serialize;
 use unsigned_varint::decode::Error as UVarintError;
 
-pub use crate::{fvm_ipld_amt, fvm_ipld_hamt};
+pub use {fvm_ipld_amt, fvm_ipld_hamt};
 
 pub use self::actor_error::*;
 pub use self::builtin::*;

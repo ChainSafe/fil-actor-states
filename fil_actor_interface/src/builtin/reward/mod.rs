@@ -179,7 +179,7 @@ impl State {
             ))),
             State::V14(st) => Ok(from_token_v4_to_v2(&st.pre_commit_deposit_for_power(
                 &st.this_epoch_reward_smoothed,
-                &fvm_shared4::smooth::FilterEstimate {
+                &fil_actors_shared::v14::reward::FilterEstimate {
                     position: network_qa_power.position,
                     velocity: network_qa_power.velocity,
                 },
