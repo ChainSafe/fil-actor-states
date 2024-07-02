@@ -23,6 +23,7 @@ fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
 integer-encoding = { workspace = true }
 itertools = { workspace = true }
+lazy_static = { workspace = true }
 multihash = { workspace = true }
 num = { workspace = true }
 num-bigint = { workspace = true }

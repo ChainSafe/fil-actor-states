@@ -10,6 +10,7 @@ keywords.workspace = true
 
 [dependencies]
 fil_actor_miner_state = { workspace = true }
+fil_actors_shared = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }

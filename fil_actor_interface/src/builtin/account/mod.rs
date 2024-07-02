@@ -22,6 +22,7 @@ pub enum State {
     V11(fil_actor_account_state::v11::State),
     V12(fil_actor_account_state::v12::State),
     V13(fil_actor_account_state::v13::State),
+    V14(fil_actor_account_state::v14::State),
 }
 
 pub fn is_v8_account_cid(cid: &Cid) -> bool {
@@ -46,6 +47,10 @@ pub fn is_v12_account_cid(cid: &Cid) -> bool {
 
 pub fn is_v13_account_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.account.v13.contains(cid)
+}
+
+pub fn is_v14_account_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.account.v14.contains(cid)
 }
 
 impl State {
@@ -83,6 +88,11 @@ impl State {
                 .map(State::V13)
                 .context("Actor state doesn't exist in store");
         }
+        if is_v14_account_cid(&code) {
+            return get_obj(store, &state)?
+                .map(State::V14)
+                .context("Actor state doesn't exist in store");
+        }
         Err(anyhow::anyhow!("Unknown account actor code {}", code))
     }
 
@@ -94,6 +104,7 @@ impl State {
             State::V11(st) => from_address_v3_to_v2(st.address),
             State::V12(st) => from_address_v4_to_v2(st.address),
             State::V13(st) => from_address_v4_to_v2(st.address),
+            State::V14(st) => from_address_v4_to_v2(st.address),
         }
     }
 }

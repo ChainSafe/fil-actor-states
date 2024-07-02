@@ -41,7 +41,7 @@ jobs:
           CC: "sccache clang"
           CXX: "sccache clang++"
       - name: Run tests
-        run: cargo test --workspace --all-features --all-targets
+        run: RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"

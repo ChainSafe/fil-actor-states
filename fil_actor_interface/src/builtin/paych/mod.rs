@@ -18,3 +18,7 @@ pub fn is_v12_paych_cid(cid: &Cid) -> bool {
 pub fn is_v13_paych_cid(cid: &Cid) -> bool {
     crate::KNOWN_CIDS.actor.paymentchannel.v13.contains(cid)
 }
+
+pub fn is_v14_paych_cid(cid: &Cid) -> bool {
+    crate::KNOWN_CIDS.actor.paymentchannel.v14.contains(cid)
+}
