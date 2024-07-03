@@ -50,23 +50,6 @@ jobs:
       - name: Clear artifacts
         run: cargo clean
 
-  publish-verifreg:
-    runs-on: ubuntu-latest
-    needs: publish-shared
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-      - name: Publish verifreg crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_verifreg_state --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
-
   publish-dependent-on-shared:
     runs-on: ubuntu-latest
     needs: publish-shared
@@ -92,6 +75,23 @@ jobs:
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
         run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
+      - name: Clear artifacts
+        run: cargo clean
+
+  publish-verifreg:
+    runs-on: ubuntu-latest
+    needs: publish-shared
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+        timeout-minutes: 5
+        continue-on-error: true
+      - name: Publish verifreg crate
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package fil_actor_verifreg_state --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
