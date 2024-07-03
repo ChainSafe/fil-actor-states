@@ -9,7 +9,7 @@ env:
   RUSTC_WRAPPER: "sccache"
 
 jobs:
-  publish:
+  publish_actors:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,3 +22,18 @@ jobs:
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
         run: ./scripts/publish.sh
+
+  publish_actor_interface:
+    runs-on: ubuntu-latest
+    needs: publish_actors
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
+        timeout-minutes: 5
+        continue-on-error: true
+      - name: Publish actor interface crate
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package "fil_actor_interface" --token "$CRATES_IO_TOKEN"

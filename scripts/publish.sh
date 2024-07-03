@@ -18,7 +18,6 @@ crates=(
     "fil_actor_power_state"
     "fil_actor_reward_state"
     "fil_actor_system_state"
-    "fil_actor_interface"
 )
 
 for crate in "${crates[@]}"; do
