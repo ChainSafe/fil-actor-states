@@ -22,7 +22,7 @@ jobs:
       - name: Publish shared crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actors_shared --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package fil_actors_shared --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -46,7 +46,7 @@ jobs:
       - name: Publish independent crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -63,7 +63,7 @@ jobs:
       - name: Publish verifreg crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_verifreg_state --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package fil_actor_verifreg_state --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -91,7 +91,7 @@ jobs:
       - name: Publish dependent crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -114,7 +114,7 @@ jobs:
       - name: Publish market and miner crates
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -131,7 +131,7 @@ jobs:
       - name: Publish reward crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_reward_state --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package fil_actor_reward_state --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
 
@@ -148,6 +148,6 @@ jobs:
       - name: Publish interface crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_interface --token ${{ secrets.CRATES_IO_TOKEN }}
+        run: cargo publish --package fil_actor_interface --token "$CRATES_IO_TOKEN"
       - name: Clear artifacts
         run: cargo clean
