@@ -1,14 +1,14 @@
 name: "Publish Crate Action"
-description: "Sets up sccache, publishes a crate, and clears artifacts."
+description: "Checks out the repository, sets up sccache, publishes a crate, and clears artifacts."
 runs:
   using: "composite"
   steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.5
       timeout-minutes: 5
       continue-on-error: true
-      env:
-        SCCACHE_GHA_ENABLED: "true"
     - name: Publish crate
       run: cargo publish --package ${{ inputs.crate }} --token ${{ env.CRATES_IO_TOKEN }}
     - name: Clear artifacts
