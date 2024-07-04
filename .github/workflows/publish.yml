@@ -12,24 +12,20 @@ env:
 jobs:
   publish-shared:
     runs-on: ubuntu-latest
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish shared crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actors_shared --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: "fil_actors_shared"
 
   publish-independent:
     runs-on: ubuntu-latest
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     strategy:
       matrix:
         crate: [
@@ -41,22 +37,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish independent crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: ${{ matrix.crate }}
 
   publish-dependent-on-shared:
     runs-on: ubuntu-latest
     needs: publish-shared
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     strategy:
       matrix:
         crate: [
@@ -71,41 +61,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish dependent crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: ${{ matrix.crate }}
 
   publish-verifreg:
     runs-on: ubuntu-latest
     needs: publish-shared
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish verifreg crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_verifreg_state --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: "fil_actor_verifreg_state"
 
   publish-market-and-miner:
     runs-on: ubuntu-latest
     needs: publish-verifreg
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     strategy:
       matrix:
         crate: [
@@ -115,53 +93,33 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish market and miner crates
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package ${{ matrix.crate }} --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: ${{ matrix.crate }}
 
   publish-reward:
     runs-on: ubuntu-latest
     needs: publish-market-and-miner
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish reward crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_reward_state --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: "fil_actor_reward_state"
 
   publish-interface:
     runs-on: ubuntu-latest
     needs: [publish-independent, publish-dependent-on-shared, publish-reward]
+    env:
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-        timeout-minutes: 5
-        continue-on-error: true
-        env:
-          SCCACHE_GHA_ENABLED: "true"
       - name: Publish interface crate
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
-        run: cargo publish --package fil_actor_interface --token "$CRATES_IO_TOKEN"
-      - name: Clear artifacts
-        run: cargo clean
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: "fil_actor_interface"
