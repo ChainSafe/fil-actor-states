@@ -1,5 +1,9 @@
 name: "Publish Crate Action"
 description: "Checks out the repository, sets up sccache, publishes a crate, and clears artifacts."
+inputs:
+  crate:
+    description: "The crate to publish"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -13,7 +17,3 @@ runs:
       run: cargo publish --package ${{ inputs.crate }} --token ${{ env.CRATES_IO_TOKEN }}
     - name: Clear artifacts
       run: cargo clean
-inputs:
-  crate:
-    description: "The crate to publish"
-    required: true
