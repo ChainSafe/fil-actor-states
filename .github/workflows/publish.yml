@@ -19,6 +19,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish shared crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -43,6 +45,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish independent crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -71,6 +75,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish dependent crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -88,6 +94,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish verifreg crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -111,6 +119,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish market and miner crates
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -128,6 +138,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish reward crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
@@ -145,6 +157,8 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.5
         timeout-minutes: 5
         continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
       - name: Publish interface crate
         env:
           CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
