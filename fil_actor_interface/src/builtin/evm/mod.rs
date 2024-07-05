@@ -74,4 +74,24 @@ impl State {
         }
         Err(anyhow::anyhow!("Unknown evm actor code {}", code))
     }
+
+    pub fn nonce(&self) -> u64 {
+        match self {
+            State::V10(st) => st.nonce,
+            State::V11(st) => st.nonce,
+            State::V12(st) => st.nonce,
+            State::V13(st) => st.nonce,
+            State::V14(st) => st.nonce,
+        }
+    }
+
+    pub fn is_alive(&self) -> bool {
+        match self {
+            State::V10(st) => st.tombstone.is_none(),
+            State::V11(st) => st.tombstone.is_none(),
+            State::V12(st) => st.tombstone.is_none(),
+            State::V13(st) => st.tombstone.is_none(),
+            State::V14(st) => st.tombstone.is_none(),
+        }
+    }
 }
