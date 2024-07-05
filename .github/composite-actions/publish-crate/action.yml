@@ -7,8 +7,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.5
       timeout-minutes: 5

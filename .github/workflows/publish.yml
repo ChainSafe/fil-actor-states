@@ -15,6 +15,8 @@ jobs:
   publish-shared:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish shared crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -31,6 +33,8 @@ jobs:
           "fil_actor_ethaccount_state"
         ]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish independent crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -51,6 +55,8 @@ jobs:
           "fil_actor_system_state"
         ]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish dependent crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -60,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish-shared
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish verifreg crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -75,6 +83,8 @@ jobs:
           "fil_actor_miner_state"
         ]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish market and miner crates
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -84,6 +94,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish-market-and-miner
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish reward crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -93,6 +105,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [publish-independent, publish-dependent-on-shared, publish-reward]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Publish interface crate
         uses: ./.github/composite-actions/publish-crate
         with:
