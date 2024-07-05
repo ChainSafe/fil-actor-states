@@ -9,9 +9,10 @@ runs:
   steps:
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@v0.0.5
-      timeout-minutes: 5
       continue-on-error: true
     - name: Publish crate
       run: cargo publish --package ${{ inputs.crate }} --token ${{ env.CRATES_IO_TOKEN }}
+      shell: bash
     - name: Clear artifacts
       run: cargo clean
+      shell: bash
