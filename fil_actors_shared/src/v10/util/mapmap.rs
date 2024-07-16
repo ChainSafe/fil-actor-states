@@ -108,6 +108,14 @@ where
         in_map.get(&inside_k.key())
     }
 
+    // Backport from v12+.
+    pub fn for_each_outer<F>(&self, f: F) -> Result<(), Error>
+    where
+        F: FnMut(&BytesKey, &Cid) -> anyhow::Result<()>,
+    {
+        self.outer.for_each(f)
+    }
+
     // Runs a function over all values for one outer key.
     pub fn for_each<F>(&mut self, outside_k: K1, f: F) -> Result<(), Error>
     where
