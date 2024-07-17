@@ -1,8 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::io::get_obj;
-use anyhow::{anyhow, Context};
+use anyhow::anyhow;
 use cid::Cid;
 use fil_actor_verifreg_state::v13::ClaimID;
 use fil_actor_verifreg_state::{
@@ -23,7 +22,6 @@ use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::ActorID;
 use num::BigInt;
 use serde::{Deserialize, Serialize};
-use std::str::FromStr;
 
 /// verifreg actor address.
 pub const ADDRESS: Address = Address::new_id(6);
@@ -41,84 +39,7 @@ pub enum State {
     V14(fil_actor_verifreg_state::v14::State),
 }
 
-pub fn is_v8_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v8.contains(cid)
-}
-
-pub fn is_v9_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v9.contains(cid)
-}
-
-pub fn is_v10_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v10.contains(cid)
-}
-
-pub fn is_v11_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v11.contains(cid)
-}
-
-pub fn is_v12_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v12.contains(cid)
-}
-
-pub fn is_v13_verifreg_cid(cid: &Cid) -> bool {
-    // The following CID existed in the NV22 network, but was fixed as a patch.
-    // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11776
-    lazy_static::lazy_static! {
-        static ref PATCH_VERIFREG_V13: Cid =
-            Cid::from_str("bafk2bzacednskl3bykz5qpo54z2j2p4q44t5of4ktd6vs6ymmg2zebsbxazkm")
-                .expect("hardcoded CID must be valid");
-    }
-    crate::KNOWN_CIDS.actor.verifreg.v13.contains(cid) || cid == &*PATCH_VERIFREG_V13
-}
-
-pub fn is_v14_verifreg_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.verifreg.v14.contains(cid)
-}
-
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v8_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V8)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v9_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V9)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v10_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_verifreg_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown verifreg actor code {}", code))
-    }
-
     pub fn verified_client_data_cap<BS>(
         &self,
         store: &BS,

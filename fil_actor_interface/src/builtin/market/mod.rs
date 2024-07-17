@@ -6,7 +6,6 @@ use crate::convert::{
     from_address_v3_to_v2, from_address_v4_to_v2, from_padded_piece_size_v3_to_v2,
     from_padded_piece_size_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
 };
-use anyhow::Context;
 use cid::Cid;
 use fil_actor_market_state::v10::balance_table::BalanceTable as V10BalanceTable;
 use fil_actor_market_state::v10::DealArray as V10DealArray;
@@ -40,8 +39,6 @@ use fvm_shared3::error::ExitCode as FVM3ExitCode;
 use fvm_shared4::error::ExitCode as FVM4ExitCode;
 use serde::{Deserialize, Serialize};
 
-use crate::io::get_obj;
-
 /// Market actor address.
 pub const ADDRESS: Address = Address::new_id(5);
 
@@ -49,34 +46,6 @@ pub const ADDRESS: Address = Address::new_id(5);
 pub type Method = fil_actor_market_state::v8::Method;
 
 pub type AllocationID = u64;
-
-pub fn is_v8_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v8.contains(cid)
-}
-
-pub fn is_v9_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v9.contains(cid)
-}
-
-pub fn is_v10_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v10.contains(cid)
-}
-
-pub fn is_v11_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v11.contains(cid)
-}
-
-pub fn is_v12_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v12.contains(cid)
-}
-
-pub fn is_v13_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v13.contains(cid)
-}
-
-pub fn is_v14_market_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.market.v14.contains(cid)
-}
 
 /// Market actor state.
 #[derive(Serialize, Debug)]
@@ -92,48 +61,6 @@ pub enum State {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v8_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V8)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v9_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V9)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v10_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_market_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown market actor code {}", code))
-    }
-
     /// Loads escrow table
     pub fn escrow_table<'bs, BS>(&self, store: &'bs BS) -> anyhow::Result<BalanceTable<'bs, BS>>
     where

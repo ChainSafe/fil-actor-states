@@ -3,7 +3,6 @@
 
 use crate::convert::*;
 use crate::Policy;
-use anyhow::Context;
 use cid::Cid;
 use fil_actor_miner_state::v12::{BeneficiaryTerm, PendingBeneficiaryChange};
 use fvm_ipld_bitfield::BitField;
@@ -16,61 +15,13 @@ use fvm_shared::{
     econ::TokenAmount,
     sector::{RegisteredPoStProof, RegisteredSealProof, SectorNumber, SectorSize},
 };
-use lazy_static::lazy_static;
 use num::BigInt;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use std::str::FromStr;
 
-use crate::{io::get_obj, power::Claim};
+use crate::power::Claim;
 /// Miner actor method.
 pub type Method = fil_actor_miner_state::v8::Method;
-
-pub fn is_v8_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v8.contains(cid)
-}
-
-pub fn is_v9_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v9.contains(cid)
-}
-
-pub fn is_v10_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v10.contains(cid)
-}
-
-pub fn is_v11_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v11.contains(cid)
-}
-
-pub fn is_v12_miner_cid(cid: &Cid) -> bool {
-    // The following code cids existed temporarily on the calibnet testnet, as a "buggy" storage miner actor implementation.
-    // See corresponding Lotus PR: https://github.com/filecoin-project/lotus/pull/11363
-    lazy_static! {
-        static ref V12_POSSIBLE_MINERS: Vec<Cid> = {
-            let cids = vec![
-                // Calibnet
-                "bafk2bzacecnh2ouohmonvebq7uughh4h3ppmg4cjsk74dzxlbbtlcij4xbzxq", // v12.0.0-rc.1
-                "bafk2bzaced7emkbbnrewv5uvrokxpf5tlm4jslu2jsv77ofw2yqdglg657uie", // v12.0.0-rc.2
-                // Devnet
-                "bafk2bzaceajgt523lr2sf6cacvzo3goyalljlkaoeehyhxlv57wevkljw2cps", // v12.0.0-rc.1
-                "bafk2bzaceckqrzomdnfb35byrhabrmmapxplj66cv3efw7u62qswjaqsuxah4", // v12.0.0-rc.2
-            ];
-
-            cids.into_iter()
-                .filter_map(|s| Cid::from_str(s).ok())
-                .collect()
-        };
-    }
-    crate::KNOWN_CIDS.actor.miner.v12.contains(cid) || V12_POSSIBLE_MINERS.contains(cid)
-}
-
-pub fn is_v13_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v13.contains(cid)
-}
-
-pub fn is_v14_miner_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.miner.v14.contains(cid)
-}
 
 /// Miner actor state.
 #[derive(Serialize, Debug)]
@@ -87,48 +38,6 @@ pub enum State {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v8_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V8)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v9_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V9)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v10_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_miner_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown miner actor code {}", code))
-    }
-
     pub fn info<BS: Blockstore>(&self, store: &BS) -> anyhow::Result<MinerInfo> {
         match self {
             State::V8(st) => Ok(st.get_info(store)?.into()),
