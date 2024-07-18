@@ -1,12 +1,7 @@
 // Copyright 2019-2023 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use anyhow::Context;
-use cid::Cid;
-use fvm_ipld_blockstore::Blockstore;
 use serde::Serialize;
-
-use crate::io::get_obj;
 
 /// EVM actor method.
 pub type Method = fil_actor_evm_state::v10::Method;
@@ -22,59 +17,7 @@ pub enum State {
     V14(fil_actor_evm_state::v14::State),
 }
 
-pub fn is_v10_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.evm.v10.contains(cid)
-}
-
-pub fn is_v11_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.evm.v11.contains(cid)
-}
-
-pub fn is_v12_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.evm.v12.contains(cid)
-}
-
-pub fn is_v13_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.evm.v13.contains(cid)
-}
-
-pub fn is_v14_evm_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.evm.v14.contains(cid)
-}
-
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v10_evm_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_evm_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_evm_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_evm_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_evm_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown evm actor code {}", code))
-    }
-
     pub fn nonce(&self) -> u64 {
         match self {
             State::V10(st) => st.nonce,

@@ -4,13 +4,11 @@
 use crate::convert::*;
 use crate::list_miners_for_state;
 use crate::Policy;
-use anyhow::Context;
-use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared::{address::Address, econ::TokenAmount, sector::StoragePower};
 use serde::{Deserialize, Serialize};
 
-use crate::{io::get_obj, FilterEstimate};
+use crate::FilterEstimate;
 
 /// Power actor address.
 // TODO: Select address based on actors version
@@ -19,34 +17,6 @@ pub const ADDRESS: Address = Address::new_id(4);
 /// Power actor method.
 // TODO: Select method based on actors version
 pub type Method = fil_actor_power_state::v8::Method;
-
-pub fn is_v8_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v8.contains(cid)
-}
-
-pub fn is_v9_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v9.contains(cid)
-}
-
-pub fn is_v10_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v10.contains(cid)
-}
-
-pub fn is_v11_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v11.contains(cid)
-}
-
-pub fn is_v12_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v12.contains(cid)
-}
-
-pub fn is_v13_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v13.contains(cid)
-}
-
-pub fn is_v14_power_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.power.v14.contains(cid)
-}
 
 /// Power actor state.
 #[derive(Serialize, Debug)]
@@ -62,48 +32,6 @@ pub enum State {
 }
 
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v8_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V8)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v9_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V9)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v10_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_power_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown power actor code {}", code))
-    }
-
     /// Consume state to return just total quality adj power
     pub fn into_total_quality_adj_power(self) -> StoragePower {
         match self {

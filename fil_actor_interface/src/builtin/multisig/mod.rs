@@ -4,14 +4,10 @@
 use crate::convert::{
     from_address_v3_to_v2, from_address_v4_to_v2, from_token_v3_to_v2, from_token_v4_to_v2,
 };
-use anyhow::Context;
-use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::RawBytes;
 use fvm_shared::{address::Address, clock::ChainEpoch, econ::TokenAmount, MethodNum};
 use serde::{Deserialize, Serialize};
-
-use crate::io::get_obj;
 
 /// Multisig actor method.
 pub type Method = fil_actor_multisig_state::v8::Method;
@@ -40,77 +36,7 @@ pub struct Transaction {
     pub approved: Vec<Address>,
 }
 
-pub fn is_v8_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v8.contains(cid)
-}
-
-pub fn is_v9_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v9.contains(cid)
-}
-
-pub fn is_v10_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v10.contains(cid)
-}
-
-pub fn is_v11_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v11.contains(cid)
-}
-
-pub fn is_v12_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v12.contains(cid)
-}
-
-pub fn is_v13_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v13.contains(cid)
-}
-
-pub fn is_v14_multisig_cid(cid: &Cid) -> bool {
-    crate::KNOWN_CIDS.actor.multisig.v14.contains(cid)
-}
-
 impl State {
-    pub fn load<BS>(store: &BS, code: Cid, state: Cid) -> anyhow::Result<State>
-    where
-        BS: Blockstore,
-    {
-        if is_v8_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V8)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v9_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V9)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v10_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V10)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v11_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V11)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v12_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V12)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v13_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V13)
-                .context("Actor state doesn't exist in store");
-        }
-        if is_v14_multisig_cid(&code) {
-            return get_obj(store, &state)?
-                .map(State::V14)
-                .context("Actor state doesn't exist in store");
-        }
-        Err(anyhow::anyhow!("Unknown multisig actor code {}", code))
-    }
-
     /// Returns amount locked in multisig contract
     pub fn locked_balance(&self, height: ChainEpoch) -> anyhow::Result<TokenAmount> {
         Ok(match self {
