@@ -330,6 +330,36 @@ impl State {
                 .into(),
         }
     }
+
+    /// Returns deadline calculations for the state recorded proving period and deadline.
+    /// This is out of date if the a miner does not have an active miner cron
+    pub fn recorded_deadline_info(
+        &self,
+        policy: &Policy,
+        current_epoch: ChainEpoch,
+    ) -> DeadlineInfo {
+        match self {
+            State::V8(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v9(policy), current_epoch)
+                .into(),
+            State::V9(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v9(policy), current_epoch)
+                .into(),
+            State::V10(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v10(policy), current_epoch)
+                .into(),
+            State::V11(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v11(policy), current_epoch)
+                .into(),
+            State::V12(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v12(policy), current_epoch)
+                .into(),
+            State::V13(st) => st.recorded_deadline_info(policy, current_epoch).into(),
+            State::V14(st) => st
+                .recorded_deadline_info(&from_policy_v13_to_v14(policy), current_epoch)
+                .into(),
+        }
+    }
 }
 
 /// Static information about miner
