@@ -40,13 +40,13 @@ impl State {
     /// Returns amount locked in multisig contract
     pub fn locked_balance(&self, height: ChainEpoch) -> anyhow::Result<TokenAmount> {
         Ok(match self {
-            State::V8(st) => st.amount_locked(height),
-            State::V9(st) => st.amount_locked(height),
-            State::V10(st) => from_token_v3_to_v2(&st.amount_locked(height)),
-            State::V11(st) => from_token_v3_to_v2(&st.amount_locked(height)),
-            State::V12(st) => from_token_v4_to_v2(&st.amount_locked(height)),
-            State::V13(st) => from_token_v4_to_v2(&st.amount_locked(height)),
-            State::V14(st) => from_token_v4_to_v2(&st.amount_locked(height)),
+            State::V8(st) => st.amount_locked(height - st.start_epoch),
+            State::V9(st) => st.amount_locked(height - st.start_epoch),
+            State::V10(st) => from_token_v3_to_v2(&st.amount_locked(height - st.start_epoch)),
+            State::V11(st) => from_token_v3_to_v2(&st.amount_locked(height - st.start_epoch)),
+            State::V12(st) => from_token_v4_to_v2(&st.amount_locked(height - st.start_epoch)),
+            State::V13(st) => from_token_v4_to_v2(&st.amount_locked(height - st.start_epoch)),
+            State::V14(st) => from_token_v4_to_v2(&st.amount_locked(height - st.start_epoch)),
         })
     }
 
