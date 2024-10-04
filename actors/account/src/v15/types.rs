@@ -1,6 +1,6 @@
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
+use fvm_shared4::address::Address;
 
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
