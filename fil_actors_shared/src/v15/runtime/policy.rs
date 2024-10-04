@@ -373,6 +373,16 @@ const REGISTERED_POST_PROOF_VARIANTS: usize = 15;
 /// The number of total possible types (enum variants) of RegisteredSealProof
 const REGISTERED_SEAL_PROOF_VARIANTS: usize = 20;
 
+impl Default for ProofSet {
+    fn default() -> Self {
+        ProofSet(vec![
+            false;
+            REGISTERED_POST_PROOF_VARIANTS
+                .max(REGISTERED_SEAL_PROOF_VARIANTS)
+        ])
+    }
+}
+
 impl ProofSet {
     /// Create a `ProofSet` for enabled `RegisteredPoStProof`s
     pub fn default_post_proofs() -> Self {
