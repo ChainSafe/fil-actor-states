@@ -1,11 +1,9 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::cmp::{max, min};
-use std::collections::BTreeMap;
-
 use cid::Cid;
 use fil_actors_shared::actor_error_v15;
+use fil_actors_shared::v15::DealWeight;
 use fil_actors_shared::v15::{
     ActorContext, ActorError, Array, AsActorError, Config, Map2, Set, SetMultimap,
     SetMultimapConfig, DEFAULT_HAMT_CONFIG,
@@ -13,6 +11,7 @@ use fil_actors_shared::v15::{
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
+use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
@@ -20,6 +19,9 @@ use fvm_shared4::error::ExitCode;
 use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use num_traits::Zero;
+use std::cmp::{max, min};
+use std::collections::BTreeMap;
+use std::collections::BTreeSet;
 
 use crate::v15::balance_table::BalanceTable;
 use crate::v15::ext::verifreg::AllocationID;
@@ -114,6 +116,75 @@ pub const SECTOR_DEALS_CONFIG: Config = Config {
     bit_width: HAMT_BIT_WIDTH,
     ..DEFAULT_HAMT_CONFIG
 };
+
+fn get_proposals<BS: Blockstore>(
+    proposal_array: &DealArray<BS>,
+    deal_ids: &[DealID],
+    next_id: DealID,
+) -> Result<Vec<(DealID, DealProposal)>, ActorError> {
+    let mut proposals = Vec::new();
+    let mut seen_deal_ids = BTreeSet::new();
+    for deal_id in deal_ids {
+        if !seen_deal_ids.insert(deal_id) {
+            return Err(actor_error_v15!(
+                illegal_argument,
+                "duplicate deal ID {} in sector",
+                deal_id
+            ));
+        }
+        let proposal = get_proposal(proposal_array, *deal_id, next_id)?;
+        proposals.push((*deal_id, proposal));
+    }
+    Ok(proposals)
+}
+
+fn validate_deal_can_activate(
+    proposal: &DealProposal,
+    miner_addr: &Address,
+    sector_expiration: ChainEpoch,
+    curr_epoch: ChainEpoch,
+) -> Result<(), ActorError> {
+    if &proposal.provider != miner_addr {
+        return Err(ActorError::forbidden(format!(
+            "proposal has provider {}, must be {}",
+            proposal.provider, miner_addr
+        )));
+    };
+
+    if curr_epoch > proposal.start_epoch {
+        return Err(ActorError::unchecked(
+            // Use the same code as if the proposal had already been cleaned up from state.
+            EX_DEAL_EXPIRED,
+            format!(
+                "proposal start epoch {} has already elapsed at {}",
+                proposal.start_epoch, curr_epoch
+            ),
+        ));
+    };
+
+    if proposal.end_epoch > sector_expiration {
+        return Err(ActorError::illegal_argument(format!(
+            "proposal expiration {} exceeds sector expiration {}",
+            proposal.end_epoch, sector_expiration
+        )));
+    };
+
+    Ok(())
+}
+
+// Returns (deal_weight, verified_deal_weight)
+fn get_deal_weights(deal: DealProposal) -> (DealWeight, DealWeight) {
+    if deal.verified_deal {
+        return (
+            DealWeight::zero(),
+            DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
+        );
+    }
+    (
+        DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
+        DealWeight::zero(),
+    )
+}
 
 impl State {
     pub fn new<BS: Blockstore>(store: &BS) -> Result<Self, ActorError> {
@@ -604,6 +675,47 @@ impl State {
 
         self.save_pending_deals(&mut pending_deals)?;
         Ok(removed)
+    }
+
+    pub fn escrow_table<'a, BS: Blockstore>(
+        &self,
+        store: &'a BS,
+    ) -> Result<BalanceTable<&'a BS>, ActorError> {
+        BalanceTable::from_root(store, &self.escrow_table, "escrow table")
+    }
+
+    pub fn locked_table<'a, BS: Blockstore>(
+        &self,
+        store: &'a BS,
+    ) -> Result<BalanceTable<&'a BS>, ActorError> {
+        BalanceTable::from_root(store, &self.locked_table, "locked table")
+    }
+
+    /// Verify that a given set of storage deals is valid for a sector currently being PreCommitted
+    pub fn verify_deals_for_activation<BS>(
+        &self,
+        store: &BS,
+        addr: &Address,
+        deal_ids: Vec<DealID>,
+        curr_epoch: ChainEpoch,
+        sector_exp: i64,
+    ) -> Result<(DealWeight, DealWeight), ActorError>
+    where
+        BS: Blockstore,
+    {
+        let proposal_array = self.load_proposals(store)?;
+        let mut total_w = BigInt::zero();
+        let mut total_vw = BigInt::zero();
+        let sector_proposals = get_proposals(&proposal_array, &deal_ids, self.next_id)?;
+        for (deal_id, proposal) in sector_proposals.into_iter() {
+            validate_deal_can_activate(&proposal, addr, sector_exp, curr_epoch)
+                .with_context(|| format!("cannot activate deal {}", deal_id))?;
+            let (w, vw) = get_deal_weights(proposal);
+            total_w += w;
+            total_vw += vw;
+        }
+
+        Ok((total_w, total_vw))
     }
 
     ////////////////////////////////////////////////////////////////////////////////

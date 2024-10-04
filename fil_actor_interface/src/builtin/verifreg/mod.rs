@@ -7,7 +7,8 @@ use fil_actor_verifreg_state::v13::ClaimID;
 use fil_actor_verifreg_state::{
     v10::state::get_claim as get_claim_v10, v11::state::get_claim as get_claim_v11,
     v12::state::get_claim as get_claim_v12, v13::state::get_claim as get_claim_v13,
-    v14::state::get_claim as get_claim_v14, v9::state::get_claim as get_claim_v9,
+    v14::state::get_claim as get_claim_v14, v15::state::get_claim as get_claim_v15,
+    v9::state::get_claim as get_claim_v9,
 };
 use fil_actors_shared::v8::{make_map_with_root_and_bitwidth, HAMT_BIT_WIDTH};
 use fil_actors_shared::v9::Keyer;
@@ -37,6 +38,7 @@ pub enum State {
     V12(fil_actor_verifreg_state::v12::State),
     V13(fil_actor_verifreg_state::v13::State),
     V14(fil_actor_verifreg_state::v14::State),
+    V15(fil_actor_verifreg_state::v15::State),
 }
 
 impl State {
@@ -99,6 +101,10 @@ impl State {
                 Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
             State::V14(state) => {
+                let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
+                Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
+            }
+            State::V15(state) => {
                 let vh = make_map_with_root_and_bitwidth(&state.verifiers, store, HAMT_BIT_WIDTH)?;
                 Ok(vh.get(&addr.key())?.map(|int: &BigIntDe| int.0.to_owned()))
             }
@@ -170,6 +176,15 @@ impl State {
                 )?
                 .map(Allocation::from))
             }
+            State::V15(state) => {
+                let mut map = state.load_allocs(store)?;
+                Ok(fil_actor_verifreg_state::v15::state::get_allocation(
+                    &mut map,
+                    addr,
+                    allocation_id,
+                )?
+                .map(Allocation::from))
+            }
         }
     }
 
@@ -222,6 +237,12 @@ impl State {
                         .map(Claim::from),
                 )
             }
+            State::V15(state) => {
+                Ok(
+                    get_claim_v15(&mut state.load_claims(store)?, provider_id, claim_id)?
+                        .map(Claim::from),
+                )
+            }
         }
     }
 }
@@ -268,6 +289,7 @@ macro_rules! from_claim {
 }
 
 from_claim!(
+    fil_actor_verifreg_state::v15::Claim,
     fil_actor_verifreg_state::v14::Claim,
     fil_actor_verifreg_state::v13::Claim,
     fil_actor_verifreg_state::v12::Claim,
@@ -316,6 +338,7 @@ macro_rules! from_allocation {
     };
 }
 
+from_allocation!(fil_actor_verifreg_state::v15::Allocation);
 from_allocation!(fil_actor_verifreg_state::v14::Allocation);
 from_allocation!(fil_actor_verifreg_state::v13::Allocation);
 from_allocation!(fil_actor_verifreg_state::v12::Allocation);

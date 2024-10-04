@@ -5,7 +5,7 @@ use std::cmp::{max, min};
 use std::collections::BTreeMap;
 
 use cid::Cid;
-use fil_actors_shared::v13::DealWeight;
+use fil_actors_shared::v14::DealWeight;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
