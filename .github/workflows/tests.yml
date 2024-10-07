@@ -68,7 +68,7 @@ jobs:
           command: sudo make -C forest install-deps
       - uses: actions/setup-go@v5
         with:
-          go-version-file: "go.work"
+          go-version-file: "./forest/go.work"
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test forest
