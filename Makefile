@@ -35,12 +35,10 @@ update-forest:
 	git submodule update --init --recursive --remote
 
 modify-forest:
-	# Get rid of patch overrides
-	sed -i -e 's|fil_actor[a-z_]* = { git .*||g' ./forest/Cargo.toml
-
 	# Set dependencies to this repository
 	sed -i -e 's|fil_actor_interface =.*|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
-	sed -i -e 's|fil_actors_shared =.*|fil_actors_shared = { path = "../fil_actors_shared" }|g' ./forest/Cargo.toml
+	sed -i -E 's|fil_actors_shared = \{ version = "[^"]*", features = \[(.*)\] \}|fil_actors_shared = { path = "../fil_actors_shared", features = [\1] }|g' ./forest/Cargo.toml
+	sed -i -E 's|(fil_actors_shared = \{).*git =.*branch =.*,(.*features =.*)|\1 path = "../fil_actors_shared",\2|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_account_state =.*|fil_actor_account_state = { path = "../actors/account" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_init_state =.*|fil_actor_init_state = { path = "../actors/init" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_miner_state =.*|fil_actor_miner_state = { path = "../actors/miner" }|g' ./forest/Cargo.toml
@@ -51,5 +49,6 @@ modify-forest:
 	sed -i -e 's|fil_actor_reward_state =.*|fil_actor_reward_state = { path = "../actors/reward" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = "../actors/verifreg" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
+
 
 .PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean update-forest
