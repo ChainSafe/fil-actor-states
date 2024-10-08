@@ -32,16 +32,6 @@ fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
 integer-encoding.workspace = true
-lazy_static.workspace = true
 multihash = { workspace = true, features = ["identity"] }
 num.workspace = true
-once_cell = "1.18.0"
 serde.workspace = true
-serde_json.workspace = true
-
-[build-dependencies]
-anyhow.workspace = true
-cid.workspace = true
-regex.workspace = true
-serde.workspace = true
-serde_json.workspace = true
