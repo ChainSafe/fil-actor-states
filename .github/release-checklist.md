@@ -1,6 +1,6 @@
 # Release checklist 🛂
 
-`fil-actor-states` doesn't follow a fixed schedule but releases are be expected with every network upgrade. 
+`fil-actor-states` doesn't follow a fixed schedule but releases are be expected with every network upgrade.
 A _release officer_ is volunteered for each release, and they are responsible for either following the checklist 
 or, in case of absence, passing the task to a different team member.
 

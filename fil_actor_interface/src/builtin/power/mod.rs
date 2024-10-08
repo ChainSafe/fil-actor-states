@@ -29,6 +29,7 @@ pub enum State {
     V12(fil_actor_power_state::v12::State),
     V13(fil_actor_power_state::v13::State),
     V14(fil_actor_power_state::v14::State),
+    V15(fil_actor_power_state::v15::State),
 }
 
 impl State {
@@ -42,6 +43,7 @@ impl State {
             State::V12(st) => st.total_quality_adj_power,
             State::V13(st) => st.total_quality_adj_power,
             State::V14(st) => st.total_quality_adj_power,
+            State::V15(st) => st.total_quality_adj_power,
         }
     }
 
@@ -71,6 +73,15 @@ impl State {
                 Ok(miners)
             }
             State::V14(st) => {
+                let claims = st.load_claims(store)?;
+                let mut miners = Vec::new();
+                claims.for_each(|addr, _claim| {
+                    miners.push(from_address_v4_to_v2(addr));
+                    Ok(())
+                })?;
+                Ok(miners)
+            }
+            State::V15(st) => {
                 let claims = st.load_claims(store)?;
                 let mut miners = Vec::new();
                 claims.for_each(|addr, _claim| {
@@ -113,6 +124,10 @@ impl State {
                 raw_byte_power: st.total_raw_byte_power.clone(),
                 quality_adj_power: st.total_quality_adj_power.clone(),
             },
+            State::V15(st) => Claim {
+                raw_byte_power: st.total_raw_byte_power.clone(),
+                quality_adj_power: st.total_quality_adj_power.clone(),
+            },
         }
     }
 
@@ -126,6 +141,7 @@ impl State {
             State::V12(st) => from_token_v4_to_v2(&st.into_total_locked()),
             State::V13(st) => from_token_v4_to_v2(&st.into_total_locked()),
             State::V14(st) => from_token_v4_to_v2(&st.into_total_locked()),
+            State::V15(st) => from_token_v4_to_v2(&st.into_total_locked()),
         }
     }
 
@@ -151,6 +167,9 @@ impl State {
                 .miner_power(&s, &from_address_v2_to_v4(*miner))?
                 .map(From::from)),
             State::V14(st) => Ok(st
+                .miner_power(&s, &from_address_v2_to_v4(*miner))?
+                .map(From::from)),
+            State::V15(st) => Ok(st
                 .miner_power(&s, &from_address_v2_to_v4(*miner))?
                 .map(From::from)),
         }
@@ -210,6 +229,14 @@ impl State {
                 )
                 .map(|(_, bool_val)| bool_val)
                 .map_err(|e| anyhow::anyhow!("{}", e)),
+            State::V15(st) => st
+                .miner_nominal_power_meets_consensus_minimum(
+                    &from_policy_v13_to_v15(policy),
+                    &s,
+                    miner.id()?,
+                )
+                .map(|(_, bool_val)| bool_val)
+                .map_err(|e| anyhow::anyhow!("{}", e)),
         }
     }
 
@@ -234,6 +261,10 @@ impl State {
                 position: st.this_epoch_qa_power_smoothed.clone().position,
                 velocity: st.this_epoch_qa_power_smoothed.clone().velocity,
             },
+            State::V15(st) => FilterEstimate {
+                position: st.this_epoch_qa_power_smoothed.clone().position,
+                velocity: st.this_epoch_qa_power_smoothed.clone().velocity,
+            },
         }
     }
 
@@ -247,6 +278,7 @@ impl State {
             State::V12(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
             State::V13(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
             State::V14(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
+            State::V15(st) => from_token_v4_to_v2(&st.total_pledge_collateral.clone()),
         }
     }
 }
@@ -315,6 +347,15 @@ impl From<fil_actor_power_state::v13::Claim> for Claim {
 
 impl From<fil_actor_power_state::v14::Claim> for Claim {
     fn from(cl: fil_actor_power_state::v14::Claim) -> Self {
+        Self {
+            raw_byte_power: cl.raw_byte_power,
+            quality_adj_power: cl.quality_adj_power,
+        }
+    }
+}
+
+impl From<fil_actor_power_state::v15::Claim> for Claim {
+    fn from(cl: fil_actor_power_state::v15::Claim) -> Self {
         Self {
             raw_byte_power: cl.raw_byte_power,
             quality_adj_power: cl.quality_adj_power,
