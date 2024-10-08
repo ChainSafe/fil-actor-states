@@ -65,7 +65,7 @@ jobs:
         with:
           timeout_minutes: 5
           max_attempts: 3
-          command: sudo make -C forest install-deps
+          command: sudo apt install build-essential clang
       - uses: actions/setup-go@v5
         with:
           go-version-file: "./forest/go.work"
