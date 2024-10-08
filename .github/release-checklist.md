@@ -9,7 +9,6 @@ or, in case of absence, passing the task to a different team member.
 Make a pull request with the following changes:
 
 - Update the version of all the crates to be released.
-- Make sure to include the `Cargo.lock` crate version change in the release.
 - Tag `Release` label to this pull request, this enables additional forest sync check test to
   ensure no breaking changes are released.
 
