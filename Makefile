@@ -7,6 +7,9 @@ install-lint-tools:
 # Lints with everything we have in our CI arsenal
 lint-all: lint audit udeps
 
+check:
+	bash check_crates.sh
+
 audit:
 	cargo audit
 
