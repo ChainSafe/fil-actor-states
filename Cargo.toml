@@ -51,7 +51,6 @@ fvm_ipld_hamt = "0.9.0"
 fvm_shared = { version = "~2.7", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3.10", default-features = false }
 fvm_shared4 = { package = "fvm_shared", version = "~4.3", default-features = false }
-getrandom = { version = "0.2.12" }
 hex = "0.4.3"
 hex-literal = "0.4"
 indexmap = { version = "2", features = ["serde"] }
