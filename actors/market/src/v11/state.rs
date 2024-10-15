@@ -133,20 +133,6 @@ fn validate_deal_can_activate(
     Ok(())
 }
 
-// Returns (deal_weight, verified_deal_weight)
-fn get_deal_weights(deal: DealProposal) -> (DealWeight, DealWeight) {
-    if deal.verified_deal {
-        return (
-            DealWeight::zero(),
-            DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
-        );
-    }
-    (
-        DealWeight::from(deal.piece_size.0 * deal.duration() as u64),
-        DealWeight::zero(),
-    )
-}
-
 impl State {
     pub fn new<BS: Blockstore>(store: &BS) -> Result<Self, ActorError> {
         let empty_proposals_array =
@@ -1157,9 +1143,15 @@ impl State {
         for (deal_id, proposal) in sector_proposals.into_iter() {
             validate_deal_can_activate(&proposal, addr, sector_exp, curr_epoch)
                 .with_context(|| format!("cannot activate deal {}", deal_id))?;
-            let (w, vw) = get_deal_weights(proposal);
-            total_w += w;
-            total_vw += vw;
+            let deal_duration = sector_exp - curr_epoch;
+            let deal_size = proposal.piece_size.0;
+            let deal_spacetime = DealWeight::from(deal_duration as u64 * deal_size);
+
+            if proposal.verified_deal {
+                total_vw += deal_spacetime;
+            } else {
+                total_w += deal_spacetime;
+            };
         }
 
         Ok((total_w, total_vw))
