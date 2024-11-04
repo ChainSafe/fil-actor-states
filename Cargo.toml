@@ -46,7 +46,7 @@ frc46_token = "11"
 fvm_ipld_amt = "0.6.1"
 fvm_ipld_bitfield = "0.6"
 fvm_ipld_blockstore = "0.2"
-fvm_ipld_encoding = "0.4"
+fvm_ipld_encoding = "0.5"
 fvm_ipld_hamt = "0.9.0"
 fvm_shared = { version = "~2", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3", default-features = false }
