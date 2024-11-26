@@ -5,7 +5,6 @@ use std::cmp;
 use std::collections::BTreeSet;
 
 use anyhow::anyhow;
-use cid::multihash::Code;
 use cid::Cid;
 use fil_actors_shared::actor_error_v8;
 use fil_actors_shared::v8::runtime::Policy;
@@ -18,6 +17,7 @@ use fvm_shared::clock::{ChainEpoch, QuantSpec};
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::error::ExitCode;
 use fvm_shared::sector::{PoStProof, SectorSize};
+use multihash_codetable::Code;
 use num_traits::{Signed, Zero};
 
 use super::SECTORS_AMT_BITWIDTH;

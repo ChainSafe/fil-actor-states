@@ -11,7 +11,7 @@ use fvm_shared4::crypto::signature::Signature;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::SectorNumber;
-use libipld_core::ipld::Ipld;
+use ipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 

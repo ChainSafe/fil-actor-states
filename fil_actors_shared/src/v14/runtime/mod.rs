@@ -26,12 +26,12 @@ mod randomness;
 pub(crate) mod empty;
 
 pub use crate::v14::vm_api::Primitives;
-use cid::multihash::Code;
 pub use empty::EMPTY_ARR_CID;
 use fvm_ipld_encoding::ipld_block::IpldBlock;
 use fvm_shared4::chainid::ChainID;
 use fvm_shared4::event::ActorEvent;
 use fvm_shared4::sys::SendFlags;
+use multihash_codetable::Code;
 
 /// Runtime is the VM's internal runtime object.
 /// this is everything that is accessible to actors, beyond parameters.
@@ -119,7 +119,7 @@ pub trait Runtime: Primitives + RuntimePolicy {
                 actor_error_v14!(illegal_state; "failed to create state; expected empty array CID, got: {}", root),
             );
         }
-        let new_root = self.store().put_cbor(obj, Code::Blake2b256)
+        let new_root = self.store().put_cbor(obj,  Code::Blake2b256)
             .map_err(|e| actor_error_v14!(illegal_argument; "failed to write actor state during creation: {}", e.to_string()))?;
         self.set_state_root(&new_root)?;
         Ok(())

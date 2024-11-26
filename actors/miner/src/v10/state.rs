@@ -5,7 +5,6 @@ use std::cmp;
 use std::ops::Neg;
 
 use anyhow::{anyhow, Error};
-use cid::multihash::Code;
 use cid::Cid;
 use fil_actors_shared::actor_error_v10;
 use fil_actors_shared::v10::runtime::Policy;
@@ -25,6 +24,7 @@ use fvm_shared3::error::ExitCode;
 use fvm_shared3::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
 use fvm_shared3::{ActorID, HAMT_BIT_WIDTH};
 use itertools::Itertools;
+use multihash_codetable::Code;
 use num_traits::Zero;
 
 use super::beneficiary::*;

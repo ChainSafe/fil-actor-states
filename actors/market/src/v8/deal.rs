@@ -1,7 +1,6 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use cid::multihash::MultihashDigest;
 use cid::Cid;
 use fil_actors_shared::v8::DealWeight;
 use fvm_ipld_encoding::tuple::*;
@@ -11,7 +10,8 @@ use fvm_shared::clock::ChainEpoch;
 use fvm_shared::crypto::signature::Signature;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
-use libipld_core::ipld::Ipld;
+use ipld_core::ipld::Ipld;
+use multihash_codetable::{Code, MultihashDigest};
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 
@@ -128,7 +128,7 @@ impl DealProposal {
         let bytes = fvm_ipld_encoding::to_vec(self)?;
         Ok(Cid::new_v1(
             fvm_ipld_encoding::DAG_CBOR,
-            cid::multihash::Code::Blake2b256.digest(&bytes),
+            Code::Blake2b256.digest(&bytes),
         ))
     }
 }
@@ -153,8 +153,8 @@ pub struct DealState {
 #[cfg(feature = "arb")]
 impl quickcheck::Arbitrary for DealProposal {
     fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-        use cid::multihash::Code::Blake2b256;
         use fvm_ipld_encoding::DAG_CBOR;
+        use multihash_codetable::Code::Blake2b256;
 
         Self {
             piece_cid: Cid::new_v1(DAG_CBOR, Blake2b256.digest(String::arbitrary(g).as_bytes())),

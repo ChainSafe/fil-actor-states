@@ -39,15 +39,15 @@ anyhow = "1.0"
 base64 = "0.22"
 bitflags = "2.4.2"
 byteorder = "1.4.3"
-cid = { version = "0.10", default-features = false, features = ["std"] }
-frc42_dispatch = "7.0.0"
-frc42_macros = "5"
-frc46_token = "11"
-fvm_ipld_amt = "0.6.1"
-fvm_ipld_bitfield = "0.6"
-fvm_ipld_blockstore = "0.2"
-fvm_ipld_encoding = "0.4"
-fvm_ipld_hamt = "0.9.0"
+cid = { version = "0.11", default-features = false, features = ["std"] }
+frc42_dispatch = "8"
+frc42_macros = "6"
+frc46_token = "12"
+fvm_ipld_amt = "0.7"
+fvm_ipld_bitfield = "0.7"
+fvm_ipld_blockstore = "0.3"
+fvm_ipld_encoding = "0.5"
+fvm_ipld_hamt = "0.10"
 fvm_shared = { version = "~2", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3", default-features = false }
 fvm_shared4 = { package = "fvm_shared", version = "~4", default-features = false }
@@ -55,11 +55,11 @@ hex = "0.4.3"
 hex-literal = "0.4"
 indexmap = { version = "2", features = ["serde"] }
 integer-encoding = { version = "4", default-features = false }
+ipld-core = { version = "0.4", features = ["serde"] }
 itertools = "0.13"
 lazy_static = "1.4"
-libipld-core = "0.16"
 log = "0.4"
-multihash = "0.18"
+multihash-codetable = { version = "0.1", features = ["sha2"] }
 num = "0.4.0"
 num-bigint = { version = "0.4.3", features = ["serde"] }
 num-derive = "0.4"
@@ -77,7 +77,7 @@ serde_repr = "0.1.18"
 serde_tuple = "1.0"
 serde_yaml = "0.9"
 sha2 = "0.10.8"
-thiserror = "1.0"
+thiserror = "2"
 toml = "0.8"
 uint = { version = "0.9.3", default-features = false }
 unsigned-varint = "0.8"
