@@ -79,7 +79,7 @@ serde_yaml = "0.9"
 sha2 = "0.10"
 thiserror = "2"
 toml = "0.8"
-uint = { version = "0.9", default-features = false }
+uint = { version = "0.10", default-features = false }
 unsigned-varint = "0.8"
 
 fil_actor_account_state = { version = "18.0.0", path = "./actors/account" }
