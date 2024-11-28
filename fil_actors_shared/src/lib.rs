@@ -12,6 +12,7 @@ pub mod v8;
 pub mod v9;
 
 // Re-exports
+pub extern crate cid;
 pub extern crate filecoin_proofs_api;
 pub extern crate frc46_token;
 pub extern crate fvm_ipld_amt;
@@ -22,6 +23,7 @@ pub extern crate fvm_ipld_hamt;
 pub extern crate fvm_shared as fvm_shared2;
 pub extern crate fvm_shared3;
 pub extern crate fvm_shared4;
+pub extern crate multihash_codetable;
 
 pub mod ext {
     use frc46_token::token::state::{actor_id_key, StateError, TokenState};

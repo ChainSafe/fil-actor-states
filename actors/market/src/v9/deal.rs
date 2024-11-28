@@ -10,7 +10,7 @@ use fvm_shared::clock::ChainEpoch;
 use fvm_shared::crypto::signature::Signature;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
-use libipld_core::ipld::Ipld;
+use ipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 

@@ -1,12 +1,12 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+use cid::multihash::Multihash;
 use cid::{Cid, Version};
 use fil_actors_shared::actor_error_v9;
 use fil_actors_shared::v9::ActorError;
 use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
 use fvm_shared::sector::RegisteredSealProof;
-use multihash::Multihash;
 use serde::{Deserialize, Serialize};
 
 /// `CompactCommD` represents a Cid with compact representation of context dependent zero value

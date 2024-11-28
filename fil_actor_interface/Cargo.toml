@@ -32,6 +32,5 @@ fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
 integer-encoding.workspace = true
-multihash = { workspace = true, features = ["identity"] }
 num.workspace = true
 serde.workspace = true

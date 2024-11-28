@@ -6,7 +6,6 @@ use std::cmp;
 use std::ops::Neg;
 
 use anyhow::{anyhow, Error};
-use cid::multihash::Code;
 use cid::Cid;
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
@@ -20,6 +19,7 @@ use fvm_shared4::error::ExitCode;
 use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, SectorSize};
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use itertools::Itertools;
+use multihash_codetable::Code;
 use num_traits::Zero;
 
 use fil_actors_shared::actor_error_v15;

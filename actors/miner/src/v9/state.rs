@@ -5,7 +5,6 @@ use std::cmp;
 use std::ops::Neg;
 
 use anyhow::{anyhow, Error};
-use cid::multihash::Code;
 use cid::Cid;
 use fil_actors_shared::actor_error_v9;
 use fil_actors_shared::v9::runtime::Policy;
@@ -19,6 +18,7 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{serde_bytes, BytesDe, CborStore};
 use fvm_ipld_hamt::Error as HamtError;
 use fvm_shared::address::Address;
+use multihash_codetable::Code;
 
 use fvm_shared::clock::{ChainEpoch, QuantSpec, EPOCH_UNDEFINED};
 use fvm_shared::econ::TokenAmount;

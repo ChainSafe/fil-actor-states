@@ -39,12 +39,13 @@ mod tests {
 
     use super::*;
     use anyhow::*;
+    use cid::multihash::Multihash;
     use fil_actors_test_utils::go_compat::{ensure_go_mod_prepared, go_compat_tests_dir};
     use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
     use fvm_shared::piece::{
         zero_piece_commitment as zero_piece_commitment_v2, PaddedPieceSize as PaddedPieceSizeV2,
     };
-    use multihash::{Code::Sha2_256, Multihash, MultihashDigest};
+    use multihash_codetable::{Code, MultihashDigest};
     use quickcheck::Arbitrary;
     use quickcheck_macros::quickcheck;
 
@@ -79,7 +80,7 @@ mod tests {
             let mut pieces = Vec::with_capacity(cap);
             for _ in 0..cap {
                 let cid = {
-                    let hash = Sha2_256.digest(String::arbitrary(g).as_bytes());
+                    let hash = Code::Sha2_256.digest(String::arbitrary(g).as_bytes());
                     let mh = Multihash::wrap(SHA2_256_TRUNC254_PADDED, hash.digest()).unwrap();
                     Cid::new_v1(FIL_COMMITMENT_UNSEALED, mh)
                 };

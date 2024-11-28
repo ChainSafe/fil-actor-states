@@ -145,9 +145,7 @@ impl U256 {
     }
 
     pub fn to_bytes(&self) -> [u8; 32] {
-        let mut buf = [0u8; 32];
-        self.to_big_endian(&mut buf);
-        buf
+        self.to_big_endian()
     }
 
     /// Returns the low 64 bits, saturating the value to u64 max if it is larger
@@ -170,7 +168,7 @@ impl U512 {
 impl From<&TokenAmount> for U256 {
     fn from(amount: &TokenAmount) -> U256 {
         let (_, bytes) = amount.atto().to_bytes_be();
-        U256::from(bytes.as_slice())
+        U256::from_big_endian(bytes.as_slice())
     }
 }
 
@@ -183,8 +181,7 @@ impl From<U256> for U512 {
 
 impl From<&U256> for TokenAmount {
     fn from(ui: &U256) -> TokenAmount {
-        let mut bits = [0u8; 32];
-        ui.to_big_endian(&mut bits);
+        let bits = ui.to_big_endian();
         TokenAmount::from_atto(BigInt::from_bytes_be(
             fvm_shared4::bigint::Sign::Plus,
             &bits,
@@ -197,8 +194,7 @@ impl Serialize for U256 {
     where
         S: serde::Serializer,
     {
-        let mut bytes = [0u8; 32];
-        self.to_big_endian(&mut bytes);
+        let bytes = self.to_big_endian();
         serializer.serialize_bytes(zeroless_view(&bytes))
     }
 }
@@ -315,7 +311,7 @@ mod tests {
         let one = U256::ONE.i256_neg();
         assert!(one.i256_is_negative());
 
-        let neg_one = U256::from(&[0xff; 32]);
+        let neg_one = U256::from_big_endian(&[0xff; 32]);
         let pos_one = neg_one.i256_neg();
         assert_eq!(pos_one, U256::ONE);
     }

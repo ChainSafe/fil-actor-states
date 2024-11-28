@@ -11,7 +11,7 @@ use fvm_shared4::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
 use fvm_shared4::crypto::signature::Signature;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
-use libipld_core::ipld::Ipld;
+use ipld_core::ipld::Ipld;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::{TryFrom, TryInto};
 

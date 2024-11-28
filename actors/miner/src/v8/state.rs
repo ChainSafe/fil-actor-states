@@ -5,7 +5,6 @@ use std::cmp;
 use std::ops::Neg;
 
 use anyhow::{anyhow, Error};
-use cid::multihash::Code;
 use cid::Cid;
 use fil_actors_shared::actor_error_v8;
 use fil_actors_shared::v8::runtime::Policy;
@@ -24,6 +23,7 @@ use fvm_shared::econ::TokenAmount;
 use fvm_shared::error::ExitCode;
 use fvm_shared::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
 use fvm_shared::HAMT_BIT_WIDTH;
+use multihash_codetable::Code;
 use num_traits::Zero;
 
 use super::deadlines::new_deadline_info;
