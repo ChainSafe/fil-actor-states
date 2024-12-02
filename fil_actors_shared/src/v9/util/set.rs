@@ -12,7 +12,7 @@ use crate::v9::{make_empty_map, make_map_with_root, BytesKey, Map};
 #[derive(Debug)]
 pub struct Set<'a, BS>(Map<'a, BS, ()>);
 
-impl<'a, BS: Blockstore> PartialEq for Set<'a, BS> {
+impl<BS: Blockstore> PartialEq for Set<'_, BS> {
     fn eq(&self, other: &Self) -> bool {
         self.0 == other.0
     }
