@@ -82,7 +82,7 @@ pub struct Policy {
     pub pre_commit_challenge_delay: ChainEpoch,
 
     /// Look-back from the deadline's challenge window opening from which to sample chain randomness for the challenge seed.
-
+    ///
     /// This lookback exists so that deadline windows can be non-overlapping (which make the programming simpler)
     /// but without making the miner wait for chain stability before being able to start on PoSt computation.
     /// The challenge is available this many epochs before the window is actually open to receiving a PoSt.
@@ -314,7 +314,7 @@ pub mod policy_constants {
     pub const PRE_COMMIT_CHALLENGE_DELAY: ChainEpoch = 150;
 
     /// Lookback from the deadline's challenge window opening from which to sample chain randomness for the challenge seed.
-
+    ///
     /// This lookback exists so that deadline windows can be non-overlapping (which make the programming simpler)
     /// but without making the miner wait for chain stability before being able to start on PoSt computation.
     /// The challenge is available this many epochs before the window is actually open to receiving a PoSt.

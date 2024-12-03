@@ -272,7 +272,10 @@ impl State {
         Ok(rval_deal_state)
     }
 
-    pub fn get_proposal_array<'a, BS>(&'a self, store: &'a BS) -> Result<DealArray<BS>, ActorError>
+    pub fn get_proposal_array<'a, BS>(
+        &'a self,
+        store: &'a BS,
+    ) -> Result<DealArray<'a, BS>, ActorError>
     where
         BS: Blockstore,
     {
