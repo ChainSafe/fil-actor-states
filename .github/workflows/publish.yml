@@ -29,7 +29,6 @@ jobs:
         crate: [
           "fil_actor_account_state",
           "fil_actor_cron_state",
-          "fil_actor_eam_state",
           "fil_actor_ethaccount_state"
         ]
     steps:
@@ -62,7 +61,7 @@ jobs:
         with:
           crate: ${{ matrix.crate }}
 
-  publish-verifreg:
+  publish-verifreg-and-eam:
     runs-on: ubuntu-latest
     needs: publish-shared
     steps:
@@ -71,11 +70,14 @@ jobs:
       - name: Publish verifreg crate
         uses: ./.github/composite-actions/publish-crate
         with:
-          crate: "fil_actor_verifreg_state"
+          crate: [
+          "fil_actor_verifreg_state",
+          "fil_actor_eam_state"
+        ]
 
   publish-market-and-miner:
     runs-on: ubuntu-latest
-    needs: publish-verifreg
+    needs: publish-verifreg-and-eam
     strategy:
       matrix:
         crate: [
