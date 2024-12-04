@@ -9,7 +9,10 @@ version.workspace = true
 keywords.workspace = true
 
 [dependencies]
+fil_actor_evm_state = { workspace = true }
+fvm_ipld_encoding = { workspace = true }
 fvm_shared3 = { workspace = true }
 fvm_shared4 = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
+serde = { workspace = true }
