@@ -3,9 +3,9 @@
 
 use cid::Cid;
 use fvm_shared::{
-    commcid::data_commitment_v1_to_cid, piece::PieceInfo as PieceInfoV2,
-    sector::RegisteredSealProof as RegisteredSealProofV2,
+    piece::PieceInfo as PieceInfoV2, sector::RegisteredSealProof as RegisteredSealProofV2,
 };
+use fvm_shared4::commcid::data_commitment_v1_to_cid;
 
 /// Computes an unsealed sector CID (`CommD`) from its constituent piece CIDs (`CommPs`) and sizes.
 ///
