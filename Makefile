@@ -39,7 +39,6 @@ update-forest:
 
 modify-forest:
 	# Set dependencies to this repository
-	sed -i -e 's|fil_actor_interface =.*|fil_actor_interface = { path = "../fil_actor_interface" }|g' ./forest/Cargo.toml
 	sed -i -E 's|fil_actors_shared = \{ version = "[^"]*", features = \[(.*)\] \}|fil_actors_shared = { path = "../fil_actors_shared", features = [\1] }|g' ./forest/Cargo.toml
 	sed -i -E 's|(fil_actors_shared = \{).*git =.*branch =.*,(.*features =.*)|\1 path = "../fil_actors_shared",\2|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_account_state =.*|fil_actor_account_state = { path = "../actors/account" }|g' ./forest/Cargo.toml

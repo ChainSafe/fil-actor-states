@@ -102,14 +102,3 @@ jobs:
         uses: ./.github/composite-actions/publish-crate
         with:
           crate: "fil_actor_reward_state"
-
-  publish-interface:
-    runs-on: ubuntu-latest
-    needs: [publish-independent, publish-dependent-on-shared, publish-reward]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Publish interface crate
-        uses: ./.github/composite-actions/publish-crate
-        with:
-          crate: "fil_actor_interface"

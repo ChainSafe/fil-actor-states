@@ -16,7 +16,7 @@ for actor in actors/*; do
     fi
 done
 
-others=(fil_actor_interface fil_actors_shared)
+others=(fil_actors_shared)
 for other in "${others[@]}"; do
     check_crate "$other"
 done
