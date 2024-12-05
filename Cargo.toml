@@ -2,7 +2,6 @@
 members = [
   "fil_actors_shared",
   "fil_actors_test_utils",
-  "fil_actor_interface",
   "actors/account",
   "actors/init",
   "actors/cron",

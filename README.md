@@ -10,7 +10,7 @@ https://github.com/filecoin-project/builtin-actors
 NOTE: The code in `actors/` and `fil_actors_shared/` is copy-pasted from the
 above repository. Therefore, it's advised to avoid refactoring such code in
 order to facilitate a smoother version upgrade process and potentially automate
-it. `fil_actor_interface/` can be modified according to project's needs.
+it.
 
 # Why the copy-paste?
 
