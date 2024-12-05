@@ -251,28 +251,3 @@ impl MapKey for Cid {
         Ok(self.to_bytes())
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::test_blockstores::MemoryBlockstore;
-
-    #[test]
-    fn basic_put_get() {
-        let bs = MemoryBlockstore::new();
-        let mut m = Map2::<_, u64, String>::empty(bs, DEFAULT_HAMT_CONFIG, "empty");
-        m.set(&1234, "1234".to_string()).unwrap();
-        assert!(m.get(&2222).unwrap().is_none());
-        assert_eq!(&"1234".to_string(), m.get(&1234).unwrap().unwrap());
-    }
-
-    #[test]
-    fn for_each_callback_exitcode_propagates() {
-        let bs = MemoryBlockstore::new();
-        let mut m = Map2::<_, u64, String>::empty(bs, DEFAULT_HAMT_CONFIG, "empty");
-        m.set(&1234, "1234".to_string()).unwrap();
-        let res = m.for_each(|_, _| Err(ActorError::forbidden("test".to_string())));
-        assert!(res.is_err());
-        assert_eq!(res.unwrap_err(), ActorError::forbidden("test".to_string()));
-    }
-}

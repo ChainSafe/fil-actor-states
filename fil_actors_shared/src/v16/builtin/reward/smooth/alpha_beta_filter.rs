@@ -76,8 +76,8 @@ mod tests {
     use fvm_shared4::sector::StoragePower;
     use num_traits::Signed;
 
-    use crate::reward::math;
-    use crate::EPOCHS_IN_DAY;
+    use crate::v16::reward::math;
+    use crate::v16::EPOCHS_IN_DAY;
 
     use super::super::smooth_func::{
         extrapolated_cum_sum_of_ratio as ecsor, ln, DEFAULT_ALPHA, DEFAULT_BETA,

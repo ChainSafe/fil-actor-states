@@ -75,9 +75,9 @@ impl Default for EventBuilder {
 
 #[cfg(test)]
 mod test {
-    use crate::cbor::serialize_vec;
-    use crate::util::events::{EVENT_TYPE_KEY, IPLD_CBOR};
-    use crate::EventBuilder;
+    use crate::v16::cbor::serialize_vec;
+    use crate::v16::util::events::{EVENT_TYPE_KEY, IPLD_CBOR};
+    use crate::v16::EventBuilder;
     use fvm_shared4::event::{ActorEvent, Entry, Flags};
 
     #[test]

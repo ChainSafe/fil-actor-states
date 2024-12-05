@@ -202,7 +202,7 @@ impl<'de> Deserialize<'de> for U256 {
         D: serde::Deserializer<'de>,
     {
         struct Visitor;
-        impl<'de> serde::de::Visitor<'de> for Visitor {
+        impl serde::de::Visitor<'_> for Visitor {
             type Value = U256;
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -308,7 +308,7 @@ mod tests {
         let one = U256::ONE.i256_neg();
         assert!(one.i256_is_negative());
 
-        let neg_one = U256::from(&[0xff; 32]);
+        let neg_one = U256::from_big_endian(&[0xff; 32]);
         let pos_one = neg_one.i256_neg();
         assert_eq!(pos_one, U256::ONE);
     }

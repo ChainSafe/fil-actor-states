@@ -106,8 +106,8 @@ impl AsRef<[u8]> for EthAddress {
 
 #[cfg(test)]
 mod tests {
+    use super::super::uints::U256;
     use super::EthAddress;
-    use crate::uints::U256;
 
     // padding (12 bytes)
     const TYPE_PADDING: &[u8] = &[0; 12];
@@ -124,7 +124,7 @@ mod tests {
             #[test]
             fn $name() {
                 let evm_bytes = $input.concat();
-                let evm_addr = EthAddress::from(U256::from(evm_bytes.as_slice()));
+                let evm_addr = EthAddress::from(U256::from_big_endian(evm_bytes.as_slice()));
                 assert_eq!(
                     evm_addr.as_id(),
                     $expectation
