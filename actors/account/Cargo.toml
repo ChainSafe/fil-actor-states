@@ -10,6 +10,7 @@ keywords.workspace = true
 
 [dependencies]
 frc42_macros = { workspace = true }
+frc42_dispatch = { workspace = true }
 fvm_ipld_encoding = { workspace = true }
 fvm_shared = { workspace = true }
 fvm_shared3 = { workspace = true }
