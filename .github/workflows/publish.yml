@@ -64,16 +64,19 @@ jobs:
   publish-verifreg-and-eam:
     runs-on: ubuntu-latest
     needs: publish-shared
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Publish verifreg crate
-        uses: ./.github/composite-actions/publish-crate
-        with:
-          crate: [
+    strategy:
+      matrix:
+        crate: [
           "fil_actor_verifreg_state",
           "fil_actor_eam_state"
         ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Publish verifreg and eam crates
+        uses: ./.github/composite-actions/publish-crate
+        with:
+          crate: ${{ matrix.crate }}
 
   publish-market-and-miner:
     runs-on: ubuntu-latest
