@@ -10,6 +10,7 @@ keywords.workspace = true
 
 [dependencies]
 fil_actors_shared = { workspace = true }
+frc42_dispatch = { workspace = true }
 frc42_macros = { workspace = true }
 frc46_token = { workspace = true }
 fvm_ipld_blockstore = { workspace = true }
