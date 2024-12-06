@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Publish reward crate
+      - name: Publish verifreg crate
         uses: ./.github/composite-actions/publish-crate
         with:
           crate: "fil_actor_verifreg_state"
