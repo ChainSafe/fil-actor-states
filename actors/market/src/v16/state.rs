@@ -664,20 +664,6 @@ impl State {
         Ok(removed)
     }
 
-    pub fn escrow_table<'a, BS: Blockstore>(
-        &self,
-        store: &'a BS,
-    ) -> Result<BalanceTable<&'a BS>, ActorError> {
-        BalanceTable::from_root(store, &self.escrow_table, "escrow table")
-    }
-
-    pub fn locked_table<'a, BS: Blockstore>(
-        &self,
-        store: &'a BS,
-    ) -> Result<BalanceTable<&'a BS>, ActorError> {
-        BalanceTable::from_root(store, &self.locked_table, "locked table")
-    }
-
     /// Verify that a given set of storage deals is valid for a sector currently being PreCommitted
     pub fn verify_deals_for_activation<BS>(
         &self,

@@ -145,19 +145,6 @@ impl State {
     pub fn into_total_storage_power_reward(self) -> TokenAmount {
         self.total_storage_power_reward
     }
-
-    pub fn pre_commit_deposit_for_power(
-        &self,
-        reward_estimate: &FilterEstimate,
-        network_qa_power_estimate: &FilterEstimate,
-        qa_sector_power: &StoragePower,
-    ) -> TokenAmount {
-        fil_actor_miner_state::v11::pre_commit_deposit_for_power(
-            reward_estimate,
-            network_qa_power_estimate,
-            qa_sector_power,
-        )
-    }
 }
 
 /// Defines vestion function type for reward actor.

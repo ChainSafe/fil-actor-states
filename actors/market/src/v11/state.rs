@@ -891,22 +891,6 @@ impl State {
         ret
     }
 
-    pub fn escrow_table<'a, BS: Blockstore>(
-        &self,
-        store: &'a BS,
-    ) -> Result<BalanceTable<'a, BS>, ActorError> {
-        BalanceTable::from_root(store, &self.escrow_table)
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load escrow table")
-    }
-
-    pub fn locked_table<'a, BS: Blockstore>(
-        &self,
-        store: &'a BS,
-    ) -> Result<BalanceTable<'a, BS>, ActorError> {
-        BalanceTable::from_root(store, &self.locked_table)
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load locked table")
-    }
-
     // Return true when the funds in escrow for the input address can cover an additional lockup of amountToLock
     pub fn balance_covered<BS>(
         &self,
@@ -917,8 +901,11 @@ impl State {
     where
         BS: Blockstore,
     {
-        let escrow_table = self.escrow_table(store)?;
-        let locked_table = self.locked_table(store)?;
+        let escrow_table = BalanceTable::from_root(store, &self.escrow_table)
+            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load escrow table")?;
+
+        let locked_table = BalanceTable::from_root(store, &self.locked_table)
+            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load locked table")?;
 
         let escrow_balance = escrow_table
             .get(&addr)
