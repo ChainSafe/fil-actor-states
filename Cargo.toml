@@ -55,7 +55,7 @@ hex-literal = "0.4"
 indexmap = { version = "2", features = ["serde"] }
 integer-encoding = { version = "4", default-features = false }
 ipld-core = { version = "0.4", features = ["serde"] }
-itertools = "0.13"
+itertools = "0.14"
 lazy_static = "1"
 log = "0.4"
 multihash-codetable = { version = "0.1", features = ["sha2"] }
