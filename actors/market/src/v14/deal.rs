@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::{Cid, Version};
-use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::BytesSer;
+use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
@@ -12,7 +12,7 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::SectorNumber;
 use ipld_core::ipld::Ipld;
-use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::convert::{TryFrom, TryInto};
 
 /// Cid prefix for piece Cids

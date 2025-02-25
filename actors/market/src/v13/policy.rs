@@ -4,11 +4,11 @@
 use std::cmp::max;
 
 use fil_actors_shared::v13::runtime::Policy;
+use fvm_shared4::TOTAL_FILECOIN;
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::StoragePower;
-use fvm_shared4::TOTAL_FILECOIN;
 
 pub mod detail {
     /// Maximum length of a deal label.

@@ -3,9 +3,9 @@
 
 use crate::evm_shared::v11::{address::EthAddress, uints::U256};
 use cid::Cid;
+use fvm_ipld_encoding::RawBytes;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::RawBytes;
 use fvm_shared3::econ::TokenAmount;
 
 #[derive(Serialize_tuple, Deserialize_tuple)]

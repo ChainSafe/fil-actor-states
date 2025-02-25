@@ -15,7 +15,7 @@ use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use crate::v15::{AddrPairKey, AllocationID, ClaimID};
 use crate::v15::{DataCap, RemoveDataCapProposalID};
 use fil_actors_shared::actor_error_v15;
-use fil_actors_shared::v15::{ActorError, AsActorError, Config, Map2, MapMap, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v15::{ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap};
 
 pub type DataCapMap<BS> = Map2<BS, Address, BigIntDe>;
 pub const DATACAP_MAP_CONFIG: Config = DEFAULT_HAMT_CONFIG;

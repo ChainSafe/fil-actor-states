@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fil_actors_shared::actor_error_v15;
-use fil_actors_shared::v15::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v15::{ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared4::address::Address;
 use fvm_shared4::econ::TokenAmount;

@@ -7,18 +7,18 @@ use fil_actor_verifreg_state::v10::AllocationID;
 use fil_actors_shared::actor_error_v12;
 use fil_actors_shared::v12::DealWeight;
 use fil_actors_shared::v12::{
-    ActorContext, ActorError, Array, AsActorError, Config, Map2, Set, SetMultimap,
-    DEFAULT_HAMT_CONFIG,
+    ActorContext, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, Set,
+    SetMultimap,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared4::HAMT_BIT_WIDTH;
 use fvm_shared4::address::Address;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::HAMT_BIT_WIDTH;
 use num_traits::Zero;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;

@@ -7,8 +7,8 @@ use cid::Cid;
 use fil_actors_shared::actor_error_v13;
 use fil_actors_shared::v13::DealWeight;
 use fil_actors_shared::v13::{
-    ActorContext, ActorError, Array, AsActorError, Config, Map2, Set, SetMultimap,
-    DEFAULT_HAMT_CONFIG,
+    ActorContext, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, Set,
+    SetMultimap,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;

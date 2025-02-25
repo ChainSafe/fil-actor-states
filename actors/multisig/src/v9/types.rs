@@ -4,14 +4,14 @@
 use std::fmt::Display;
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{serde_bytes, RawBytes};
+use fvm_ipld_encoding::{RawBytes, serde_bytes};
 use fvm_ipld_hamt::BytesKey;
 use fvm_shared::address::Address;
 
+use fvm_shared::MethodNum;
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::error::ExitCode;
-use fvm_shared::MethodNum;
 use integer_encoding::VarInt;
 use serde::{Deserialize, Serialize};
 

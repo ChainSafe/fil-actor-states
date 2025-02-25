@@ -9,7 +9,7 @@ use num_traits::Zero;
 
 use fil_actors_shared::{
     actor_error_v13,
-    v13::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG},
+    v13::{ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2},
 };
 
 /// Balance table which handles getting and updating token balances specifically
@@ -210,8 +210,9 @@ mod tests {
         assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(50u8));
 
         // Test subtracting more than available
-        assert!(bt
-            .must_subtract(&addr, &TokenAmount::from_atto(100u8))
-            .is_err());
+        assert!(
+            bt.must_subtract(&addr, &TokenAmount::from_atto(100u8))
+                .is_err()
+        );
     }
 }

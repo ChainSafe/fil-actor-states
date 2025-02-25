@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use frc46_token::token::TOKEN_PRECISION;
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::econ::TokenAmount;
-use fvm_shared4::METHOD_CONSTRUCTOR;
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 

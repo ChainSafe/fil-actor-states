@@ -1,18 +1,19 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use anyhow::{anyhow, Context};
+use anyhow::{Context, anyhow};
 use cid::Cid;
 use fil_actors_shared::actor_error_v8;
 use fil_actors_shared::v8::runtime::Policy;
 use fil_actors_shared::v8::{
-    make_empty_map, make_map_with_root, make_map_with_root_and_bitwidth, ActorDowncast, Map,
-    Multimap,
+    ActorDowncast, Map, Multimap, make_empty_map, make_map_with_root,
+    make_map_with_root_and_bitwidth,
 };
 use fvm_ipld_blockstore::Blockstore;
-use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::RawBytes;
+use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_hamt::BytesKey;
+use fvm_shared::HAMT_BIT_WIDTH;
 use fvm_shared::address::Address;
 use fvm_shared::bigint::bigint_ser;
 use fvm_shared::clock::ChainEpoch;
@@ -20,7 +21,6 @@ use fvm_shared::econ::TokenAmount;
 use fvm_shared::error::ExitCode;
 use fvm_shared::sector::{RegisteredPoStProof, StoragePower};
 use fvm_shared::smooth::FilterEstimate;
-use fvm_shared::HAMT_BIT_WIDTH;
 use integer_encoding::VarInt;
 use lazy_static::lazy_static;
 use num_traits::Signed;

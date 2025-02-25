@@ -6,10 +6,10 @@ use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
-use fvm_shared4::bigint::BigInt;
 pub use fvm_shared4::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
-use serde::de::DeserializeOwned;
+use fvm_shared4::bigint::BigInt;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use unsigned_varint::decode::Error as UVarintError;
 
 pub use self::actor_error::*;

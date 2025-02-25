@@ -6,7 +6,7 @@ use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::Error;
 use fvm_shared3::HAMT_BIT_WIDTH;
 
-use crate::v10::{make_empty_map, make_map_with_root, BytesKey, Map};
+use crate::v10::{BytesKey, Map, make_empty_map, make_map_with_root};
 
 /// Set is a HAMT with empty values for the purpose of acting as a hash set.
 #[derive(Debug)]

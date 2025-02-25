@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared3::{address::Address, MethodNum};
+use fvm_shared3::{MethodNum, address::Address};
 
 /// Cron actor state which holds entries to call during epoch tick
 #[derive(Default, Serialize_tuple, Deserialize_tuple, Clone, Debug)]

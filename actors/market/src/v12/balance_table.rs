@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fil_actors_shared::actor_error_v12;
-use fil_actors_shared::v12::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v12::{ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared4::address::Address;
 use fvm_shared4::econ::TokenAmount;
@@ -207,8 +207,9 @@ mod tests {
         assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(50u8));
 
         // Test subtracting more than available
-        assert!(bt
-            .must_subtract(&addr, &TokenAmount::from_atto(100u8))
-            .is_err());
+        assert!(
+            bt.must_subtract(&addr, &TokenAmount::from_atto(100u8))
+                .is_err()
+        );
     }
 }

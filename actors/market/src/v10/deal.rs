@@ -3,8 +3,8 @@
 
 use cid::{Cid, Version};
 use fil_actor_verifreg_state::v10::AllocationID;
-use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::BytesSer;
+use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
@@ -12,7 +12,7 @@ use fvm_shared3::crypto::signature::Signature;
 use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::piece::PaddedPieceSize;
 use ipld_core::ipld::Ipld;
-use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::convert::{TryFrom, TryInto};
 
 /// Cid prefix for piece `Cid`s

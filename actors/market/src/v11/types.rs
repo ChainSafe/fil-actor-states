@@ -7,13 +7,13 @@ use fil_actors_shared::v11::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared3::ActorID;
 use fvm_shared3::address::Address;
-use fvm_shared3::bigint::{bigint_ser, BigInt};
+use fvm_shared3::bigint::{BigInt, bigint_ser};
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::deal::DealID;
 use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::piece::PaddedPieceSize;
-use fvm_shared3::ActorID;
 
 use super::Label;
 use fvm_shared3::sector::RegisteredSealProof;

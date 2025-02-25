@@ -1,5 +1,5 @@
-use crate::v16::cbor::serialize_vec;
 use crate::v16::ActorError;
+use crate::v16::cbor::serialize_vec;
 use fvm_shared4::event::{ActorEvent, Entry, Flags};
 use serde::ser;
 
@@ -75,9 +75,9 @@ impl Default for EventBuilder {
 
 #[cfg(test)]
 mod test {
+    use crate::v16::EventBuilder;
     use crate::v16::cbor::serialize_vec;
     use crate::v16::util::events::{EVENT_TYPE_KEY, IPLD_CBOR};
-    use crate::v16::EventBuilder;
     use fvm_shared4::event::{ActorEvent, Entry, Flags};
 
     #[test]

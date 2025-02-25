@@ -4,8 +4,8 @@
 use cid::Cid;
 use fil_actors_shared::actor_error_v10;
 use fil_actors_shared::v10::{
-    make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError,
-    FIRST_NON_SINGLETON_ADDR,
+    ActorError, AsActorError, FIRST_NON_SINGLETON_ADDR, make_empty_map,
+    make_map_with_root_and_bitwidth,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;

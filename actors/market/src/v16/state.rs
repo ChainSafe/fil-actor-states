@@ -20,8 +20,8 @@ use std::collections::BTreeSet;
 
 use fil_actors_shared::actor_error_v16;
 use fil_actors_shared::v16::{
-    ActorContext, ActorError, Array, AsActorError, Config, DealWeight, Map2, Set, SetMultimap,
-    SetMultimapConfig, DEFAULT_HAMT_CONFIG,
+    ActorContext, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, DealWeight, Map2,
+    Set, SetMultimap, SetMultimapConfig,
 };
 
 use crate::v16::balance_table::BalanceTable;
