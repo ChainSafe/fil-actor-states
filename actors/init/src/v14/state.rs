@@ -5,10 +5,10 @@ use cid::Cid;
 use fil_actors_shared::actor_error_v14;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared4::address::{Address, Protocol};
 use fvm_shared4::ActorID;
+use fvm_shared4::address::{Address, Protocol};
 
-use fil_actors_shared::v14::{ActorError, Map2, DEFAULT_HAMT_CONFIG, FIRST_NON_SINGLETON_ADDR};
+use fil_actors_shared::v14::{ActorError, DEFAULT_HAMT_CONFIG, FIRST_NON_SINGLETON_ADDR, Map2};
 
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]
 pub struct State {

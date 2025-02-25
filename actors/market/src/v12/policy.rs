@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fil_actors_shared::v12::runtime::Policy;
+use fvm_shared4::TOTAL_FILECOIN;
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::StoragePower;
-use fvm_shared4::TOTAL_FILECOIN;
 use std::cmp::max;
 
 pub mod detail {

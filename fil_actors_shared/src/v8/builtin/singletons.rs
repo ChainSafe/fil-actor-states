@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::address::Address;
 use fvm_shared::ActorID;
+use fvm_shared::address::Address;
 
 /// Define Builtin Actor Addresses
 pub const SYSTEM_ACTOR_ADDR: Address = Address::new_id(0);

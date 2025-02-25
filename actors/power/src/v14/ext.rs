@@ -1,11 +1,11 @@
 use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{strict_bytes, BytesDe};
+use fvm_ipld_encoding::{BytesDe, strict_bytes};
 
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use fvm_shared4::address::Address;
 use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, StoragePower};
-use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 use fil_actors_shared::v14::reward::FilterEstimate;

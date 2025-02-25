@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{strict_bytes, BytesDe, RawBytes};
+use fvm_ipld_encoding::{BytesDe, RawBytes, strict_bytes};
+use fvm_shared3::ActorID;
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::bigint_ser;
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::sector::{RegisteredPoStProof, SealVerifyInfo, StoragePower};
 use fvm_shared3::smooth::FilterEstimate;
-use fvm_shared3::ActorID;
 
 use serde::{Deserialize, Serialize};
 

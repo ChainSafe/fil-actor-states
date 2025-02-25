@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::v13::{u64_key, SetMultimap};
+use crate::v13::{SetMultimap, u64_key};
 use fvm_ipld_blockstore::MemoryBlockstore;
 use fvm_shared4::clock::ChainEpoch;
 

@@ -3,8 +3,8 @@
 
 use cid::Cid;
 use fil_actors_shared::v8::DealWeight;
-use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::BytesSer;
+use fvm_ipld_encoding::tuple::*;
 use fvm_shared::address::Address;
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::crypto::signature::Signature;
@@ -12,7 +12,7 @@ use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
 use ipld_core::ipld::Ipld;
 use multihash_codetable::{Code, MultihashDigest};
-use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::convert::{TryFrom, TryInto};
 
 #[derive(Clone, Debug, PartialEq)]

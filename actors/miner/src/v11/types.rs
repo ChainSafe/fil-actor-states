@@ -4,7 +4,7 @@
 use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{strict_bytes, BytesDe};
+use fvm_ipld_encoding::{BytesDe, strict_bytes};
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::bigint_ser;
 use fvm_shared3::clock::ChainEpoch;

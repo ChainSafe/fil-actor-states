@@ -5,27 +5,27 @@ use std::borrow::Borrow;
 use std::cmp;
 use std::ops::Neg;
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use cid::Cid;
 use fil_actors_shared::actor_error_v13;
 use fil_actors_shared::v13::runtime::Policy;
 use fil_actors_shared::v13::{
-    make_empty_map, make_map_with_root_and_bitwidth, u64_key, ActorDowncast, ActorError, Array,
-    AsActorError,
+    ActorDowncast, ActorError, Array, AsActorError, make_empty_map,
+    make_map_with_root_and_bitwidth, u64_key,
 };
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{strict_bytes, BytesDe, CborStore};
+use fvm_ipld_encoding::{BytesDe, CborStore, strict_bytes};
 use fvm_ipld_hamt::Error as HamtError;
 use fvm_shared4::address::Address;
 use multihash_codetable::Code;
 
-use fvm_shared4::clock::{ChainEpoch, QuantSpec, EPOCH_UNDEFINED};
+use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED, QuantSpec};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
+use fvm_shared4::sector::{MAX_SECTOR_NUMBER, RegisteredPoStProof, SectorNumber, SectorSize};
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use itertools::Itertools;
 use num_traits::Zero;
@@ -35,9 +35,9 @@ use super::deadlines::new_deadline_info;
 use super::policy::*;
 use super::types::*;
 use super::{
-    assign_deadlines, deadline_is_mutable, new_deadline_info_from_offset_and_epoch,
-    quant_spec_for_deadline, BitFieldQueue, Deadline, DeadlineInfo, DeadlineSectorMap, Deadlines,
-    PowerPair, Sectors, TerminationResult, VestingFunds,
+    BitFieldQueue, Deadline, DeadlineInfo, DeadlineSectorMap, Deadlines, PowerPair, Sectors,
+    TerminationResult, VestingFunds, assign_deadlines, deadline_is_mutable,
+    new_deadline_info_from_offset_and_epoch, quant_spec_for_deadline,
 };
 
 const PRECOMMIT_EXPIRY_AMT_BITWIDTH: u32 = 6;
