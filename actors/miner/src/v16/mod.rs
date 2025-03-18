@@ -8,6 +8,7 @@ use fvm_ipld_encoding::RawBytes;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::deal::DealID;
+use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::*;
 use fvm_shared4::sector::{RegisteredSealProof, RegisteredUpdateProof, SectorNumber, SectorSize};
 use fvm_shared4::{MethodNum, METHOD_CONSTRUCTOR};
@@ -114,6 +115,8 @@ pub enum Method {
     GetVestingFundsExported = frc42_dispatch::method_hash!("GetVestingFunds"),
     GetPeerIDExported = frc42_dispatch::method_hash!("GetPeerID"),
     GetMultiaddrsExported = frc42_dispatch::method_hash!("GetMultiaddrs"),
+    MaxTerminationFeeExported = frc42_dispatch::method_hash!("MaxTerminationFee"),
+    InitialPledgeExported = frc42_dispatch::method_hash!("InitialPledge"),
 }
 
 pub const SECTOR_CONTENT_CHANGED: MethodNum = frc42_dispatch::method_hash!("SectorContentChanged");
@@ -132,8 +135,6 @@ pub struct ReplicaUpdateInner {
     pub deadline: u64,
     pub partition: u64,
     pub new_sealed_cid: Cid,
-    /// None means unknown
-    pub new_unsealed_cid: Option<Cid>,
     pub deals: Vec<DealID>,
     pub update_proof_type: RegisteredUpdateProof,
     pub replica_proof: RawBytes,
@@ -182,6 +183,10 @@ pub fn power_for_sectors(sector_size: SectorSize, sectors: &[SectorOnChainInfo])
         raw: BigInt::from(sector_size as u64) * BigInt::from(sectors.len()),
         qa,
     }
+}
+
+pub fn daily_fee_for_sectors(sectors: &[SectorOnChainInfo]) -> TokenAmount {
+    sectors.iter().map(|s| &s.daily_fee).sum()
 }
 
 pub struct SectorPiecesActivationInput {
