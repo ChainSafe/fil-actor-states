@@ -45,6 +45,7 @@ modify-forest:
 	sed -i -e 's|fil_actor_init_state =.*|fil_actor_init_state = { path = "../actors/init" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_miner_state =.*|fil_actor_miner_state = { path = "../actors/miner" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_evm_state =.*|fil_actor_evm_state = { path = "../actors/evm" }|g' ./forest/Cargo.toml
+	sed -i -e 's|fil_actor_eam_state =.*|fil_actor_eam_state = { path = "../actors/eam" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_multisig_state =.*|fil_actor_multisig_state = { path = "../actors/multisig" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_power_state =.*|fil_actor_power_state = { path = "../actors/power" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_system_state =.*|fil_actor_system_state = { path = "../actors/system" }|g' ./forest/Cargo.toml
