@@ -76,7 +76,7 @@ impl VestingFunds {
         Ok(funds)
     }
 
-    fn save(
+    pub fn save(
         &mut self,
         store: &impl Blockstore,
         funds: impl IntoIterator<Item = VestingFund>,
