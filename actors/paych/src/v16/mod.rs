@@ -1,8 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared4::error::ExitCode;
 use fvm_shared4::METHOD_CONSTRUCTOR;
+use fvm_shared4::error::ExitCode;
 use num_derive::FromPrimitive;
 
 pub use self::state::*;

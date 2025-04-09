@@ -3,10 +3,10 @@
 
 use std::cmp::{self, max};
 
+use fil_actors_shared::v15::EXPECTED_LEADERS_PER_EPOCH;
 use fil_actors_shared::v15::network::EPOCHS_IN_DAY;
 use fil_actors_shared::v15::reward::math::PRECISION;
-use fil_actors_shared::v15::reward::{smooth, FilterEstimate};
-use fil_actors_shared::v15::EXPECTED_LEADERS_PER_EPOCH;
+use fil_actors_shared::v15::reward::{FilterEstimate, smooth};
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
@@ -14,7 +14,7 @@ use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_traits::Zero;
 
-use super::{VestSpec, REWARD_VESTING_SPEC};
+use super::{REWARD_VESTING_SPEC, VestSpec};
 use crate::v15::detail::*;
 
 /// Projection period of expected sector block reward for deposit required to pre-commit a sector.

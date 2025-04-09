@@ -3,8 +3,8 @@
 
 use std::cmp::{self, max};
 
-use fil_actors_shared::v11::network::EPOCHS_IN_DAY;
 use fil_actors_shared::v11::EXPECTED_LEADERS_PER_EPOCH;
+use fil_actors_shared::v11::network::EPOCHS_IN_DAY;
 use fvm_shared3::bigint::{BigInt, Integer};
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::econ::TokenAmount;
@@ -15,7 +15,7 @@ use lazy_static::lazy_static;
 use num_traits::Zero;
 
 use super::detail::*;
-use super::{VestSpec, REWARD_VESTING_SPEC};
+use super::{REWARD_VESTING_SPEC, VestSpec};
 
 /// Projection period of expected sector block reward for deposit required to pre-commit a sector.
 /// This deposit is lost if the pre-commitment is not timely followed up by a commitment proof.

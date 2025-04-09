@@ -4,11 +4,11 @@
 use anyhow::anyhow;
 use cid::Cid;
 use fvm_ipld_bitfield::BitField;
+use fvm_shared3::METHOD_CONSTRUCTOR;
 use fvm_shared3::bigint::BigInt;
 use fvm_shared3::clock::ChainEpoch;
 use fvm_shared3::deal::DealID;
 use fvm_shared3::sector::*;
-use fvm_shared3::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use beneficiary::*;

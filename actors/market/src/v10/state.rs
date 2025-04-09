@@ -6,22 +6,22 @@ use crate::v10::EX_DEAL_EXPIRED;
 use cid::Cid;
 use fil_actor_verifreg_state::v10::AllocationID;
 use fil_actors_shared::actor_error_v10;
-use fil_actors_shared::v10::runtime::Policy;
 use fil_actors_shared::v10::DealWeight;
+use fil_actors_shared::v10::runtime::Policy;
 use fil_actors_shared::v10::{
-    make_empty_map, make_map_with_root_and_bitwidth, ActorContext, ActorError, Array, AsActorError,
-    Set, SetMultimap,
+    ActorContext, ActorError, Array, AsActorError, Set, SetMultimap, make_empty_map,
+    make_map_with_root_and_bitwidth,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_hamt::BytesKey;
+use fvm_shared3::HAMT_BIT_WIDTH;
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::BigInt;
 use fvm_shared3::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared3::deal::DealID;
 use fvm_shared3::econ::TokenAmount;
 use fvm_shared3::error::ExitCode;
-use fvm_shared3::HAMT_BIT_WIDTH;
 use num_traits::Zero;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;

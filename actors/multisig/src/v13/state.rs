@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_shared::v13::{ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v13::{ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
@@ -13,8 +13,8 @@ use fvm_shared4::econ::TokenAmount;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
-use super::types::Transaction;
 use super::TxnID;
+use super::types::Transaction;
 
 pub type PendingTxnMap<BS> = Map2<BS, TxnID, Transaction>;
 pub const PENDING_TXN_CONFIG: Config = DEFAULT_HAMT_CONFIG;

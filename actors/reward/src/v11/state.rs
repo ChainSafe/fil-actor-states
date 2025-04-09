@@ -8,7 +8,7 @@ use fvm_shared3::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared3::econ::TokenAmount;
 
 use fvm_shared3::sector::{Spacetime, StoragePower};
-use fvm_shared3::smooth::{AlphaBetaFilter, FilterEstimate, DEFAULT_ALPHA, DEFAULT_BETA};
+use fvm_shared3::smooth::{AlphaBetaFilter, DEFAULT_ALPHA, DEFAULT_BETA, FilterEstimate};
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 

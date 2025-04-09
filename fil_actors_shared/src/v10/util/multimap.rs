@@ -4,10 +4,10 @@
 use cid::Cid;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::Error;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
-use crate::v10::{make_empty_map, make_map_with_root_and_bitwidth, Array, BytesKey, Map};
+use crate::v10::{Array, BytesKey, Map, make_empty_map, make_map_with_root_and_bitwidth};
 
 /// `Multimap` stores multiple values per key in a HAMT of AMTs.
 /// The order of insertion of values for each key is retained.

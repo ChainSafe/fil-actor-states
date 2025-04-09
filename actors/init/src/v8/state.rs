@@ -4,7 +4,7 @@
 use anyhow::anyhow;
 use cid::Cid;
 use fil_actors_shared::v8::{
-    make_empty_map, make_map_with_root_and_bitwidth, FIRST_NON_SINGLETON_ADDR,
+    FIRST_NON_SINGLETON_ADDR, make_empty_map, make_map_with_root_and_bitwidth,
 };
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;

@@ -1,11 +1,11 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use crate::v9::{parse_uint_key, u64_key, Multimap};
+use crate::v9::{Multimap, parse_uint_key, u64_key};
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::MemoryBlockstore;
-use fvm_shared::address::Address;
 use fvm_shared::HAMT_BIT_WIDTH;
+use fvm_shared::address::Address;
 
 #[test]
 fn basic_add() {

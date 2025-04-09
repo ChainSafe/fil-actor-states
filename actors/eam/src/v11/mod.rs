@@ -3,7 +3,7 @@
 
 use fil_actor_evm_state::evm_shared::v11::address::EthAddress;
 use fvm_ipld_encoding::{strict_bytes, tuple::*};
-use fvm_shared3::{address::Address, ActorID, METHOD_CONSTRUCTOR};
+use fvm_shared3::{ActorID, METHOD_CONSTRUCTOR, address::Address};
 use num_derive::FromPrimitive;
 use serde::{Deserialize, Serialize};
 

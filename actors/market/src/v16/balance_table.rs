@@ -8,7 +8,7 @@ use fvm_shared4::econ::TokenAmount;
 use num_traits::Zero;
 
 use fil_actors_shared::actor_error_v16;
-use fil_actors_shared::v16::{ActorContext, ActorError, Config, Map2, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v16::{ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 
 /// Balance table which handles getting and updating token balances specifically
 pub struct BalanceTable<BS: Blockstore>(pub Map2<BS, Address, TokenAmount>);

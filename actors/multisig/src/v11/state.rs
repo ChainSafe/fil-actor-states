@@ -15,9 +15,9 @@ use fvm_shared3::error::ExitCode;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
+use super::TxnID;
 use super::make_map_with_root;
 use super::types::Transaction;
-use super::TxnID;
 
 /// Multisig actor state
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]

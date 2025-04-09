@@ -16,7 +16,7 @@ use super::DataCap;
 use super::{AllocationID, ClaimID};
 use fil_actors_shared::actor_error_v11;
 use fil_actors_shared::v11::{
-    make_empty_map, make_map_with_root_and_bitwidth, ActorError, AsActorError, Map, MapMap,
+    ActorError, AsActorError, Map, MapMap, make_empty_map, make_map_with_root_and_bitwidth,
 };
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]

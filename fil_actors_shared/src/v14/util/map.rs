@@ -7,8 +7,8 @@ use fvm_ipld_hamt as hamt;
 use fvm_shared4::address::Address;
 use fvm_shared4::error::ExitCode;
 use integer_encoding::VarInt;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 

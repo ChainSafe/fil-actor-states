@@ -3,7 +3,7 @@
 
 use cid::Cid;
 use fil_actors_shared::actor_error_v12;
-use fil_actors_shared::v12::{ActorError, AsActorError, Config, Map2, MapMap, DEFAULT_HAMT_CONFIG};
+use fil_actors_shared::v12::{ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;

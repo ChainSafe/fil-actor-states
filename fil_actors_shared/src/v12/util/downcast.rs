@@ -86,7 +86,7 @@ fn downcast_util(error: anyhow::Error) -> anyhow::Result<ActorError> {
             return Ok(ActorError::unchecked(
                 ExitCode::USR_SERIALIZATION,
                 enc_error.to_string(),
-            ))
+            ));
         }
         Err(other) => other,
     };
