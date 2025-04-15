@@ -220,8 +220,8 @@ impl Default for Policy {
 }
 
 pub mod policy_constants {
+    use fvm_shared3::clock::EPOCH_DURATION_SECONDS;
     use fvm_shared4::clock::ChainEpoch;
-    use fvm_shared4::clock::EPOCH_DURATION_SECONDS;
 
     use crate::v12::builtin::*;
 

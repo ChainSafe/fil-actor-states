@@ -20,7 +20,7 @@ pub struct AwardBlockRewardParams {
     pub win_count: i64,
 }
 
-pub use fvm_shared4::reward::ThisEpochRewardReturn;
+pub use fvm_shared3::reward::ThisEpochRewardReturn;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]

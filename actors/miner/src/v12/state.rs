@@ -20,10 +20,12 @@ use fvm_ipld_hamt::Error as HamtError;
 use fvm_shared4::address::Address;
 use multihash_codetable::Code;
 
-use fvm_shared4::clock::{ChainEpoch, QuantSpec, EPOCH_UNDEFINED};
+use fvm_shared3::clock::QuantSpec;
+use fvm_shared3::sector::MAX_SECTOR_NUMBER;
+use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, SectorSize, MAX_SECTOR_NUMBER};
+use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, SectorSize};
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use itertools::Itertools;
 use num_traits::Zero;

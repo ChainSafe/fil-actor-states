@@ -13,7 +13,8 @@ use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 
-use fvm_shared4::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::clock::QuantSpec;
+use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::sector::{SectorNumber, SectorSize};
 use num_traits::{Signed, Zero};

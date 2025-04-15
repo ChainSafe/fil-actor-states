@@ -7,13 +7,12 @@ use cid::{Cid, Version};
 use fil_actors_shared::v13::network::*;
 use fil_actors_shared::v13::runtime::Policy;
 use fil_actors_shared::v13::{DealWeight, EXPECTED_LEADERS_PER_EPOCH};
+use fvm_shared3::sector::SectorQuality;
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::commcid::{FIL_COMMITMENT_SEALED, POSEIDON_BLS12_381_A1_FC1};
 use fvm_shared4::econ::TokenAmount;
-use fvm_shared4::sector::{
-    RegisteredPoStProof, RegisteredSealProof, SectorQuality, SectorSize, StoragePower,
-};
+use fvm_shared4::sector::{RegisteredPoStProof, RegisteredSealProof, SectorSize, StoragePower};
 use lazy_static::lazy_static;
 
 use super::types::SectorOnChainInfo;

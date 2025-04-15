@@ -1,7 +1,8 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared4::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::clock::QuantSpec;
+use fvm_shared4::clock::ChainEpoch;
 use serde::{Deserialize, Serialize};
 
 /// Deadline calculations with respect to a current epoch.

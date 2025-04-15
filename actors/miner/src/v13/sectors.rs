@@ -10,8 +10,9 @@ use fil_actors_shared::v13::{ActorDowncast, ActorError, Array, AsActorError};
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared3::sector::MAX_SECTOR_NUMBER;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::sector::{SectorNumber, MAX_SECTOR_NUMBER};
+use fvm_shared4::sector::SectorNumber;
 
 use super::SectorOnChainInfo;
 

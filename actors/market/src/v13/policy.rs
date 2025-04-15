@@ -4,11 +4,11 @@
 use std::cmp::max;
 
 use fil_actors_shared::v13::runtime::Policy;
+use fvm_shared3::TOTAL_FILECOIN;
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::StoragePower;
-use fvm_shared4::TOTAL_FILECOIN;
 
 pub mod detail {
     /// Maximum length of a deal label.
@@ -34,7 +34,7 @@ pub fn deal_provider_collateral_bounds(
     let denom: BigInt = power_share_denom * policy.prov_collateral_percent_supply_denom;
     (
         TokenAmount::from_atto(num.div_floor(&denom)),
-        TOTAL_FILECOIN.clone(),
+        TokenAmount::from_atto(TOTAL_FILECOIN.atto().clone()),
     )
 }
 
