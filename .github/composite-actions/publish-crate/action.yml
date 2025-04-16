@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup sccache
-      uses: mozilla-actions/sccache-action@v0.0.5
+      uses: mozilla-actions/sccache-action@v0.0.8
       continue-on-error: true
     - name: Publish crate
       run: cargo publish --package ${{ inputs.crate }} --token ${{ env.CRATES_IO_TOKEN }}
