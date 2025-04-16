@@ -5,11 +5,11 @@ use cid::Cid;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{BytesDe, strict_bytes};
 
+use fvm_shared3::smooth::FilterEstimate;
 use fvm_shared4::METHOD_CONSTRUCTOR;
 use fvm_shared4::address::Address;
 use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::sector::{RegisteredPoStProof, SectorNumber, StoragePower};
-use fvm_shared4::smooth::FilterEstimate;
 use num_derive::FromPrimitive;
 
 pub mod init {

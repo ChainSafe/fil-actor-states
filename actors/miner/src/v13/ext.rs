@@ -1,6 +1,7 @@
 use cid::Cid;
 use fvm_ipld_encoding::RawBytes;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared3::smooth::FilterEstimate;
 use fvm_shared4::ActorID;
 use fvm_shared4::bigint::{BigInt, bigint_ser};
 use fvm_shared4::clock::ChainEpoch;
@@ -9,7 +10,6 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::sector::{RegisteredSealProof, StoragePower};
-use fvm_shared4::smooth::FilterEstimate;
 
 use fil_actors_shared::v13::BatchReturn;
 

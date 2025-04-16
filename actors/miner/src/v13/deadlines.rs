@@ -5,7 +5,8 @@ use fil_actors_shared::v13::Array;
 use fil_actors_shared::v13::runtime::Policy;
 
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared4::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::clock::QuantSpec;
+use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::sector::SectorNumber;
 
 use super::{DeadlineInfo, Deadlines, Partition};

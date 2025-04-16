@@ -5,12 +5,12 @@ use std::cmp::{self, max};
 
 use fil_actors_shared::v12::EXPECTED_LEADERS_PER_EPOCH;
 use fil_actors_shared::v12::network::EPOCHS_IN_DAY;
+use fvm_shared3::math::PRECISION;
+use fvm_shared3::smooth::{self, FilterEstimate};
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
-use fvm_shared4::math::PRECISION;
 use fvm_shared4::sector::StoragePower;
-use fvm_shared4::smooth::{self, FilterEstimate};
 use lazy_static::lazy_static;
 use num_traits::Zero;
 

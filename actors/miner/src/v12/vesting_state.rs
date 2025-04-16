@@ -4,7 +4,8 @@
 use std::{iter, mem};
 
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared4::clock::{ChainEpoch, QuantSpec};
+use fvm_shared3::clock::QuantSpec;
+use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
 use itertools::{EitherOrBoth, Itertools};
 use num_traits::Zero;

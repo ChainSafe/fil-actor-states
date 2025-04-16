@@ -7,8 +7,9 @@ use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::econ::TokenAmount;
 
-use fvm_shared4::sector::{Spacetime, StoragePower};
-use fvm_shared4::smooth::FilterEstimate;
+use fvm_shared3::sector::Spacetime;
+use fvm_shared3::smooth::FilterEstimate;
+use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 

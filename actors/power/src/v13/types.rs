@@ -3,13 +3,13 @@
 
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{BytesDe, RawBytes, strict_bytes};
+use fvm_shared3::smooth::FilterEstimate;
 use fvm_shared4::ActorID;
 use fvm_shared4::address::Address;
 use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::sector::{RegisteredPoStProof, SealVerifyInfo, StoragePower};
-use fvm_shared4::smooth::FilterEstimate;
 
 use serde::{Deserialize, Serialize};
 
