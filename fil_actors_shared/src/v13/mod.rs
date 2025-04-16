@@ -8,8 +8,8 @@ use fvm_ipld_hamt::Sha256;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
 pub use fvm_shared3::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
 use fvm_shared4::bigint::BigInt;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use unsigned_varint::decode::Error as UVarintError;
 
 pub use self::actor_error::*;

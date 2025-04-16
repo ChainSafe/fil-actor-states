@@ -11,7 +11,7 @@ use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::*;
 use fvm_shared4::sector::{RegisteredSealProof, RegisteredUpdateProof, SectorNumber, SectorSize};
-use fvm_shared4::{MethodNum, METHOD_CONSTRUCTOR};
+use fvm_shared4::{METHOD_CONSTRUCTOR, MethodNum};
 use num_derive::FromPrimitive;
 
 pub use beneficiary::*;

@@ -3,8 +3,9 @@
 
 use cid::Cid;
 use fvm_ipld_bitfield::BitField;
-use fvm_ipld_encoding::{strict_bytes, BytesDe};
-use fvm_ipld_encoding::{tuple::*, RawBytes};
+use fvm_ipld_encoding::{BytesDe, strict_bytes};
+use fvm_ipld_encoding::{RawBytes, tuple::*};
+use fvm_shared4::ActorID;
 use fvm_shared4::address::Address;
 use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::clock::ChainEpoch;
@@ -16,7 +17,6 @@ use fvm_shared4::sector::{
     PoStProof, RegisteredAggregateProof, RegisteredPoStProof, RegisteredSealProof,
     RegisteredUpdateProof, SectorNumber, SectorSize, StoragePower,
 };
-use fvm_shared4::ActorID;
 use serde::{Deserialize, Serialize};
 
 use fil_actors_shared::v14::reward::FilterEstimate;

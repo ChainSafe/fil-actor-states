@@ -1,14 +1,14 @@
 use crate::v16::{Allocation, Claim};
 use fil_actors_shared::v16::{
-    parse_uint_key, ActorError, AsActorError, BatchReturn, BatchReturnGen, MapMap,
+    ActorError, AsActorError, BatchReturn, BatchReturnGen, MapMap, parse_uint_key,
 };
 use fvm_ipld_blockstore::Blockstore;
+use fvm_shared4::ActorID;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::ActorID;
 use log::info;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 // Something with an expiration epoch.
 pub trait Expires {
@@ -90,5 +90,5 @@ where
             );
         }
     }
-    Ok(ret_gen.gen())
+    Ok(ret_gen.generate())
 }

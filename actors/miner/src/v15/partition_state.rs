@@ -4,7 +4,7 @@
 use std::convert::TryInto;
 use std::ops::{self, Neg};
 
-use anyhow::{anyhow, Context};
+use anyhow::{Context, anyhow};
 use cid::Cid;
 use fil_actors_shared::actor_error_v15;
 use fil_actors_shared::v15::runtime::Policy;
@@ -20,9 +20,9 @@ use fvm_shared4::sector::{SectorSize, StoragePower};
 use num_traits::{Signed, Zero};
 
 use super::{
-    power_for_sectors, select_sectors, validate_partition_contains_sectors, BitFieldQueue,
-    ExpirationQueue, ExpirationSet, QuantSpec, SectorOnChainInfo, Sectors, TerminationResult,
-    NO_QUANTIZATION,
+    BitFieldQueue, ExpirationQueue, ExpirationSet, NO_QUANTIZATION, QuantSpec, SectorOnChainInfo,
+    Sectors, TerminationResult, power_for_sectors, select_sectors,
+    validate_partition_contains_sectors,
 };
 
 // Bitwidth of AMTs determined empirically from mutation patterns and projections of mainnet data.

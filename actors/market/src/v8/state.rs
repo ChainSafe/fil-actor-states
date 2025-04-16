@@ -4,13 +4,13 @@
 use super::balance_table::BalanceTable;
 use anyhow::anyhow;
 use cid::Cid;
-use fil_actors_shared::v8::{make_empty_map, Array, SetMultimap};
+use fil_actors_shared::v8::{Array, SetMultimap, make_empty_map};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared::HAMT_BIT_WIDTH;
 use fvm_shared::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared::deal::DealID;
 use fvm_shared::econ::TokenAmount;
-use fvm_shared::HAMT_BIT_WIDTH;
 
 use super::types::*;
 

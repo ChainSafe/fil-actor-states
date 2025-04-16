@@ -6,13 +6,13 @@ use fil_actor_verifreg_state::v9::AllocationID;
 use fil_actors_shared::v9::Array;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared::ActorID;
 use fvm_shared::address::Address;
-use fvm_shared::bigint::{bigint_ser, BigInt};
+use fvm_shared::bigint::{BigInt, bigint_ser};
 use fvm_shared::clock::ChainEpoch;
 use fvm_shared::deal::DealID;
 use fvm_shared::econ::TokenAmount;
 use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::ActorID;
 
 use fvm_shared::sector::RegisteredSealProof;
 

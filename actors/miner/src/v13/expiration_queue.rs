@@ -4,7 +4,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::convert::TryInto;
 
-use anyhow::{anyhow, Context};
+use anyhow::{Context, anyhow};
 use cid::Cid;
 use fil_actors_shared::v13::runtime::Policy;
 use fil_actors_shared::v13::{ActorDowncast, Array};
@@ -19,7 +19,7 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::sector::{SectorNumber, SectorSize};
 use num_traits::{Signed, Zero};
 
-use super::{power_for_sector, PowerPair, SectorOnChainInfo};
+use super::{PowerPair, SectorOnChainInfo, power_for_sector};
 
 /// An internal limit on the cardinality of a bitfield in a queue entry.
 /// This must be at least large enough to support the maximum number of sectors in a partition.

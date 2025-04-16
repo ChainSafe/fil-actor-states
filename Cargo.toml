@@ -29,7 +29,7 @@ authors = [
   "Protocol Labs",
   "Filecoin Core Devs",
 ]
-edition = "2021"
+edition = "2024"
 keywords = ["filecoin", "web3", "wasm"]
 
 [workspace.dependencies]

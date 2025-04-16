@@ -8,7 +8,7 @@ use fvm_shared3::address::Address;
 use fvm_shared3::econ::TokenAmount;
 use num_traits::Zero;
 
-use fil_actors_shared::v10::{make_empty_map, make_map_with_root_and_bitwidth, Map};
+use fil_actors_shared::v10::{Map, make_empty_map, make_map_with_root_and_bitwidth};
 
 pub const BALANCE_TABLE_BITWIDTH: u32 = 6;
 
@@ -197,8 +197,9 @@ mod tests {
         assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(50u8));
 
         // Test subtracting more than available
-        assert!(bt
-            .must_subtract(&addr, &TokenAmount::from_atto(100u8))
-            .is_err());
+        assert!(
+            bt.must_subtract(&addr, &TokenAmount::from_atto(100u8))
+                .is_err()
+        );
     }
 }
