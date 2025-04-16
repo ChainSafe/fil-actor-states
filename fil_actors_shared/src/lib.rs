@@ -27,10 +27,10 @@ pub extern crate fvm_shared4;
 pub extern crate multihash_codetable;
 
 pub mod ext {
-    use frc46_token::token::state::{actor_id_key, StateError, TokenState};
+    use frc46_token::token::state::{StateError, TokenState, actor_id_key};
     use fvm_ipld_blockstore::Blockstore;
-    use fvm_shared4::econ::TokenAmount;
     use fvm_shared4::ActorID;
+    use fvm_shared4::econ::TokenAmount;
 
     type Result<T> = std::result::Result<T, StateError>;
 

@@ -26,10 +26,10 @@ pub mod miner {
     use super::*;
     use cid::Cid;
     use fvm_ipld_encoding::RawBytes;
+    use fvm_shared4::MethodNum;
     use fvm_shared4::clock::ChainEpoch;
     use fvm_shared4::piece::PaddedPieceSize;
     use fvm_shared4::sector::SectorNumber;
-    use fvm_shared4::MethodNum;
 
     pub const CONTROL_ADDRESSES_METHOD: u64 = 2;
     pub const IS_CONTROLLING_ADDRESS_EXPORTED: u64 =
@@ -99,9 +99,9 @@ pub mod verifreg {
     use super::*;
     use cid::Cid;
     use fil_actors_shared::v16::BatchReturn;
+    use fvm_shared4::ActorID;
     use fvm_shared4::clock::ChainEpoch;
     use fvm_shared4::piece::PaddedPieceSize;
-    use fvm_shared4::ActorID;
 
     pub type AllocationID = u64;
     pub type ClaimID = u64;

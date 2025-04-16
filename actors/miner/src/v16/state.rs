@@ -10,7 +10,7 @@ use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_ipld_encoding::{strict_bytes, BytesDe, CborStore};
+use fvm_ipld_encoding::{BytesDe, CborStore, strict_bytes};
 use fvm_shared4::address::Address;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::econ::TokenAmount;
@@ -22,10 +22,10 @@ use multihash_codetable::Code;
 use num_traits::Zero;
 
 use fil_actors_shared::actor_error_v16;
-use fil_actors_shared::v16::runtime::policy_constants::MAX_SECTOR_NUMBER;
 use fil_actors_shared::v16::runtime::Policy;
+use fil_actors_shared::v16::runtime::policy_constants::MAX_SECTOR_NUMBER;
 use fil_actors_shared::v16::{
-    ActorContext, ActorDowncast, ActorError, Array, AsActorError, Config, Map2, DEFAULT_HAMT_CONFIG,
+    ActorContext, ActorDowncast, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2,
 };
 
 use super::beneficiary::*;
@@ -33,9 +33,9 @@ use super::deadlines::new_deadline_info;
 use super::policy::*;
 use super::types::*;
 use super::{
-    assign_deadlines, deadline_is_mutable, new_deadline_info_from_offset_and_epoch,
-    quant_spec_for_deadline, BitFieldQueue, Deadline, DeadlineInfo, DeadlineSectorMap, Deadlines,
-    PowerPair, QuantSpec, Sectors, TerminationResult, VestingFunds,
+    BitFieldQueue, Deadline, DeadlineInfo, DeadlineSectorMap, Deadlines, PowerPair, QuantSpec,
+    Sectors, TerminationResult, VestingFunds, assign_deadlines, deadline_is_mutable,
+    new_deadline_info_from_offset_and_epoch, quant_spec_for_deadline,
 };
 
 pub type PreCommitMap<BS> = Map2<BS, SectorNumber, SectorPreCommitOnChainInfo>;

@@ -5,11 +5,11 @@ use cid::Cid;
 use fvm_ipld_amt::Amt;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_hamt::{BytesKey, Error as HamtError, Hamt};
+pub use fvm_shared3::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
 use fvm_shared3::address::Address;
 use fvm_shared3::bigint::BigInt;
-pub use fvm_shared3::BLOCKS_PER_EPOCH as EXPECTED_LEADERS_PER_EPOCH;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use unsigned_varint::decode::Error as UVarintError;
 pub use {fvm_ipld_amt, fvm_ipld_hamt};
 

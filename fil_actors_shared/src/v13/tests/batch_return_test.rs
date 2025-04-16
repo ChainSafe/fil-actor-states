@@ -4,14 +4,15 @@ use crate::v13::{BatchReturn, BatchReturnGen};
 
 #[test]
 fn batch_generation() {
-    let mut gen = BatchReturnGen::new(5);
-    gen.add_success();
-    gen.add_fail(ExitCode::SYS_OUT_OF_GAS);
-    gen.add_fail(ExitCode::USR_ILLEGAL_STATE);
-    gen.add_success();
-    gen.add_fail(ExitCode::USR_ILLEGAL_ARGUMENT);
+    let mut generator = BatchReturnGen::new(5);
+    generator
+        .add_success()
+        .add_fail(ExitCode::SYS_OUT_OF_GAS)
+        .add_fail(ExitCode::USR_ILLEGAL_STATE)
+        .add_success()
+        .add_fail(ExitCode::USR_ILLEGAL_ARGUMENT);
 
-    let br = gen.gen();
+    let br = generator.generate();
     assert_eq!(5, br.size());
     assert!(!br.all_ok());
     assert_eq!(
@@ -57,14 +58,15 @@ fn batch_generation_constants() {
     expected = "programmer error, mismatched batch size 3 and processed count 4 batch return must include success/fail for all inputs"
 )]
 fn batch_generation_programmer_error_too_many() {
-    let mut gen = BatchReturnGen::new(3);
-    gen.add_success();
-    gen.add_success();
-    gen.add_success();
-    gen.add_success();
+    let mut generator = BatchReturnGen::new(3);
+    generator
+        .add_success()
+        .add_success()
+        .add_success()
+        .add_success();
 
     // this will panic
-    gen.gen();
+    generator.generate();
 }
 
 #[test]
@@ -72,12 +74,11 @@ fn batch_generation_programmer_error_too_many() {
     expected = "programmer error, mismatched batch size 3 and processed count 2 batch return must include success/fail for all inputs"
 )]
 fn batch_generation_programmer_error_too_few() {
-    let mut gen = BatchReturnGen::new(3);
-    gen.add_success();
-    gen.add_fail(ExitCode::USR_NOT_FOUND);
+    let mut generator = BatchReturnGen::new(3);
+    generator.add_success().add_fail(ExitCode::USR_NOT_FOUND);
 
     // this will panic
-    gen.gen();
+    generator.generate();
 }
 
 #[test]

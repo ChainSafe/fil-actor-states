@@ -5,10 +5,10 @@ use std::convert::TryInto;
 use std::ops::{self, Neg};
 
 use super::{
-    power_for_sectors, select_sectors, validate_partition_contains_sectors, BitFieldQueue,
-    ExpirationQueue, ExpirationSet, SectorOnChainInfo, Sectors, TerminationResult,
+    BitFieldQueue, ExpirationQueue, ExpirationSet, SectorOnChainInfo, Sectors, TerminationResult,
+    power_for_sectors, select_sectors, validate_partition_contains_sectors,
 };
-use anyhow::{anyhow, Context};
+use anyhow::{Context, anyhow};
 use cid::Cid;
 use fil_actors_shared::actor_error_v13;
 use fil_actors_shared::v13::runtime::Policy;
@@ -17,7 +17,7 @@ use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::bigint::bigint_ser;
-use fvm_shared4::clock::{ChainEpoch, QuantSpec, NO_QUANTIZATION};
+use fvm_shared4::clock::{ChainEpoch, NO_QUANTIZATION, QuantSpec};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
 use fvm_shared4::sector::{SectorSize, StoragePower};

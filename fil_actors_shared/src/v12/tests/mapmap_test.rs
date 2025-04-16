@@ -1,4 +1,4 @@
-use crate::v12::{make_map_with_root_and_bitwidth, Keyer, Map, MapMap};
+use crate::v12::{Keyer, Map, MapMap, make_map_with_root_and_bitwidth};
 use cid::Cid;
 use fvm_ipld_blockstore::MemoryBlockstore;
 use fvm_shared::HAMT_BIT_WIDTH;
@@ -17,9 +17,10 @@ fn mapmap_test() {
         mm.get("tree", "evergreen").unwrap()
     );
     // put_if_absent can write to an unassigned key
-    assert!(mm
-        .put_if_absent("rock", "igneous", "basalt".to_string())
-        .unwrap());
+    assert!(
+        mm.put_if_absent("rock", "igneous", "basalt".to_string())
+            .unwrap()
+    );
 
     assert!(mm.get("tree", "deciduous").unwrap().is_none());
     mm.put_many(
@@ -43,9 +44,10 @@ fn mapmap_test() {
     );
 
     // put_if_absent won't overwrite
-    assert!(!mm
-        .put_if_absent("tree", "deciduous", "guava".to_string())
-        .unwrap());
+    assert!(
+        !mm.put_if_absent("tree", "deciduous", "guava".to_string())
+            .unwrap()
+    );
 
     // for each accounts for all inner keys and values
     let mut count = 0;

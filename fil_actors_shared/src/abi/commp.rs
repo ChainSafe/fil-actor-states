@@ -43,7 +43,7 @@ mod tests {
     use fil_actors_test_utils::go_compat::{ensure_go_mod_prepared, go_compat_tests_dir};
     use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
     use fvm_shared::piece::{
-        zero_piece_commitment as zero_piece_commitment_v2, PaddedPieceSize as PaddedPieceSizeV2,
+        PaddedPieceSize as PaddedPieceSizeV2, zero_piece_commitment as zero_piece_commitment_v2,
     };
     use multihash_codetable::{Code, MultihashDigest};
     use quickcheck::Arbitrary;

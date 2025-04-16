@@ -32,11 +32,11 @@ impl BatchReturn {
     }
 
     pub fn of(codes: &[ExitCode]) -> Self {
-        let mut gen = BatchReturnGen::new(codes.len());
+        let mut generator = BatchReturnGen::new(codes.len());
         for code in codes {
-            gen.add(*code);
+            generator.add(*code);
         }
-        gen.gen()
+        generator.generate()
     }
 
     pub fn size(&self) -> usize {
@@ -195,8 +195,14 @@ impl BatchReturnGen {
         }
     }
 
-    pub fn gen(self) -> BatchReturn {
-        assert_eq!(self.expect_count, self.success_count + self.fail_codes.len(), "programmer error, mismatched batch size {} and processed count {} batch return must include success/fail for all inputs", self.expect_count, self.success_count + self.fail_codes.len());
+    pub fn generate(self) -> BatchReturn {
+        assert_eq!(
+            self.expect_count,
+            self.success_count + self.fail_codes.len(),
+            "programmer error, mismatched batch size {} and processed count {} batch return must include success/fail for all inputs",
+            self.expect_count,
+            self.success_count + self.fail_codes.len()
+        );
         BatchReturn {
             success_count: self.success_count as u32,
             fail_codes: self.fail_codes,

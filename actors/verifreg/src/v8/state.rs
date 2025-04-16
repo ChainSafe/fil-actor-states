@@ -5,8 +5,8 @@ use cid::Cid;
 use fil_actors_shared::v8::make_empty_map;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
 use fvm_shared::HAMT_BIT_WIDTH;
+use fvm_shared::address::Address;
 
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct State {

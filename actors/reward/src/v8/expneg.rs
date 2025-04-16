@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use fvm_shared::bigint::{BigInt, Integer};
-use fvm_shared::math::{poly_parse, poly_val, PRECISION};
+use fvm_shared::math::{PRECISION, poly_parse, poly_val};
 use lazy_static::lazy_static;
 
 lazy_static! {
