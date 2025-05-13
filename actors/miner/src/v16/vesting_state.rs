@@ -32,7 +32,7 @@ pub struct VestingFund {
 pub struct VestingFunds(Option<VestingFundsInner>);
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
-struct VestingFundsInner {
+pub struct VestingFundsInner {
     // The "next" batch of vesting funds.
     head: VestingFund,
     // The rest of the vesting funds, if any.
