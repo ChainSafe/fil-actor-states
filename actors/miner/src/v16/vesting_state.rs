@@ -29,14 +29,14 @@ pub struct VestingFund {
 /// a tail (referenced by CID).
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 #[serde(transparent)]
-pub struct VestingFunds(Option<VestingFundsInner>);
+pub struct VestingFunds(pub Option<VestingFundsInner>);
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
 pub struct VestingFundsInner {
     // The "next" batch of vesting funds.
-    head: VestingFund,
+    pub head: VestingFund,
     // The rest of the vesting funds, if any.
-    tail: Cid, // Vec<VestingFund>
+    pub tail: Cid, // Vec<VestingFund>
 }
 
 /// Take vested funds from the passed iterator. This assumes the iterator returns `VestingFund`s in
