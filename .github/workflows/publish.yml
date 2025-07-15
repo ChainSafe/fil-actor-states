@@ -13,7 +13,7 @@ env:
 
 jobs:
   publish-shared:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
           crate: "fil_actors_shared"
 
   publish-independent:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
         crate: [
@@ -40,7 +40,7 @@ jobs:
           crate: ${{ matrix.crate }}
 
   publish-dependent-on-shared:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: publish-shared
     strategy:
       matrix:
@@ -62,7 +62,7 @@ jobs:
           crate: ${{ matrix.crate }}
 
   publish-verifreg:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: publish-shared
     steps:
       - name: Checkout repository
@@ -73,7 +73,7 @@ jobs:
           crate: "fil_actor_verifreg_state"
 
   publish-market-and-miner:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: publish-verifreg
     strategy:
       matrix:
@@ -90,7 +90,7 @@ jobs:
           crate: ${{ matrix.crate }}
 
   publish-eam:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: publish-dependent-on-shared
     steps:
       - name: Checkout repository
@@ -101,7 +101,7 @@ jobs:
           crate: "fil_actor_eam_state"
 
   publish-reward:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: publish-market-and-miner
     steps:
       - name: Checkout repository

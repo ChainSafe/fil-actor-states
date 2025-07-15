@@ -25,7 +25,7 @@ env:
 jobs:
   test:
     name: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
@@ -53,7 +53,7 @@ jobs:
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
-    runs-on: buildjet-8vcpu-ubuntu-2204
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
@@ -90,7 +90,7 @@ jobs:
 
   lint-all:
     name: All lint checks (lint audit spellcheck udeps)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # can't use arm64 due to dependency issues with udeps running on nightly
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v4
@@ -111,7 +111,7 @@ jobs:
 
   cargo-dependency-check:
     name: Check cargo files for duplicates
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
