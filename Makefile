@@ -25,8 +25,11 @@ check:
 deny:
 	cargo deny check bans licenses sources || (echo "See deny.toml"; false)
 
+deny-advisories:
+	cargo deny check advisories || (echo "See deny.toml"; false)
+
 udeps:
-	cargo udeps
+	cargo +nightly udeps
 
 lint: clean lint-clippy
 	cargo fmt --all --check
