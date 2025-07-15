@@ -70,4 +70,4 @@ modify-forest:
 	sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = "../actors/verifreg" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
 
-.PHONY: install-lint-tools lint-all deny udeps lint lint-clippy fmt clean update-forest
+.PHONY: install-cargo-binstall install-lint-tools lint-all check deny deny-advisories udeps lint lint-clippy fmt clean update-forest modify-forest
