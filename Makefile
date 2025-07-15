@@ -1,20 +1,32 @@
-install-lint-tools:
-	cargo install --locked taplo-cli
-	cargo install --locked cargo-audit
-	cargo install --locked cargo-spellcheck
-	cargo install --locked cargo-udeps
+# Denotes the architecture of the machine. This is required for direct binary downloads.
+# Note that some repositories might use different names for the same architecture.
+CPU_ARCH := $(shell \
+  ARCH=$$(uname -m); \
+  if [ "$$ARCH" = "arm64" ]; then \
+    ARCH="aarch64"; \
+  fi; \
+  echo "$$ARCH" \
+)
+
+install-cargo-binstall:
+	wget https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-$(CPU_ARCH)-unknown-linux-musl.tgz
+	tar xzf cargo-binstall-$(CPU_ARCH)-unknown-linux-musl.tgz
+	cp cargo-binstall ~/.cargo/bin/cargo-binstall
+
+install-lint-tools: install-cargo-binstall
+	cargo binstall --no-confirm taplo-cli cargo-deny cargo-udeps
 
 # Lints with everything we have in our CI arsenal
-lint-all: lint audit udeps
+lint-all: lint deny udeps
 
 check:
 	bash check_crates.sh
 
-audit:
-	cargo audit
+deny:
+	cargo deny check bans licenses sources || (echo "See deny.toml"; false)
 
 udeps:
-	cargo +nightly udeps
+	cargo udeps
 
 lint: clean lint-clippy
 	cargo fmt --all --check
@@ -55,4 +67,4 @@ modify-forest:
 	sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = "../actors/verifreg" }|g' ./forest/Cargo.toml
 	sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
 
-.PHONY: install-lint-tools lint-all audit udeps lint lint-clippy fmt clean update-forest
+.PHONY: install-lint-tools lint-all deny udeps lint lint-clippy fmt clean update-forest

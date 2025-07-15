@@ -98,20 +98,12 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - name: Apt Dependencies
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo apt-get update -y
-            sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
-      - uses: hanabi1224/cache-cargo-bin-action@v1.0.0
-      - run: rustup toolchain install nightly
       - name: Install Lint tools
         run: make install-lint-tools
         env:
           RUSTFLAGS: "-Cstrip=symbols"
+          # Should deal with rate limits
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: make lint-all
         env:
           CC: "sccache clang"
