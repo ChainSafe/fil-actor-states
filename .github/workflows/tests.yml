@@ -89,7 +89,7 @@ jobs:
           ./scripts/tests/calibnet_other_check.sh
 
   lint-all:
-    name: All lint checks (lint audit spellcheck udeps)
+    name: All lint checks
     runs-on: ubuntu-24.04 # can't use arm64 due to dependency issues with udeps running on nightly
     steps:
       - name: Checkout Sources
@@ -101,7 +101,6 @@ jobs:
       - name: Install Lint tools
         run: make install-lint-tools
         env:
-          RUSTFLAGS: "-Cstrip=symbols"
           # Should deal with rate limits
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: make lint-all
