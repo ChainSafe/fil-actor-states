@@ -25,7 +25,7 @@ env:
 jobs:
   test:
     name: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
@@ -53,7 +53,7 @@ jobs:
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
     name: forest calibnet sync check
-    runs-on: buildjet-8vcpu-ubuntu-2204
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Setup sccache
@@ -89,8 +89,8 @@ jobs:
           ./scripts/tests/calibnet_other_check.sh
 
   lint-all:
-    name: All lint checks (lint audit spellcheck udeps)
-    runs-on: ubuntu-latest
+    name: All lint checks
+    runs-on: ubuntu-24.04 # can't use arm64 due to dependency issues with udeps running on nightly
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v4
@@ -98,20 +98,11 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - name: Apt Dependencies
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: |
-            sudo apt-get update -y
-            sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
-      - uses: hanabi1224/cache-cargo-bin-action@v1.0.0
-      - run: rustup toolchain install nightly
       - name: Install Lint tools
         run: make install-lint-tools
         env:
-          RUSTFLAGS: "-Cstrip=symbols"
+          # Should deal with rate limits
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: make lint-all
         env:
           CC: "sccache clang"
@@ -119,7 +110,7 @@ jobs:
 
   cargo-dependency-check:
     name: Check cargo files for duplicates
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
