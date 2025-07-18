@@ -3,7 +3,7 @@
 use fvm_shared4::ActorID;
 use fvm_shared4::address::Address;
 
-use paste::paste;
+use pastey::paste;
 
 macro_rules! define_singletons {
     ($($name:ident = $id:literal,)*) => {
