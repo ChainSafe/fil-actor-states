@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish shared crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -33,7 +33,7 @@ jobs:
         ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish independent crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -55,7 +55,7 @@ jobs:
         ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish dependent crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -66,7 +66,7 @@ jobs:
     needs: publish-shared
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish verifreg crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -83,7 +83,7 @@ jobs:
         ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish market and miner crates
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -94,7 +94,7 @@ jobs:
     needs: publish-dependent-on-shared
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish eam crate
         uses: ./.github/composite-actions/publish-crate
         with:
@@ -105,7 +105,7 @@ jobs:
     needs: publish-market-and-miner
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Publish reward crate
         uses: ./.github/composite-actions/publish-crate
         with:
