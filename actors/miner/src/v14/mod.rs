@@ -77,7 +77,7 @@ pub enum Method {
     ApplyRewards = 14,
     ReportConsensusFault = 15,
     WithdrawBalance = 16,
-    ConfirmSectorProofsValid = 17,
+    InternalSectorSetupForPreseal = 17,
     ChangeMultiaddrs = 18,
     CompactPartitions = 19,
     CompactSectorNumbers = 20,
