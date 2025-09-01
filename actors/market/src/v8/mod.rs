@@ -1,13 +1,14 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+pub use self::deal::*;
+pub use self::state::*;
+pub use self::types::*;
 use fvm_shared::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-pub use self::deal::*;
-pub use self::state::*;
-
 pub mod balance_table;
+
 mod deal;
 mod state;
 mod types;
