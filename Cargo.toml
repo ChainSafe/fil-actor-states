@@ -21,7 +21,7 @@ members = [
 resolver = "3"
 
 [patch.crates-io]
-fvm_ipld_hamt = { git = "https://github.com/hanabi1224/ref-fvm.git", branch = "hm/hamt-cacheless-iter-patch"}
+fvm_ipld_hamt = { git = "https://github.com/hanabi1224/ref-fvm.git", branch = "hm/hamt-cacheless-iter-patch" }
 
 [workspace.package]
 version = "23.0.1"
