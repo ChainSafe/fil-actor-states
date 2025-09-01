@@ -20,9 +20,6 @@ members = [
 ]
 resolver = "3"
 
-[patch.crates-io]
-fvm_ipld_hamt = { git = "https://github.com/hanabi1224/ref-fvm.git", branch = "hm/hamt-cacheless-iter-patch" }
-
 [workspace.package]
 version = "23.0.1"
 license = "MIT OR Apache-2.0"
@@ -49,7 +46,8 @@ fvm_ipld_amt = "0.7"
 fvm_ipld_bitfield = "0.7"
 fvm_ipld_blockstore = "0.3"
 fvm_ipld_encoding = "0.5"
-fvm_ipld_hamt = "0.10"
+# fvm_ipld_hamt = "0.10"
+fvm_ipld_hamt = { git = "https://github.com/hanabi1224/ref-fvm.git", branch = "hm/hamt-cacheless-iter-patch" }
 fvm_shared = { version = "~2", default-features = false }
 fvm_shared3 = { package = "fvm_shared", version = "~3", default-features = false }
 fvm_shared4 = { package = "fvm_shared", version = "~4", default-features = false }
