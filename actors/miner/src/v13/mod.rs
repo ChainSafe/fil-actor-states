@@ -21,6 +21,7 @@ pub use deadline_info::*;
 pub use deadline_state::*;
 pub use deadlines::*;
 pub use expiration_queue::*;
+pub use ext::*;
 pub use monies::*;
 pub use partition_state::*;
 pub use policy::*;
