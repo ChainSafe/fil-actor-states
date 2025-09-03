@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 pub mod abi;
+pub mod actor_versions;
 pub mod v10;
 pub mod v11;
 pub mod v12;
