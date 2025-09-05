@@ -13,9 +13,7 @@ use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 
 use fil_actors_shared::actor_error_v17;
-use fil_actors_shared::v17::{
-    ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap,
-};
+use fil_actors_shared::v17::{ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap};
 
 use crate::v17::{AddrPairKey, AllocationID, ClaimID};
 use crate::v17::{DataCap, RemoveDataCapProposalID};
