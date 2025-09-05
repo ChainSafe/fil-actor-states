@@ -79,7 +79,6 @@ pub struct VerifyDealsForActivationParams {
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct SectorDeals {
-    pub sector_number: SectorNumber,
     pub sector_type: RegisteredSealProof,
     pub sector_expiry: ChainEpoch,
     pub deal_ids: Vec<DealID>,

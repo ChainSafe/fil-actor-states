@@ -27,7 +27,7 @@ pub struct AddBalanceParams {
     pub provider_or_client: Address,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct WithdrawBalanceParams {
     pub provider_or_client: Address,
     pub amount: TokenAmount,
@@ -39,7 +39,7 @@ pub struct WithdrawBalanceReturn {
     pub amount_withdrawn: TokenAmount,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct OnMinerSectorsTerminateParams {
     pub epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
@@ -94,7 +94,7 @@ pub struct SectorDealData {
     pub commd: Option<Cid>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ActivateDealsParams {
     pub deal_ids: Vec<DealID>,
     pub sector_expiry: ChainEpoch,
