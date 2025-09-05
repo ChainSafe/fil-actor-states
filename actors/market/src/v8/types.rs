@@ -92,7 +92,7 @@ pub struct SectorWeights {
     pub verified_deal_weight: DealWeight,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ActivateDealsParams {
     pub deal_ids: Vec<DealID>,
     pub sector_expiry: ChainEpoch,
