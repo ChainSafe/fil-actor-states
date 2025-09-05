@@ -1,0 +1,43 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
+use fil_actors_runtime::runtime::{ActorCode, Runtime};
+use fil_actors_runtime::{
+    ActorError, BURNT_FUNDS_ACTOR_ADDR, EXPECTED_LEADERS_PER_EPOCH, STORAGE_POWER_ACTOR_ADDR,
+    SYSTEM_ACTOR_ADDR, actor_dispatch, actor_error, extract_send_result,
+};
+
+use fvm_ipld_encoding::ipld_block::IpldBlock;
+use fvm_shared4::address::Address;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::{METHOD_CONSTRUCTOR, METHOD_SEND};
+use log::{error, warn};
+use num_derive::FromPrimitive;
+
+pub use self::logic::*;
+pub use self::state::{Reward, State, VestingFunction};
+pub use self::types::*;
+
+pub(crate) mod expneg;
+mod logic;
+mod state;
+mod types;
+
+// only exported for tests
+#[doc(hidden)]
+pub mod ext;
+
+// * Updated to specs-actors commit: 999e57a151cc7ada020ca2844b651499ab8c0dec (v3.0.1)
+
+/// PenaltyMultiplier is the factor miner penalties are scaled up by
+pub const PENALTY_MULTIPLIER: u64 = 3;
+
+/// Reward actor methods available
+#[derive(FromPrimitive)]
+#[repr(u64)]
+pub enum Method {
+    Constructor = METHOD_CONSTRUCTOR,
+    AwardBlockReward = 2,
+    ThisEpochReward = 3,
+    UpdateNetworkKPI = 4,
+}
