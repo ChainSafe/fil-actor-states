@@ -35,7 +35,7 @@ pub struct WithdrawBalanceReturn {
     pub amount_withdrawn: TokenAmount,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct OnMinerSectorsTerminateParams {
     pub epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
@@ -48,7 +48,7 @@ pub struct OnMinerSectorsTerminateParamsRef<'a> {
     pub deal_ids: &'a [DealID],
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
 }
@@ -62,12 +62,12 @@ pub struct PublishStorageDealsReturn {
 // Changed since V2:
 // - Array of Sectors rather than just one
 // - Removed SectorStart
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct VerifyDealsForActivationParams {
     pub sectors: Vec<SectorDeals>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct SectorDeals {
     pub sector_expiry: ChainEpoch,
     pub deal_ids: Vec<DealID>,
@@ -98,7 +98,7 @@ pub struct ActivateDealsParams {
     pub sector_expiry: ChainEpoch,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ComputeDataCommitmentParams {
     pub inputs: Vec<SectorDataSpec>,
 }
@@ -119,7 +119,7 @@ pub type _DealArray<'bs, BS> = Array<'bs, DealProposal, BS>;
 /// A specialization of a array to deals.
 pub type _DealMetaArray<'bs, BS> = Array<'bs, DealState, BS>;
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct SectorDataSpec {
     pub deal_ids: Vec<DealID>,
     pub sector_type: RegisteredSealProof,

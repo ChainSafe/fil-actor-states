@@ -257,7 +257,7 @@ pub struct MarketNotifyDealParams {
     pub deal_id: u64,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct SettleDealPaymentsParams {
     pub deal_ids: BitField,
