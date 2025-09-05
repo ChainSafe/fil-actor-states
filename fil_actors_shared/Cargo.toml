@@ -7,7 +7,6 @@ authors.workspace = true
 edition.workspace = true
 version.workspace = true
 keywords.workspace = true
-build = "build.rs"
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
