@@ -7,7 +7,7 @@ use fvm_shared4::address::Address;
 use fvm_shared4::sector::RegisteredPoStProof;
 use num_derive::FromPrimitive;
 
-use fil_actors_runtime::reward::FilterEstimate;
+use fil_actors_shared::v17::reward::FilterEstimate;
 
 pub mod init {
     use super::*;

@@ -3,8 +3,8 @@
 
 use std::cmp::max;
 
-use fil_actors_runtime::network::EPOCHS_IN_DAY;
-use fil_actors_runtime::runtime::Policy;
+use fil_actors_shared::v17::network::EPOCHS_IN_DAY;
+use fil_actors_shared::v17::runtime::Policy;
 use fvm_shared4::bigint::{BigInt, Integer};
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
@@ -25,11 +25,11 @@ lazy_static! {
 }
 
 /// Bounds (inclusive) on deal duration.
-pub(super) fn deal_duration_bounds(_size: PaddedPieceSize) -> (ChainEpoch, ChainEpoch) {
+pub(super) fn _deal_duration_bounds(_size: PaddedPieceSize) -> (ChainEpoch, ChainEpoch) {
     (180 * EPOCHS_IN_DAY, 1278 * EPOCHS_IN_DAY)
 }
 
-pub(super) fn deal_price_per_epoch_bounds(
+pub(super) fn _deal_price_per_epoch_bounds(
     _size: PaddedPieceSize,
     _duration: ChainEpoch,
 ) -> (TokenAmount, &'static TokenAmount) {
@@ -59,7 +59,7 @@ pub fn deal_provider_collateral_bounds(
     )
 }
 
-pub(super) fn deal_client_collateral_bounds(
+pub(super) fn _deal_client_collateral_bounds(
     _: PaddedPieceSize,
     _: ChainEpoch,
 ) -> (TokenAmount, TokenAmount) {

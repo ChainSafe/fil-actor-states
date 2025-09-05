@@ -12,7 +12,7 @@ use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
 use serde::{Deserialize, Serialize};
 
-use fil_actors_runtime::MapKey;
+use fil_actors_shared::v17::MapKey;
 
 /// SignersMax is the maximum number of signers allowed in a multisig. If more
 /// are required, please use a combining tree of multisigs.

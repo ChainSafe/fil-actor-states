@@ -1,10 +1,10 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::clock::ChainEpoch;
+use fvm_shared4::clock::ChainEpoch;
 use serde::{Deserialize, Serialize};
 
-use crate::QuantSpec;
+use crate::v17::QuantSpec;
 
 /// Deadline calculations with respect to a current epoch.
 /// "Deadline" refers to the window during which proofs may be submitted.
@@ -155,6 +155,9 @@ impl DeadlineInfo {
     }
 
     pub fn quant_spec(&self) -> QuantSpec {
-        QuantSpec { unit: self.w_post_proving_period, offset: self.last() }
+        QuantSpec {
+            unit: self.w_post_proving_period,
+            offset: self.last(),
+        }
     }
 }

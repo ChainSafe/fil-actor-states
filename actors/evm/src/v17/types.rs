@@ -1,6 +1,6 @@
+use crate::evm_shared::v17::address::EthAddress;
+use crate::evm_shared::v17::uints::U256;
 use cid::Cid;
-use fil_actors_evm_shared::address::EthAddress;
-use fil_actors_evm_shared::uints::U256;
 use fvm_ipld_encoding::RawBytes;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;

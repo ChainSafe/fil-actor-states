@@ -12,12 +12,13 @@ use fvm_shared4::piece::PaddedPieceSize;
 use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 
-use fil_actors_runtime::{
-    ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap, actor_error,
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::{
+    ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, MapMap,
 };
 
-use crate::{AddrPairKey, AllocationID, ClaimID};
-use crate::{DataCap, RemoveDataCapProposalID};
+use crate::v17::{AddrPairKey, AllocationID, ClaimID};
+use crate::v17::{DataCap, RemoveDataCapProposalID};
 
 pub type DataCapMap<BS> = Map2<BS, Address, BigIntDe>;
 pub const DATACAP_MAP_CONFIG: Config = DEFAULT_HAMT_CONFIG;
@@ -47,7 +48,7 @@ impl State {
             MapMap::<_, (), ActorID, u64>::new(store, HAMT_BIT_WIDTH, HAMT_BIT_WIDTH)
                 .flush()
                 .map_err(|e| {
-                    actor_error!(illegal_state, "failed to create empty multi map: {}", e)
+                    actor_error_v17!(illegal_state, "failed to create empty multi map: {}", e)
                 })?;
 
         Ok(State {

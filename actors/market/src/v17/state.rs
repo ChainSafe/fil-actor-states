@@ -5,6 +5,11 @@ use std::cmp::{max, min};
 use std::collections::BTreeMap;
 
 use cid::Cid;
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::{
+    ActorContext, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, Set,
+    SetMultimap, SetMultimapConfig,
+};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::address::Address;
@@ -16,13 +21,8 @@ use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::{ActorID, HAMT_BIT_WIDTH};
 use num_traits::Zero;
 
-use fil_actors_runtime::{
-    ActorContext, ActorError, Array, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2, Set,
-    SetMultimap, SetMultimapConfig, actor_error,
-};
-
-use crate::balance_table::BalanceTable;
-use crate::ext::verifreg::AllocationID;
+use crate::v17::balance_table::BalanceTable;
+use crate::v17::ext::verifreg::AllocationID;
 
 use super::policy::*;
 use super::types::*;
@@ -770,14 +770,14 @@ impl State {
     {
         let state = self.remove_deal_state(store, deal_id)?;
         if state.is_none() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "failed to delete deal state: does not exist"
             ));
         }
         let proposal = self.remove_proposal(store, deal_id)?;
         if proposal.is_none() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "failed to delete deal proposal: does not exist"
             ));
@@ -814,7 +814,7 @@ impl State {
                 // delete the proposal (but not state, which doesn't exist)
                 let deleted = self.remove_proposal(store, deal_id)?;
                 if deleted.is_none() {
-                    return Err(actor_error!(
+                    return Err(actor_error_v17!(
                         illegal_state,
                         format!(
                             "failed to delete deal {} proposal {}: does not exist",
@@ -825,7 +825,7 @@ impl State {
 
                 // delete pending deal cid
                 self.remove_pending_deal(store, *dcid)?.ok_or_else(|| {
-                    actor_error!(
+                    actor_error_v17!(
                         illegal_state,
                         format!(
                             "failed to delete pending deal {}: cid {} does not exist",
@@ -884,7 +884,7 @@ impl State {
 
         // if the deal was ever updated, make sure it didn't happen in the future
         if ever_updated && state.last_updated_epoch > epoch {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "deal updated at future epoch {}",
                 state.last_updated_epoch
@@ -898,14 +898,14 @@ impl State {
 
         let payment_end_epoch = if ever_slashed {
             if epoch < state.slash_epoch {
-                return Err(actor_error!(
+                return Err(actor_error_v17!(
                     illegal_state,
                     "current epoch less than deal slash epoch {}",
                     state.slash_epoch
                 ));
             }
             if state.slash_epoch > deal.end_epoch {
-                return Err(actor_error!(
+                return Err(actor_error_v17!(
                     illegal_state,
                     "deal slash epoch {} after deal end {}",
                     state.slash_epoch,
@@ -1084,7 +1084,10 @@ impl State {
         BS: Blockstore,
     {
         if state.sector_start_epoch == EPOCH_UNDEFINED {
-            return Err(actor_error!(illegal_state, "start sector epoch undefined"));
+            return Err(actor_error_v17!(
+                illegal_state,
+                "start sector epoch undefined"
+            ));
         }
 
         self.unlock_balance(
@@ -1140,7 +1143,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "cannot lock negative amount {}",
                 amount
@@ -1153,7 +1156,7 @@ impl State {
         let prev_locked = locked_table.get(addr)?;
         let escrow_balance = escrow_table.get(addr)?;
         if &prev_locked + amount > escrow_balance {
-            return Err(actor_error!(insufficient_funds;
+            return Err(actor_error_v17!(insufficient_funds;
                     "not enough balance to lock for addr{}: \
                     escrow balance {} < prev locked {} + amount {}",
                     addr, escrow_balance, prev_locked, amount));
@@ -1198,7 +1201,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "unlock negative amount: {}",
                 amount
@@ -1238,7 +1241,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "transfer negative amount: {}",
                 amount
@@ -1269,7 +1272,7 @@ impl State {
         BS: Blockstore,
     {
         if amount.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "negative amount to slash: {}",
                 amount
@@ -1296,7 +1299,7 @@ pub fn deal_get_payment_remaining(
     mut slash_epoch: ChainEpoch,
 ) -> Result<TokenAmount, ActorError> {
     if slash_epoch > deal.end_epoch {
-        return Err(actor_error!(
+        return Err(actor_error_v17!(
             illegal_state,
             "deal slash epoch {} after end epoch {}",
             slash_epoch,
@@ -1309,7 +1312,7 @@ pub fn deal_get_payment_remaining(
 
     let duration_remaining = deal.end_epoch - slash_epoch;
     if duration_remaining < 0 {
-        return Err(actor_error!(
+        return Err(actor_error_v17!(
             illegal_state,
             "deal remaining duration negative: {}",
             duration_remaining

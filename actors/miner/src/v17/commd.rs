@@ -1,8 +1,9 @@
 use cid::multihash::Multihash;
 use cid::{Cid, Version};
-use fil_actors_runtime::{ActorError, actor_error};
-use fvm_shared::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
-use fvm_shared::sector::RegisteredSealProof;
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::ActorError;
+use fvm_shared4::commcid::{FIL_COMMITMENT_UNSEALED, SHA2_256_TRUNC254_PADDED};
+use fvm_shared4::sector::RegisteredSealProof;
 use serde::{Deserialize, Serialize};
 
 /// CompactCommD represents a Cid with compact representation of context dependant zero value
@@ -98,10 +99,10 @@ fn zero_commd(seal_proof: RegisteredSealProof) -> Result<Cid, ActorError> {
         | RegisteredSealProof::StackedDRG64GiBV1P1_Feat_SyntheticPoRep
         | RegisteredSealProof::StackedDRG64GiBV1P2_Feat_NiPoRep => 4,
         _ => {
-            return Err(actor_error!(illegal_argument, "unknown SealProof"));
+            return Err(actor_error_v17!(illegal_argument, "unknown SealProof"));
         }
     };
     let hash = Multihash::wrap(SHA2_256_TRUNC254_PADDED, &ZERO_COMMD_HASH[i])
-        .map_err(|_| actor_error!(assertion_failed, "static commd payload invalid"))?;
+        .map_err(|_| actor_error_v17!(assertion_failed, "static commd payload invalid"))?;
     Ok(Cid::new_v1(FIL_COMMITMENT_UNSEALED, hash))
 }

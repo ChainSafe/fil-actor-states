@@ -6,16 +6,16 @@ use std::convert::TryInto;
 
 use anyhow::{Context, anyhow};
 use cid::Cid;
-use fil_actors_runtime::runtime::Policy;
-use fil_actors_runtime::{ActorDowncast, Array};
+use fil_actors_shared::v17::runtime::Policy;
+use fil_actors_shared::v17::{ActorDowncast, Array};
 use fvm_ipld_amt::{Error as AmtError, ValueMut};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
 
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::sector::{SectorNumber, SectorSize};
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::sector::{SectorNumber, SectorSize};
 use num_traits::{Signed, Zero};
 
 use super::{PowerPair, QuantSpec, SectorOnChainInfo, power_for_sector};
@@ -121,7 +121,10 @@ impl ExpirationSet {
             return Err(anyhow!("expiration set power underflow: {:?}", self));
         }
         if self.fee_deduction.is_negative() {
-            return Err(anyhow!("expiration set fee deduction underflow: {:?}", self));
+            return Err(anyhow!(
+                "expiration set fee deduction underflow: {:?}",
+                self
+            ));
         }
         self.validate_state()?;
         Ok(())
@@ -182,7 +185,10 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
     /// Epochs provided to subsequent method calls will be quantized upwards to quanta mod offsetSeed before being
     /// written to/read from queue entries.
     pub fn new(store: &'db BS, root: &Cid, quant: QuantSpec) -> Result<Self, AmtError> {
-        Ok(Self { amt: Array::load(root, store)?, quant })
+        Ok(Self {
+            amt: Array::load(root, store)?,
+            quant,
+        })
     }
 
     /// Adds a collection of sectors to their on-time target expiration entries (quantized).
@@ -400,8 +406,10 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
         sectors: Vec<SectorOnChainInfo>,
         sector_size: SectorSize,
     ) -> anyhow::Result<PowerPair> {
-        let mut remaining: BTreeMap<SectorNumber, &SectorOnChainInfo> =
-            sectors.iter().map(|sector| (sector.sector_number, sector)).collect();
+        let mut remaining: BTreeMap<SectorNumber, &SectorOnChainInfo> = sectors
+            .iter()
+            .map(|sector| (sector.sector_number, sector))
+            .collect();
 
         // Traverse the expiration queue once to find each recovering sector and remove it from early/faulty there.
         // We expect this to find all recovering sectors within the first FaultMaxAge/WPoStProvingPeriod entries
@@ -465,7 +473,10 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
         })?;
 
         if !remaining.is_empty() {
-            return Err(anyhow!("sectors not found in expiration queue: {:?}", remaining));
+            return Err(anyhow!(
+                "sectors not found in expiration queue: {:?}",
+                remaining
+            ));
         }
 
         // Re-schedule the removed sectors to their target expiration.
@@ -633,7 +644,10 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
         })?;
 
         if !remaining.is_empty() {
-            return Err(anyhow!("sectors not found in expiration queue: {:?}", remaining));
+            return Err(anyhow!(
+                "sectors not found in expiration queue: {:?}",
+                remaining
+            ));
         }
 
         Ok((removed, recovering_power))
@@ -692,7 +706,14 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
         let mut expiration_set = self.may_get(epoch)?;
 
         expiration_set
-            .add(on_time_sectors, early_sectors, pledge, active_power, faulty_power, daily_fee)
+            .add(
+                on_time_sectors,
+                early_sectors,
+                pledge,
+                active_power,
+                faulty_power,
+                daily_fee,
+            )
             .map_err(|e| anyhow!("failed to add expiration values for epoch {}: {}", epoch, e))?;
 
         self.must_update(epoch, expiration_set)?;
@@ -727,7 +748,11 @@ impl<'db, BS: Blockstore> ExpirationQueue<'db, BS> {
                 fee_deduction,
             )
             .map_err(|e| {
-                anyhow!("failed to remove expiration values for queue epoch {}: {}", epoch, e)
+                anyhow!(
+                    "failed to remove expiration values for queue epoch {}: {}",
+                    epoch,
+                    e
+                )
             })?;
 
         self.must_update_or_delete(epoch, expiration_set)?;
@@ -959,7 +984,10 @@ fn group_new_sectors_by_declared_expiration<'a>(
 
     for sector in sectors {
         let q_expiration = quant.quantize_up(sector.expiration);
-        sectors_by_expiration.entry(q_expiration).or_default().push(sector);
+        sectors_by_expiration
+            .entry(q_expiration)
+            .or_default()
+            .push(sector);
     }
 
     // The result is sorted by expiration because the BTreeMap iterates in sorted order.
@@ -1027,11 +1055,11 @@ fn group_expiration_set(
 fn check_no_early_sectors(set: &BTreeSet<u64>, es: &ExpirationSet) -> anyhow::Result<()> {
     for u in es.early_sectors.iter() {
         if set.contains(&u) {
-            return Err(anyhow!("Invalid attempt to group sector {} with an early expiration", u));
+            return Err(anyhow!(
+                "Invalid attempt to group sector {} with an early expiration",
+                u
+            ));
         }
     }
     Ok(())
 }
-
-#[cfg(test)]
-mod tests;

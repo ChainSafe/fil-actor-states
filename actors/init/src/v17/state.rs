@@ -7,9 +7,8 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::ActorID;
 use fvm_shared4::address::{Address, Protocol};
 
-use fil_actors_runtime::{
-    ActorError, DEFAULT_HAMT_CONFIG, FIRST_NON_SINGLETON_ADDR, Map2, actor_error,
-};
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::{ActorError, DEFAULT_HAMT_CONFIG, FIRST_NON_SINGLETON_ADDR, Map2};
 
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug)]
 pub struct State {
@@ -65,7 +64,7 @@ impl State {
         // Map the robust address to the ID, failing if it's already mapped to anything.
         let is_new = map.set_if_absent(robust_addr, id)?;
         if !is_new {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 forbidden,
                 "robust address {} is already allocated in the address map",
                 robust_addr

@@ -5,26 +5,26 @@ use cid::Cid;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::{BytesDe, strict_bytes};
 use fvm_ipld_encoding::{RawBytes, tuple::*};
-use fvm_shared::ActorID;
-use fvm_shared::address::Address;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::piece::PaddedPieceSize;
-use fvm_shared::randomness::Randomness;
-use fvm_shared::sector::{
+use fvm_shared4::ActorID;
+use fvm_shared4::address::Address;
+use fvm_shared4::bigint::bigint_ser;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::deal::DealID;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::piece::PaddedPieceSize;
+use fvm_shared4::randomness::Randomness;
+use fvm_shared4::sector::{
     PoStProof, RegisteredAggregateProof, RegisteredPoStProof, RegisteredSealProof,
     RegisteredUpdateProof, SectorNumber, SectorSize, StoragePower,
 };
 use serde::{Deserialize, Serialize};
 
-use fil_actors_runtime::reward::FilterEstimate;
-use fil_actors_runtime::{BatchReturn, DealWeight};
+use fil_actors_shared::v17::reward::FilterEstimate;
+use fil_actors_shared::v17::{BatchReturn, DealWeight};
 
-use crate::commd::CompactCommD;
-use crate::ext::verifreg::AllocationID;
-use crate::ext::verifreg::ClaimID;
+use crate::v17::commd::CompactCommD;
+use crate::v17::ext::verifreg::AllocationID;
+use crate::v17::ext::verifreg::ClaimID;
 
 use super::beneficiary::*;
 

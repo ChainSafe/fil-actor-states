@@ -3,19 +3,19 @@
 
 use std::cmp;
 
-use fil_actors_runtime::EXPECTED_LEADERS_PER_EPOCH;
-use fil_actors_runtime::network::EPOCHS_IN_DAY;
-use fil_actors_runtime::reward::math::PRECISION;
-use fil_actors_runtime::reward::{FilterEstimate, smooth};
-use fvm_shared::bigint::Integer;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::sector::StoragePower;
+use fil_actors_shared::v17::EXPECTED_LEADERS_PER_EPOCH;
+use fil_actors_shared::v17::network::EPOCHS_IN_DAY;
+use fil_actors_shared::v17::reward::math::PRECISION;
+use fil_actors_shared::v17::reward::{FilterEstimate, smooth};
+use fvm_shared4::bigint::Integer;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_traits::Zero;
 
 use super::{REWARD_VESTING_SPEC, VestSpec};
-use crate::detail::*;
+use crate::v17::detail::*;
 
 /// Projection period of expected sector block reward for deposit required to pre-commit a sector.
 /// This deposit is lost if the pre-commitment is not timely followed up by a commitment proof.
@@ -134,7 +134,11 @@ pub mod detail {
             qa_sector_power,
             projection_duration,
         );
-        if br.le(&TokenAmount::zero()) { TokenAmount::from_atto(1) } else { br }
+        if br.le(&TokenAmount::zero()) {
+            TokenAmount::from_atto(1)
+        } else {
+            br
+        }
     }
 }
 

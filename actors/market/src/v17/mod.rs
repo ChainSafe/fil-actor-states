@@ -1,49 +1,12 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::cmp::min;
-use std::collections::{BTreeMap, BTreeSet, HashSet};
-
-use cid::Cid;
-use cid::multihash::Multihash;
-use fil_actors_runtime::reward::ThisEpochRewardReturn;
-use frc46_token::token::types::{BalanceReturn, TransferFromParams, TransferFromReturn};
-use fvm_ipld_bitfield::BitField;
-use fvm_ipld_blockstore::Blockstore;
-use fvm_ipld_encoding::ipld_block::IpldBlock;
-use fvm_ipld_encoding::{DAG_CBOR, RawBytes};
-use fvm_ipld_hamt::BytesKey;
-use fvm_shared4::address::Address;
-use fvm_shared4::bigint::BigInt;
-use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
-use fvm_shared4::crypto::hash::SupportedHashes;
-use fvm_shared4::deal::DealID;
-use fvm_shared4::econ::TokenAmount;
+use fil_actors_shared::v17::FIRST_ACTOR_SPECIFIC_EXIT_CODE;
+use fvm_shared4::METHOD_CONSTRUCTOR;
 use fvm_shared4::error::ExitCode;
-use fvm_shared4::piece::PieceInfo;
-use fvm_shared4::sector::{RegisteredSealProof, SectorNumber, SectorSize, StoragePower};
-use fvm_shared4::sys::SendFlags;
-use fvm_shared4::{ActorID, METHOD_CONSTRUCTOR, METHOD_SEND};
-use integer_encoding::VarInt;
-use log::{info, warn};
 use num_derive::FromPrimitive;
-use num_traits::Zero;
-
-use fil_actors_runtime::cbor::{deserialize, serialize};
-use fil_actors_runtime::runtime::builtins::Type;
-use fil_actors_runtime::runtime::{ActorCode, Policy, Runtime};
-use fil_actors_runtime::{
-    ActorContext, ActorDowncast, ActorError, AsActorError, BURNT_FUNDS_ACTOR_ADDR, CRON_ACTOR_ADDR,
-    DATACAP_TOKEN_ACTOR_ADDR, REWARD_ACTOR_ADDR, STORAGE_POWER_ACTOR_ADDR, SYSTEM_ACTOR_ADDR,
-    VERIFIED_REGISTRY_ACTOR_ADDR, actor_dispatch, actor_error, deserialize_block,
-};
-use fil_actors_runtime::{BatchReturnGen, FIRST_ACTOR_SPECIFIC_EXIT_CODE, extract_send_result};
-
-use crate::balance_table::BalanceTable;
-use crate::ext::verifreg::{AllocationID, AllocationRequest};
 
 pub use self::deal::*;
-use self::policy::*;
 pub use self::state::*;
 pub use self::types::*;
 

@@ -1,12 +1,12 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime::Array;
-use fil_actors_runtime::runtime::Policy;
+use fil_actors_shared::v17::Array;
+use fil_actors_shared::v17::runtime::Policy;
 
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::sector::SectorNumber;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::sector::SectorNumber;
 
 use super::{DeadlineInfo, Deadlines, Partition, QuantSpec};
 
@@ -57,7 +57,10 @@ impl Deadlines {
             }
         }
 
-        Err(anyhow::anyhow!("sector {} not due at any deadline", sector_number))
+        Err(anyhow::anyhow!(
+            "sector {} not due at any deadline",
+            sector_number
+        ))
     }
 }
 
@@ -80,7 +83,10 @@ pub fn deadline_is_mutable(
 }
 
 pub fn quant_spec_for_deadline(policy: &Policy, di: &DeadlineInfo) -> QuantSpec {
-    QuantSpec { unit: policy.wpost_proving_period, offset: di.last() }
+    QuantSpec {
+        unit: policy.wpost_proving_period,
+        offset: di.last(),
+    }
 }
 
 // Returns true if optimistically accepted posts submitted to the given deadline
@@ -135,9 +141,17 @@ pub fn new_deadline_info_from_offset_and_epoch(
     period_start_seed: ChainEpoch,
     current_epoch: ChainEpoch,
 ) -> DeadlineInfo {
-    let q = QuantSpec { unit: policy.wpost_proving_period, offset: period_start_seed };
+    let q = QuantSpec {
+        unit: policy.wpost_proving_period,
+        offset: period_start_seed,
+    };
     let current_period_start = q.quantize_down(current_epoch);
     let current_deadline_idx =
         ((current_epoch - current_period_start) / policy.wpost_challenge_window) as u64;
-    new_deadline_info(policy, current_period_start, current_deadline_idx, current_epoch)
+    new_deadline_info(
+        policy,
+        current_period_start,
+        current_deadline_idx,
+        current_epoch,
+    )
 }

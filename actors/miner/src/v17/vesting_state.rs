@@ -4,14 +4,14 @@
 use std::iter;
 
 use cid::Cid;
-use fil_actors_runtime::{ActorError, AsActorError};
+use fil_actors_shared::v17::{ActorError, AsActorError};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::CborStore;
 use fvm_ipld_encoding::serde::{Deserialize, Serialize};
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::error::ExitCode;
 use itertools::{EitherOrBoth, Itertools, PeekingNext};
 use multihash_codetable::Code;
 use num_traits::Zero;
@@ -45,7 +45,9 @@ fn take_vested(
     iter: &mut impl PeekingNext<Item = VestingFund>,
     current_epoch: ChainEpoch,
 ) -> TokenAmount {
-    iter.peeking_take_while(|fund| fund.epoch < current_epoch).map(|f| f.amount).sum()
+    iter.peeking_take_while(|fund| fund.epoch < current_epoch)
+        .map(|f| f.amount)
+        .sum()
 }
 
 impl VestingFunds {
@@ -54,10 +56,15 @@ impl VestingFunds {
     }
 
     pub fn load(&self, store: &impl Blockstore) -> Result<Vec<VestingFund>, ActorError> {
-        let Some(this) = &self.0 else { return Ok(Vec::new()) };
+        let Some(this) = &self.0 else {
+            return Ok(Vec::new());
+        };
         let mut funds: Vec<_> = store
             .get_cbor(&this.tail)
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to load the vesting funds")?
+            .context_code(
+                ExitCode::USR_ILLEGAL_STATE,
+                "failed to load the vesting funds",
+            )?
             .context_code(ExitCode::USR_ILLEGAL_STATE, "missing vesting funds state")?;
 
         // NOTE: we allow head to be drawn down to zero through fees/penalties. However, when
@@ -82,14 +89,20 @@ impl VestingFunds {
 
         let tail = store
             .put_cbor(&funds.collect_vec(), Code::Blake2b256)
-            .context_code(ExitCode::USR_ILLEGAL_STATE, "failed to store the vesting funds")?;
+            .context_code(
+                ExitCode::USR_ILLEGAL_STATE,
+                "failed to store the vesting funds",
+            )?;
 
         self.0 = Some(VestingFundsInner { head, tail });
         Ok(())
     }
 
     fn can_vest(&self, current_epoch: ChainEpoch) -> bool {
-        self.0.as_ref().map(|v| v.head.epoch < current_epoch).unwrap_or(false)
+        self.0
+            .as_ref()
+            .map(|v| v.head.epoch < current_epoch)
+            .unwrap_or(false)
     }
 
     pub fn unlock_vested_funds(
@@ -127,7 +140,10 @@ impl VestingFunds {
         //    24th).
 
         let vest_begin = current_epoch + spec.initial_delay; // Nothing unlocks here, this is just the start of the clock.
-        let quant = QuantSpec { unit: spec.quantization, offset: proving_period_start };
+        let quant = QuantSpec {
+            unit: spec.quantization,
+            offset: proving_period_start,
+        };
 
         let mut vested_so_far = TokenAmount::zero();
         let mut epoch = vest_begin;
@@ -154,7 +170,10 @@ impl VestingFunds {
             let vest_this_time = &target_vest - &vested_so_far;
             vested_so_far = target_vest;
 
-            Some(VestingFund { epoch: vest_epoch, amount: vest_this_time })
+            Some(VestingFund {
+                epoch: vest_epoch,
+                amount: vest_this_time,
+            })
         });
 
         let old_funds = self.load(store)?;
@@ -166,9 +185,10 @@ impl VestingFunds {
             .map(|item| match item {
                 EitherOrBoth::Left(a) => a,
                 EitherOrBoth::Right(b) => b,
-                EitherOrBoth::Both(a, b) => {
-                    VestingFund { epoch: a.epoch, amount: a.amount + b.amount }
-                }
+                EitherOrBoth::Both(a, b) => VestingFund {
+                    epoch: a.epoch,
+                    amount: a.amount + b.amount,
+                },
             })
             .peekable();
 

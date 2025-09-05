@@ -1,6 +1,6 @@
 use std::array::TryFromSliceError;
 
-use fil_actors_evm_shared::uints::U256;
+use crate::evm_shared::v17::uints::U256;
 use fvm_shared4::ActorID;
 
 use cid::Cid;
@@ -161,7 +161,7 @@ pub struct State {
 mod test {
     use fvm_ipld_encoding::{BytesDe, from_slice, to_vec};
 
-    use crate::BytecodeHash;
+    use crate::v17::BytecodeHash;
 
     #[test]
     fn test_bytecode_hash_serde() {

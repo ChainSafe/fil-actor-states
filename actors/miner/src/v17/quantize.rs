@@ -2,7 +2,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_shared::clock::ChainEpoch;
+use fvm_shared4::clock::ChainEpoch;
 
 /// Constant defining the [QuantSpec] which performs no quantization.
 pub const NO_QUANTIZATION: QuantSpec = QuantSpec { unit: 1, offset: 0 };
@@ -44,6 +44,10 @@ impl QuantSpec {
     pub fn quantize_down(&self, epoch: ChainEpoch) -> ChainEpoch {
         let next = self.quantize_up(epoch);
         // QuantizeDown == QuantizeUp iff epoch is a fixed point of QuantizeUp
-        if epoch == next { next } else { next - self.unit }
+        if epoch == next {
+            next
+        } else {
+            next - self.unit
+        }
     }
 }

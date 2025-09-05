@@ -4,7 +4,7 @@
 use fvm_shared4::bigint::{BigInt, Integer};
 use lazy_static::lazy_static;
 
-use fil_actors_runtime::builtin::reward::math::{PRECISION, poly_parse, poly_val};
+use fil_actors_shared::v17::builtin::reward::math::{PRECISION, poly_parse, poly_val};
 
 lazy_static! {
     static ref EXP_NUM_COEF: Vec<BigInt> = poly_parse(&[

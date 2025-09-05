@@ -1,40 +1,17 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use std::cmp;
-use std::cmp::max;
-use std::collections::btree_map::Entry;
-use std::collections::{BTreeMap, BTreeSet, HashMap};
-use std::ops::Neg;
-
-use anyhow::{Error, anyhow};
-use byteorder::{BigEndian, ByteOrder, WriteBytesExt};
 use cid::Cid;
-use fvm_ipld_bitfield::{BitField, Validate};
-use fvm_ipld_blockstore::Blockstore;
-use fvm_ipld_encoding::ipld_block::IpldBlock;
-use fvm_ipld_encoding::{BytesDe, CborStore, RawBytes, from_slice};
-use fvm_shared::address::{Address, Payload, Protocol};
-use fvm_shared::bigint::{BigInt, Integer};
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::deal::DealID;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::*;
-use fvm_shared::piece::PieceInfo;
-use fvm_shared::randomness::*;
-use fvm_shared::sector::{
-    AggregateSealVerifyInfo, AggregateSealVerifyProofAndInfos, InteractiveSealRandomness,
-    PoStProof, RegisteredAggregateProof, RegisteredPoStProof, RegisteredSealProof,
-    RegisteredUpdateProof, ReplicaUpdateInfo, SealRandomness, SealVerifyInfo, SectorID, SectorInfo,
-    SectorNumber, SectorSize, StoragePower, WindowPoStVerifyInfo,
-};
-use fvm_shared::version::NetworkVersion;
-use fvm_shared::{ActorID, METHOD_CONSTRUCTOR, METHOD_SEND, MethodNum};
-use itertools::Itertools;
-use log::{error, info, warn};
-use multihash_codetable::Code::Blake2b256;
+use fvm_ipld_bitfield::BitField;
+use fvm_ipld_encoding::RawBytes;
+use fvm_shared4::bigint::BigInt;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::deal::DealID;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::error::*;
+use fvm_shared4::sector::{RegisteredSealProof, RegisteredUpdateProof, SectorNumber, SectorSize};
+use fvm_shared4::{METHOD_CONSTRUCTOR, MethodNum};
 use num_derive::FromPrimitive;
-use num_traits::{Signed, Zero};
 
 pub use beneficiary::*;
 pub use bitfield_queue::*;
@@ -44,20 +21,6 @@ pub use deadline_info::*;
 pub use deadline_state::*;
 pub use deadlines::*;
 pub use expiration_queue::*;
-use fil_actors_runtime::cbor::{serialize, serialize_vec};
-use fil_actors_runtime::reward::{FilterEstimate, ThisEpochRewardReturn};
-use fil_actors_runtime::runtime::builtins::Type;
-use fil_actors_runtime::runtime::policy_constants::{
-    CREATE_MINER_DEPOSIT_POWER, MAX_SECTOR_NUMBER,
-};
-use fil_actors_runtime::runtime::{ActorCode, DomainSeparationTag, Policy, Runtime};
-use fil_actors_runtime::{
-    ActorContext, ActorDowncast, ActorError, AsActorError, BURNT_FUNDS_ACTOR_ADDR, BatchReturn,
-    BatchReturnGen, DealWeight, EPOCHS_IN_DAY, INIT_ACTOR_ADDR, REWARD_ACTOR_ADDR,
-    STORAGE_MARKET_ACTOR_ADDR, STORAGE_POWER_ACTOR_ADDR, SYSTEM_ACTOR_ADDR,
-    VERIFIED_REGISTRY_ACTOR_ADDR, actor_dispatch, actor_error, deserialize_block,
-    extract_send_result, util,
-};
 pub use monies::*;
 pub use partition_state::*;
 pub use policy::*;
@@ -68,9 +31,6 @@ pub use state::*;
 pub use termination::*;
 pub use types::*;
 pub use vesting_state::*;
-
-use crate::ext::market::NO_ALLOCATION_ID;
-use crate::notifications::{ActivationNotifications, notify_data_consumers};
 
 // The following errors are particular cases of illegal state.
 // They're not expected to ever happen, but if they do, distinguished codes can help us
@@ -212,30 +172,19 @@ pub fn power_for_sector(sector_size: SectorSize, sector: &SectorOnChainInfo) -> 
 
 /// Returns the sum of the raw byte and quality-adjusted power for sectors.
 pub fn power_for_sectors(sector_size: SectorSize, sectors: &[SectorOnChainInfo]) -> PowerPair {
-    let qa = sectors.iter().map(|s| qa_power_for_sector(sector_size, s)).sum();
+    let qa = sectors
+        .iter()
+        .map(|s| qa_power_for_sector(sector_size, s))
+        .sum();
 
-    PowerPair { raw: BigInt::from(sector_size as u64) * BigInt::from(sectors.len()), qa }
+    PowerPair {
+        raw: BigInt::from(sector_size as u64) * BigInt::from(sectors.len()),
+        qa,
+    }
 }
 
 pub fn daily_fee_for_sectors(sectors: &[SectorOnChainInfo]) -> TokenAmount {
     sectors.iter().map(|s| &s.daily_fee).sum()
-}
-
-/// Calculate create miner deposit by MINIMUM_CONSENSUS_POWER x StateMinerInitialPledgeCollateral / 10
-/// See FIP-0077, https://github.com/filecoin-project/FIPs/blob/master/FIPS/fip-0077.md
-pub fn calculate_create_miner_deposit(rt: &impl Runtime) -> Result<TokenAmount, ActorError> {
-    let rew = request_current_epoch_block_reward(rt)?;
-    let pwr = request_current_total_power(rt)?;
-
-    Ok(initial_pledge_for_power(
-        &BigInt::from(CREATE_MINER_DEPOSIT_POWER),
-        &rew.this_epoch_baseline_power,
-        &rew.this_epoch_reward_smoothed,
-        &pwr.quality_adj_power_smoothed,
-        &rt.total_fil_circ_supply(),
-        rt.curr_epoch() - pwr.ramp_start_epoch,
-        pwr.ramp_duration_epochs,
-    ))
 }
 
 pub struct SectorPiecesActivationInput {
@@ -277,17 +226,25 @@ impl From<&UpdateAndSectorInfo<'_>> for DealsActivationInput {
     }
 }
 
-// Data activation results for one sector
-#[derive(Clone)]
-struct DataActivationOutput {
-    pub unverified_space: BigInt,
-    pub verified_space: BigInt,
-    pub pieces: Vec<(Cid, u64)>,
-}
-
 // Track information needed to update a sector info's data during ProveReplicaUpdate
+#[allow(dead_code)]
 #[derive(Clone, Debug)]
 struct UpdateAndSectorInfo<'a> {
     update: &'a ReplicaUpdateInner,
     sector_info: &'a SectorOnChainInfo,
+}
+
+/// Validates that a partition contains the given sectors.
+fn validate_partition_contains_sectors(
+    partition: &Partition,
+    sectors: &BitField,
+) -> anyhow::Result<()> {
+    // Check that the declared sectors are actually assigned to the partition.
+    if partition.sectors.contains_all(sectors) {
+        Ok(())
+    } else {
+        Err(anyhow::anyhow!(
+            "not all sectors are assigned to the partition"
+        ))
+    }
 }

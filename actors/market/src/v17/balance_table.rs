@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::{ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 use fvm_ipld_blockstore::Blockstore;
 use fvm_shared4::address::Address;
 use fvm_shared4::econ::TokenAmount;
 use num_traits::Zero;
-
-use fil_actors_runtime::{
-    ActorContext, ActorError, Config, DEFAULT_HAMT_CONFIG, Map2, actor_error,
-};
 
 /// Balance table which handles getting and updating token balances specifically
 pub struct BalanceTable<BS: Blockstore>(pub Map2<BS, Address, TokenAmount>);
@@ -52,7 +50,7 @@ where
         let prev = self.get(key)?;
         let sum = &prev + value;
         if sum.is_negative() {
-            Err(actor_error!(
+            Err(actor_error_v17!(
                 illegal_argument,
                 "negative balance for {} adding {} to {}",
                 key,
@@ -94,7 +92,7 @@ where
         let prev = self.get(key)?;
 
         if req > &prev {
-            Err(actor_error!(
+            Err(actor_error_v17!(
                 illegal_argument,
                 "negative balance for {} subtracting {} from {}",
                 key,
@@ -116,102 +114,5 @@ where
         })?;
 
         Ok(total)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use fil_actors_runtime::test_blockstores::MemoryBlockstore;
-    use fvm_shared4::address::Address;
-    use fvm_shared4::econ::TokenAmount;
-
-    use crate::balance_table::BalanceTable;
-
-    #[test]
-    fn total() {
-        let addr1 = Address::new_id(100);
-        let addr2 = Address::new_id(101);
-        let store = MemoryBlockstore::default();
-        let mut bt = BalanceTable::new(&store, "test");
-
-        assert!(bt.total().unwrap().is_zero());
-
-        struct TotalTestCase<'a> {
-            amount: u64,
-            addr: &'a Address,
-            total: u64,
-        }
-        let cases = [
-            TotalTestCase {
-                amount: 10,
-                addr: &addr1,
-                total: 10,
-            },
-            TotalTestCase {
-                amount: 20,
-                addr: &addr1,
-                total: 30,
-            },
-            TotalTestCase {
-                amount: 40,
-                addr: &addr2,
-                total: 70,
-            },
-            TotalTestCase {
-                amount: 50,
-                addr: &addr2,
-                total: 120,
-            },
-        ];
-
-        for t in cases.iter() {
-            bt.add(t.addr, &TokenAmount::from_atto(t.amount)).unwrap();
-
-            assert_eq!(bt.total().unwrap(), TokenAmount::from_atto(t.total));
-        }
-    }
-
-    #[test]
-    fn balance_subtracts() {
-        let addr = Address::new_id(100);
-        let store = MemoryBlockstore::default();
-        let mut bt = BalanceTable::new(&store, "test");
-
-        bt.add(&addr, &TokenAmount::from_atto(80u8)).unwrap();
-        assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(80u8));
-        // Test subtracting past minimum only subtracts correct amount
-        assert_eq!(
-            bt.subtract_with_minimum(
-                &addr,
-                &TokenAmount::from_atto(20u8),
-                &TokenAmount::from_atto(70u8)
-            )
-            .unwrap(),
-            TokenAmount::from_atto(10u8)
-        );
-        assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(70u8));
-
-        // Test subtracting to limit
-        assert_eq!(
-            bt.subtract_with_minimum(
-                &addr,
-                &TokenAmount::from_atto(10u8),
-                &TokenAmount::from_atto(60u8)
-            )
-            .unwrap(),
-            TokenAmount::from_atto(10u8)
-        );
-        assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(60u8));
-
-        // Test must subtract success
-        bt.must_subtract(&addr, &TokenAmount::from_atto(10u8))
-            .unwrap();
-        assert_eq!(bt.get(&addr).unwrap(), TokenAmount::from_atto(50u8));
-
-        // Test subtracting more than available
-        assert!(
-            bt.must_subtract(&addr, &TokenAmount::from_atto(100u8))
-                .is_err()
-        );
     }
 }

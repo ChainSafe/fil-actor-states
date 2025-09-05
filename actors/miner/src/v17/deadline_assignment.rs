@@ -6,7 +6,7 @@ use std::collections::BinaryHeap;
 
 use anyhow::anyhow;
 
-use fil_actors_runtime::runtime::Policy;
+use fil_actors_shared::v17::runtime::Policy;
 
 use super::{Deadline, SectorOnChainInfo};
 
@@ -105,7 +105,8 @@ fn cmp(a: &DeadlineAssignmentInfo, b: &DeadlineAssignmentInfo, partition_size: u
         .then_with(|| {
             // Ok, we'll end up with the same number of partitions any which way we
             // go. Try to fill up a partition instead of opening a new one.
-            a.is_full_now(partition_size).cmp(&b.is_full_now(partition_size))
+            a.is_full_now(partition_size)
+                .cmp(&b.is_full_now(partition_size))
         })
         .then_with(|| {
             // Either we have two open partitions, or neither deadline has an open

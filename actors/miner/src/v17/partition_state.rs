@@ -6,16 +6,17 @@ use std::ops::{self, Neg};
 
 use anyhow::{Context, anyhow};
 use cid::Cid;
-use fil_actors_runtime::runtime::Policy;
-use fil_actors_runtime::{ActorDowncast, Array, actor_error};
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::runtime::Policy;
+use fil_actors_shared::v17::{ActorDowncast, Array};
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::bigint::bigint_ser;
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::{SectorSize, StoragePower};
+use fvm_shared4::bigint::bigint_ser;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::error::ExitCode;
+use fvm_shared4::sector::{SectorSize, StoragePower};
 use num_traits::{Signed, Zero};
 
 use super::{
@@ -167,10 +168,9 @@ impl Partition {
             .map_err(|e| e.downcast_wrap("failed to load partition queue"))?;
 
         // Reschedule faults
-        let new_faulty_power =
-            queue
-                .reschedule_as_faults(fault_expiration, sectors, sector_size)
-                .map_err(|e| e.downcast_wrap("failed to add faults to partition queue"))?;
+        let new_faulty_power = queue
+            .reschedule_as_faults(fault_expiration, sectors, sector_size)
+            .map_err(|e| e.downcast_wrap("failed to add faults to partition queue"))?;
 
         // Save expiration queue
         self.expirations_epochs = queue.amt.flush()?;
@@ -221,7 +221,7 @@ impl Partition {
         quant: QuantSpec,
     ) -> anyhow::Result<(BitField, PowerPair, PowerPair)> {
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v17!(illegal_argument; "failed fault declaration: {}", e))?;
 
         // Split declarations into declarations of new faults, and retraction of declared recoveries.
         let retracted_recoveries = &self.recoveries & sector_numbers;
@@ -325,7 +325,7 @@ impl Partition {
     ) -> anyhow::Result<()> {
         // Check that the declared sectors are actually assigned to the partition.
         validate_partition_contains_sectors(self, sector_numbers)
-            .map_err(|e| actor_error!(illegal_argument; "failed fault declaration: {}", e))?;
+            .map_err(|e| actor_error_v17!(illegal_argument; "failed fault declaration: {}", e))?;
 
         // Ignore sectors not faulty or already declared recovered
         let mut recoveries = sector_numbers & &self.faults;
@@ -493,14 +493,22 @@ impl Partition {
         let live_sectors = self.live_sectors();
 
         if !live_sectors.contains_all(sector_numbers) {
-            return Err(actor_error!(illegal_argument, "can only terminate live sectors").into());
+            return Err(
+                actor_error_v17!(illegal_argument, "can only terminate live sectors").into(),
+            );
         }
 
         let sector_infos = sectors.load_sectors(sector_numbers)?;
         let mut expirations = ExpirationQueue::new(store, &self.expirations_epochs, quant)
             .map_err(|e| e.downcast_wrap("failed to load sector expirations"))?;
         let (mut removed, removed_recovering) = expirations
-            .remove_sectors(policy, &sector_infos, &self.faults, &self.recoveries, sector_size)
+            .remove_sectors(
+                policy,
+                &sector_infos,
+                &self.faults,
+                &self.recoveries,
+                sector_size,
+            )
             .map_err(|e| e.downcast_wrap("failed to remove sector expirations"))?;
 
         self.expirations_epochs = expirations
@@ -568,10 +576,14 @@ impl Partition {
         // and all recoveries retracted.
         // No recoveries may be posted until the deadline is closed.
         if !self.recoveries.is_empty() {
-            return Err(anyhow!("unexpected recoveries while processing expirations"));
+            return Err(anyhow!(
+                "unexpected recoveries while processing expirations"
+            ));
         }
         if !self.recovering_power.is_zero() {
-            return Err(anyhow!("unexpected recovering power while processing expirations"));
+            return Err(anyhow!(
+                "unexpected recovering power while processing expirations"
+            ));
         }
 
         // Nothing expiring now should have already terminated.
@@ -662,8 +674,9 @@ impl Partition {
                 let limit = max_sectors - result.sectors_processed;
 
                 let to_process = if limit < count {
-                    let to_process =
-                        sectors.slice(0, limit).context("expected more sectors in bitfield")?;
+                    let to_process = sectors
+                        .slice(0, limit)
+                        .context("expected more sectors in bitfield")?;
                     let rest = sectors - &to_process;
                     remaining = Some((rest, epoch));
                     result.sectors_processed += limit;
@@ -682,14 +695,20 @@ impl Partition {
             .map_err(|e| e.downcast_wrap("failed to walk early terminations queue"))?;
 
         // Update early terminations
-        early_terminated_queue.amt.batch_delete(processed, true).map_err(|e| {
-            e.downcast_wrap("failed to remove entries from early terminations queue")
-        })?;
+        early_terminated_queue
+            .amt
+            .batch_delete(processed, true)
+            .map_err(|e| {
+                e.downcast_wrap("failed to remove entries from early terminations queue")
+            })?;
 
         if let Some((remaining_sectors, remaining_epoch)) = remaining.take() {
-            early_terminated_queue.amt.set(remaining_epoch as u64, remaining_sectors).map_err(
-                |e| e.downcast_wrap("failed to update remaining entry early terminations queue"),
-            )?;
+            early_terminated_queue
+                .amt
+                .set(remaining_epoch as u64, remaining_sectors)
+                .map_err(|e| {
+                    e.downcast_wrap("failed to update remaining entry early terminations queue")
+                })?;
         }
 
         // Save early terminations.
@@ -721,12 +740,17 @@ impl Partition {
         skipped: &BitField,
     ) -> anyhow::Result<(PowerPair, PowerPair, PowerPair, bool)> {
         if skipped.is_empty() {
-            return Ok((PowerPair::zero(), PowerPair::zero(), PowerPair::zero(), false));
+            return Ok((
+                PowerPair::zero(),
+                PowerPair::zero(),
+                PowerPair::zero(),
+                false,
+            ));
         }
 
         // Check that the declared sectors are actually in the partition.
         if !self.sectors.contains_all(skipped) {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_argument,
                 "skipped faults contains sectors outside partition"
             )
@@ -742,8 +766,9 @@ impl Partition {
 
         // Ignore skipped faults that are already faults or terminated.
         let new_faults = &(skipped - &self.terminated) - &self.faults;
-        let new_fault_sectors =
-            sectors.load_sectors(&new_faults).map_err(|e| e.wrap("failed to load sectors"))?;
+        let new_fault_sectors = sectors
+            .load_sectors(&new_faults)
+            .map_err(|e| e.wrap("failed to load sectors"))?;
 
         // Record new faults
         let (power_delta, new_fault_power) = self
@@ -765,7 +790,12 @@ impl Partition {
         // check invariants
         self.validate_state()?;
 
-        Ok((power_delta, new_fault_power, retracted_recovery_power, !new_fault_sectors.is_empty()))
+        Ok((
+            power_delta,
+            new_fault_power,
+            retracted_recovery_power,
+            !new_fault_sectors.is_empty(),
+        ))
     }
 
     /// Test invariants about the partition power are valid.
@@ -803,7 +833,9 @@ impl Partition {
 
         // Unproven or faulty sectors should not be in terminated
         if self.terminated.contains_any(&merge) {
-            return Err(anyhow!("Partition left with terminated sectors in multiple states"));
+            return Err(anyhow!(
+                "Partition left with terminated sectors in multiple states"
+            ));
         }
 
         merge |= &self.terminated;
@@ -855,7 +887,10 @@ impl ops::Add for &PowerPair {
     type Output = PowerPair;
 
     fn add(self, rhs: Self) -> Self::Output {
-        PowerPair { raw: &self.raw + &rhs.raw, qa: &self.qa + &rhs.qa }
+        PowerPair {
+            raw: &self.raw + &rhs.raw,
+            qa: &self.qa + &rhs.qa,
+        }
     }
 }
 
@@ -877,7 +912,10 @@ impl ops::Sub for &PowerPair {
     type Output = PowerPair;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        PowerPair { raw: &self.raw - &rhs.raw, qa: &self.qa - &rhs.qa }
+        PowerPair {
+            raw: &self.raw - &rhs.raw,
+            qa: &self.qa - &rhs.qa,
+        }
     }
 }
 
@@ -899,7 +937,10 @@ impl ops::Neg for PowerPair {
     type Output = PowerPair;
 
     fn neg(self) -> Self::Output {
-        PowerPair { raw: -self.raw, qa: -self.qa }
+        PowerPair {
+            raw: -self.raw,
+            qa: -self.qa,
+        }
     }
 }
 

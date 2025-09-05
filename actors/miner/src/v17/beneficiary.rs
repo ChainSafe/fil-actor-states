@@ -1,8 +1,8 @@
 use fvm_ipld_encoding::tuple::*;
-use fvm_shared::address::Address;
+use fvm_shared4::address::Address;
 
-use fvm_shared::clock::ChainEpoch;
-use fvm_shared::econ::TokenAmount;
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::econ::TokenAmount;
 use num_traits::Zero;
 use std::ops::Sub;
 
@@ -32,7 +32,11 @@ impl BeneficiaryTerm {
         used_quota: TokenAmount,
         expiration: ChainEpoch,
     ) -> BeneficiaryTerm {
-        BeneficiaryTerm { quota, expiration, used_quota }
+        BeneficiaryTerm {
+            quota,
+            expiration,
+            used_quota,
+        }
     }
 
     /// Get the amount that the beneficiary has not yet withdrawn

@@ -10,7 +10,7 @@ use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 
 use super::expneg::expneg;
-use fil_actors_runtime::builtin::reward::math::PRECISION;
+use fil_actors_shared::v17::builtin::reward::math::PRECISION;
 
 lazy_static! {
     /// Floor(e^(ln[1 + 100%] / epochsInYear) * 2^128

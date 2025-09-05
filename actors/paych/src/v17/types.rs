@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime::network::EPOCHS_IN_HOUR;
+use fil_actors_shared::v17::network::EPOCHS_IN_HOUR;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{Error, RawBytes, strict_bytes, to_vec};
 use fvm_shared4::MethodNum;

@@ -20,13 +20,14 @@ use integer_encoding::VarInt;
 use lazy_static::lazy_static;
 use num_traits::Signed;
 
-use fil_actors_runtime::builtin::reward::smooth::{
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::builtin::reward::smooth::{
     AlphaBetaFilter, DEFAULT_ALPHA, DEFAULT_BETA, FilterEstimate,
 };
-use fil_actors_runtime::runtime::Policy;
-use fil_actors_runtime::{
+use fil_actors_shared::v17::runtime::Policy;
+use fil_actors_shared::v17::{
     ActorContext, ActorDowncast, ActorError, AsActorError, Config, DEFAULT_HAMT_CONFIG, Map2,
-    Multimap, actor_error,
+    Multimap,
 };
 
 use super::CONSENSUS_MINER_MIN_MINERS;
@@ -161,7 +162,7 @@ impl State {
         claims.get(miner).map(|s| s.cloned())
     }
 
-    pub(super) fn add_to_claim<BS: Blockstore>(
+    pub(super) fn _add_to_claim<BS: Blockstore>(
         &mut self,
         policy: &Policy,
         claims: &mut ClaimsMap<BS>,
@@ -171,7 +172,7 @@ impl State {
     ) -> Result<(), ActorError> {
         let old_claim = claims
             .get(miner)?
-            .ok_or_else(|| actor_error!(not_found, "no claim for actor {}", miner))?;
+            .ok_or_else(|| actor_error_v17!(not_found, "no claim for actor {}", miner))?;
 
         self.total_qa_bytes_committed += qa_power;
         self.total_bytes_committed += power;
@@ -211,21 +212,21 @@ impl State {
         }
 
         if new_claim.raw_byte_power.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "negative claimed raw byte power: {}",
                 new_claim.raw_byte_power
             ));
         }
         if new_claim.quality_adj_power.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "negative claimed quality adjusted power: {}",
                 new_claim.quality_adj_power
             ));
         }
         if self.miner_above_min_power_count < 0 {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_state,
                 "negative amount of miners lather than min: {}",
                 self.miner_above_min_power_count
@@ -247,11 +248,11 @@ impl State {
         Ok(())
     }
 
-    pub(super) fn add_pledge_total(&mut self, amount: TokenAmount) {
+    pub(super) fn _add_pledge_total(&mut self, amount: TokenAmount) {
         self.total_pledge_collateral += amount;
     }
 
-    pub(super) fn append_cron_event<BS: Blockstore>(
+    pub(super) fn _append_cron_event<BS: Blockstore>(
         &mut self,
         events: &mut Multimap<BS>,
         epoch: ChainEpoch,
@@ -281,7 +282,7 @@ impl State {
         }
     }
 
-    pub(super) fn update_smoothed_estimate(&mut self, delta: ChainEpoch) {
+    pub(super) fn _update_smoothed_estimate(&mut self, delta: ChainEpoch) {
         let filter_qa_power = AlphaBetaFilter::load(
             &self.this_epoch_qa_power_smoothed,
             &DEFAULT_ALPHA,
@@ -293,7 +294,7 @@ impl State {
 
     /// Update stats on new miner creation. This is currently just used to update the miner count
     /// when new added miner starts above the minimum.
-    pub(super) fn update_stats_for_new_miner(
+    pub(super) fn _update_stats_for_new_miner(
         &mut self,
         policy: &Policy,
         window_post_proof: RegisteredPoStProof,
@@ -307,7 +308,7 @@ impl State {
     }
 
     /// Validates that miner has
-    pub(super) fn validate_miner_has_claim<BS>(
+    pub(super) fn _validate_miner_has_claim<BS>(
         &self,
         store: &BS,
         miner_addr: &Address,
@@ -317,7 +318,7 @@ impl State {
     {
         let claims = self.load_claims(store)?;
         if !claims.contains_key(miner_addr)? {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 forbidden,
                 "unknown miner {} forbidden to interact with power actor",
                 miner_addr
@@ -336,7 +337,7 @@ impl State {
         Ok(claim.cloned())
     }
 
-    pub(super) fn delete_claim<BS: Blockstore>(
+    pub(super) fn _delete_claim<BS: Blockstore>(
         &mut self,
         policy: &Policy,
         claims: &mut ClaimsMap<BS>,
@@ -353,7 +354,7 @@ impl State {
         };
 
         // Subtract from stats to remove power
-        self.add_to_claim(policy, claims, miner, &rbp.neg(), &qap.neg())
+        self._add_to_claim(policy, claims, miner, &rbp.neg(), &qap.neg())
             .context("subtract miner power before deleting claim")?;
         claims
             .delete(miner)?
@@ -362,7 +363,7 @@ impl State {
     }
 }
 
-pub(super) fn load_cron_events<BS: Blockstore>(
+pub(super) fn _load_cron_events<BS: Blockstore>(
     mmap: &Multimap<BS>,
     epoch: ChainEpoch,
 ) -> anyhow::Result<Vec<CronEvent>> {
@@ -382,14 +383,14 @@ pub fn set_claim<BS: Blockstore>(
     claim: Claim,
 ) -> Result<(), ActorError> {
     if claim.raw_byte_power.is_negative() {
-        return Err(actor_error!(
+        return Err(actor_error_v17!(
             illegal_state,
             "negative claim raw power {}",
             claim.raw_byte_power
         ));
     }
     if claim.quality_adj_power.is_negative() {
-        return Err(actor_error!(
+        return Err(actor_error_v17!(
             illegal_state,
             "negative claim quality-adjusted power {}",
             claim.quality_adj_power

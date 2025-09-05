@@ -11,7 +11,7 @@ use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
 use num_derive::FromPrimitive;
 
-use fil_actors_runtime::builtin::reward::smooth::{
+use fil_actors_shared::v17::builtin::reward::smooth::{
     AlphaBetaFilter, DEFAULT_ALPHA, DEFAULT_BETA, FilterEstimate,
 };
 
@@ -138,7 +138,7 @@ impl State {
         );
     }
 
-    pub(super) fn update_smoothed_estimates(&mut self, delta: ChainEpoch) {
+    pub(super) fn _update_smoothed_estimates(&mut self, delta: ChainEpoch) {
         let filter_reward = AlphaBetaFilter::load(
             &self.this_epoch_reward_smoothed,
             &DEFAULT_ALPHA,

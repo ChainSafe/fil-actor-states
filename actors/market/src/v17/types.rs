@@ -3,8 +3,8 @@
 
 use super::ext::verifreg::AllocationID;
 use cid::Cid;
-use fil_actors_runtime::Array;
-use fil_actors_runtime::BatchReturn;
+use fil_actors_shared::v17::Array;
+use fil_actors_shared::v17::BatchReturn;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::strict_bytes;
 use fvm_ipld_encoding::tuple::*;
@@ -16,7 +16,7 @@ use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::piece::PaddedPieceSize;
 
-use crate::Label;
+use crate::v17::Label;
 use fvm_shared4::sector::{RegisteredSealProof, SectorNumber};
 
 use super::deal::{ClientDealProposal, DealProposal, DealState};

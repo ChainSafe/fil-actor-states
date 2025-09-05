@@ -175,7 +175,7 @@ macro_rules! actor_error_v17 {
     };
 
     // Error with only one stringable expression, with comma separator
-    ( $code:ident, $msg:expr ) => { $crate::actor_error!($code; $msg) };
+    ( $code:ident, $msg:expr ) => { $crate::actor_error_v17!($code; $msg) };
 
     // String with positional arguments, with comma separator
     ( $code:ident, $msg:literal $(, $ex:expr)+ ) => {

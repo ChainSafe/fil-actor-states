@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0, MIT
 
 use cid::Cid;
-use fil_actors_runtime::{BatchReturn, MapKey};
+use fil_actors_shared::v17::{BatchReturn, MapKey};
 use fvm_ipld_encoding::tuple::*;
 use fvm_shared4::ActorID;
 use fvm_shared4::address::Address;
@@ -14,7 +14,7 @@ use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::sector::StoragePower;
 use std::fmt::{Debug, Formatter};
 
-use crate::Claim;
+use crate::v17::Claim;
 
 pub type AllocationID = u64;
 pub type ClaimID = u64;

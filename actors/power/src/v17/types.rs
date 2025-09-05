@@ -1,7 +1,7 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fil_actors_runtime::reward::FilterEstimate;
+use fil_actors_shared::v17::reward::FilterEstimate;
 use fvm_ipld_encoding::tuple::*;
 use fvm_ipld_encoding::{BytesDe, RawBytes, strict_bytes};
 use fvm_shared4::ActorID;

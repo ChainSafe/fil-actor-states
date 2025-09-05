@@ -5,13 +5,14 @@ use std::collections::BTreeSet;
 
 use anyhow::anyhow;
 use cid::Cid;
-use fil_actors_runtime::runtime::policy_constants::MAX_SECTOR_NUMBER;
-use fil_actors_runtime::{ActorDowncast, ActorError, Array, AsActorError, actor_error};
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::runtime::policy_constants::MAX_SECTOR_NUMBER;
+use fil_actors_shared::v17::{ActorDowncast, ActorError, Array, AsActorError};
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::error::ExitCode;
-use fvm_shared::sector::SectorNumber;
+use fvm_shared4::error::ExitCode;
+use fvm_shared4::sector::SectorNumber;
 
 use super::SectorOnChainInfo;
 
@@ -21,7 +22,9 @@ pub struct Sectors<'db, BS> {
 
 impl<'db, BS: Blockstore> Sectors<'db, BS> {
     pub fn load(store: &'db BS, root: &Cid) -> Result<Self, AmtError> {
-        Ok(Self { amt: Array::load(root, store)? })
+        Ok(Self {
+            amt: Array::load(root, store)?,
+        })
     }
 
     pub fn load_sectors(
@@ -40,7 +43,9 @@ impl<'db, BS: Blockstore> Sectors<'db, BS> {
                     )
                 })?
                 .cloned()
-                .ok_or_else(|| actor_error!(not_found; "sector not found: {}", sector_number))?;
+                .ok_or_else(
+                    || actor_error_v17!(not_found; "sector not found: {}", sector_number),
+                )?;
             sector_infos.push(sector_on_chain);
         }
         Ok(sector_infos)
@@ -55,7 +60,7 @@ impl<'db, BS: Blockstore> Sectors<'db, BS> {
                 )
             })?;
             if deleted_sector.is_none() {
-                return Err(actor_error!(not_found; "sector not found: {}", sector_num));
+                return Err(actor_error_v17!(not_found; "sector not found: {}", sector_num));
             }
         }
         Ok(())
@@ -92,7 +97,7 @@ impl<'db, BS: Blockstore> Sectors<'db, BS> {
 
     pub fn must_get(&self, sector_number: SectorNumber) -> Result<SectorOnChainInfo, ActorError> {
         self.get(sector_number)?
-            .ok_or_else(|| actor_error!(not_found, "sector {} not found", sector_number))
+            .ok_or_else(|| actor_error_v17!(not_found, "sector {} not found", sector_number))
     }
 
     /// Loads info for a set of sectors to be proven.
@@ -137,7 +142,11 @@ impl<'db, BS: Blockstore> Sectors<'db, BS> {
         let mut sector_infos = Vec::with_capacity(sector_count as usize);
         for i in sectors.iter() {
             let faulty = fault_set.contains(&i);
-            let sector = if !faulty { self.must_get(i)? } else { stand_in_info.clone() };
+            let sector = if !faulty {
+                self.must_get(i)?
+            } else {
+                stand_in_info.clone()
+            };
             sector_infos.push(sector);
         }
 
@@ -150,11 +159,17 @@ pub fn select_sectors(
     field: &BitField,
 ) -> anyhow::Result<Vec<SectorOnChainInfo>> {
     let mut to_include: BTreeSet<_> = field.iter().collect();
-    let included =
-        sectors.iter().filter(|si| to_include.remove(&si.sector_number)).cloned().collect();
+    let included = sectors
+        .iter()
+        .filter(|si| to_include.remove(&si.sector_number))
+        .cloned()
+        .collect();
 
     if !to_include.is_empty() {
-        return Err(anyhow!("failed to find {} expected sectors", to_include.len()));
+        return Err(anyhow!(
+            "failed to find {} expected sectors",
+            to_include.len()
+        ));
     }
 
     Ok(included)

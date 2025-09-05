@@ -12,7 +12,8 @@ use fvm_shared4::econ::TokenAmount;
 use indexmap::IndexMap;
 use num_traits::Zero;
 
-use fil_actors_runtime::{ActorError, Config, DEFAULT_HAMT_CONFIG, Map2, actor_error};
+use fil_actors_shared::actor_error_v17;
+use fil_actors_shared::v17::{ActorError, Config, DEFAULT_HAMT_CONFIG, Map2};
 
 use super::TxnID;
 use super::types::Transaction;
@@ -107,21 +108,21 @@ impl State {
         Ok(())
     }
 
-    pub(crate) fn check_available(
+    pub(crate) fn _check_available(
         &self,
         balance: TokenAmount,
         amount_to_spend: &TokenAmount,
         curr_epoch: ChainEpoch,
     ) -> Result<(), ActorError> {
         if amount_to_spend.is_negative() {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 illegal_argument,
                 "amount to spend {} less than zero",
                 amount_to_spend
             ));
         }
         if &balance < amount_to_spend {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 insufficient_funds,
                 "current balance {} less than amount to spend {}",
                 balance,
@@ -138,7 +139,7 @@ impl State {
         let remaining_balance = balance - amount_to_spend;
         let amount_locked = self.amount_locked(curr_epoch - self.start_epoch);
         if remaining_balance < amount_locked {
-            return Err(actor_error!(
+            return Err(actor_error_v17!(
                 insufficient_funds,
                 "actor balance {} if spent {} would be less than required locked amount {}",
                 remaining_balance,

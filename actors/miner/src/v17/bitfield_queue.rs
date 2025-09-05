@@ -4,11 +4,11 @@
 use std::convert::TryInto;
 
 use cid::Cid;
-use fil_actors_runtime::{ActorDowncast, Array};
+use fil_actors_shared::v17::{ActorDowncast, Array};
 use fvm_ipld_amt::Error as AmtError;
 use fvm_ipld_bitfield::BitField;
 use fvm_ipld_blockstore::Blockstore;
-use fvm_shared::clock::ChainEpoch;
+use fvm_shared4::clock::ChainEpoch;
 use itertools::Itertools;
 
 use super::QuantSpec;
@@ -22,7 +22,10 @@ pub struct BitFieldQueue<'db, BS> {
 
 impl<'db, BS: Blockstore> BitFieldQueue<'db, BS> {
     pub fn new(store: &'db BS, root: &Cid, quant: QuantSpec) -> Result<Self, AmtError> {
-        Ok(Self { amt: Array::load(root, store)?, quant })
+        Ok(Self {
+            amt: Array::load(root, store)?,
+            quant,
+        })
     }
 
     /// Adds values to the queue entry for an epoch.
@@ -103,7 +106,8 @@ impl<'db, BS: Blockstore> BitFieldQueue<'db, BS> {
         while let Some(&(epoch, _)) = iter.peek() {
             self.add_to_queue_values(
                 epoch,
-                iter.peeking_take_while(|&(e, _)| e == epoch).map(|(_, v)| v),
+                iter.peeking_take_while(|&(e, _)| e == epoch)
+                    .map(|(_, v)| v),
             )?;
         }
 
