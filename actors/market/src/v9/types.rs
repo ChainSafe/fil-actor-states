@@ -39,7 +39,7 @@ pub struct WithdrawBalanceReturn {
     pub amount_withdrawn: TokenAmount,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct OnMinerSectorsTerminateParams {
     pub epoch: ChainEpoch,
     pub deal_ids: Vec<DealID>,
