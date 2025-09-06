@@ -7,7 +7,6 @@ authors.workspace = true
 edition.workspace = true
 version.workspace = true
 keywords.workspace = true
-
 [dependencies]
 anyhow = { workspace = true }
 cid = { workspace = true }
@@ -51,3 +50,7 @@ fil_actors_test_utils.workspace = true
 hex.workspace = true
 quickcheck.workspace = true
 quickcheck_macros.workspace = true
+
+[build-dependencies]
+regex = { workspace = true }
+walkdir = "2.5.0"
