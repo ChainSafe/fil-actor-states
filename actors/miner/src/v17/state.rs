@@ -1008,6 +1008,19 @@ impl State {
         Ok(amount_unlocked)
     }
 
+    /// CheckVestedFunds returns the amount of vested funds that have vested before the provided epoch.
+    pub fn check_vested_funds<BS: Blockstore>(
+        &self,
+        store: &BS,
+        current_epoch: ChainEpoch,
+    ) -> anyhow::Result<TokenAmount> {
+        let vesting_funds = self.vesting_funds.load(store)?;
+        Ok(vesting_funds
+            .iter()
+            .take_while(|fund| fund.epoch < current_epoch)
+            .fold(TokenAmount::zero(), |acc, fund| acc + &fund.amount))
+    }
+
     /// Unclaimed funds that are not locked -- includes funds used to cover initial pledge requirement.
     pub fn get_unlocked_balance(&self, actor_balance: &TokenAmount) -> anyhow::Result<TokenAmount> {
         let unlocked_balance =
