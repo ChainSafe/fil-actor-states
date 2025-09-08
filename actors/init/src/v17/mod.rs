@@ -4,7 +4,7 @@
 use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
-pub use self::state::State;
+pub use self::state::*;
 pub use self::types::*;
 
 mod state;
