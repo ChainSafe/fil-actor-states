@@ -1,4 +1,4 @@
-use fil_actor_evm_state::evm_shared::v15::address::EthAddress;
+use fil_actor_evm_state::evm_shared::v16::address::EthAddress;
 use fvm_ipld_encoding::{strict_bytes, tuple::*};
 use fvm_shared4::{ActorID, METHOD_CONSTRUCTOR, address::Address};
 use num_derive::FromPrimitive;
