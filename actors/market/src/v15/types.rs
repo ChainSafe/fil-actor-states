@@ -54,7 +54,7 @@ pub struct GetBalanceReturn {
     pub locked: TokenAmount,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)] // Add Eq when BitField does
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct OnMinerSectorsTerminateParams {
     pub epoch: ChainEpoch,
     pub sectors: BitField,
@@ -65,7 +65,7 @@ pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)] // Add Eq when BitField does
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct PublishStorageDealsReturn {
     pub ids: Vec<DealID>,
     pub valid_deals: BitField,
@@ -268,7 +268,7 @@ pub struct SettleDealPaymentsParams {
 pub struct SettleDealPaymentsReturn {
     /// Indicators of success or failure for each deal
     pub results: BatchReturn,
-    /// Results for the deals that succesfully settled
+    /// Results for the deals that successfully settled
     pub settlements: Vec<DealSettlementSummary>,
 }
 
