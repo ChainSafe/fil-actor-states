@@ -15,7 +15,7 @@ use multihash_codetable::{Code, MultihashDigest};
 use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::convert::{TryFrom, TryInto};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Label {
     String(String),
     Bytes(Vec<u8>),
