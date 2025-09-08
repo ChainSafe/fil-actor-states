@@ -8,11 +8,6 @@ use std::{env, fs};
 use walkdir::WalkDir;
 
 fn main() {
-    if env::var("SKIP_ACTOR_VERSION_CHECK").is_ok() {
-        println!("cargo:warning=Skipping actor version validation during publish.");
-        return;
-    }
-
     let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
 
     let actors_dir = manifest_dir.join("../actors");
