@@ -22,6 +22,9 @@ lint-all: lint deny udeps
 check:
 	bash check_crates.sh
 
+check-with-validation:
+	FIL_ENABLE_ACTOR_VERSION_CHECK=1 bash check_crates.sh
+
 deny:
 	cargo deny check bans licenses sources || (echo "See deny.toml"; false)
 
@@ -35,7 +38,7 @@ lint: clean lint-clippy
 	cargo fmt --all --check
 	taplo fmt --check
 	taplo lint
-	
+
 lint-clippy:
 	cargo clippy --all-features --all-targets -- -D warnings
 
