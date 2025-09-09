@@ -32,7 +32,7 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: "./go_compat/go.mod"
       - run: make check
@@ -44,6 +44,7 @@ jobs:
         env:
           CC: "sccache clang"
           CXX: "sccache clang++"
+          FIL_ENABLE_ACTOR_VERSION_CHECK: "1"
       - name: Run tests
         run: RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
         env:
@@ -64,7 +65,7 @@ jobs:
         run: make update-forest
       - name: Modify deps forest
         run: make modify-forest
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: "./forest/go.work"
       - name: Install nextest

@@ -31,4 +31,5 @@ pub enum ActorVersion {
     V14,
     V15,
     V16,
+    V17,
 }
