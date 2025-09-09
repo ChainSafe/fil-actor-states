@@ -22,8 +22,8 @@ fn main() {
         return;
     }
 
-    println!("cargo:rerun-if-changed={}", actors_dir.to_str().unwrap());
-    println!("cargo:rerun-if-changed={}", versions_file.to_str().unwrap());
+    println!("cargo:rerun-if-changed={}", actors_dir.display());
+    println!("cargo:rerun-if-changed={}", versions_file.display());
 
     verify_actor_versions(&actors_dir, &versions_file);
 }
