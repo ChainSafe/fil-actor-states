@@ -65,7 +65,7 @@ pub struct PublishStorageDealsParams {
     pub deals: Vec<ClientDealProposal>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq, Eq)]
 pub struct PublishStorageDealsReturn {
     pub ids: Vec<DealID>,
     pub valid_deals: BitField,
