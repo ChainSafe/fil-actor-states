@@ -17,7 +17,7 @@ pub mod market {
     use super::*;
     use fvm_ipld_bitfield::BitField;
 
-    #[derive(Serialize_tuple, Deserialize_tuple)]
+    #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
     pub struct SectorDeals {
         pub sector_number: SectorNumber,
         pub sector_type: RegisteredSealProof,
@@ -57,7 +57,7 @@ pub mod market {
         pub sectors: BitField,
     }
 
-    #[derive(Serialize_tuple, Deserialize_tuple)]
+    #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
     pub struct SectorDataSpec {
         pub deal_ids: Vec<DealID>,
         pub sector_type: RegisteredSealProof,
