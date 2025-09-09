@@ -8,14 +8,19 @@ use std::{env, fs};
 use walkdir::WalkDir;
 
 fn main() {
-    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    let actors_dir = manifest_dir.join("../actors");
-    if env::var("SKIP_ACTOR_VERSION_CHECK").is_ok() || !actors_dir.exists() {
-        println!("Skipping actor version validation");
+    println!("cargo:rerun-if-env-changed=FIL_ENABLE_ACTOR_VERSION_CHECK");
+
+    if env::var("FIL_ENABLE_ACTOR_VERSION_CHECK").is_err() {
         return;
     }
 
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
     let versions_file = manifest_dir.join("src/actor_versions.rs");
+    let actors_dir = manifest_dir.join("../actors");
+    if !actors_dir.exists() {
+        println!("⚠️  Actor version check enabled but actors directory not found");
+        return;
+    }
 
     println!("cargo:rerun-if-changed={}", actors_dir.to_str().unwrap());
     println!("cargo:rerun-if-changed={}", versions_file.to_str().unwrap());
