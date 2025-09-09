@@ -8,33 +8,19 @@ use std::{env, fs};
 use walkdir::WalkDir;
 
 fn main() {
-    if should_skip_validation() {
-        println!("Skipping actor version validation (not in development environment)");
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
+    let actors_dir = manifest_dir.join("../actors");
+    if env::var("SKIP_ACTOR_VERSION_CHECK").is_ok() || !actors_dir.exists() {
+        println!("Skipping actor version validation");
         return;
     }
 
-    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-
-    let actors_dir = manifest_dir.join("../actors");
     let versions_file = manifest_dir.join("src/actor_versions.rs");
 
     println!("cargo:rerun-if-changed={}", actors_dir.to_str().unwrap());
     println!("cargo:rerun-if-changed={}", versions_file.to_str().unwrap());
 
     verify_actor_versions(&actors_dir, &versions_file);
-}
-
-fn should_skip_validation() -> bool {
-    // Skip if explicitly requested
-    if env::var("SKIP_ACTOR_VERSION_CHECK").is_ok() {
-        return true;
-    }
-
-    // Skip if the actors directory doesn't exist
-    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    let actors_dir = manifest_dir.join("../actors");
-
-    !actors_dir.exists()
 }
 
 /// extract version numbers from the enum.
