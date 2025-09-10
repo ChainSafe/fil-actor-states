@@ -42,7 +42,7 @@ impl<BS, K, V> Map2<BS, K, V>
 where
     BS: Blockstore,
     K: MapKey,
-    V: DeserializeOwned + Serialize,
+    V: DeserializeOwned + Serialize + Clone,
 {
     /// Creates a new, empty map.
     pub fn empty(store: BS, config: Config, name: &'static str) -> Self {
@@ -179,10 +179,11 @@ where
             let (k, v) = kv.with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
                 format!("error traversing HAMT {}", self.name)
             })?;
-            let k = K::from_bytes(k).with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
-                format!("invalid key in HAMT {}", self.name)
-            })?;
-            f(k, v)?;
+            let k = K::from_bytes(k.as_ref())
+                .with_context_code(ExitCode::USR_ILLEGAL_STATE, || {
+                    format!("invalid key in HAMT {}", self.name)
+                })?;
+            f(k, v.as_ref())?;
         }
         Ok(())
     }
