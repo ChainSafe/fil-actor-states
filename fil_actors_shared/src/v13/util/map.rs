@@ -43,7 +43,7 @@ impl<BS, K, V> Map2<BS, K, V>
 where
     BS: Blockstore,
     K: MapKey,
-    V: DeserializeOwned + Serialize,
+    V: DeserializeOwned + Serialize + Clone,
 {
     /// Creates a new, empty map.
     pub fn empty(store: BS, config: Config, name: &'static str) -> Self {
