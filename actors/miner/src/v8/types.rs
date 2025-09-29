@@ -18,6 +18,8 @@ use fvm_shared::sector::{
 };
 use fvm_shared::smooth::FilterEstimate;
 
+use crate::wrapper::UnvalidatedBitFieldWrapper;
+
 pub type CronEvent = i64;
 
 pub const CRON_EVENT_WORKER_KEY_CHANGE: CronEvent = 0;
@@ -26,7 +28,7 @@ pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
 /// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct MinerConstructorParams {
     pub owner: Address,
     pub worker: Address,
@@ -55,7 +57,7 @@ pub struct GetControlAddressesReturn {
     pub control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ChangeWorkerAddressParams {
     pub new_worker: Address,
     pub new_control_addresses: Vec<Address>,
@@ -175,19 +177,19 @@ pub struct FaultDeclaration {
     pub sectors: UnvalidatedBitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeclareFaultsRecoveredParams {
     pub recoveries: Vec<RecoveryDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct RecoveryDeclaration {
     /// The deadline to which the recovered sectors are assigned, in range [0..WPoStPeriodDeadlines)
     pub deadline: u64,
     /// Partition index within the deadline containing the recovered sectors.
     pub partition: u64,
     /// Sectors in the partition being declared recovered.
-    pub sectors: UnvalidatedBitField,
+    pub sectors: UnvalidatedBitFieldWrapper,
 }
 
 #[derive(Serialize_tuple, Deserialize_tuple)]

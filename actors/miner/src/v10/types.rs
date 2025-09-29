@@ -32,7 +32,7 @@ pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
 /// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct MinerConstructorParams {
     pub owner: Address,
     pub worker: Address,
@@ -61,7 +61,7 @@ pub struct GetControlAddressesReturn {
     pub control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ChangeWorkerAddressParams {
     pub new_worker: Address,
     pub new_control_addresses: Vec<Address>,
@@ -144,19 +144,19 @@ pub struct ExpirationExtension {
     pub new_expiration: ChainEpoch,
 }
 
-#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ExtendSectorExpiration2Params {
     pub extensions: Vec<ExpirationExtension2>,
 }
 
-#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct SectorClaim {
     pub sector_number: SectorNumber,
     pub maintain_claims: Vec<ClaimID>,
     pub drop_claims: Vec<ClaimID>,
 }
 
-#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ExpirationExtension2 {
     pub deadline: u64,
     pub partition: u64,
@@ -216,12 +216,12 @@ pub struct FaultDeclaration {
     pub sectors: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeclareFaultsRecoveredParams {
     pub recoveries: Vec<RecoveryDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct RecoveryDeclaration {
     /// The deadline to which the recovered sectors are assigned, in range [0..WPoStPeriodDeadlines)
     pub deadline: u64,
@@ -416,7 +416,7 @@ pub struct ProveReplicaUpdatesParams2 {
     pub updates: Vec<ReplicaUpdate2>,
 }
 
-#[derive(Debug, Clone, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangeBeneficiaryParams {
     pub new_beneficiary: Address,
     pub new_quota: TokenAmount,
