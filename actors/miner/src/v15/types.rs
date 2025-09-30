@@ -36,7 +36,7 @@ pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
 /// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct MinerConstructorParams {
     pub owner: Address,
     pub worker: Address,
@@ -65,30 +65,30 @@ pub struct GetControlAddressesReturn {
     pub control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangeWorkerAddressParams {
     pub new_worker: Address,
     pub new_control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 #[serde(transparent)]
 pub struct ChangeOwnerAddressParams {
     pub new_owner: Address,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangePeerIDParams {
     #[serde(with = "strict_bytes")]
     pub new_id: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangeMultiaddrsParams {
     pub new_multi_addrs: Vec<BytesDe>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct InternalSectorSetupForPresealParams {
     pub sectors: Vec<SectorNumber>,
     pub reward_smoothed: FilterEstimate,
@@ -97,7 +97,7 @@ pub struct InternalSectorSetupForPresealParams {
     pub quality_adj_power_smoothed: FilterEstimate,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeferredCronEventParams {
     #[serde(with = "strict_bytes")]
     pub event_payload: Vec<u8>,
@@ -105,7 +105,7 @@ pub struct DeferredCronEventParams {
     pub quality_adj_power_smoothed: FilterEstimate,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct PoStPartition {
     /// Partitions are numbered per-deadline, from zero.
     pub index: u64,
@@ -114,7 +114,7 @@ pub struct PoStPartition {
 }
 
 /// Information submitted by a miner to provide a Window PoSt.
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct SubmitWindowedPoStParams {
     /// The deadline index which the submission targets.
     pub deadline: u64,
@@ -130,7 +130,7 @@ pub struct SubmitWindowedPoStParams {
 }
 
 // Deprecated as of FIP 0084 -- kept for legacy testing
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveCommitSectorParams {
     pub sector_number: SectorNumber,
     pub proof: RawBytes,
@@ -228,17 +228,17 @@ pub struct ProveCommitSectorsNIReturn {
     pub activation_results: BatchReturn,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CheckSectorProvenParams {
     pub sector_number: SectorNumber,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExtendSectorExpirationParams {
     pub extensions: Vec<ExpirationExtension>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExpirationExtension {
     pub deadline: u64,
     pub partition: u64,
@@ -246,19 +246,19 @@ pub struct ExpirationExtension {
     pub new_expiration: ChainEpoch,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExtendSectorExpiration2Params {
     pub extensions: Vec<ExpirationExtension2>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct SectorClaim {
     pub sector_number: SectorNumber,
     pub maintain_claims: Vec<ClaimID>,
     pub drop_claims: Vec<ClaimID>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExpirationExtension2 {
     pub deadline: u64,
     pub partition: u64,
@@ -281,12 +281,12 @@ impl From<&ExpirationExtension> for ExpirationExtension2 {
     }
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct TerminateSectorsParams {
     pub terminations: Vec<TerminationDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct TerminationDeclaration {
     pub deadline: u64,
     pub partition: u64,
@@ -303,12 +303,12 @@ pub struct TerminateSectorsReturn {
     pub done: bool,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeclareFaultsParams {
     pub faults: Vec<FaultDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct FaultDeclaration {
     /// The deadline to which the faulty sectors are assigned, in range [0..WPoStPeriodDeadlines)
     pub deadline: u64,
@@ -333,18 +333,18 @@ pub struct RecoveryDeclaration {
     pub sectors: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CompactPartitionsParams {
     pub deadline: u64,
     pub partitions: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CompactSectorNumbersParams {
     pub mask_sector_numbers: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReportConsensusFaultParams {
     #[serde(with = "strict_bytes")]
     pub header1: Vec<u8>,
@@ -354,7 +354,7 @@ pub struct ReportConsensusFaultParams {
     pub header_extra: Vec<u8>,
 }
 
-#[derive(Clone, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct WithdrawBalanceParams {
     pub amount_requested: TokenAmount,
 }
@@ -473,7 +473,7 @@ pub struct Fault {
 }
 
 // * Added in v2 -- param was previously a big int.
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ApplyRewardParams {
     pub reward: TokenAmount,
     pub penalty: TokenAmount,
@@ -580,7 +580,7 @@ pub struct GetOwnerReturn {
     pub proposed: Option<Address>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 #[serde(transparent)]
 pub struct IsControllingAddressParam {
     pub address: Address,

@@ -32,7 +32,7 @@ pub const CRON_EVENT_PROCESS_EARLY_TERMINATIONS: CronEvent = 2;
 
 /// Storage miner actor constructor params are defined here so the power actor can send them to the init actor
 /// to instantiate miners.
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct MinerConstructorParams {
     pub owner: Address,
     pub worker: Address,
@@ -61,24 +61,24 @@ pub struct GetControlAddressesReturn {
     pub control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangeWorkerAddressParams {
     pub new_worker: Address,
     pub new_control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangePeerIDParams {
     #[serde(with = "serde_bytes")]
     pub new_id: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangeMultiaddrsParams {
     pub new_multi_addrs: Vec<BytesDe>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ConfirmSectorProofsParams {
     pub sectors: Vec<SectorNumber>,
     pub reward_smoothed: FilterEstimate,
@@ -87,7 +87,7 @@ pub struct ConfirmSectorProofsParams {
     pub quality_adj_power_smoothed: FilterEstimate,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeferredCronEventParams {
     #[serde(with = "serde_bytes")]
     pub event_payload: Vec<u8>,
@@ -95,7 +95,7 @@ pub struct DeferredCronEventParams {
     pub quality_adj_power_smoothed: FilterEstimate,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct PoStPartition {
     /// Partitions are numbered per-deadline, from zero.
     pub index: u64,
@@ -104,7 +104,7 @@ pub struct PoStPartition {
 }
 
 /// Information submitted by a miner to provide a Window PoSt.
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct SubmitWindowedPoStParams {
     /// The deadline index which the submission targets.
     pub deadline: u64,
@@ -119,24 +119,24 @@ pub struct SubmitWindowedPoStParams {
     pub chain_commit_rand: Randomness,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveCommitSectorParams {
     pub sector_number: SectorNumber,
     #[serde(with = "serde_bytes")]
     pub proof: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CheckSectorProvenParams {
     pub sector_number: SectorNumber,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExtendSectorExpirationParams {
     pub extensions: Vec<ExpirationExtension>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExpirationExtension {
     pub deadline: u64,
     pub partition: u64,
@@ -144,19 +144,19 @@ pub struct ExpirationExtension {
     pub new_expiration: ChainEpoch,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExtendSectorExpiration2Params {
     pub extensions: Vec<ExpirationExtension2>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct SectorClaim {
     pub sector_number: SectorNumber,
     pub maintain_claims: Vec<ClaimID>,
     pub drop_claims: Vec<ClaimID>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ExpirationExtension2 {
     pub deadline: u64,
     pub partition: u64,
@@ -178,12 +178,12 @@ impl From<&ExpirationExtension> for ExpirationExtension2 {
     }
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct TerminateSectorsParams {
     pub terminations: Vec<TerminationDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct TerminationDeclaration {
     pub deadline: u64,
     pub partition: u64,
@@ -200,12 +200,12 @@ pub struct TerminateSectorsReturn {
     pub done: bool,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeclareFaultsParams {
     pub faults: Vec<FaultDeclaration>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct FaultDeclaration {
     /// The deadline to which the faulty sectors are assigned, in range [0..WPoStPeriodDeadlines)
     pub deadline: u64,
@@ -230,18 +230,18 @@ pub struct RecoveryDeclaration {
     pub sectors: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CompactPartitionsParams {
     pub deadline: u64,
     pub partitions: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CompactSectorNumbersParams {
     pub mask_sector_numbers: BitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReportConsensusFaultParams {
     #[serde(with = "serde_bytes")]
     pub header1: Vec<u8>,
@@ -251,7 +251,7 @@ pub struct ReportConsensusFaultParams {
     pub header_extra: Vec<u8>,
 }
 
-#[derive(Clone, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct WithdrawBalanceParams {
     pub amount_requested: TokenAmount,
 }
@@ -361,7 +361,7 @@ pub struct Fault {
 }
 
 // * Added in v2 -- param was previously a big int.
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ApplyRewardParams {
     pub reward: TokenAmount,
     pub penalty: TokenAmount,
@@ -373,14 +373,14 @@ pub struct DisputeWindowedPoStParams {
     pub post_index: u64, // only one is allowed at a time to avoid loading too many sector infos.
 }
 
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveCommitAggregateParams {
     pub sector_numbers: BitField,
     #[serde(with = "serde_bytes")]
     pub aggregate_proof: Vec<u8>,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReplicaUpdate {
     pub sector_number: SectorNumber,
     pub deadline: u64,
@@ -392,12 +392,12 @@ pub struct ReplicaUpdate {
     pub replica_proof: Vec<u8>,
 }
 
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveReplicaUpdatesParams {
     pub updates: Vec<ReplicaUpdate>,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReplicaUpdate2 {
     pub sector_number: SectorNumber,
     pub deadline: u64,
@@ -410,7 +410,7 @@ pub struct ReplicaUpdate2 {
     pub replica_proof: Vec<u8>,
 }
 
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveReplicaUpdatesParams2 {
     pub updates: Vec<ReplicaUpdate2>,
 }
