@@ -69,7 +69,7 @@ pub struct ChangePeerIDParams {
     pub new_id: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, Eq, PartialEq)]
 pub struct ChangeMultiaddrsParams {
     pub new_multi_addrs: Vec<BytesDe>,
 }
@@ -213,7 +213,7 @@ pub struct ReportConsensusFaultParams {
     pub header_extra: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct WithdrawBalanceParams {
     pub amount_requested: TokenAmount,
 }
