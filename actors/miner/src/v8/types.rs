@@ -174,7 +174,7 @@ pub struct FaultDeclaration {
     /// Partition index within the deadline containing the faulty sectors.
     pub partition: u64,
     /// Sectors in the partition being declared faulty.
-    pub sectors: UnvalidatedBitField,
+    pub sectors: UnvalidatedBitFieldWrapper,
 }
 
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
