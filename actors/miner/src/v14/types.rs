@@ -88,7 +88,7 @@ pub struct ChangeMultiaddrsParams {
     pub new_multi_addrs: Vec<BytesDe>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct InternalSectorSetupForPresealParams {
     pub sectors: Vec<SectorNumber>,
     pub reward_smoothed: FilterEstimate,
@@ -494,7 +494,7 @@ pub struct DisputeWindowedPoStParams {
     pub post_index: u64, // only one is allowed at a time to avoid loading too many sector infos.
 }
 
-#[derive(Debug, Clone, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveCommitAggregateParams {
     pub sector_numbers: BitField,
     pub aggregate_proof: RawBytes,
