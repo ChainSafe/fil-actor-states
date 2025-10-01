@@ -63,7 +63,7 @@ pub struct ChangeWorkerAddressParams {
     pub new_control_addresses: Vec<Address>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ChangePeerIDParams {
     #[serde(with = "serde_bytes")]
     pub new_id: Vec<u8>,
@@ -74,7 +74,7 @@ pub struct ChangeMultiaddrsParams {
     pub new_multi_addrs: Vec<BytesDe>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ConfirmSectorProofsParams {
     pub sectors: Vec<SectorNumber>,
     pub reward_smoothed: FilterEstimate,
@@ -83,7 +83,7 @@ pub struct ConfirmSectorProofsParams {
     pub quality_adj_power_smoothed: FilterEstimate,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct DeferredCronEventParams {
     #[serde(with = "serde_bytes")]
     pub event_payload: Vec<u8>,
@@ -115,14 +115,14 @@ pub struct SubmitWindowedPoStParams {
     pub chain_commit_rand: Randomness,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveCommitSectorParams {
     pub sector_number: SectorNumber,
     #[serde(with = "serde_bytes")]
     pub proof: Vec<u8>,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct CheckSectorProvenParams {
     pub sector_number: SectorNumber,
 }
@@ -203,7 +203,7 @@ pub struct CompactSectorNumbersParams {
     pub mask_sector_numbers: UnvalidatedBitField,
 }
 
-#[derive(Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReportConsensusFaultParams {
     #[serde(with = "serde_bytes")]
     pub header1: Vec<u8>,
@@ -309,7 +309,7 @@ pub struct Fault {
 }
 
 // * Added in v2 -- param was previously a big int.
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ApplyRewardParams {
     pub reward: TokenAmount,
     pub penalty: TokenAmount,
@@ -328,7 +328,7 @@ pub struct ProveCommitAggregateParams {
     pub aggregate_proof: Vec<u8>,
 }
 
-#[derive(Debug, PartialEq, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ReplicaUpdate {
     pub sector_number: SectorNumber,
     pub deadline: u64,
@@ -340,7 +340,7 @@ pub struct ReplicaUpdate {
     pub replica_proof: Vec<u8>,
 }
 
-#[derive(Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct ProveReplicaUpdatesParams {
     pub updates: Vec<ReplicaUpdate>,
 }
