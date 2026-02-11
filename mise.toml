@@ -1,0 +1,118 @@
+[tasks.build]
+description = "Build the project with all features and targets."
+usage = '''
+flag "--validate-actor-version" help = "Validate that the actor versions are consistent."
+'''
+shell = "bash -c"
+run = '''
+if [ "${usage_validate_actor_version}" = true ]; then
+  export FIL_ENABLE_ACTOR_VERSION_CHECK=1
+fi
+cargo build --workspace --all-features --all-targets
+'''
+
+[tasks.test]
+description = "Run tests"
+run = '''
+RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
+'''
+
+[tasks.install-lint-tools]
+description = "Installs linting tools for CI"
+tools.cargo-binstall = "1.16.6"
+run = "cargo binstall --no-confirm taplo-cli cargo-spellcheck cargo-deny cargo-udeps"
+
+[tasks."lint:deny"]
+description = "Run cargo-deny to check for license and security issues."
+run = '''
+cargo deny check bans licenses sources || (echo "See deny.toml"; false)
+'''
+
+[tasks."lint:deny-advisories"]
+description = "Run cargo-deny to check for security advisories."
+run = '''
+cargo deny check advisories || (echo "See deny.toml"; false)
+'''
+
+[tasks."lint:udeps"]
+description = "Run cargo-udeps to check for unused dependencies."
+run = '''
+cargo +nightly udeps
+'''
+
+[tasks."lint:clippy"]
+description = "Run clippy to check for code issues."
+run = '''
+cargo clippy --all-targets --all-features -- -D warnings
+'''
+
+[tasks."lint:format"]
+description = "Lint code formatting"
+run = '''
+cargo fmt --all -- --check && taplo fmt --check && taplo lint
+'''
+
+[tasks."lint:unused-deps-script"]
+description = "Check for unused dependencies via Ruby script."
+tools.ruby = "3.4.8"
+run = '''
+gem install --no-document toml-rb && \
+ruby scripts/find_duplicate_deps.rb && \
+ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield
+'''
+
+[tasks.format]
+description = "Format Rust and TOML files."
+run = '''
+cargo fmt --all && taplo fmt
+'''
+
+[tasks."update-submodules"]
+description = "Update git submodules."
+run = '''
+git submodule update --init --recursive --remote
+'''
+
+[tasks."check-crates"]
+description = "Check if all crates compile fine individually."
+usage = '''
+flag "--validate-actor-version" help = "Validate that the actor versions are consistent across all crates."
+'''
+shell = "bash -c"
+run = '''
+if [ "${usage_validate_actor_version}" = true ]; then
+  export FIL_ENABLE_ACTOR_VERSION_CHECK=1
+fi
+bash check_crates.sh
+'''
+
+[tasks."modify-forest"]
+description = "Set dependencies of Forest to this repository for local development."
+shell = "bash -c"
+run = '''
+set -eu
+sed -i -E 's|fil_actors_shared = \{ version = "[^"]*", features = \[(.*)\] \}|fil_actors_shared = { path = "../fil_actors_shared", features = [\1] }|g' ./forest/Cargo.toml
+sed -i -E 's|(fil_actors_shared = \{).*git =.*branch =.*,(.*features =.*)|\1 path = "../fil_actors_shared",\2|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_account_state =.*|fil_actor_account_state = { path = "../actors/account" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_init_state =.*|fil_actor_init_state = { path = "../actors/init" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_miner_state =.*|fil_actor_miner_state = { path = "../actors/miner" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_evm_state =.*|fil_actor_evm_state = { path = "../actors/evm" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_eam_state =.*|fil_actor_eam_state = { path = "../actors/eam" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_ethaccount_state =.*|fil_actor_ethaccount_state = { path = "../actors/ethaccount" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_multisig_state =.*|fil_actor_multisig_state = { path = "../actors/multisig" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_paych_state =.*|fil_actor_paych_state = { path = "../actors/paych" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_power_state =.*|fil_actor_power_state = { path = "../actors/power" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_system_state =.*|fil_actor_system_state = { path = "../actors/system" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_datacap_state =.*|fil_actor_datacap_state = { path = "../actors/datacap" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_cron_state =.*|fil_actor_cron_state = { path = "../actors/cron" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_reward_state =.*|fil_actor_reward_state = { path = "../actors/reward" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = "../actors/verifreg" }|g' ./forest/Cargo.toml
+sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
+'''
+
+[tasks.clean]
+description = "Clean the project."
+run = "cargo clean"
+
+[tools]
+go = "1.25.5"

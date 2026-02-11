@@ -21,6 +21,8 @@ env:
   # https://github.com/BurntSushi/quickcheck/blob/master/src/tester.rs#L21
   QUICKCHECK_TESTS: 10
   QUICKCHECK_MAX_TESTS: 100
+  CC: sccache clang
+  CXX: sccache clang++
 
 jobs:
   test:
@@ -32,24 +34,12 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - uses: actions/setup-go@v6
-        with:
-          go-version-file: "./go_compat/go.mod"
-      - run: make check
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
+      - uses: jdx/mise-action@v3
+      - run: mise check-crates --validate-actor-version
       - name: Build
-        run: cargo check --workspace --all-features --all-targets
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
-          FIL_ENABLE_ACTOR_VERSION_CHECK: "1"
+        run: mise build --validate-actor-version
       - name: Run tests
-        run: RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
+        run: mise test
 
   forest-sync-check:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Release') }}
@@ -61,33 +51,22 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
+      - uses: jdx/mise-action@v3
       - name: Update submodule forest
-        run: make update-forest
+        run: mise update-submodules
       - name: Modify deps forest
-        run: make modify-forest
-      - uses: actions/setup-go@v6
-        with:
-          go-version-file: "./forest/go.work"
+        run: mise modify-forest
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test forest
-        run: |
-          cd forest
-          make test
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
+        working-directory: forest
+        run: mise test
       - name: Install forest
-        run: |
-          cd forest
-          make install
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
+        working-directory: forest
+        run: mise run install
       - name: Calibnet health check
-        run: |
-          cd forest
-          ./scripts/tests/calibnet_other_check.sh
+        working-directory: forest
+        run: ./scripts/tests/calibnet_other_check.sh
 
   lint-all:
     name: All lint checks
@@ -99,31 +78,10 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
+      - uses: jdx/mise-action@v3
       - name: Install Lint tools
-        run: make install-lint-tools
+        run: mise install-lint-tools
         env:
           # Should deal with rate limits
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: make lint-all
-        env:
-          CC: "sccache clang"
-          CXX: "sccache clang++"
-
-  cargo-dependency-check:
-    name: Check cargo files for duplicates
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.1"
-      - name: Run rubocop
-        run: |
-          gem install rubocop -v 1.57 --no-document
-          rubocop scripts/
-      - name: Run dependencies checks
-        run: |
-          gem install toml-rb --no-document
-          ruby scripts/find_duplicate_deps.rb && \
-          ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield
+      - run: mise run "lint:*"
