@@ -23,6 +23,9 @@ env:
   QUICKCHECK_MAX_TESTS: 100
   CC: sccache clang
   CXX: sccache clang++
+  # To minimize compile times: https://nnethercote.github.io/perf-book/build-configuration.html#minimizing-compile-times
+  RUSTFLAGS: "-C linker=clang -C link-arg=-fuse-ld=lld"
+
 
 jobs:
   test:
