@@ -25,6 +25,8 @@ env:
   CXX: sccache clang++
   # To minimize compile times: https://nnethercote.github.io/perf-book/build-configuration.html#minimizing-compile-times
   RUSTFLAGS: "-C linker=clang -C link-arg=-fuse-ld=lld"
+  FIL_PROOFS_PARAMETER_CACHE: /var/tmp/filecoin-proof-parameters
+  FOREST_ACTOR_BUNDLE_PATH: /var/tmp/forest_actor_bundle.car.zst
 
 
 jobs:
@@ -59,14 +61,17 @@ jobs:
         run: mise update-submodules
       - name: Modify deps forest
         run: mise modify-forest
+      - name: Install forest
+        working-directory: forest
+        run: mise run install quick-test
+      - name: Fetch proof params and RPC test snapshots
+        working-directory: forest
+        run: forest-dev fetch-test-snapshots --actor-bundle $FOREST_ACTOR_BUNDLE_PATH
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test forest
         working-directory: forest
         run: mise test
-      - name: Install forest
-        working-directory: forest
-        run: mise run install
       - name: Calibnet health check
         working-directory: forest
         run: ./scripts/tests/calibnet_other_check.sh
