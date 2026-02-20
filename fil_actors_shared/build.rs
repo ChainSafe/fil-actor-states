@@ -50,12 +50,11 @@ fn get_directory_versions(base_path: &Path) -> HashSet<u8> {
         .filter(|e| e.file_type().is_dir())
         .filter_map(|entry| {
             let dir_name = entry.file_name().to_string_lossy();
-            if let Some(version_str) = dir_name.strip_prefix('v') {
-                if let Ok(v_num) = version_str.parse::<u8>() {
-                    if v_num > 0 {
-                        return Some(v_num);
-                    }
-                }
+            if let Some(version_str) = dir_name.strip_prefix('v')
+                && let Ok(v_num) = version_str.parse::<u8>()
+                && v_num > 0
+            {
+                return Some(v_num);
             }
             None
         })
