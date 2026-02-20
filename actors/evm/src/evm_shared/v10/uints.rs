@@ -3,7 +3,11 @@
 
 // to silence construct_uint! clippy warnings
 // see https://github.com/paritytech/parity-common/issues/660
-#![allow(clippy::ptr_offset_with_cast, clippy::assign_op_pattern)]
+#![allow(
+    clippy::ptr_offset_with_cast,
+    clippy::assign_op_pattern,
+    clippy::manual_div_ceil
+)]
 
 #[doc(inline)]
 pub use uint::byteorder;
