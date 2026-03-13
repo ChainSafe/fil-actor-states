@@ -19,12 +19,14 @@ use crate::v15::Claim;
 pub type AllocationID = u64;
 pub type ClaimID = u64;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct ConstructorParams {
     pub root_key: Address,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct VerifierParams {
     pub address: Address,
@@ -36,6 +38,7 @@ pub type AddVerifierParams = VerifierParams;
 
 pub type AddVerifiedClientParams = VerifierParams;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct RemoveVerifierParams {
@@ -48,6 +51,7 @@ pub type DataCap = StoragePower;
 
 pub const SIGNATURE_DOMAIN_SEPARATION_REMOVE_DATA_CAP: &[u8] = b"fil_removedatacap:";
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapParams {
     pub verified_client_to_remove: Address,
@@ -57,12 +61,14 @@ pub struct RemoveDataCapParams {
     pub verifier_request_2: RemoveDataCapRequest,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapRequest {
     pub verifier: Address,
     pub signature: Signature,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapReturn {
     pub verified_client: Address,
@@ -70,11 +76,13 @@ pub struct RemoveDataCapReturn {
     pub data_cap_removed: DataCap,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapProposalID {
     pub id: u64,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapProposal {
     pub verified_client: Address,
@@ -113,6 +121,7 @@ impl MapKey for AddrPairKey {
     }
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveExpiredAllocationsParams {
     // Client for which to remove expired allocations.
@@ -122,6 +131,7 @@ pub struct RemoveExpiredAllocationsParams {
     pub allocation_ids: Vec<AllocationID>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveExpiredAllocationsReturn {
     // Ids of the allocations that were either specified by the caller or discovered to be expired.
@@ -133,6 +143,7 @@ pub struct RemoveExpiredAllocationsReturn {
     pub datacap_recovered: DataCap,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct SectorAllocationClaims {
     pub sector: SectorNumber,
@@ -140,6 +151,7 @@ pub struct SectorAllocationClaims {
     pub claims: Vec<AllocationClaim>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationClaim {
     pub client: ActorID,
@@ -148,6 +160,7 @@ pub struct AllocationClaim {
     pub size: PaddedPieceSize,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClaimAllocationsParams {
     /// Allocations to claim, grouped by sector.
@@ -158,6 +171,7 @@ pub struct ClaimAllocationsParams {
     pub all_or_nothing: bool,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Default, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct SectorClaimSummary {
@@ -165,6 +179,7 @@ pub struct SectorClaimSummary {
     pub claimed_space: BigInt,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClaimAllocationsReturn {
     /// Status of each sector grouping of claims.
@@ -173,6 +188,7 @@ pub struct ClaimAllocationsReturn {
     pub sector_claims: Vec<SectorClaimSummary>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClaimTerm {
     pub provider: ActorID,
@@ -180,6 +196,7 @@ pub struct ClaimTerm {
     pub term_max: ChainEpoch,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ExtendClaimTermsParams {
     pub terms: Vec<ClaimTerm>,
@@ -193,6 +210,7 @@ pub type ExtendClaimTermsReturn = BatchReturn;
 
 // A request to create an allocation with datacap tokens.
 // See Allocation state for description of field semantics.
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationRequest {
     pub provider: ActorID,
@@ -204,6 +222,7 @@ pub struct AllocationRequest {
 }
 
 // A request to extend the term of an existing claim with datacap tokens.
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct ClaimExtensionRequest {
     pub provider: ActorID,
@@ -213,6 +232,7 @@ pub struct ClaimExtensionRequest {
 
 /// Operator-data payload for a datacap token transfer receiver hook specifying an allocation.
 /// The implied client is the sender of the datacap.
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationRequests {
     pub allocations: Vec<AllocationRequest>,
@@ -220,6 +240,7 @@ pub struct AllocationRequests {
 }
 
 /// Recipient data payload in response to a datacap token transfer.
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct AllocationsResponse {
     // Result for each allocation request.
@@ -230,18 +251,21 @@ pub struct AllocationsResponse {
     pub new_allocations: Vec<AllocationID>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct GetClaimsParams {
     pub provider: ActorID,
     pub claim_ids: Vec<ClaimID>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct GetClaimsReturn {
     pub batch_info: BatchReturn,
     pub claims: Vec<Claim>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveExpiredClaimsParams {
     // Provider to clean up (need not be the caller)
@@ -251,6 +275,7 @@ pub struct RemoveExpiredClaimsParams {
     pub claim_ids: Vec<ClaimID>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveExpiredClaimsReturn {
     // Ids of the claims that were either specified by the caller or discovered to be expired.
