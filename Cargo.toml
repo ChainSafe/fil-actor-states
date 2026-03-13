@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "fil_actor_decoder",
   "fil_actor_json_derive",
   "fil_actors_shared",
   "fil_actors_test_utils",
