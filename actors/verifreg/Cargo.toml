@@ -28,3 +28,16 @@ log = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
+
+# Optional: JSON value conversion
+base64 = { workspace = true, optional = true }
+fil_actor_json_derive = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+fil_actors_shared = { workspace = true, features = ["json"] }
+
+[features]
+default = []
+json = ["dep:fil_actor_json_derive", "dep:serde_json", "dep:base64", "fil_actors_shared/json"]
