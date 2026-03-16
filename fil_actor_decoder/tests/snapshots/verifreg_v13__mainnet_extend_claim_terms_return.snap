@@ -1,8 +1,8 @@
 ---
-source: fil_actor_decoder/tests/verifreg_v17.rs
+source: fil_actor_decoder/tests/verifreg_v13.rs
 expression: "decode_return(A, V, 11, &decode_hex(hex)).unwrap()"
 ---
 {
   "fail_codes": [],
-  "success_count": 300
+  "success_count": 200
 }

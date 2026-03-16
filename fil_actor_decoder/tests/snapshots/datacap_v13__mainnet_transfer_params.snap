@@ -1,0 +1,53 @@
+---
+source: fil_actor_decoder/tests/datacap_v13.rs
+expression: "decode_params(A, V, 80475954, &decode_hex(hex)).unwrap()"
+---
+{
+  "amount": "171798691840000000000000000000",
+  "operator_data": {
+    "allocations": [
+      {
+        "data": "baga6ea4seaqc5e4rug43e3zpylwgajagiqx3c5tddo7enupkcj25pglcn6hxska",
+        "expiration": 4159271,
+        "provider": 3161261,
+        "size": 34359738368,
+        "term_max": 777600,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqbj6csufrfptubovfxc5pf7xxsfxhfg722zddvb2ky7llbreyboii",
+        "expiration": 4159275,
+        "provider": 3161261,
+        "size": 34359738368,
+        "term_max": 777600,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqpa6tvklzl4cay2cmg2db7cpthvrtahccpht6fv2vgtan3yadf2by",
+        "expiration": 4159283,
+        "provider": 3161261,
+        "size": 34359738368,
+        "term_max": 777600,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqg23htt42veuoctopx6czaqrybmnac7od62m5qellh4wsqmalpsii",
+        "expiration": 4159287,
+        "provider": 3161261,
+        "size": 34359738368,
+        "term_max": 777600,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqlpcgy2kg55hjm23yyu2yux7jk4vvjs5nfhzkfsqon7szq4xvrqay",
+        "expiration": 4159287,
+        "provider": 3161261,
+        "size": 34359738368,
+        "term_max": 777600,
+        "term_min": 518400
+      }
+    ],
+    "extensions": []
+  },
+  "to": "f06"
+}

@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/verifreg_v11.rs
+expression: "decode_params(A, V, 4, &decode_hex(hex)).unwrap()"
+---
+{
+  "address": "f3vgbksz76yqg2qlrad7aeua5z3zkjjo2yswfc6qp33rm7iwit443fvwx55a2jyy4tap54r7gqm3ytradtmdjq",
+  "allowance": "34359738368"
+}

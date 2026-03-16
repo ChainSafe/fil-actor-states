@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/datacap_v11.rs
+expression: "decode_params(A, V, 1777121560, &decode_hex(hex)).unwrap()"
+---
+{
+  "increase": "34359738368000000000000000000",
+  "operator": "f1sfs2m6uvdn3zlzn4zchtmytsda3escmf3xiamty"
+}

@@ -185,13 +185,16 @@ fn decode_shared_returns(method_num: u64, bytes: &[u8]) -> Result<Option<Value>>
                 fvm_ipld_encoding::from_slice(bytes)?;
             r.to_json_value()
         }
+        EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
+            let r: fil_actors_shared::v17::BatchReturn =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
+        }
         CONSTRUCTOR
         | ADD_VERIFIER
         | REMOVE_VERIFIER
         | ADD_VERIFIED_CLIENT
-        | ADD_VERIFIED_CLIENT_EXPORTED
-        | EXTEND_CLAIM_TERMS
-        | EXTEND_CLAIM_TERMS_EXPORTED => {
+        | ADD_VERIFIED_CLIENT_EXPORTED => {
             return Ok(Some(decode_empty_param(bytes)?));
         }
         _ => return Ok(None),

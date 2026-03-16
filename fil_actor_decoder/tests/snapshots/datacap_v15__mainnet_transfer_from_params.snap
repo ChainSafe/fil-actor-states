@@ -1,0 +1,134 @@
+---
+source: fil_actor_decoder/tests/datacap_v15.rs
+expression: "decode_params(A, V, 3621052141, &decode_hex(hex.trim())).unwrap()"
+---
+{
+  "amount": "515396075520000000000000000000",
+  "from": "f03514634",
+  "operator_data": {
+    "allocations": [
+      {
+        "data": "baga6ea4seaqftajtrw2b2vvmctxyywontk3cdb2clqnhiwx4ccr2udbxhzbu6cq",
+        "expiration": 5593970,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqh6w6kr7fovwjjcyxbjhukjuvuxbfyccd4cc7xtradtz3urhwq6gq",
+        "expiration": 5593970,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqpo2c3c27m3plxaj3xi6bduhvbcmin2euuzlaboxrgm2mmwbwnkhi",
+        "expiration": 5593974,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqkxqyuzxqzpsazzmaapstmcsprfhululzrf6bp4p7k47gdstsusmy",
+        "expiration": 5593974,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqi72bwiigzer4pkkfpa3appdugzhmrv746b7ojhn7iy6u7nfbcgpy",
+        "expiration": 5593974,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqh3gw7xmoqo43lij65py6q7ctvkj4vptmfiivrgi4pcyvpkkh4uma",
+        "expiration": 5593978,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqmhqvvhhzkqwf27neruelfgb3k5x5vmk6czhbaljmkfxul4s4fmga",
+        "expiration": 5593978,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqdla5ujc364x7t7ficxe73cfz3tgungek5kwn7mxygc5copbfaudy",
+        "expiration": 5593978,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqpo2c3c27m3plxaj3xi6bduhvbcmin2euuzlaboxrgm2mmwbwnkhi",
+        "expiration": 5593983,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqf6joab7ljyrpcijvi4r2eaxcrcjhkkfbhhsxuwcnevomuieniyoq",
+        "expiration": 5593983,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqpijcam663xifoitpazyh5vf6m32gth7qaochxmczhc37s7mkraeq",
+        "expiration": 5593983,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqdh4dj3aiyrmmajuwuiq4cohyolxxv2peoskniwknmnrgbeip2adi",
+        "expiration": 5593987,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqftajtrw2b2vvmctxyywontk3cdb2clqnhiwx4ccr2udbxhzbu6cq",
+        "expiration": 5593987,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqi72bwiigzer4pkkfpa3appdugzhmrv746b7ojhn7iy6u7nfbcgpy",
+        "expiration": 5593987,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqmhqvvhhzkqwf27neruelfgb3k5x5vmk6czhbaljmkfxul4s4fmga",
+        "expiration": 5593989,
+        "provider": 3276663,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      }
+    ],
+    "extensions": []
+  },
+  "to": "f06"
+}
