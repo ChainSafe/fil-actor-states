@@ -8,6 +8,7 @@ use fvm_shared::crypto::signature::Signature;
 use fvm_shared::sector::StoragePower;
 use serde::{Deserialize, Serialize};
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct VerifierParams {
     pub address: Address,
@@ -23,6 +24,7 @@ pub type AddVerifierClientParams = VerifierParams;
 /// We can introduce policy changes and replace this in the future.
 pub type DataCap = StoragePower;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Serialize_tuple, Deserialize_tuple)]
 pub struct BytesParams {
     /// Address of verified client.
@@ -37,6 +39,7 @@ pub type RestoreBytesParams = BytesParams;
 
 pub const SIGNATURE_DOMAIN_SEPARATION_REMOVE_DATA_CAP: &[u8] = b"fil_removedatacap:";
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapParams {
     pub verified_client_to_remove: Address,
@@ -46,12 +49,14 @@ pub struct RemoveDataCapParams {
     pub verifier_request_2: RemoveDataCapRequest,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapRequest {
     pub verifier: Address,
     pub signature: Signature,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapReturn {
     pub verified_client: Address,
@@ -63,6 +68,14 @@ pub struct RemoveDataCapReturn {
 #[serde(transparent)]
 pub struct RemoveDataCapProposalID(pub u64);
 
+#[cfg(feature = "json")]
+impl fil_actors_shared::json_field::JsonField for RemoveDataCapProposalID {
+    fn to_json_field(&self) -> serde_json::Value {
+        serde_json::json!(self.0)
+    }
+}
+
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct RemoveDataCapProposal {
     pub verified_client: Address,

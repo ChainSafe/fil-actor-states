@@ -111,6 +111,94 @@ impl JsonField for fvm_shared4::error::ExitCode {
     }
 }
 
+// ---------------------------------------------------------------------------
+// Filecoin / FVM types (from fvm_shared3)
+// ---------------------------------------------------------------------------
+
+impl JsonField for fvm_shared3::address::Address {
+    fn to_json_field(&self) -> Value {
+        Value::String(self.to_string())
+    }
+}
+
+impl JsonField for fvm_shared3::econ::TokenAmount {
+    fn to_json_field(&self) -> Value {
+        Value::String(self.atto().to_string())
+    }
+}
+
+impl JsonField for fvm_shared3::piece::PaddedPieceSize {
+    fn to_json_field(&self) -> Value {
+        serde_json::json!(self.0)
+    }
+}
+
+impl JsonField for fvm_shared3::crypto::signature::Signature {
+    fn to_json_field(&self) -> Value {
+        use base64::Engine;
+        let mut m = serde_json::Map::with_capacity(2);
+        m.insert(
+            "type".to_string(),
+            Value::String(format!("{:?}", self.signature_type())),
+        );
+        m.insert(
+            "data".to_string(),
+            Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
+        );
+        Value::Object(m)
+    }
+}
+
+impl JsonField for fvm_shared3::error::ExitCode {
+    fn to_json_field(&self) -> Value {
+        Value::from(self.value())
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Filecoin / FVM types (from fvm_shared2 / fvm_shared v2)
+// ---------------------------------------------------------------------------
+
+impl JsonField for crate::fvm_shared2::address::Address {
+    fn to_json_field(&self) -> Value {
+        Value::String(self.to_string())
+    }
+}
+
+impl JsonField for crate::fvm_shared2::econ::TokenAmount {
+    fn to_json_field(&self) -> Value {
+        Value::String(self.atto().to_string())
+    }
+}
+
+impl JsonField for crate::fvm_shared2::piece::PaddedPieceSize {
+    fn to_json_field(&self) -> Value {
+        serde_json::json!(self.0)
+    }
+}
+
+impl JsonField for crate::fvm_shared2::crypto::signature::Signature {
+    fn to_json_field(&self) -> Value {
+        use base64::Engine;
+        let mut m = serde_json::Map::with_capacity(2);
+        m.insert(
+            "type".to_string(),
+            Value::String(format!("{:?}", self.signature_type())),
+        );
+        m.insert(
+            "data".to_string(),
+            Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
+        );
+        Value::Object(m)
+    }
+}
+
+impl JsonField for crate::fvm_shared2::error::ExitCode {
+    fn to_json_field(&self) -> Value {
+        Value::from(self.value())
+    }
+}
+
 // BigInt (num_bigint)
 impl JsonField for num_bigint::BigInt {
     fn to_json_field(&self) -> Value {

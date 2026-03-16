@@ -1,6 +1,9 @@
 //! DataCap actor (f07) param and return decoder.
 //!
-//! Supports actor versions v16 and v17.
+//! Supports all actor versions:
+//! - v9: legacy method numbers (Mint=2, ..., Allowance=21), only MintParams/DestroyParams types
+//! - v10-v11: FRC-0042 method hashes, MintParams/DestroyParams/GranularityReturn
+//! - v12-v17: FRC-0042 method hashes, full type set (13 structs, CBOR-identical across versions)
 
 use crate::ActorVersion;
 use crate::actors::{cbor_to_json, decode_empty_param};
@@ -40,9 +43,10 @@ fn try_decode_nested(payload_type: &str, rb: &RawBytes) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// FRC-0042 method numbers
+// Method numbers
 // ---------------------------------------------------------------------------
 
+/// FRC-0042 method numbers (v10+)
 mod methods {
     pub const CONSTRUCTOR: u64 = 1;
     pub const MINT: u64 = frc42_dispatch::method_hash!("Mint");
@@ -60,6 +64,25 @@ mod methods {
     pub const BURN: u64 = frc42_dispatch::method_hash!("Burn");
     pub const BURN_FROM: u64 = frc42_dispatch::method_hash!("BurnFrom");
     pub const ALLOWANCE: u64 = frc42_dispatch::method_hash!("Allowance");
+}
+
+/// Legacy method numbers (v9 only)
+mod v9_methods {
+    pub const CONSTRUCTOR: u64 = 0;
+    pub const MINT: u64 = 2;
+    pub const DESTROY: u64 = 3;
+    pub const NAME: u64 = 10;
+    pub const SYMBOL: u64 = 11;
+    pub const TOTAL_SUPPLY: u64 = 12;
+    pub const BALANCE_OF: u64 = 13;
+    pub const TRANSFER: u64 = 14;
+    pub const TRANSFER_FROM: u64 = 15;
+    pub const INCREASE_ALLOWANCE: u64 = 16;
+    pub const DECREASE_ALLOWANCE: u64 = 17;
+    pub const REVOKE_ALLOWANCE: u64 = 18;
+    pub const BURN: u64 = 19;
+    pub const BURN_FROM: u64 = 20;
+    pub const ALLOWANCE: u64 = 21;
 }
 
 // ---------------------------------------------------------------------------
@@ -171,19 +194,22 @@ fn decode_burn_from_return(bytes: &[u8]) -> Result<Value> {
     }))
 }
 
+fn decode_allowance_return(bytes: &[u8]) -> Result<Value> {
+    let r: TokenAmount = fvm_ipld_encoding::from_slice(bytes)?;
+    Ok(json!({ "allowance": token_json(&r) }))
+}
+
 // ---------------------------------------------------------------------------
-// Dispatch (v16/v17 only)
+// Version-specific dispatch helpers
 // ---------------------------------------------------------------------------
 
-pub fn decode_params(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
-    use methods::*;
+/// Decode params for v9 (legacy method numbers, only MintParams/DestroyParams types).
+fn decode_params_v9(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    use v9_methods::*;
     match method_num {
-        // Types with to_json_value() (from fil_actor_datacap_state)
-        CONSTRUCTOR => cbor_to_json!(fil_actor_datacap_state::v17::ConstructorParams, bytes),
-        BALANCE => cbor_to_json!(fil_actor_datacap_state::v17::BalanceParams, bytes),
-        MINT => cbor_to_json!(fil_actor_datacap_state::v17::MintParams, bytes),
-        DESTROY => cbor_to_json!(fil_actor_datacap_state::v17::DestroyParams, bytes),
-        // frc46_token types (manual converters)
+        MINT => cbor_to_json!(fil_actor_datacap_state::v9::MintParams, bytes),
+        DESTROY => cbor_to_json!(fil_actor_datacap_state::v9::DestroyParams, bytes),
+        // frc46_token types (shared across versions)
         TRANSFER => decode_transfer_params(bytes),
         TRANSFER_FROM => decode_transfer_from_params(bytes),
         INCREASE_ALLOWANCE => decode_increase_allowance_params(bytes),
@@ -192,33 +218,151 @@ pub fn decode_params(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> R
         BURN => decode_burn_params(bytes),
         BURN_FROM => decode_burn_from_params(bytes),
         ALLOWANCE => decode_get_allowance_params(bytes),
-        // No params
+        BALANCE_OF => {
+            // v9 BalanceOf takes a raw Address (no wrapper type)
+            let addr: fvm_shared4::address::Address = fvm_ipld_encoding::from_slice(bytes)?;
+            Ok(json!(addr.to_string()))
+        }
+        CONSTRUCTOR | NAME | SYMBOL | TOTAL_SUPPLY => decode_empty_param(bytes),
+        _ => bail!("Unknown datacap v9 method number: {method_num}"),
+    }
+}
+
+/// Decode returns for v9 (legacy method numbers).
+fn decode_return_v9(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    use v9_methods::*;
+    match method_num {
+        TRANSFER => decode_transfer_return(bytes),
+        TRANSFER_FROM => decode_transfer_from_return(bytes),
+        BURN => decode_burn_return(bytes),
+        BURN_FROM => decode_burn_from_return(bytes),
+        INCREASE_ALLOWANCE | DECREASE_ALLOWANCE | REVOKE_ALLOWANCE | ALLOWANCE => {
+            decode_allowance_return(bytes)
+        }
+        // v9 has no typed returns for Name/Symbol/TotalSupply/Balance — raw value
+        MINT | DESTROY | CONSTRUCTOR | NAME | SYMBOL | TOTAL_SUPPLY | BALANCE_OF => {
+            decode_empty_param(bytes)
+        }
+        _ => bail!("Return decoding not implemented for datacap v9 method {method_num}"),
+    }
+}
+
+/// Decode params for v10-v11 (FRC-0042 hashes, limited types).
+/// MintParams/DestroyParams available; other typed params don't exist yet.
+fn decode_params_v10(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    use methods::*;
+    match method_num {
+        // v10 has MintParams, DestroyParams (CBOR-identical to v12+)
+        MINT => cbor_to_json!(fil_actor_datacap_state::v10::MintParams, bytes),
+        DESTROY => cbor_to_json!(fil_actor_datacap_state::v10::DestroyParams, bytes),
+        // frc46_token types (shared across versions)
+        TRANSFER => decode_transfer_params(bytes),
+        TRANSFER_FROM => decode_transfer_from_params(bytes),
+        INCREASE_ALLOWANCE => decode_increase_allowance_params(bytes),
+        DECREASE_ALLOWANCE => decode_decrease_allowance_params(bytes),
+        REVOKE_ALLOWANCE => decode_revoke_allowance_params(bytes),
+        BURN => decode_burn_params(bytes),
+        BURN_FROM => decode_burn_from_params(bytes),
+        ALLOWANCE => decode_get_allowance_params(bytes),
+        // v10-v11 has no ConstructorParams, BalanceParams — treat as raw
+        CONSTRUCTOR | BALANCE | NAME | SYMBOL | TOTAL_SUPPLY | GRANULARITY => {
+            decode_empty_param(bytes)
+        }
+        _ => bail!("Unknown datacap v10 method number: {method_num}"),
+    }
+}
+
+/// Decode returns for v10-v11 (FRC-0042 hashes, limited return types).
+fn decode_return_v10(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    use methods::*;
+    match method_num {
+        // v10 added GranularityReturn
+        GRANULARITY => cbor_to_json!(fil_actor_datacap_state::v10::GranularityReturn, bytes),
+        TRANSFER => decode_transfer_return(bytes),
+        TRANSFER_FROM => decode_transfer_from_return(bytes),
+        BURN => decode_burn_return(bytes),
+        BURN_FROM => decode_burn_from_return(bytes),
+        INCREASE_ALLOWANCE | DECREASE_ALLOWANCE | REVOKE_ALLOWANCE | ALLOWANCE => {
+            decode_allowance_return(bytes)
+        }
+        // v10-v11 has no NameReturn/SymbolReturn/etc. — treat as raw
+        MINT | DESTROY | CONSTRUCTOR | NAME | SYMBOL | TOTAL_SUPPLY | BALANCE => {
+            decode_empty_param(bytes)
+        }
+        _ => bail!("Return decoding not implemented for datacap v10 method {method_num}"),
+    }
+}
+
+/// Decode params for v12+ (FRC-0042 hashes, full type set).
+/// v12-v17 types are CBOR-identical; we use v17 types for all.
+fn decode_params_v12plus(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    use methods::*;
+    match method_num {
+        CONSTRUCTOR => cbor_to_json!(fil_actor_datacap_state::v17::ConstructorParams, bytes),
+        BALANCE => cbor_to_json!(fil_actor_datacap_state::v17::BalanceParams, bytes),
+        MINT => cbor_to_json!(fil_actor_datacap_state::v17::MintParams, bytes),
+        DESTROY => cbor_to_json!(fil_actor_datacap_state::v17::DestroyParams, bytes),
+        TRANSFER => decode_transfer_params(bytes),
+        TRANSFER_FROM => decode_transfer_from_params(bytes),
+        INCREASE_ALLOWANCE => decode_increase_allowance_params(bytes),
+        DECREASE_ALLOWANCE => decode_decrease_allowance_params(bytes),
+        REVOKE_ALLOWANCE => decode_revoke_allowance_params(bytes),
+        BURN => decode_burn_params(bytes),
+        BURN_FROM => decode_burn_from_params(bytes),
+        ALLOWANCE => decode_get_allowance_params(bytes),
         NAME | SYMBOL | TOTAL_SUPPLY | GRANULARITY => decode_empty_param(bytes),
         _ => bail!("Unknown datacap method number: {method_num}"),
     }
 }
 
-pub fn decode_return(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+/// Decode returns for v12+ (FRC-0042 hashes, full return types).
+fn decode_return_v12plus(method_num: u64, bytes: &[u8]) -> Result<Value> {
     use methods::*;
     match method_num {
-        // Types with to_json_value()
         NAME => cbor_to_json!(fil_actor_datacap_state::v17::NameReturn, bytes),
         SYMBOL => cbor_to_json!(fil_actor_datacap_state::v17::SymbolReturn, bytes),
         TOTAL_SUPPLY => cbor_to_json!(fil_actor_datacap_state::v17::TotalSupplyReturn, bytes),
         BALANCE => cbor_to_json!(fil_actor_datacap_state::v17::BalanceReturn, bytes),
         GRANULARITY => cbor_to_json!(fil_actor_datacap_state::v17::GranularityReturn, bytes),
-        // frc46_token returns
         TRANSFER => decode_transfer_return(bytes),
         TRANSFER_FROM => decode_transfer_from_return(bytes),
         BURN => decode_burn_return(bytes),
         BURN_FROM => decode_burn_from_return(bytes),
-        // No meaningful return
         MINT | DESTROY | CONSTRUCTOR => decode_empty_param(bytes),
         INCREASE_ALLOWANCE | DECREASE_ALLOWANCE | REVOKE_ALLOWANCE | ALLOWANCE => {
-            let r: TokenAmount = fvm_ipld_encoding::from_slice(bytes)?;
-            Ok(json!({ "allowance": token_json(&r) }))
+            decode_allowance_return(bytes)
         }
         _ => bail!("Return decoding not implemented for datacap method {method_num}"),
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+pub fn decode_params(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+    match version {
+        ActorVersion::V9 => decode_params_v9(method_num, bytes),
+        ActorVersion::V10 | ActorVersion::V11 => decode_params_v10(method_num, bytes),
+        ActorVersion::V12
+        | ActorVersion::V13
+        | ActorVersion::V14
+        | ActorVersion::V15
+        | ActorVersion::V16
+        | ActorVersion::V17 => decode_params_v12plus(method_num, bytes),
+    }
+}
+
+pub fn decode_return(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+    match version {
+        ActorVersion::V9 => decode_return_v9(method_num, bytes),
+        ActorVersion::V10 | ActorVersion::V11 => decode_return_v10(method_num, bytes),
+        ActorVersion::V12
+        | ActorVersion::V13
+        | ActorVersion::V14
+        | ActorVersion::V15
+        | ActorVersion::V16
+        | ActorVersion::V17 => decode_return_v12plus(method_num, bytes),
     }
 }
 
@@ -228,7 +372,25 @@ pub fn decode_return(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> R
 
 pub fn method_name(method_num: u64) -> &'static str {
     match method_num {
-        methods::CONSTRUCTOR => "Constructor",
+        // Legacy v9 method numbers
+        0 => "Constructor",
+        2 => "Mint",
+        3 => "Destroy",
+        10 => "Name",
+        11 => "Symbol",
+        12 => "TotalSupply",
+        13 => "BalanceOf",
+        14 => "Transfer",
+        15 => "TransferFrom",
+        16 => "IncreaseAllowance",
+        17 => "DecreaseAllowance",
+        18 => "RevokeAllowance",
+        19 => "Burn",
+        20 => "BurnFrom",
+        21 => "Allowance",
+        // v10+ constructor
+        1 => "Constructor",
+        // FRC-0042 method hashes
         m if m == methods::MINT => "Mint",
         m if m == methods::DESTROY => "Destroy",
         m if m == methods::NAME => "Name",
@@ -254,7 +416,7 @@ mod tests {
     use fvm_ipld_encoding::to_vec;
 
     #[test]
-    fn test_decode_mint_params() {
+    fn test_decode_mint_params_v17() {
         let params = fil_actor_datacap_state::v17::MintParams {
             to: Address::new_id(1234),
             amount: TokenAmount::from_atto(1_000_000_000_000_000_000_i64),
@@ -262,10 +424,23 @@ mod tests {
         };
         let cbor = to_vec(&params).unwrap();
         let result = decode_params(ActorVersion::V17, methods::MINT, &cbor).unwrap();
-
         assert_eq!(result["to"], "f01234");
         assert_eq!(result["amount"], "1000000000000000000");
         assert_eq!(result["operators"][0], "f05678");
+    }
+
+    #[test]
+    fn test_decode_mint_params_v9() {
+        // v9 uses fvm_shared v2 Address — construct via cbor roundtrip from v17
+        let params_v17 = fil_actor_datacap_state::v17::MintParams {
+            to: Address::new_id(1234),
+            amount: TokenAmount::from_atto(1_000_000_000_000_000_000_i64),
+            operators: vec![Address::new_id(5678)],
+        };
+        // CBOR encoding is identical between v9 and v17 MintParams
+        let cbor = to_vec(&params_v17).unwrap();
+        let result = decode_params(ActorVersion::V9, v9_methods::MINT, &cbor).unwrap();
+        assert_eq!(result["to"], "f01234");
     }
 
     #[test]
@@ -288,13 +463,19 @@ mod tests {
 
     #[test]
     fn test_decode_balance_params() {
-        // BalanceParams is #[serde(transparent)] — serializes as just the address
         let params = fil_actor_datacap_state::v17::BalanceParams {
             address: Address::new_id(42),
         };
         let cbor = to_vec(&params).unwrap();
         let result = decode_params(ActorVersion::V17, methods::BALANCE, &cbor).unwrap();
         assert_eq!(result, json!("f042"));
+    }
+
+    #[test]
+    fn test_v12_uses_v12plus_dispatch() {
+        // v12 should use the same dispatch as v17
+        let result = decode_params(ActorVersion::V12, methods::NAME, &[]).unwrap();
+        assert_eq!(result, json!({}));
     }
 
     #[test]
@@ -306,6 +487,8 @@ mod tests {
     fn test_method_name() {
         assert_eq!(method_name(methods::TRANSFER), "Transfer");
         assert_eq!(method_name(methods::MINT), "Mint");
+        assert_eq!(method_name(v9_methods::MINT), "Mint");
+        assert_eq!(method_name(v9_methods::BALANCE_OF), "BalanceOf");
         assert_eq!(method_name(99999), "Unknown");
     }
 }

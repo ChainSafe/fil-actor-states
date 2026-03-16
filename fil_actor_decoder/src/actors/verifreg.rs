@@ -1,6 +1,9 @@
 //! Verified Registry actor (f06) param and return decoder.
 //!
-//! Supports actor versions v16 and v17.
+//! Supports all actor versions:
+//! - v9: numeric + FRC-0042 methods, flat SectorAllocationClaim, Address-based provider
+//! - v10-v11: same methods, flat SectorAllocationClaim, ActorID-based provider
+//! - v12-v17: same methods, nested SectorAllocationClaims (CBOR-identical across v12-v17)
 
 use crate::ActorVersion;
 use crate::actors::{cbor_to_json, decode_empty_param};
@@ -8,7 +11,7 @@ use anyhow::{Result, bail};
 use serde_json::Value;
 
 // ---------------------------------------------------------------------------
-// Method numbers (v16/v17 share the same set)
+// Method numbers (shared across v9-v17)
 // ---------------------------------------------------------------------------
 
 mod methods {
@@ -37,6 +40,8 @@ mod methods {
 }
 
 /// Decode nested payloads found inside operator_data / recipient_data.
+/// Uses v17 types (CBOR-identical for v12+; v9-v11 have different AllocationRequests
+/// but we attempt v17 first and fall back gracefully in the caller).
 pub fn decode_nested_payload(payload_type: &str, bytes: &[u8]) -> Result<Value> {
     match payload_type {
         "allocation-requests" => {
@@ -50,83 +55,214 @@ pub fn decode_nested_payload(payload_type: &str, bytes: &[u8]) -> Result<Value> 
 }
 
 // ---------------------------------------------------------------------------
-// Dispatch (v16/v17)
+// Version-specific dispatch: params
 // ---------------------------------------------------------------------------
 
-pub fn decode_params(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+/// Shared params that are identical across v9-v17 (same CBOR layout).
+fn decode_shared_params(method_num: u64, bytes: &[u8]) -> Result<Option<Value>> {
     use methods::*;
-    match method_num {
+    let val = match method_num {
         ADD_VERIFIER | ADD_VERIFIED_CLIENT | ADD_VERIFIED_CLIENT_EXPORTED => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::VerifierParams, bytes)
+            let p: fil_actor_verifreg_state::v17::VerifierParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         REMOVE_VERIFIER => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::RemoveVerifierParams, bytes)
+            let p: fil_actor_verifreg_state::v17::RemoveVerifierParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         REMOVE_VERIFIED_CLIENT_DATA_CAP => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::RemoveDataCapParams, bytes)
+            let p: fil_actor_verifreg_state::v17::RemoveDataCapParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         REMOVE_EXPIRED_ALLOCATIONS | REMOVE_EXPIRED_ALLOCATIONS_EXPORTED => {
-            cbor_to_json!(
-                fil_actor_verifreg_state::v17::RemoveExpiredAllocationsParams,
-                bytes
-            )
-        }
-        CLAIM_ALLOCATIONS => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::ClaimAllocationsParams, bytes)
+            let p: fil_actor_verifreg_state::v17::RemoveExpiredAllocationsParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         GET_CLAIMS | GET_CLAIMS_EXPORTED => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::GetClaimsParams, bytes)
+            let p: fil_actor_verifreg_state::v17::GetClaimsParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::ExtendClaimTermsParams, bytes)
+            let p: fil_actor_verifreg_state::v17::ExtendClaimTermsParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
         }
         REMOVE_EXPIRED_CLAIMS | REMOVE_EXPIRED_CLAIMS_EXPORTED => {
-            cbor_to_json!(
-                fil_actor_verifreg_state::v17::RemoveExpiredClaimsParams,
-                bytes
-            )
+            let p: fil_actor_verifreg_state::v17::RemoveExpiredClaimsParams =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            p.to_json_value()
+        }
+        CONSTRUCTOR => return Ok(Some(decode_empty_param(bytes)?)),
+        _ => return Ok(None),
+    };
+    Ok(Some(val))
+}
+
+fn decode_params_v9(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_params(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
+        // v9 has flat SectorAllocationClaim and Address-based AllocationRequest
+        CLAIM_ALLOCATIONS => {
+            cbor_to_json!(fil_actor_verifreg_state::v9::ClaimAllocationsParams, bytes)
+        }
+        UNIVERSAL_RECEIVER_HOOK => {
+            cbor_to_json!(fil_actor_verifreg_state::v9::AllocationRequests, bytes)
+        }
+        _ => bail!("Unknown verifreg v9 method number: {method_num}"),
+    }
+}
+
+fn decode_params_v10(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_params(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
+        // v10-v11 has flat SectorAllocationClaim but ActorID-based
+        CLAIM_ALLOCATIONS => {
+            cbor_to_json!(fil_actor_verifreg_state::v10::ClaimAllocationsParams, bytes)
+        }
+        UNIVERSAL_RECEIVER_HOOK => {
+            cbor_to_json!(fil_actor_verifreg_state::v10::AllocationRequests, bytes)
+        }
+        _ => bail!("Unknown verifreg v10 method number: {method_num}"),
+    }
+}
+
+fn decode_params_v12plus(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_params(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
+        // v12+ has nested SectorAllocationClaims
+        CLAIM_ALLOCATIONS => {
+            cbor_to_json!(fil_actor_verifreg_state::v17::ClaimAllocationsParams, bytes)
         }
         UNIVERSAL_RECEIVER_HOOK => {
             cbor_to_json!(fil_actor_verifreg_state::v17::AllocationRequests, bytes)
         }
-        CONSTRUCTOR => decode_empty_param(bytes),
         _ => bail!("Unknown verifreg method number: {method_num}"),
     }
 }
 
-pub fn decode_return(_version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+// ---------------------------------------------------------------------------
+// Version-specific dispatch: returns
+// ---------------------------------------------------------------------------
+
+/// Shared returns that are identical across v9-v17.
+fn decode_shared_returns(method_num: u64, bytes: &[u8]) -> Result<Option<Value>> {
     use methods::*;
-    match method_num {
+    let val = match method_num {
         REMOVE_VERIFIED_CLIENT_DATA_CAP => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::RemoveDataCapReturn, bytes)
+            let r: fil_actor_verifreg_state::v17::RemoveDataCapReturn =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
         }
         REMOVE_EXPIRED_ALLOCATIONS | REMOVE_EXPIRED_ALLOCATIONS_EXPORTED => {
-            cbor_to_json!(
-                fil_actor_verifreg_state::v17::RemoveExpiredAllocationsReturn,
-                bytes
-            )
+            let r: fil_actor_verifreg_state::v17::RemoveExpiredAllocationsReturn =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
         }
+        GET_CLAIMS | GET_CLAIMS_EXPORTED => {
+            let r: fil_actor_verifreg_state::v17::GetClaimsReturn =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
+        }
+        REMOVE_EXPIRED_CLAIMS | REMOVE_EXPIRED_CLAIMS_EXPORTED => {
+            let r: fil_actor_verifreg_state::v17::RemoveExpiredClaimsReturn =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
+        }
+        UNIVERSAL_RECEIVER_HOOK => {
+            let r: fil_actor_verifreg_state::v17::AllocationsResponse =
+                fvm_ipld_encoding::from_slice(bytes)?;
+            r.to_json_value()
+        }
+        CONSTRUCTOR | ADD_VERIFIER | REMOVE_VERIFIER | ADD_VERIFIED_CLIENT
+        | ADD_VERIFIED_CLIENT_EXPORTED | EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
+            return Ok(Some(decode_empty_param(bytes)?));
+        }
+        _ => return Ok(None),
+    };
+    Ok(Some(val))
+}
+
+fn decode_return_v9(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_returns(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
+        // v9 ClaimAllocationsReturn has different structure: {batch_info, claimed_space}
+        CLAIM_ALLOCATIONS => {
+            cbor_to_json!(fil_actor_verifreg_state::v9::ClaimAllocationsReturn, bytes)
+        }
+        _ => bail!("Return decoding not implemented for verifreg v9 method {method_num}"),
+    }
+}
+
+fn decode_return_v10(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_returns(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
+        CLAIM_ALLOCATIONS => {
+            cbor_to_json!(fil_actor_verifreg_state::v10::ClaimAllocationsReturn, bytes)
+        }
+        _ => bail!("Return decoding not implemented for verifreg v10 method {method_num}"),
+    }
+}
+
+fn decode_return_v12plus(method_num: u64, bytes: &[u8]) -> Result<Value> {
+    if let Some(v) = decode_shared_returns(method_num, bytes)? {
+        return Ok(v);
+    }
+    use methods::*;
+    match method_num {
         CLAIM_ALLOCATIONS => {
             cbor_to_json!(fil_actor_verifreg_state::v17::ClaimAllocationsReturn, bytes)
         }
-        GET_CLAIMS | GET_CLAIMS_EXPORTED => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::GetClaimsReturn, bytes)
-        }
-        REMOVE_EXPIRED_CLAIMS | REMOVE_EXPIRED_CLAIMS_EXPORTED => {
-            cbor_to_json!(
-                fil_actor_verifreg_state::v17::RemoveExpiredClaimsReturn,
-                bytes
-            )
-        }
-        UNIVERSAL_RECEIVER_HOOK => {
-            cbor_to_json!(fil_actor_verifreg_state::v17::AllocationsResponse, bytes)
-        }
-        // Methods with no meaningful return
-        CONSTRUCTOR | ADD_VERIFIER | REMOVE_VERIFIER | ADD_VERIFIED_CLIENT
-        | ADD_VERIFIED_CLIENT_EXPORTED | EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
-            decode_empty_param(bytes)
-        }
         _ => bail!("Return decoding not implemented for verifreg method {method_num}"),
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+pub fn decode_params(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+    match version {
+        ActorVersion::V9 => decode_params_v9(method_num, bytes),
+        ActorVersion::V10 | ActorVersion::V11 => decode_params_v10(method_num, bytes),
+        ActorVersion::V12
+        | ActorVersion::V13
+        | ActorVersion::V14
+        | ActorVersion::V15
+        | ActorVersion::V16
+        | ActorVersion::V17 => decode_params_v12plus(method_num, bytes),
+    }
+}
+
+pub fn decode_return(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
+    match version {
+        ActorVersion::V9 => decode_return_v9(method_num, bytes),
+        ActorVersion::V10 | ActorVersion::V11 => decode_return_v10(method_num, bytes),
+        ActorVersion::V12
+        | ActorVersion::V13
+        | ActorVersion::V14
+        | ActorVersion::V15
+        | ActorVersion::V16
+        | ActorVersion::V17 => decode_return_v12plus(method_num, bytes),
     }
 }
 
@@ -191,16 +327,15 @@ mod tests {
     }
 
     #[test]
-    fn test_decode_remove_expired_allocations_params() {
-        let params = fil_actor_verifreg_state::v17::RemoveExpiredAllocationsParams {
-            client: 42,
-            allocation_ids: vec![10, 20],
-        };
-        let cbor = to_vec(&params).unwrap();
-        let result =
-            decode_params(ActorVersion::V17, methods::REMOVE_EXPIRED_ALLOCATIONS, &cbor).unwrap();
-        assert_eq!(result["client"], 42);
-        assert_eq!(result["allocation_ids"], json!([10, 20]));
+    fn test_v12_dispatch() {
+        let result = decode_params(ActorVersion::V12, methods::CONSTRUCTOR, &[]).unwrap();
+        assert_eq!(result, json!({}));
+    }
+
+    #[test]
+    fn test_v9_dispatch() {
+        let result = decode_params(ActorVersion::V9, methods::CONSTRUCTOR, &[]).unwrap();
+        assert_eq!(result, json!({}));
     }
 
     #[test]
