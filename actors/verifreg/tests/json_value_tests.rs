@@ -101,10 +101,7 @@ macro_rules! test_verifreg_bigint {
                 let summary = $version::SectorClaimSummary {
                     claimed_space: BigInt::from(34359738368i64),
                 };
-                assert_eq!(
-                    summary.to_json_value(),
-                    Value::String("34359738368".into())
-                );
+                assert_eq!(summary.to_json_value(), Value::String("34359738368".into()));
             }
         }
     };
@@ -131,7 +128,14 @@ macro_rules! test_verifreg_batch_return {
                 assert_eq!(alloc_results["success_count"], serde_json::json!(3));
                 assert!(alloc_results["fail_codes"].as_array().unwrap().is_empty());
                 let allocs = obj["new_allocations"].as_array().unwrap();
-                assert_eq!(allocs, &[serde_json::json!(10), serde_json::json!(11), serde_json::json!(12)]);
+                assert_eq!(
+                    allocs,
+                    &[
+                        serde_json::json!(10),
+                        serde_json::json!(11),
+                        serde_json::json!(12)
+                    ]
+                );
             }
         }
     };

@@ -186,8 +186,7 @@ fn decode_shared_returns(method_num: u64, bytes: &[u8]) -> Result<Option<Value>>
             r.to_json_value()
         }
         EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
-            let r: fil_actors_shared::v17::BatchReturn =
-                fvm_ipld_encoding::from_slice(bytes)?;
+            let r: fil_actors_shared::v17::BatchReturn = fvm_ipld_encoding::from_slice(bytes)?;
             r.to_json_value()
         }
         CONSTRUCTOR

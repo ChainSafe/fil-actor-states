@@ -15,16 +15,12 @@ const A: ActorType = ActorType::DataCap;
 #[test]
 fn mainnet_increase_allowance_params() {
     let hex = "8255019165a67a951b7795e5bcc88f36627218364909854d006f05b59d3b20000000000000";
-    insta::assert_json_snapshot!(
-        decode_params(A, V, 1777121560, &decode_hex(hex)).unwrap()
-    );
+    insta::assert_json_snapshot!(decode_params(A, V, 1777121560, &decode_hex(hex)).unwrap());
 }
 
 /// IncreaseAllowanceExported return — same message
 #[test]
 fn mainnet_increase_allowance_return() {
     let hex = "4d006f05b59d3b20000000000000";
-    insta::assert_json_snapshot!(
-        decode_return(A, V, 1777121560, &decode_hex(hex)).unwrap()
-    );
+    insta::assert_json_snapshot!(decode_return(A, V, 1777121560, &decode_hex(hex)).unwrap());
 }

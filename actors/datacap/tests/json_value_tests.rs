@@ -164,7 +164,12 @@ fn all_versions_produce_same_mint_output() {
                 amount: TokenAmount::from_atto(5_000_000),
                 operators: vec![Address::new_id(5678)],
             };
-            assert_eq!(p.to_json_value(), expected, "v{} mismatch", stringify!($ver));
+            assert_eq!(
+                p.to_json_value(),
+                expected,
+                "v{} mismatch",
+                stringify!($ver)
+            );
         };
     }
     assert_mint_eq!(v12);

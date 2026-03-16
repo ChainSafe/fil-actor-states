@@ -19,16 +19,12 @@ fn mainnet_transfer_from_params() {
         "/tests/fixtures/mainnet_datacap_v15_transfer_from_params.hex"
     ))
     .unwrap();
-    insta::assert_json_snapshot!(
-        decode_params(A, V, 3621052141, &decode_hex(hex.trim())).unwrap()
-    );
+    insta::assert_json_snapshot!(decode_params(A, V, 3621052141, &decode_hex(hex.trim())).unwrap());
 }
 
 /// TransferFromExported return — same message
 #[test]
 fn mainnet_transfer_from_return() {
     let hex = "844f0008e79e12517f937c37937e080000500006c4291bbe996fba4cbecfdb3000005000095e658e0c3abae943c7f400000000585383820f80820080891a05306e471a05306e481a05306e491a05306e4a1a05306e4b1a05306e4c1a05306e4d1a05306e4e1a05306e4f1a05306e501a05306e511a05306e521a05306e531a05306e541a05306e55";
-    insta::assert_json_snapshot!(
-        decode_return(A, V, 3621052141, &decode_hex(hex)).unwrap()
-    );
+    insta::assert_json_snapshot!(decode_return(A, V, 3621052141, &decode_hex(hex)).unwrap());
 }
