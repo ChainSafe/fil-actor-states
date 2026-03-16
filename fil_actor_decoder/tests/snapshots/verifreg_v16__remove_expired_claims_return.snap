@@ -1,0 +1,20 @@
+---
+source: fil_actor_decoder/tests/verifreg_v16.rs
+expression: "decode_return(A, V, 12, &to_vec(&r).unwrap()).unwrap()"
+---
+{
+  "considered": [
+    10,
+    20,
+    30
+  ],
+  "results": {
+    "fail_codes": [
+      {
+        "code": 17,
+        "idx": 2
+      }
+    ],
+    "success_count": 2
+  }
+}

@@ -1,0 +1,17 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"Receive\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "allocations": [
+    {
+      "data": "baeaaaaa",
+      "expiration": 6000000,
+      "provider": 1234,
+      "size": 1048576,
+      "term_max": 1036800,
+      "term_min": 518400
+    }
+  ],
+  "extensions": []
+}

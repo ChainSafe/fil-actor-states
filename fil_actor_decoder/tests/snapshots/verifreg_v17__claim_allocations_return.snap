@@ -1,0 +1,13 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_return(A, V, 9, &to_vec(&r).unwrap()).unwrap()"
+---
+{
+  "sector_claims": [
+    "34359738368"
+  ],
+  "sector_results": {
+    "fail_codes": [],
+    "success_count": 1
+  }
+}

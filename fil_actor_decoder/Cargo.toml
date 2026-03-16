@@ -22,6 +22,9 @@ fil_actor_datacap_state = { workspace = true, features = ["json"] }
 fil_actor_verifreg_state = { workspace = true, features = ["json"] }
 fil_actors_shared = { workspace = true, features = ["json"] }
 
+[dev-dependencies]
+insta = { version = "1", features = ["json"] }
+
 [[bin]]
 name = "fil-decode"
 path = "src/bin/fil_decode.rs"

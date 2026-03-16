@@ -1,0 +1,86 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: result
+---
+{
+  "amount": "309237645312000000000000000000",
+  "from": "f03535091",
+  "operator_data": {
+    "allocations": [
+      {
+        "data": "baga6ea4seaqj4dqorep36qkzjx2c4omvnczzkulfopolwoqryvkrxcztb5paqmi",
+        "expiration": 6006319,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqkxr3mytnr232yhfirij6odvomtp5cu5gxss6ijg5nwmvmpn2zqfa",
+        "expiration": 6006322,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqj3zxhywznsarwigow4uriheropwubb5t67dximq52trr6s6jvkai",
+        "expiration": 6006326,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqbk3tzfocymsfgexvfw6a342p2e7llch46ful2sd6hqiixl5liufy",
+        "expiration": 6006330,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqc7exbwjty4ok7j2w2z3q35izwfzgfsk76fakddv44zt5p5tuxcmi",
+        "expiration": 6006330,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqlqhr32ftn55a5njhhfwhel3e6hqekjyma3ei2bsbekgrxbiijinq",
+        "expiration": 6006332,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqduzz7vwgjuakdzarji24tt7kr5f2znb6k3hu5vaayjr6pi5s4qbq",
+        "expiration": 6006337,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqkxkq4pstgtwqvcbxi5bbnxhg3khd7bqyt2uyz3ggp2ptzvlaygjq",
+        "expiration": 6006338,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      },
+      {
+        "data": "baga6ea4seaqjtqw26h4vra3cp5lqvkizpxfpbwyxzq52gbbk6jwcdftvjxedqhi",
+        "expiration": 6006338,
+        "provider": 3741653,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      }
+    ],
+    "extensions": []
+  },
+  "to": "f06"
+}

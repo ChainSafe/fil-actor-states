@@ -1,0 +1,13 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_params(A, V, 11, &to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "terms": [
+    {
+      "claim_id": 5678,
+      "provider": 1234,
+      "term_max": 5256000
+    }
+  ]
+}

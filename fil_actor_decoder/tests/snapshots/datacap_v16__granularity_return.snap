@@ -1,0 +1,5 @@
+---
+source: fil_actor_decoder/tests/datacap_v16.rs
+expression: "decode_return(A, V, frc42_dispatch::method_hash!(\"Granularity\"),\n&to_vec(&r).unwrap()).unwrap()"
+---
+1000000000000000000

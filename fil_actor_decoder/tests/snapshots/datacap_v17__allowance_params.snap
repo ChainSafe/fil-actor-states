@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"Allowance\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "operator": "f0300",
+  "owner": "f0100"
+}

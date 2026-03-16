@@ -1,0 +1,11 @@
+---
+source: fil_actor_decoder/tests/verifreg_v16.rs
+expression: "decode_params(A, V, 8, &to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "allocation_ids": [
+    10,
+    20
+  ],
+  "client": 42
+}

@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/verifreg_v16.rs
+expression: "decode_params(A, V, 4, &to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "address": "f01000",
+  "allowance": "5000000"
+}

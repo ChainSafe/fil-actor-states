@@ -1,0 +1,7 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_return(A, V, 11, &decode_hex(hex)).unwrap()"
+---
+{
+  "raw": "ghkBLIA="
+}

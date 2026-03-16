@@ -1,0 +1,9 @@
+---
+source: fil_actor_decoder/tests/datacap_v16.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"Transfer\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "amount": "100000000000000000000",
+  "operator_data": "",
+  "to": "f01000"
+}

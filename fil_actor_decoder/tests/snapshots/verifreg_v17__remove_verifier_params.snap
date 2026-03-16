@@ -1,0 +1,5 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_params(A, V, 3, &to_vec(&p).unwrap()).unwrap()"
+---
+"f0999"

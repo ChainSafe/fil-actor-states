@@ -1,0 +1,30 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: result
+---
+{
+  "allowance": "501549100957696000000000000000000",
+  "from_balance": "880133288230912000000000000000000",
+  "recipient_data": {
+    "allocation_results": {
+      "fail_codes": [],
+      "success_count": 9
+    },
+    "extension_results": {
+      "fail_codes": [],
+      "success_count": 0
+    },
+    "new_allocations": [
+      123970025,
+      123970026,
+      123970027,
+      123970028,
+      123970029,
+      123970030,
+      123970031,
+      123970032,
+      123970033
+    ]
+  },
+  "to_balance": "44818898744918762000000000000000000"
+}
