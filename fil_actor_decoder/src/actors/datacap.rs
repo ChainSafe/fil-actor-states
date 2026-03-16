@@ -341,8 +341,10 @@ fn decode_return_v12plus(method_num: u64, bytes: &[u8]) -> Result<Value> {
 pub fn decode_params(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
     match version {
         ActorVersion::V9 => decode_params_v9(method_num, bytes),
-        ActorVersion::V10 | ActorVersion::V11 => decode_params_v10(method_num, bytes),
-        ActorVersion::V12
+        ActorVersion::V10 => decode_params_v10(method_num, bytes),
+        // v11+ has the full type set; CBOR encoding is version-independent
+        ActorVersion::V11
+        | ActorVersion::V12
         | ActorVersion::V13
         | ActorVersion::V14
         | ActorVersion::V15
@@ -354,8 +356,9 @@ pub fn decode_params(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Re
 pub fn decode_return(version: ActorVersion, method_num: u64, bytes: &[u8]) -> Result<Value> {
     match version {
         ActorVersion::V9 => decode_return_v9(method_num, bytes),
-        ActorVersion::V10 | ActorVersion::V11 => decode_return_v10(method_num, bytes),
-        ActorVersion::V12
+        ActorVersion::V10 => decode_return_v10(method_num, bytes),
+        ActorVersion::V11
+        | ActorVersion::V12
         | ActorVersion::V13
         | ActorVersion::V14
         | ActorVersion::V15
