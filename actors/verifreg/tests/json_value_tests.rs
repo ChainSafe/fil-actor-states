@@ -76,10 +76,7 @@ mod v16_tests {
         let obj = json.as_object().unwrap();
         assert_eq!(obj["address"], Value::String("f0555".to_string()));
         // BigInt with #[serde(with = "bigint_ser")] -> auto-detected as string
-        assert_eq!(
-            obj["allowance"],
-            Value::String("1000000000000".to_string())
-        );
+        assert_eq!(obj["allowance"], Value::String("1000000000000".to_string()));
     }
 
     #[test]

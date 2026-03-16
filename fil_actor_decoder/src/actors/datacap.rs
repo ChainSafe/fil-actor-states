@@ -34,9 +34,7 @@ fn try_decode_nested(payload_type: &str, rb: &RawBytes) -> Value {
     if rb.bytes().is_empty() {
         return json!("");
     }
-    if let Ok(decoded) =
-        crate::actors::verifreg::decode_nested_payload(payload_type, rb.bytes())
-    {
+    if let Ok(decoded) = crate::actors::verifreg::decode_nested_payload(payload_type, rb.bytes()) {
         return decoded;
     }
     raw_bytes_json(rb)

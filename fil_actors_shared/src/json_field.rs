@@ -104,9 +104,7 @@ macro_rules! impl_json_field_fvm_shared {
                 );
                 m.insert(
                     "data".to_string(),
-                    Value::String(
-                        base64::engine::general_purpose::STANDARD.encode(self.bytes()),
-                    ),
+                    Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
                 );
                 Value::Object(m)
             }

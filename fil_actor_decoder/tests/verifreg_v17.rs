@@ -194,6 +194,12 @@ fn universal_receiver_hook_params() {
         extensions: vec![],
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Receive"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Receive"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }

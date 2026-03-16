@@ -54,7 +54,13 @@ fn mint_params() {
         operators: vec![Address::new_id(5678)],
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Mint"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Mint"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -65,7 +71,13 @@ fn destroy_params() {
         amount: TokenAmount::from_atto(500),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Destroy"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Destroy"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -75,23 +87,45 @@ fn balance_params() {
         address: Address::new_id(42),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Balance"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Balance"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
 #[test]
 fn name_return() {
-    let r = fil_actor_datacap_state::v17::NameReturn { name: "DataCap".into() };
+    let r = fil_actor_datacap_state::v17::NameReturn {
+        name: "DataCap".into(),
+    };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Name"), &to_vec(&r).unwrap()).unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Name"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
 #[test]
 fn symbol_return() {
-    let r = fil_actor_datacap_state::v17::SymbolReturn { symbol: "DCAP".into() };
+    let r = fil_actor_datacap_state::v17::SymbolReturn {
+        symbol: "DCAP".into(),
+    };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Symbol"), &to_vec(&r).unwrap()).unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Symbol"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -101,8 +135,13 @@ fn total_supply_return() {
         supply: TokenAmount::from_atto(800_000_000_000_000_000_000_000_i128),
     };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("TotalSupply"), &to_vec(&r).unwrap())
-            .unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("TotalSupply"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -112,7 +151,13 @@ fn balance_return() {
         balance: TokenAmount::from_atto(5_000_000_000_000_000_000_i64),
     };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Balance"), &to_vec(&r).unwrap()).unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Balance"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -122,8 +167,13 @@ fn granularity_return() {
         granularity: 1_000_000_000_000_000_000,
     };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Granularity"), &to_vec(&r).unwrap())
-            .unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Granularity"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -137,17 +187,30 @@ fn transfer_params() {
         operator_data: RawBytes::default(),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Transfer"), &to_vec(&p).unwrap())
-            .unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Transfer"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
 #[test]
 fn burn_params() {
     use fil_actors_shared::frc46_token::token::types::BurnParams;
-    let p = BurnParams { amount: TokenAmount::from_atto(50_000_000_000_000_000_000_i128) };
+    let p = BurnParams {
+        amount: TokenAmount::from_atto(50_000_000_000_000_000_000_i128),
+    };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Burn"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Burn"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -159,8 +222,13 @@ fn burn_from_params() {
         amount: TokenAmount::from_atto(25_000_000_000_000_000_000_i128),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("BurnFrom"), &to_vec(&p).unwrap())
-            .unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("BurnFrom"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -173,7 +241,8 @@ fn increase_allowance_params() {
     };
     insta::assert_json_snapshot!(
         decode_params(
-            A, V,
+            A,
+            V,
             frc42_dispatch::method_hash!("IncreaseAllowance"),
             &to_vec(&p).unwrap()
         )
@@ -190,7 +259,8 @@ fn decrease_allowance_params() {
     };
     insta::assert_json_snapshot!(
         decode_params(
-            A, V,
+            A,
+            V,
             frc42_dispatch::method_hash!("DecreaseAllowance"),
             &to_vec(&p).unwrap()
         )
@@ -201,10 +271,13 @@ fn decrease_allowance_params() {
 #[test]
 fn revoke_allowance_params() {
     use fil_actors_shared::frc46_token::token::types::RevokeAllowanceParams;
-    let p = RevokeAllowanceParams { operator: Address::new_id(300) };
+    let p = RevokeAllowanceParams {
+        operator: Address::new_id(300),
+    };
     insta::assert_json_snapshot!(
         decode_params(
-            A, V,
+            A,
+            V,
             frc42_dispatch::method_hash!("RevokeAllowance"),
             &to_vec(&p).unwrap()
         )
@@ -220,7 +293,12 @@ fn allowance_params() {
         operator: Address::new_id(300),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Allowance"), &to_vec(&p).unwrap())
-            .unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Allowance"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }

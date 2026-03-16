@@ -19,7 +19,13 @@ fn mint_params() {
         operators: vec![Address::new_id(5678)],
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Mint"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Mint"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -30,7 +36,13 @@ fn destroy_params() {
         amount: TokenAmount::from_atto(500),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Destroy"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Destroy"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -40,15 +52,29 @@ fn balance_params() {
         address: Address::new_id(42),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Balance"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Balance"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
 #[test]
 fn name_return() {
-    let r = fil_actor_datacap_state::v16::NameReturn { name: "DataCap".into() };
+    let r = fil_actor_datacap_state::v16::NameReturn {
+        name: "DataCap".into(),
+    };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Name"), &to_vec(&r).unwrap()).unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Name"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -58,8 +84,13 @@ fn granularity_return() {
         granularity: 1_000_000_000_000_000_000,
     };
     insta::assert_json_snapshot!(
-        decode_return(A, V, frc42_dispatch::method_hash!("Granularity"), &to_vec(&r).unwrap())
-            .unwrap()
+        decode_return(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Granularity"),
+            &to_vec(&r).unwrap()
+        )
+        .unwrap()
     );
 }
 
@@ -73,16 +104,29 @@ fn transfer_params() {
         operator_data: RawBytes::default(),
     };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Transfer"), &to_vec(&p).unwrap())
-            .unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Transfer"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }
 
 #[test]
 fn burn_params() {
     use fil_actors_shared::frc46_token::token::types::BurnParams;
-    let p = BurnParams { amount: TokenAmount::from_atto(50_000_000_000_000_000_000_i128) };
+    let p = BurnParams {
+        amount: TokenAmount::from_atto(50_000_000_000_000_000_000_i128),
+    };
     insta::assert_json_snapshot!(
-        decode_params(A, V, frc42_dispatch::method_hash!("Burn"), &to_vec(&p).unwrap()).unwrap()
+        decode_params(
+            A,
+            V,
+            frc42_dispatch::method_hash!("Burn"),
+            &to_vec(&p).unwrap()
+        )
+        .unwrap()
     );
 }

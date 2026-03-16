@@ -27,13 +27,11 @@ mod methods {
     pub const REMOVE_EXPIRED_CLAIMS: u64 = 12;
 
     // FRC-0042 exported methods
-    pub const ADD_VERIFIED_CLIENT_EXPORTED: u64 =
-        frc42_dispatch::method_hash!("AddVerifiedClient");
+    pub const ADD_VERIFIED_CLIENT_EXPORTED: u64 = frc42_dispatch::method_hash!("AddVerifiedClient");
     pub const REMOVE_EXPIRED_ALLOCATIONS_EXPORTED: u64 =
         frc42_dispatch::method_hash!("RemoveExpiredAllocations");
     pub const GET_CLAIMS_EXPORTED: u64 = frc42_dispatch::method_hash!("GetClaims");
-    pub const EXTEND_CLAIM_TERMS_EXPORTED: u64 =
-        frc42_dispatch::method_hash!("ExtendClaimTerms");
+    pub const EXTEND_CLAIM_TERMS_EXPORTED: u64 = frc42_dispatch::method_hash!("ExtendClaimTerms");
     pub const REMOVE_EXPIRED_CLAIMS_EXPORTED: u64 =
         frc42_dispatch::method_hash!("RemoveExpiredClaims");
     pub const UNIVERSAL_RECEIVER_HOOK: u64 = frc42_dispatch::method_hash!("Receive");
@@ -187,8 +185,13 @@ fn decode_shared_returns(method_num: u64, bytes: &[u8]) -> Result<Option<Value>>
                 fvm_ipld_encoding::from_slice(bytes)?;
             r.to_json_value()
         }
-        CONSTRUCTOR | ADD_VERIFIER | REMOVE_VERIFIER | ADD_VERIFIED_CLIENT
-        | ADD_VERIFIED_CLIENT_EXPORTED | EXTEND_CLAIM_TERMS | EXTEND_CLAIM_TERMS_EXPORTED => {
+        CONSTRUCTOR
+        | ADD_VERIFIER
+        | REMOVE_VERIFIER
+        | ADD_VERIFIED_CLIENT
+        | ADD_VERIFIED_CLIENT_EXPORTED
+        | EXTEND_CLAIM_TERMS
+        | EXTEND_CLAIM_TERMS_EXPORTED => {
             return Ok(Some(decode_empty_param(bytes)?));
         }
         _ => return Ok(None),

@@ -136,10 +136,7 @@ pub fn derive_into_json_value(input: TokenStream) -> TokenStream {
 ///
 /// - BigInt-annotated fields use `BigIntJsonField::bigint_to_json_field()`
 /// - All other fields use `JsonField::to_json_field()`
-fn field_converter(
-    field_name: &syn::Ident,
-    attrs: &[syn::Attribute],
-) -> proc_macro2::TokenStream {
+fn field_converter(field_name: &syn::Ident, attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {
     if has_json_value_attr(attrs, "bigint") || has_serde_bigint(attrs) {
         quote! {
             fil_actors_shared::json_field::BigIntJsonField::bigint_to_json_field(&self.#field_name)

@@ -1,10 +1,13 @@
 //! CLI tool for decoding Filecoin actor params/returns from CBOR to JSON.
 
 use anyhow::{Context, Result};
-use clap::{Parser, Subcommand, Args};
+use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(name = "fil-decode", about = "Decode Filecoin actor CBOR params/returns to JSON")]
+#[command(
+    name = "fil-decode",
+    about = "Decode Filecoin actor CBOR params/returns to JSON"
+)]
 struct Cli {
     #[command(subcommand)]
     command: Command,

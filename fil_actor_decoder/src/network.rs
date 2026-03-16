@@ -96,17 +96,17 @@ static MAINNET_UPGRADES: &[(i64, NetworkVersion)] = &[
     (1_231_620, 14),
     (1_594_680, 15),
     (1_960_320, 16),
-    (2_383_680, 17),     // Shark
-    (2_683_348, 18),     // Hygge
-    (2_809_800, 19),     // Lightning
-    (2_870_280, 20),     // Thunder
-    (3_469_380, 21),     // Watermelon
-    (3_855_360, 22),     // Dragon
-    (4_154_640, 23),     // Waffle
-    (4_461_240, 24),     // TukTuk
-    (4_878_840, 25),     // Teep
-    (4_900_440, 26),     // Tock
-    (5_348_280, 27),     // GoldenWeek
+    (2_383_680, 17), // Shark
+    (2_683_348, 18), // Hygge
+    (2_809_800, 19), // Lightning
+    (2_870_280, 20), // Thunder
+    (3_469_380, 21), // Watermelon
+    (3_855_360, 22), // Dragon
+    (4_154_640, 23), // Waffle
+    (4_461_240, 24), // TukTuk
+    (4_878_840, 25), // Teep
+    (4_900_440, 26), // Tock
+    (5_348_280, 27), // GoldenWeek
 ];
 
 static CALIBNET_UPGRADES: &[(i64, NetworkVersion)] = &[
@@ -124,17 +124,17 @@ static CALIBNET_UPGRADES: &[(i64, NetworkVersion)] = &[
     (450, 14),
     (480, 15),
     (510, 16),
-    (16_800, 17),        // Shark
-    (322_354, 18),       // Hygge
-    (489_094, 19),       // Lightning
-    (492_214, 20),       // Thunder
-    (1_013_134, 21),     // Watermelon
-    (1_427_974, 22),     // Dragon
-    (1_779_094, 23),     // Waffle
-    (2_078_794, 24),     // TukTuk
-    (2_523_454, 25),     // Teep
-    (2_543_614, 26),     // Tock
-    (3_007_294, 27),     // GoldenWeek
+    (16_800, 17),    // Shark
+    (322_354, 18),   // Hygge
+    (489_094, 19),   // Lightning
+    (492_214, 20),   // Thunder
+    (1_013_134, 21), // Watermelon
+    (1_427_974, 22), // Dragon
+    (1_779_094, 23), // Waffle
+    (2_078_794, 24), // TukTuk
+    (2_523_454, 25), // Teep
+    (2_543_614, 26), // Tock
+    (3_007_294, 27), // GoldenWeek
 ];
 
 #[cfg(test)]
