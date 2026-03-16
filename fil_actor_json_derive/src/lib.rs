@@ -178,7 +178,7 @@ fn has_serde_bigint(attrs: &[syn::Attribute]) -> bool {
         let _ = attr.parse_nested_meta(|meta| {
             if meta.path.is_ident("with")
                 && let Ok(lit) = meta.value().and_then(|v| v.parse::<syn::LitStr>())
-                && lit.value().contains("bigint")
+                && lit.value().ends_with("bigint_ser")
             {
                 found = true;
             }

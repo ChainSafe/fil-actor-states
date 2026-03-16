@@ -68,152 +68,96 @@ impl<T: JsonField> JsonField for Option<T> {
 }
 
 // ---------------------------------------------------------------------------
-// Filecoin / FVM types (from fvm_shared4)
+// Filecoin / FVM types — shared across fvm_shared2, fvm_shared3, fvm_shared4
 // ---------------------------------------------------------------------------
 
-impl JsonField for fvm_shared4::address::Address {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.to_string())
-    }
+/// Generates `JsonField` impls for the standard FVM types in a given fvm_shared crate.
+/// All three versions (fvm_shared2, fvm_shared3, fvm_shared4) expose identical APIs
+/// for Address, TokenAmount, PaddedPieceSize, Signature, and ExitCode.
+macro_rules! impl_json_field_fvm_shared {
+    ($addr:ty, $token:ty, $piece:ty, $sig:ty, $exit:ty) => {
+        impl JsonField for $addr {
+            fn to_json_field(&self) -> Value {
+                Value::String(self.to_string())
+            }
+        }
+
+        impl JsonField for $token {
+            fn to_json_field(&self) -> Value {
+                Value::String(self.atto().to_string())
+            }
+        }
+
+        impl JsonField for $piece {
+            fn to_json_field(&self) -> Value {
+                serde_json::json!(self.0)
+            }
+        }
+
+        impl JsonField for $sig {
+            fn to_json_field(&self) -> Value {
+                use base64::Engine;
+                let mut m = serde_json::Map::with_capacity(2);
+                m.insert(
+                    "type".to_string(),
+                    Value::String(format!("{:?}", self.signature_type())),
+                );
+                m.insert(
+                    "data".to_string(),
+                    Value::String(
+                        base64::engine::general_purpose::STANDARD.encode(self.bytes()),
+                    ),
+                );
+                Value::Object(m)
+            }
+        }
+
+        impl JsonField for $exit {
+            fn to_json_field(&self) -> Value {
+                Value::from(self.value())
+            }
+        }
+    };
 }
 
-impl JsonField for fvm_shared4::econ::TokenAmount {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.atto().to_string())
-    }
-}
-
-impl JsonField for fvm_shared4::piece::PaddedPieceSize {
-    fn to_json_field(&self) -> Value {
-        serde_json::json!(self.0)
-    }
-}
-
-impl JsonField for fvm_shared4::crypto::signature::Signature {
-    fn to_json_field(&self) -> Value {
-        use base64::Engine;
-        let mut m = serde_json::Map::with_capacity(2);
-        m.insert(
-            "type".to_string(),
-            Value::String(format!("{:?}", self.signature_type())),
-        );
-        m.insert(
-            "data".to_string(),
-            Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
-        );
-        Value::Object(m)
-    }
-}
-
-impl JsonField for fvm_shared4::error::ExitCode {
-    fn to_json_field(&self) -> Value {
-        Value::from(self.value())
-    }
-}
+impl_json_field_fvm_shared!(
+    fvm_shared4::address::Address,
+    fvm_shared4::econ::TokenAmount,
+    fvm_shared4::piece::PaddedPieceSize,
+    fvm_shared4::crypto::signature::Signature,
+    fvm_shared4::error::ExitCode
+);
+impl_json_field_fvm_shared!(
+    fvm_shared3::address::Address,
+    fvm_shared3::econ::TokenAmount,
+    fvm_shared3::piece::PaddedPieceSize,
+    fvm_shared3::crypto::signature::Signature,
+    fvm_shared3::error::ExitCode
+);
+impl_json_field_fvm_shared!(
+    crate::fvm_shared2::address::Address,
+    crate::fvm_shared2::econ::TokenAmount,
+    crate::fvm_shared2::piece::PaddedPieceSize,
+    crate::fvm_shared2::crypto::signature::Signature,
+    crate::fvm_shared2::error::ExitCode
+);
 
 // ---------------------------------------------------------------------------
-// Filecoin / FVM types (from fvm_shared3)
+// Other Filecoin types
 // ---------------------------------------------------------------------------
 
-impl JsonField for fvm_shared3::address::Address {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.to_string())
-    }
-}
-
-impl JsonField for fvm_shared3::econ::TokenAmount {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.atto().to_string())
-    }
-}
-
-impl JsonField for fvm_shared3::piece::PaddedPieceSize {
-    fn to_json_field(&self) -> Value {
-        serde_json::json!(self.0)
-    }
-}
-
-impl JsonField for fvm_shared3::crypto::signature::Signature {
-    fn to_json_field(&self) -> Value {
-        use base64::Engine;
-        let mut m = serde_json::Map::with_capacity(2);
-        m.insert(
-            "type".to_string(),
-            Value::String(format!("{:?}", self.signature_type())),
-        );
-        m.insert(
-            "data".to_string(),
-            Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
-        );
-        Value::Object(m)
-    }
-}
-
-impl JsonField for fvm_shared3::error::ExitCode {
-    fn to_json_field(&self) -> Value {
-        Value::from(self.value())
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Filecoin / FVM types (from fvm_shared2 / fvm_shared v2)
-// ---------------------------------------------------------------------------
-
-impl JsonField for crate::fvm_shared2::address::Address {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.to_string())
-    }
-}
-
-impl JsonField for crate::fvm_shared2::econ::TokenAmount {
-    fn to_json_field(&self) -> Value {
-        Value::String(self.atto().to_string())
-    }
-}
-
-impl JsonField for crate::fvm_shared2::piece::PaddedPieceSize {
-    fn to_json_field(&self) -> Value {
-        serde_json::json!(self.0)
-    }
-}
-
-impl JsonField for crate::fvm_shared2::crypto::signature::Signature {
-    fn to_json_field(&self) -> Value {
-        use base64::Engine;
-        let mut m = serde_json::Map::with_capacity(2);
-        m.insert(
-            "type".to_string(),
-            Value::String(format!("{:?}", self.signature_type())),
-        );
-        m.insert(
-            "data".to_string(),
-            Value::String(base64::engine::general_purpose::STANDARD.encode(self.bytes())),
-        );
-        Value::Object(m)
-    }
-}
-
-impl JsonField for crate::fvm_shared2::error::ExitCode {
-    fn to_json_field(&self) -> Value {
-        Value::from(self.value())
-    }
-}
-
-// BigInt (num_bigint)
 impl JsonField for num_bigint::BigInt {
     fn to_json_field(&self) -> Value {
         Value::String(self.to_string())
     }
 }
 
-// Cid
 impl JsonField for cid::Cid {
     fn to_json_field(&self) -> Value {
         Value::String(self.to_string())
     }
 }
 
-// RawBytes
 impl JsonField for fvm_ipld_encoding::RawBytes {
     fn to_json_field(&self) -> Value {
         use base64::Engine;
