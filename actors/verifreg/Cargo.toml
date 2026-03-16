@@ -34,8 +34,8 @@ fil_actor_json_derive = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 
 [dev-dependencies]
-serde_json = { workspace = true }
 fil_actors_shared = { workspace = true, features = ["json"] }
+serde_json = { workspace = true }
 
 [features]
 default = []

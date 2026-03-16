@@ -45,7 +45,12 @@ serde_json = { workspace = true, optional = true }
 
 [features]
 default = []
-json = ["fvm_ipld_bitfield/json", "dep:fil_actor_json_derive", "dep:serde_json", "dep:base64"]
+json = [
+  "fvm_ipld_bitfield/json",
+  "dep:fil_actor_json_derive",
+  "dep:serde_json",
+  "dep:base64",
+]
 arb = ["quickcheck"]
 
 [package.metadata.cargo-udeps.ignore]

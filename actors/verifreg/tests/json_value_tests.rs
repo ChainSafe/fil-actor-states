@@ -111,7 +111,6 @@ macro_rules! test_verifreg_bigint {
 macro_rules! test_verifreg_batch_return {
     ($mod_name:ident, $version:ident, $shared_version:ident) => {
         mod $mod_name {
-            use super::*;
             use fil_actor_verifreg_state::$version;
             use fil_actors_shared::$shared_version::BatchReturn;
 
