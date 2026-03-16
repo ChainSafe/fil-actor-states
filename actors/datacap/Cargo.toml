@@ -32,4 +32,4 @@ serde_json = { workspace = true }
 
 [features]
 default = []
-json = ["dep:fil_actor_json_derive", "dep:serde_json"]
+json = ["dep:fil_actor_json_derive", "dep:serde_json", "fil_actors_shared/json"]
