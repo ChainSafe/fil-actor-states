@@ -39,7 +39,7 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
       - run: mise check-crates --validate-actor-version
       - name: Build
         run: mise build --validate-actor-version
@@ -56,7 +56,7 @@ jobs:
         uses: mozilla-actions/sccache-action@v0.0.9
         timeout-minutes: 5
         continue-on-error: true
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
       - name: Update submodule forest
         run: mise update-submodules
       - name: Modify deps forest
@@ -93,7 +93,7 @@ jobs:
           max_attempts: 3
           command: |
             sudo apt-get install -y libclang-dev # required dep for cargo-spellcheck
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
       - name: Install Lint tools
         run: mise install-lint-tools
         env:
