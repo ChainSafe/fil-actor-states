@@ -5,66 +5,77 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::address::Address;
 use fvm_shared3::econ::TokenAmount;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct ConstructorParams {
     pub governor: Address,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct NameReturn {
     pub name: String,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct SymbolReturn {
     pub symbol: String,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct TotalSupplyReturn {
     pub supply: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct BalanceParams {
     pub address: Address,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct BalanceReturn {
     pub balance: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct GetAllowanceReturn {
     pub allowance: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct IncreaseAllowanceReturn {
     pub new_allowance: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct DecreaseAllowanceReturn {
     pub new_allowance: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct RevokeAllowanceReturn {
     pub old_allowance: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct MintParams {
     // Recipient of the newly minted tokens.
@@ -75,12 +86,14 @@ pub struct MintParams {
     pub operators: Vec<Address>,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 pub struct DestroyParams {
     pub owner: Address,
     pub amount: TokenAmount,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
 #[serde(transparent)]
 pub struct GranularityReturn {

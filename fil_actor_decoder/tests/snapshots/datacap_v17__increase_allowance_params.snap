@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"IncreaseAllowance\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "increase": "10000000000000000000",
+  "operator": "f0300"
+}

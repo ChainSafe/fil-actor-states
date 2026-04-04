@@ -24,6 +24,7 @@ pub const DATACAP_MAP_CONFIG: Config = DEFAULT_HAMT_CONFIG;
 pub type RemoveDataCapProposalMap<BS> = Map2<BS, AddrPairKey, RemoveDataCapProposalID>;
 pub const REMOVE_DATACAP_PROPOSALS_CONFIG: Config = DEFAULT_HAMT_CONFIG;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
 pub struct State {
     pub root_key: Address,
@@ -200,6 +201,7 @@ impl State {
         Ok(())
     }
 }
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
 pub struct Claim {
     // The provider storing the data (from allocation).
@@ -220,6 +222,7 @@ pub struct Claim {
     pub sector: SectorNumber,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
 pub struct Allocation {
     // The verified client which allocated the DataCap.

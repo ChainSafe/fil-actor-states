@@ -1,0 +1,5 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: "decode_return(A, V, frc42_dispatch::method_hash!(\"Balance\"),\n&to_vec(&r).unwrap()).unwrap()"
+---
+"5000000000000000000"

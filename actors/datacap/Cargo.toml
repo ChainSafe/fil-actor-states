@@ -22,3 +22,14 @@ lazy_static = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
+
+# Optional: JSON value conversion
+fil_actor_json_derive = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[features]
+default = []
+json = ["dep:fil_actor_json_derive", "dep:serde_json", "fil_actors_shared/json"]

@@ -1,0 +1,30 @@
+[package]
+name = "fil_actor_decoder"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Decode Filecoin built-in actor params and returns from raw CBOR bytes to JSON"
+
+[dependencies]
+anyhow = { workspace = true }
+base64 = { workspace = true }
+cid = { workspace = true }
+clap = { version = "4", features = ["derive"] }
+frc42_dispatch = { workspace = true }
+fvm_ipld_encoding = { workspace = true }
+fvm_shared4 = { workspace = true }
+hex = "0.4"
+num-bigint = { workspace = true }
+serde_json = { workspace = true }
+
+fil_actor_datacap_state = { workspace = true, features = ["json"] }
+fil_actor_verifreg_state = { workspace = true, features = ["json"] }
+fil_actors_shared = { workspace = true, features = ["json"] }
+
+[dev-dependencies]
+insta = { version = "1", features = ["json"] }
+
+[[bin]]
+name = "fil-decode"
+path = "src/bin/fil_decode.rs"

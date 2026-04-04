@@ -1,0 +1,21 @@
+---
+source: fil_actor_decoder/tests/datacap_v14.rs
+expression: "decode_return(A, V, 80475954, &decode_hex(hex)).unwrap()"
+---
+{
+  "from_balance": "467910917095424000000000000000000",
+  "recipient_data": {
+    "allocation_results": {
+      "fail_codes": [],
+      "success_count": 1
+    },
+    "extension_results": {
+      "fail_codes": [],
+      "success_count": 0
+    },
+    "new_allocations": [
+      82077108
+    ]
+  },
+  "to_balance": "24952283093649915000000000000000000"
+}

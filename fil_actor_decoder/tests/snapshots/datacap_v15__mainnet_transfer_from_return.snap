@@ -1,0 +1,10 @@
+---
+source: fil_actor_decoder/tests/datacap_v15.rs
+expression: "decode_return(A, V, 3621052141, &decode_hex(hex)).unwrap()"
+---
+{
+  "allowance": "48645264235626496000000000000000000",
+  "from_balance": "180609903147090000000000000000000",
+  "recipient_data": "g4IPgIIAgIkaBTBuRxoFMG5IGgUwbkkaBTBuShoFMG5LGgUwbkwaBTBuTRoFMG5OGgUwbk8aBTBuUBoFMG5RGgUwblIaBTBuUxoFMG5UGgUwblU=",
+  "to_balance": "35132390374703532000000000000000000"
+}

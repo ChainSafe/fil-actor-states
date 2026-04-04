@@ -1,8 +1,13 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
+#[cfg(feature = "json")]
+extern crate self as fil_actors_shared;
+
 pub mod abi;
 pub mod actor_versions;
+#[cfg(feature = "json")]
+pub mod json_field;
 pub mod v10;
 pub mod v11;
 pub mod v12;

@@ -2,12 +2,14 @@ use fvm_ipld_encoding::tuple::*;
 use fvm_shared3::error::ExitCode;
 use std::fmt;
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
 pub struct FailCode {
     pub idx: u32,
     pub code: ExitCode,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, PartialEq, Eq, Debug)]
 pub struct BatchReturn {
     // Total successes in batch

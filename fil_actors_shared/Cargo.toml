@@ -38,9 +38,19 @@ strum = { version = "0.28.0", features = ["derive"] }
 thiserror = { workspace = true }
 unsigned-varint = { workspace = true }
 
+# Optional: JSON value conversion
+base64 = { workspace = true, optional = true }
+fil_actor_json_derive = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+
 [features]
 default = []
-json = ["fvm_ipld_bitfield/json"]
+json = [
+  "fvm_ipld_bitfield/json",
+  "dep:fil_actor_json_derive",
+  "dep:serde_json",
+  "dep:base64",
+]
 arb = ["quickcheck"]
 
 [package.metadata.cargo-udeps.ignore]

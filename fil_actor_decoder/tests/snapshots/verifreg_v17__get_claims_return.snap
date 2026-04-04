@@ -1,0 +1,22 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_return(A, V, 10, &to_vec(&r).unwrap()).unwrap()"
+---
+{
+  "batch_info": {
+    "fail_codes": [],
+    "success_count": 3
+  },
+  "claims": [
+    {
+      "client": 5678,
+      "data": "baeaaaaa",
+      "provider": 1234,
+      "sector": 42,
+      "size": 34359738368,
+      "term_max": 5256000,
+      "term_min": 518400,
+      "term_start": 4000000
+    }
+  ]
+}

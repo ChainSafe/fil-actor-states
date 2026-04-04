@@ -1,0 +1,21 @@
+---
+source: fil_actor_decoder/tests/verifreg_v16.rs
+expression: "decode_params(A, V, 9, &to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "all_or_nothing": true,
+  "sectors": [
+    {
+      "claims": [
+        {
+          "allocation_id": 9999,
+          "client": 5678,
+          "data": "baeaaaaa",
+          "size": 34359738368
+        }
+      ],
+      "expiry": 6000000,
+      "sector": 100
+    }
+  ]
+}

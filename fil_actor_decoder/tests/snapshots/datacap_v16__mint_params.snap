@@ -1,0 +1,11 @@
+---
+source: fil_actor_decoder/tests/datacap_v16.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"Mint\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "amount": "1000000000000000000",
+  "operators": [
+    "f05678"
+  ],
+  "to": "f01234"
+}

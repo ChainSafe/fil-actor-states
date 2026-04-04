@@ -1,0 +1,21 @@
+---
+source: fil_actor_decoder/tests/datacap_v14.rs
+expression: "decode_params(A, V, 80475954, &decode_hex(hex)).unwrap()"
+---
+{
+  "amount": "34359738368000000000000000000",
+  "operator_data": {
+    "allocations": [
+      {
+        "data": "baga6ea4seaqhbeyf6mjkmyzdyfftkniyalc4643bqe64pfbxfx4j4o3gh5zjihq",
+        "expiration": 4477386,
+        "provider": 3175168,
+        "size": 34359738368,
+        "term_max": 5256000,
+        "term_min": 518400
+      }
+    ],
+    "extensions": []
+  },
+  "to": "f06"
+}

@@ -110,6 +110,34 @@ sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = ".
 sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
 '''
 
+# ---------------------------------------------------------------------------
+# Decoder tasks
+# ---------------------------------------------------------------------------
+
+[tasks."decoder:test"]
+description = "Run all decoder tests (unit + snapshot)."
+run = "cargo test -p fil_actor_decoder"
+
+[tasks."decoder:test-all"]
+description = "Run decoder + type-level JSON tests across all actor versions."
+run = """
+cargo test -p fil_actor_decoder
+cargo test -p fil_actor_datacap_state --features json
+cargo test -p fil_actor_verifreg_state --features json
+"""
+
+[tasks."decoder:snap-review"]
+description = "Review pending insta snapshot changes."
+run = "cargo insta review --manifest-path fil_actor_decoder/Cargo.toml"
+
+[tasks."decoder:snap-accept"]
+description = "Accept all pending insta snapshot changes."
+run = "cargo insta accept --manifest-path fil_actor_decoder/Cargo.toml"
+
+[tasks."decoder:clippy"]
+description = "Run clippy on the decoder and shared crates."
+run = "cargo clippy -p fil_actor_decoder -p fil_actors_shared --features json -- -D warnings"
+
 [tasks.clean]
 description = "Clean the project."
 run = "cargo clean"

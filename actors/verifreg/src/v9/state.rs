@@ -215,6 +215,7 @@ impl State {
         Ok(())
     }
 }
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, Eq, PartialEq)]
 pub struct Claim {
     // The provider storing the data (from allocation).
@@ -235,6 +236,7 @@ pub struct Claim {
     pub sector: SectorNumber,
 }
 
+#[cfg_attr(feature = "json", derive(fil_actor_json_derive::IntoJsonValue))]
 #[derive(Serialize_tuple, Deserialize_tuple, Clone, Debug, PartialEq, Eq)]
 pub struct Allocation {
     // The verified client which allocated the DataCap.

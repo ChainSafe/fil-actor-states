@@ -1,0 +1,7 @@
+---
+source: fil_actor_decoder/tests/datacap_v11.rs
+expression: "decode_return(A, V, 1777121560, &decode_hex(hex)).unwrap()"
+---
+{
+  "allowance": "34359738368000000000000000000"
+}

@@ -1,0 +1,12 @@
+---
+source: fil_actor_decoder/tests/verifreg_v17.rs
+expression: "decode_params(A, V, 12, &to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "claim_ids": [
+    10,
+    20,
+    30
+  ],
+  "provider": 1234
+}

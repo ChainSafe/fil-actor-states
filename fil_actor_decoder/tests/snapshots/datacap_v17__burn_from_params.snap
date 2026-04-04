@@ -1,0 +1,8 @@
+---
+source: fil_actor_decoder/tests/datacap_v17.rs
+expression: "decode_params(A, V, frc42_dispatch::method_hash!(\"BurnFrom\"),\n&to_vec(&p).unwrap()).unwrap()"
+---
+{
+  "amount": "25000000000000000000",
+  "owner": "f0200"
+}
