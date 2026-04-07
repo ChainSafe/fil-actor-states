@@ -116,6 +116,9 @@ pub enum Method {
     GetMultiaddrsExported = frc42_dispatch::method_hash!("GetMultiaddrs"),
     MaxTerminationFeeExported = frc42_dispatch::method_hash!("MaxTerminationFee"),
     InitialPledgeExported = frc42_dispatch::method_hash!("InitialPledge"),
+    GenerateSectorLocationExported = frc42_dispatch::method_hash!("GenerateSectorLocation"),
+    ValidateSectorStatusExported = frc42_dispatch::method_hash!("ValidateSectorStatus"),
+    GetNominalSectorExpirationExported = frc42_dispatch::method_hash!("GetNominalSectorExpiration"),
 }
 
 pub const SECTOR_CONTENT_CHANGED: MethodNum = frc42_dispatch::method_hash!("SectorContentChanged");
