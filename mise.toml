@@ -70,7 +70,7 @@ cargo fmt --all && taplo fmt
 [tasks."update-submodules"]
 description = "Update git submodules."
 run = '''
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 '''
 
 [tasks."check-crates"]
