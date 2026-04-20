@@ -10,7 +10,8 @@ use fvm_shared4::sector::StoragePower;
 pub mod account {
     use super::*;
 
-    pub const AUTHENTICATE_MESSAGE_METHOD: u64 = frc42_macros::method_hash!("AuthenticateMessage");
+    pub const AUTHENTICATE_MESSAGE_METHOD: u64 =
+        frc42_dispatch::method_hash!("AuthenticateMessage");
 
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct AuthenticateMessageParams {
@@ -32,9 +33,9 @@ pub mod miner {
 
     pub const CONTROL_ADDRESSES_METHOD: u64 = 2;
     pub const IS_CONTROLLING_ADDRESS_EXPORTED: u64 =
-        frc42_macros::method_hash!("IsControllingAddress");
+        frc42_dispatch::method_hash!("IsControllingAddress");
     pub const SECTOR_CONTENT_CHANGED: MethodNum =
-        frc42_macros::method_hash!("SectorContentChanged");
+        frc42_dispatch::method_hash!("SectorContentChanged");
 
     #[derive(Serialize_tuple, Deserialize_tuple)]
     pub struct GetControlAddressesReturnParams {
@@ -140,8 +141,8 @@ pub mod verifreg {
 }
 
 pub mod datacap {
-    pub const BALANCE_OF_METHOD: u64 = frc42_macros::method_hash!("Balance");
-    pub const TRANSFER_FROM_METHOD: u64 = frc42_macros::method_hash!("TransferFrom");
+    pub const BALANCE_OF_METHOD: u64 = frc42_dispatch::method_hash!("Balance");
+    pub const TRANSFER_FROM_METHOD: u64 = frc42_dispatch::method_hash!("TransferFrom");
 }
 
 pub mod reward {

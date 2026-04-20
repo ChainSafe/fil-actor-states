@@ -95,25 +95,25 @@ pub enum Method {
     ProveCommitSectors3 = 34,
     ProveReplicaUpdates3 = 35,
     // Method numbers derived from FRC-0042 standards
-    ChangeWorkerAddressExported = frc42_macros::method_hash!("ChangeWorkerAddress"),
-    ChangePeerIDExported = frc42_macros::method_hash!("ChangePeerID"),
-    WithdrawBalanceExported = frc42_macros::method_hash!("WithdrawBalance"),
-    ChangeMultiaddrsExported = frc42_macros::method_hash!("ChangeMultiaddrs"),
-    ConfirmChangeWorkerAddressExported = frc42_macros::method_hash!("ConfirmChangeWorkerAddress"),
-    RepayDebtExported = frc42_macros::method_hash!("RepayDebt"),
-    ChangeOwnerAddressExported = frc42_macros::method_hash!("ChangeOwnerAddress"),
-    ChangeBeneficiaryExported = frc42_macros::method_hash!("ChangeBeneficiary"),
-    GetBeneficiaryExported = frc42_macros::method_hash!("GetBeneficiary"),
-    GetOwnerExported = frc42_macros::method_hash!("GetOwner"),
-    IsControllingAddressExported = frc42_macros::method_hash!("IsControllingAddress"),
-    GetSectorSizeExported = frc42_macros::method_hash!("GetSectorSize"),
-    GetAvailableBalanceExported = frc42_macros::method_hash!("GetAvailableBalance"),
-    GetVestingFundsExported = frc42_macros::method_hash!("GetVestingFunds"),
-    GetPeerIDExported = frc42_macros::method_hash!("GetPeerID"),
-    GetMultiaddrsExported = frc42_macros::method_hash!("GetMultiaddrs"),
+    ChangeWorkerAddressExported = frc42_dispatch::method_hash!("ChangeWorkerAddress"),
+    ChangePeerIDExported = frc42_dispatch::method_hash!("ChangePeerID"),
+    WithdrawBalanceExported = frc42_dispatch::method_hash!("WithdrawBalance"),
+    ChangeMultiaddrsExported = frc42_dispatch::method_hash!("ChangeMultiaddrs"),
+    ConfirmChangeWorkerAddressExported = frc42_dispatch::method_hash!("ConfirmChangeWorkerAddress"),
+    RepayDebtExported = frc42_dispatch::method_hash!("RepayDebt"),
+    ChangeOwnerAddressExported = frc42_dispatch::method_hash!("ChangeOwnerAddress"),
+    ChangeBeneficiaryExported = frc42_dispatch::method_hash!("ChangeBeneficiary"),
+    GetBeneficiaryExported = frc42_dispatch::method_hash!("GetBeneficiary"),
+    GetOwnerExported = frc42_dispatch::method_hash!("GetOwner"),
+    IsControllingAddressExported = frc42_dispatch::method_hash!("IsControllingAddress"),
+    GetSectorSizeExported = frc42_dispatch::method_hash!("GetSectorSize"),
+    GetAvailableBalanceExported = frc42_dispatch::method_hash!("GetAvailableBalance"),
+    GetVestingFundsExported = frc42_dispatch::method_hash!("GetVestingFunds"),
+    GetPeerIDExported = frc42_dispatch::method_hash!("GetPeerID"),
+    GetMultiaddrsExported = frc42_dispatch::method_hash!("GetMultiaddrs"),
 }
 
-pub const SECTOR_CONTENT_CHANGED: MethodNum = frc42_macros::method_hash!("SectorContentChanged");
+pub const SECTOR_CONTENT_CHANGED: MethodNum = frc42_dispatch::method_hash!("SectorContentChanged");
 
 pub const ERR_BALANCE_INVARIANTS_BROKEN: ExitCode = ExitCode::new(1000);
 pub const ERR_NOTIFICATION_SEND_FAILED: ExitCode = ExitCode::new(1001);
