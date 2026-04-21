@@ -681,13 +681,14 @@ pub struct ValidateSectorStatusReturn {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[repr(u8)]
 pub enum SectorStatusCode {
-    /// Sector is active (not terminated, not faulty)
-    Active,
     /// Sector is not live (terminated or never committed)
-    Dead,
+    Dead = 0,
+    /// Sector is active (not terminated, not faulty)
+    Active = 1,
     /// Sector is currently faulty
-    Faulty,
+    Faulty = 2,
 }
 
 pub const NO_DEADLINE: i64 = -1;
