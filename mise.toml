@@ -19,7 +19,7 @@ RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
 
 [tasks.install-lint-tools]
 description = "Installs linting tools for CI"
-tools.cargo-binstall = "1.16.6"
+tools.cargo-binstall = "1.19.0"
 run = "cargo binstall --no-confirm taplo-cli cargo-spellcheck cargo-deny cargo-udeps"
 
 [tasks."lint:deny"]
@@ -115,4 +115,4 @@ description = "Clean the project."
 run = "cargo clean"
 
 [tools]
-go = "1.25.5"
+go = "1.26"
