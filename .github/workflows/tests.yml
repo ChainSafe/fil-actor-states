@@ -34,7 +34,7 @@ jobs:
     name: build-and-test
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.10
         timeout-minutes: 5
@@ -51,7 +51,7 @@ jobs:
     name: forest calibnet sync check
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.10
         timeout-minutes: 5
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-24.04 # can't use arm64 due to dependency issues with udeps running on nightly
     steps:
       - name: Checkout Sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.10
         timeout-minutes: 5
