@@ -60,7 +60,7 @@ log = "0.4"
 multihash-codetable = { version = "0.2", features = ["sha2"] }
 num = "0.4"
 num-bigint = { version = "0.4", features = ["serde"] }
-num-derive = "0.4"
+num-derive = "0.5"
 num-traits = "0.2"
 parking_lot = "0.12"
 pastey = "0.2"
