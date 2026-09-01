@@ -5,12 +5,14 @@ use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::logic::*;
-pub use self::state::{Reward, State, VestingFunction};
+pub use self::state::State;
+pub use self::streams::*;
 pub use self::types::*;
 
 pub(crate) mod expneg;
 mod logic;
 mod state;
+mod streams;
 mod types;
 
 // only exported for tests
@@ -30,4 +32,13 @@ pub enum Method {
     AwardBlockReward = 2,
     ThisEpochReward = 3,
     UpdateNetworkKPI = 4,
+    // Method numbers derived from FRC-0042 standards
+    SetWeightRecordsExported = frc42_dispatch::method_hash!("SetWeightRecords"),
+    StepWeightRecordsExported = frc42_dispatch::method_hash!("StepWeightRecords"),
+    RegisterStreamExported = frc42_dispatch::method_hash!("RegisterStream"),
+    RemoveStreamExported = frc42_dispatch::method_hash!("RemoveStream"),
+    SetDistributionExported = frc42_dispatch::method_hash!("SetDistribution"),
+    CancelPendingExported = frc42_dispatch::method_hash!("CancelPending"),
+    SetSharesExported = frc42_dispatch::method_hash!("SetShares"),
+    ClaimExported = frc42_dispatch::method_hash!("Claim"),
 }

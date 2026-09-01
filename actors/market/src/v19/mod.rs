@@ -35,8 +35,8 @@ pub enum Method {
     AddBalance = 2,
     WithdrawBalance = 3,
     PublishStorageDeals = 4,
-    VerifyDealsForActivation = 5,
-    BatchActivateDeals = 6,
+    // VerifyDealsForActivation = 5, // Deprecated
+    // BatchActivateDeals = 6, // Deprecated
     OnMinerSectorsTerminate = 7,
     // ComputeDataCommitment = 8, // Deprecated
     CronTick = 9,

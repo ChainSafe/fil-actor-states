@@ -16,6 +16,7 @@ use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::ExitCode;
+use fvm_shared4::sector::SectorNumber;
 use fvm_shared4::sector::{SectorSize, StoragePower};
 use num_traits::{Signed, Zero};
 
@@ -101,6 +102,14 @@ impl Partition {
     pub fn active_sectors(&self) -> BitField {
         let non_faulty = &self.live_sectors() - &self.faults;
         &non_faulty - &self.unproven
+    }
+
+    /// Whether one sector is active (see `active_sectors`), without building the set.
+    pub fn is_active(&self, sector_number: SectorNumber) -> bool {
+        self.sectors.get(sector_number)
+            && !self.terminated.get(sector_number)
+            && !self.faults.get(sector_number)
+            && !self.unproven.get(sector_number)
     }
 
     /// Active power is power of non-faulty sectors.

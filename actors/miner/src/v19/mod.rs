@@ -97,6 +97,7 @@ pub enum Method {
     ProveCommitSectors3 = 34,
     ProveReplicaUpdates3 = 35,
     ProveCommitSectorsNI = 36,
+    UpgradeSectorQuality = 37,
     // Method numbers derived from FRC-0042 standards
     ChangeWorkerAddressExported = frc42_dispatch::method_hash!("ChangeWorkerAddress"),
     ChangePeerIDExported = frc42_dispatch::method_hash!("ChangePeerID"),
@@ -146,7 +147,8 @@ pub struct ValidatedExpirationExtension {
     pub deadline: u64,
     pub partition: u64,
     pub sectors: BitField,
-    pub new_expiration: ChainEpoch,
+    /// Absent when the declaration rewrites its sectors without moving their expiration.
+    pub new_expiration: Option<ChainEpoch>,
 }
 
 impl From<ExpirationExtension2> for ValidatedExpirationExtension {
@@ -161,7 +163,24 @@ impl From<ExpirationExtension2> for ValidatedExpirationExtension {
             deadline: e2.deadline,
             partition: e2.partition,
             sectors,
-            new_expiration: e2.new_expiration,
+            new_expiration: Some(e2.new_expiration),
+        }
+    }
+}
+
+impl From<UpgradeSectorQuality> for ValidatedExpirationExtension {
+    fn from(uq: UpgradeSectorQuality) -> Self {
+        let UpgradeSectorQuality {
+            deadline,
+            partition,
+            sectors,
+            new_expiration,
+        } = uq;
+        Self {
+            deadline,
+            partition,
+            sectors,
+            new_expiration,
         }
     }
 }

@@ -1,15 +1,18 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use fvm_ipld_encoding::repr::*;
+use cid::Cid;
+use fvm_ipld_blockstore::Blockstore;
+use fvm_ipld_encoding::CborStore;
 use fvm_ipld_encoding::tuple::*;
+use fvm_shared4::address::Address;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::bigint::bigint_ser;
 use fvm_shared4::clock::{ChainEpoch, EPOCH_UNDEFINED};
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::sector::StoragePower;
 use lazy_static::lazy_static;
-use num_derive::FromPrimitive;
+use multihash_codetable::Code;
 
 use fil_actors_shared::v19::builtin::reward::smooth::{
     AlphaBetaFilter, DEFAULT_ALPHA, DEFAULT_BETA, FilterEstimate,
@@ -19,6 +22,7 @@ use fil_actors_shared::v19::builtin::reward::smooth::{
 pub type Spacetime = BigInt;
 
 use super::logic::*;
+use super::streams::{DENOM, Stream, StreamAccrual, StreamsState, WeightRecord};
 
 lazy_static! {
     /// 36.266260308195979333 FIL
@@ -28,7 +32,7 @@ lazy_static! {
 }
 
 /// Reward actor state
-#[derive(Serialize_tuple, Deserialize_tuple, Default, Debug, Clone)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
 pub struct State {
     /// Target CumsumRealized needs to reach for EffectiveNetworkTime to increase
     /// Expressed in byte-epochs.
@@ -64,20 +68,74 @@ pub struct State {
     /// Epoch tracks for which epoch the Reward was computed.
     pub epoch: ChainEpoch,
 
-    // TotalStoragePowerReward tracks the total FIL awarded to block miners
-    pub total_storage_power_reward: TokenAmount,
+    /// Total FIL minted through block rewards.
+    pub total_minted_reward: TokenAmount,
 
-    // Simple and Baseline totals are constants used for computing rewards.
-    // They are on chain because of a historical fix resetting baseline value
-    // in a way that depended on the history leading immediately up to the
-    // migration fixing the value.  These values can be moved from state back
-    // into a code constant in a subsequent upgrade.
-    pub simple_total: TokenAmount,
-    pub baseline_total: TokenAmount,
+    /// Cumulative block-reward residual sent to the burnt funds actor.
+    pub total_burn_minted: TokenAmount,
+
+    /// Cumulative block reward accrued to explicit service streams.
+    pub total_explicit_minted: TokenAmount,
+
+    /// Current-period accrual for each explicit stream, ordered by stream ID.
+    pub accrued: Vec<StreamAccrual>,
+
+    /// Hold applied to SWA writes. Construction leaves zero; the activation migration sets the
+    /// operational value.
+    pub swa_timelock_epochs: ChainEpoch,
+
+    /// SWA actor authorized to manage stream configuration. Construction uses f00; the activation
+    /// migration sets the operational address.
+    pub swa_actor: Address,
+
+    /// Offboarded stream, tombstone, and queued-write state.
+    pub streams_root: Cid,
+}
+
+impl Default for State {
+    fn default() -> Self {
+        Self {
+            cumsum_baseline: Default::default(),
+            cumsum_realized: Default::default(),
+            effective_network_time: Default::default(),
+            effective_baseline_power: Default::default(),
+            this_epoch_reward: Default::default(),
+            this_epoch_reward_smoothed: Default::default(),
+            this_epoch_baseline_power: Default::default(),
+            epoch: Default::default(),
+            total_minted_reward: Default::default(),
+            total_burn_minted: Default::default(),
+            total_explicit_minted: Default::default(),
+            accrued: Default::default(),
+            swa_timelock_epochs: Default::default(),
+            swa_actor: Address::new_id(0),
+            streams_root: Default::default(),
+        }
+    }
 }
 
 impl State {
-    pub fn new(curr_realized_power: StoragePower) -> Self {
+    pub fn new<BS: Blockstore>(
+        store: &BS,
+        curr_realized_power: StoragePower,
+    ) -> anyhow::Result<Self> {
+        // One implicit consensus stream at full weight: the whole reward reaches the miner
+        // until a migration or the SWA installs a schedule.
+        let streams = StreamsState {
+            streams: vec![Stream {
+                id: 1,
+                weight: WeightRecord {
+                    v_start: DENOM,
+                    slope: 0,
+                    t_start: 0,
+                    floor: DENOM,
+                    cap: DENOM,
+                },
+                distribution: None,
+            }],
+            ..Default::default()
+        };
+        let streams_root = store.put_cbor(&streams, Code::Blake2b256)?;
         let mut st = Self {
             effective_baseline_power: BASELINE_INITIAL_VALUE.clone(),
             this_epoch_baseline_power: INIT_BASELINE_POWER.clone(),
@@ -86,13 +144,12 @@ impl State {
                 INITIAL_REWARD_POSITION_ESTIMATE.atto().clone(),
                 INITIAL_REWARD_VELOCITY_ESTIMATE.atto().clone(),
             ),
-            simple_total: SIMPLE_TOTAL.clone(),
-            baseline_total: BASELINE_TOTAL.clone(),
+            streams_root,
             ..Default::default()
         };
         st.update_to_next_epoch_with_reward(&curr_realized_power);
 
-        st
+        Ok(st)
     }
 
     /// Takes in current realized power and updates internal state
@@ -129,13 +186,7 @@ impl State {
             &self.cumsum_baseline,
         );
 
-        self.this_epoch_reward = compute_reward(
-            self.epoch,
-            prev_reward_theta,
-            curr_reward_theta,
-            &self.simple_total,
-            &self.baseline_total,
-        );
+        self.this_epoch_reward = compute_reward(self.epoch, prev_reward_theta, curr_reward_theta);
     }
 
     pub(super) fn _update_smoothed_estimates(&mut self, delta: ChainEpoch) {
@@ -146,43 +197,5 @@ impl State {
         );
         self.this_epoch_reward_smoothed =
             filter_reward.next_estimate(self.this_epoch_reward.atto(), delta);
-    }
-
-    pub fn into_total_storage_power_reward(self) -> TokenAmount {
-        self.total_storage_power_reward
-    }
-}
-
-/// Defines vestion function type for reward actor.
-#[derive(Clone, Debug, PartialEq, Eq, Copy, FromPrimitive, Serialize_repr, Deserialize_repr)]
-#[repr(u8)]
-pub enum VestingFunction {
-    None = 0,
-    Linear = 1,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple)]
-pub struct Reward {
-    pub vesting_function: VestingFunction,
-    pub start_epoch: ChainEpoch,
-    pub end_epoch: ChainEpoch,
-    pub value: TokenAmount,
-    pub amount_withdrawn: TokenAmount,
-}
-
-impl Reward {
-    pub fn amount_vested(&self, curr_epoch: ChainEpoch) -> TokenAmount {
-        match self.vesting_function {
-            VestingFunction::None => self.value.clone(),
-            VestingFunction::Linear => {
-                let elapsed = curr_epoch - self.start_epoch;
-                let vest_duration = self.end_epoch - self.start_epoch;
-                if elapsed >= vest_duration {
-                    self.value.clone()
-                } else {
-                    (self.value.clone() * elapsed as u64).div_floor(vest_duration)
-                }
-            }
-        }
     }
 }
