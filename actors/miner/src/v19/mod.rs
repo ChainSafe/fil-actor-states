@@ -6,7 +6,6 @@ use fvm_ipld_bitfield::BitField;
 use fvm_ipld_encoding::RawBytes;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::ChainEpoch;
-use fvm_shared4::deal::DealID;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::*;
 use fvm_shared4::sector::{RegisteredSealProof, RegisteredUpdateProof, SectorNumber, SectorSize};
@@ -215,37 +214,6 @@ pub struct SectorPiecesActivationInput {
     pub sector_number: SectorNumber,
     pub sector_type: RegisteredSealProof,
     pub expected_commd: Option<CompactCommD>,
-}
-
-// Inputs for activating builtin market deals for one sector
-#[derive(Debug, Clone)]
-pub struct DealsActivationInput {
-    pub deal_ids: Vec<DealID>,
-    pub sector_expiry: ChainEpoch,
-    pub sector_number: SectorNumber,
-    pub sector_type: RegisteredSealProof,
-}
-
-impl From<SectorPreCommitOnChainInfo> for DealsActivationInput {
-    fn from(pci: SectorPreCommitOnChainInfo) -> DealsActivationInput {
-        DealsActivationInput {
-            deal_ids: pci.info.deal_ids,
-            sector_expiry: pci.info.expiration,
-            sector_number: pci.info.sector_number,
-            sector_type: pci.info.seal_proof,
-        }
-    }
-}
-
-impl From<&UpdateAndSectorInfo<'_>> for DealsActivationInput {
-    fn from(usi: &UpdateAndSectorInfo) -> DealsActivationInput {
-        DealsActivationInput {
-            sector_number: usi.sector_info.sector_number,
-            sector_expiry: usi.sector_info.expiration,
-            deal_ids: vec![],
-            sector_type: usi.sector_info.seal_proof,
-        }
-    }
 }
 
 // Track information needed to update a sector info's data during ProveReplicaUpdate
