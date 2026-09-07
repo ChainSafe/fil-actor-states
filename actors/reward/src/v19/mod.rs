@@ -5,7 +5,11 @@ use fvm_shared4::METHOD_CONSTRUCTOR;
 use num_derive::FromPrimitive;
 
 pub use self::logic::*;
-pub use self::state::State;
+pub use self::state::{
+    DENOM, ExplicitDistribution, MAX_PAYABLE_ROWS_PER_STREAM, MAX_PENDING_WRITES, MAX_RECIPIENTS,
+    MAX_STREAMS, MAX_TOMBSTONE_ROWS, PendingWrite, PendingWriteOp, RecipientAmount, RecipientShare,
+    RecipientTable, State, Stream, StreamAccrual, StreamId, StreamsState, Tombstone, WeightRecord,
+};
 pub use self::streams::*;
 pub use self::types::*;
 
