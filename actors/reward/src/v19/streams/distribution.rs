@@ -1,15 +1,11 @@
 // Copyright 2019-2026 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-//! Explicit-stream recipient accounting: the share map, the period fold, claims, and the two
+//! Explicit-stream recipient accounting: the share map, the period fold, claims, and the
 //! lifecycle operations that fold (FIP-0118 2.4.4, 2.4.5 and 2.4.6).
 //!
-//! The shapes it reads and writes are in [`crate::v19::state`]: [`ExplicitDistribution`], its
-//! [`RecipientShare`] map, and its [`RecipientTable`] balances.
-//!
-//! A period is the interval between two `SetShares` calls on one stream. f02 knows nothing of
-//! quarters and imposes no cadence; installing a new map first closes the current period under
-//! the outgoing one, which is what makes a share change strictly prospective.
+//! A "period" is the interval between two map installs on one stream, by `SetShares` or by
+//! `ReplaceAddress`. Installing a new map first closes the current period.
 //!
 //! FIP-0118 2.4.4, `SetShares`:
 //!
@@ -32,37 +28,25 @@
 //!     install new_map
 //! ```
 //!
-//! FIP-0118 2.4.5, `Claim`:
+//! `Claim(id, wallets[]) -> amounts[]` is permissionless and batched. A wallet's entitlement is
+//! its live portion of the current period, `floor(share * accrued[id] / share_total)` less what
+//! it has claimed this period, plus its payable balance from closed periods. A tombstoned id pays
+//! the payable balance alone. This accounting drives the need for the fold operation in here.
 //!
-//! ```text
-//! `Claim(id, wallets[]) -> amounts[]` is permissionless and batched. Each
-//! wallet's entitlement is its live portion of the current period,
-//! `floor(share * accrued[id] / stored_share_total)` minus what it has
-//! already claimed this period, plus its payable balance from closed
-//! periods; zero stored shares give no live entitlement. For a tombstoned
-//! id, the payable balance alone applies. f02 records the claim
-//! (bumping `claimed_period`, deleting the payable row), sends the wallet
-//! its entitlement, and emits `claim-payout` (Section 2.4.9).
-//! ```
+//! `fold` consolidates a period into payable rows and returns the residue for the caller to burn.
 //!
-//! `fold` is the loop of the first block and returns the residue for the caller to burn;
-//! [`Ledger::set_shares`] wraps it with admission of the incoming map. [`Ledger::claim`] selects
-//! the live or tombstone arm of the second block. Both divide the same pool, the stream's
-//! `StreamAccrual` row, which the ledger has beside the streams block (because accruals live
-//! inline in root state rather than behind `streams_root`).
+//! - `set_shares` and `replace_address` wrap it with the map they install.
+//! - `remove_stream` folds, then moves unpaid rows into a tombstone under the stream's ID, which
+//!   deletes itself once drained.
+//! - `replace_writer` folds and keeps the map.
+//! - `claim` pays from the live period or the tombstone.
 //!
-//! Removing a stream and changing its writer (FIP-0118 2.4.6) both start with the same fold.
-//! [`Ledger::remove_stream`] folds the open period, then moves whatever is still unpaid into a
-//! tombstone under the stream's own ID. Claims against that ID keep working until the last row
-//! is taken, then the tombstone deletes itself. The SWA should not reuse the ID after that, and
-//! f02 rejects any reuse it can still see. [`Ledger::replace_writer`] folds, then points the
-//! stream at its new writer; the share map stays as it is, so payments continue.
+//! All of them read the pool from the stream's `StreamAccrual` row.
 //!
-//! We use two caps to keep those tables small: a live stream holds at most
-//! `MAX_PAYABLE_ROWS_PER_STREAM` payable rows, checked by [`Ledger::set_shares`] on the map it is
-//! about to install. All tombstones together hold at most `MAX_TOMBSTONE_ROWS`. A removal only
-//! folds when it applies, so [`validate_tombstone_capacity`] reserves its rows at admission,
-//! and checks the reservation again on every `SetShares` made while the removal is pending.
+//! Two caps bound the tables: `MAX_PAYABLE_ROWS_PER_STREAM` on a live stream's payable rows and
+//! `MAX_TOMBSTONE_ROWS` across all tombstones. A removal folds only when it applies, so
+//! `validate_tombstone_capacity` reserves its rows at admission and rechecks on every install made
+//! while it is pending.
 
 use std::collections::BTreeSet;
 
@@ -170,16 +154,64 @@ impl Ledger {
         id: StreamId,
         shares: Vec<RecipientShare>,
     ) -> Result<TokenAmount> {
-        self.streams_dirty = true;
         // Admit the incoming map, which is what turns caller rows into storable ones.
         let shares = admit_shares(shares)?;
+        self.install_shares(id, shares)
+    }
+
+    /// Moves one recipient's future share to `new`, or drops it when `new` is f099. The old wallet
+    /// keeps its payable balance and the new wallet starts a fresh tally. Because this is
+    /// a `SetShares` on the stored map with one row changed, the fold and other `SetShares` checks
+    /// apply. Returns rounding dust.
+    pub(crate) fn replace_address(
+        &mut self,
+        id: StreamId,
+        old: Address,
+        new: Address,
+    ) -> Result<TokenAmount> {
+        validate_id_address(&old, "old recipient address")?;
+        validate_id_address(&new, "new recipient address")?;
+        ensure!(self.streams.has_stream(id), "stream {id} not found");
+        let Some(distribution) = self.streams.explicit(id) else {
+            return Err(anyhow::anyhow!("stream {id} is implicit"));
+        };
+        ensure!(
+            distribution.shares.iter().any(|row| row.recipient == old),
+            "address {old} is not a recipient of stream {id}"
+        );
+        // No dupes, f099 can go through because it gets dropped before store.
+        let burning = new == BURNT_FUNDS_ACTOR_ADDR;
+        ensure!(
+            burning || !distribution.shares.iter().any(|row| row.recipient == new),
+            "address {new} is already a recipient of stream {id}"
+        );
+
+        let mut shares = distribution.shares.clone();
+        if burning {
+            shares.retain(|row| row.recipient != old);
+        } else {
+            for row in shares.iter_mut() {
+                if row.recipient == old {
+                    row.recipient = new;
+                }
+            }
+            shares.sort_by_key(|row| row.recipient);
+        }
+        self.install_shares(id, shares)
+    }
+
+    /// Closes the current period and installs `shares`, already in stored form. The fold leaves
+    /// each wallet's earnings in `payable` under the wallet that earned them, so the installed map
+    /// can add a row to that table. Returns indivisible rounding dust for burning.
+    fn install_shares(&mut self, id: StreamId, shares: Vec<RecipientShare>) -> Result<TokenAmount> {
         // Read before the period borrow, for the tombstone recharge at the end.
         let removal_pending = self
             .streams
-            .pending_writes
+            .pending_writes_queue
             .iter()
             .any(|write| write.op == PendingWriteOp::RemoveStream);
         ensure!(self.streams.has_stream(id), "stream {id} not found");
+        self.streams_dirty = true;
         let Some(period) = self.period_mut(id) else {
             return Err(anyhow::anyhow!("stream {id} is implicit"));
         };

@@ -22,7 +22,6 @@ use crate::v19::state::{
 };
 
 mod award;
-mod bootstrap;
 mod distribution;
 pub(crate) mod invariants;
 mod queue;
@@ -30,10 +29,9 @@ mod weights;
 
 pub use self::award::explicit_liability;
 pub(crate) use self::award::{FullAward, plan_award};
-pub use self::bootstrap::validate_migration_streams;
 pub(crate) use self::distribution::admit_shares;
 pub use self::invariants::validate_streams_state;
-pub(crate) use self::queue::{ApplyResult, QueuedCall, Slot};
+pub(crate) use self::queue::{ApplyResult, QueuedCall, WriteKey};
 
 /// Stream state that has passed the structure and accounting invariants.
 ///
@@ -48,6 +46,11 @@ pub(crate) use self::queue::{ApplyResult, QueuedCall, Slot};
 /// Operations mutate in place. On `Err` the ledger is unspecified and the caller discards it,
 /// which every caller does: `rt.transaction` drops the state when its closure fails, and FVM
 /// rollback reverts an aborted call.
+///
+/// Its methods are grouped by concern, one `impl` block per file: loading, storing and lookups
+/// here; `admit`, `apply_due` and `cancel` in `queue.rs`; `set_shares`, `replace_address`,
+/// `claim`, `remove_stream` and `replace_writer` in `distribution.rs`; `liability`, `allocate`
+/// and `accrue` in `award.rs`.
 #[derive(Clone)]
 pub(crate) struct Ledger {
     streams: StreamsState,

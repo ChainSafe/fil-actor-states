@@ -1,14 +1,12 @@
 // Copyright 2019-2022 ChainSafe Systems
 // SPDX-License-Identifier: Apache-2.0, MIT
 
-use cid::Cid;
 use fvm_ipld_bitfield::BitField;
-use fvm_ipld_encoding::RawBytes;
 use fvm_shared4::bigint::BigInt;
 use fvm_shared4::clock::ChainEpoch;
 use fvm_shared4::econ::TokenAmount;
 use fvm_shared4::error::*;
-use fvm_shared4::sector::{RegisteredSealProof, RegisteredUpdateProof, SectorNumber, SectorSize};
+use fvm_shared4::sector::SectorSize;
 use fvm_shared4::{METHOD_CONSTRUCTOR, MethodNum};
 use num_derive::FromPrimitive;
 
@@ -129,18 +127,6 @@ pub const ERR_NOTIFICATION_RECEIVER_ABORTED: ExitCode = ExitCode::new(1002);
 pub const ERR_NOTIFICATION_RESPONSE_INVALID: ExitCode = ExitCode::new(1003);
 pub const ERR_NOTIFICATION_REJECTED: ExitCode = ExitCode::new(1004);
 
-/// ReplicaUpdate param with Option<Cid> for CommD
-/// None means unknown
-#[derive(Debug, Clone)]
-pub struct ReplicaUpdateInner {
-    pub sector_number: SectorNumber,
-    pub deadline: u64,
-    pub partition: u64,
-    pub new_sealed_cid: Cid,
-    pub update_proof_type: RegisteredUpdateProof,
-    pub replica_proof: RawBytes,
-}
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct ValidatedExpirationExtension {
     pub deadline: u64,
@@ -206,22 +192,6 @@ pub fn power_for_sectors(sector_size: SectorSize, sectors: &[SectorOnChainInfo])
 
 pub fn daily_fee_for_sectors(sectors: &[SectorOnChainInfo]) -> TokenAmount {
     sectors.iter().map(|s| &s.daily_fee).sum()
-}
-
-pub struct SectorPiecesActivationInput {
-    pub piece_manifests: Vec<PieceActivationManifest>,
-    pub sector_expiry: ChainEpoch,
-    pub sector_number: SectorNumber,
-    pub sector_type: RegisteredSealProof,
-    pub expected_commd: Option<CompactCommD>,
-}
-
-// Track information needed to update a sector info's data during ProveReplicaUpdate
-#[allow(dead_code)]
-#[derive(Clone, Debug)]
-struct UpdateAndSectorInfo<'a> {
-    update: &'a ReplicaUpdateInner,
-    sector_info: &'a SectorOnChainInfo,
 }
 
 /// Validates that a partition contains the given sectors.

@@ -268,9 +268,9 @@ pub struct UpgradeSectorQuality {
     pub partition: u64,
     /// Sectors to upgrade to full quality-adjusted power (FIP-0118).
     pub sectors: BitField,
-    /// Unset means upgrade only: every selected sector keeps its own expiration.
-    /// Otherwise the absolute epoch to extend all selected sectors to; it must be
-    /// after the current epoch and at or beyond each sector's current expiration.
+    /// Unset means upgrade only: every selected sector keeps its expiration.
+    /// Otherwise this must be after the current epoch and every selected sector's current
+    /// expiration.
     pub new_expiration: Option<ChainEpoch>,
 }
 
@@ -431,10 +431,13 @@ pub struct SectorOnChainInfo {
     /// Spacetime of legacy unverified deals. Zero for sectors activated since FIP-0118, which
     /// record piece spacetime in `verified_deal_weight`; legacy sectors keep theirs and carry
     /// it across extensions, because the data-presence checks read both fields.
+    /// A future upgrade may opt to remove this field.
     #[serde(with = "bigint_ser")]
     pub deal_weight: DealWeight,
-    /// Spacetime of the sector's pieces, restated across extensions so quality is unchanged.
-    /// Nothing is verified since FIP-0118; directly onboarded data lands here too.
+    /// Spacetime of the sector's pieces, restated across extensions to preserve quality apart
+    /// from integer rounding. Nothing is "verified" since FIP-0118 so this field simply tracks
+    /// the total spacetime of all pieces in the sector.
+    /// A future upgrade may remove this field or convert it to a simple "space".
     #[serde(with = "bigint_ser")]
     pub verified_deal_weight: DealWeight,
     /// Pledge collected to commit this sector
@@ -457,14 +460,12 @@ pub struct SectorOnChainInfo {
     pub sector_key_cid: Option<Cid>,
     /// Additional flags, see [`SectorOnChainInfoFlags`]
     pub flags: SectorOnChainInfoFlags,
-    /// The total fee payable per day for this sector. The value of this field is set at the time of
-    /// sector activation, extension and whenever a sector's QAP is changed. This fee is payable for
-    /// the lifetime of the sector and is aggregated in the deadline's `daily_fee` field.
+    /// The fee payable per day for this sector. It is set at activation, when a pre-FIP-0100
+    /// zero fee is first touched, and when an upgrade changes QAP. An existing non-zero fee
+    /// remains fixed across extension. The fee is aggregated in the deadline's `daily_fee`.
     ///
-    /// This field is not included in the serialised form of the struct prior to the activation of
-    /// FIP-0100, and is added as the 16th element of the array after that point only for new sectors
-    /// or sectors that are updated after that point. For old sectors, the value of this field will
-    /// always be zero.
+    /// This field is absent from sector records written before FIP-0100. Such records decode
+    /// with a zero fee until an extension or update initializes it.
     #[serde(default)]
     pub daily_fee: TokenAmount,
 }
@@ -474,6 +475,8 @@ bitflags::bitflags! {
     #[serde(transparent)]
     pub struct SectorOnChainInfoFlags: u32 {
         /// QA power mechanism introduced in FIP-0045
+        /// This flag is no longer consumed inside the miner actor, it can be removed in a
+        /// future cleanup.
         const SIMPLE_QA_POWER = 0x1;
         /// Sector always receives maximum QA power (10x), regardless of deal content.
         /// Introduced by FIP-0118 (deprecate FIL+).

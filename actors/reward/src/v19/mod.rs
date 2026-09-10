@@ -44,5 +44,6 @@ pub enum Method {
     SetDistributionExported = frc42_dispatch::method_hash!("SetDistribution"),
     CancelPendingExported = frc42_dispatch::method_hash!("CancelPending"),
     SetSharesExported = frc42_dispatch::method_hash!("SetShares"),
+    ReplaceAddressExported = frc42_dispatch::method_hash!("ReplaceAddress"),
     ClaimExported = frc42_dispatch::method_hash!("Claim"),
 }
