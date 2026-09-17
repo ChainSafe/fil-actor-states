@@ -1,0 +1,239 @@
+// Copyright 2019-2022 ChainSafe Systems
+// SPDX-License-Identifier: Apache-2.0, MIT
+
+use std::cmp;
+
+use cid::{Cid, Version};
+use fil_actors_shared::v19::network::*;
+use fil_actors_shared::v19::runtime::Policy;
+use fil_actors_shared::v19::{DealWeight, EXPECTED_LEADERS_PER_EPOCH};
+use fvm_shared4::bigint::{BigInt, Integer};
+use fvm_shared4::clock::ChainEpoch;
+use fvm_shared4::commcid::{FIL_COMMITMENT_SEALED, POSEIDON_BLS12_381_A1_FC1};
+use fvm_shared4::econ::TokenAmount;
+use fvm_shared4::sector::{RegisteredPoStProof, RegisteredSealProof, SectorSize, StoragePower};
+use lazy_static::lazy_static;
+
+use super::types::{SectorOnChainInfo, SectorOnChainInfoFlags};
+use super::{BASE_REWARD_FOR_DISPUTED_WINDOW_POST, PowerPair};
+
+/// Precision used for making QA power calculations
+pub const SECTOR_QUALITY_PRECISION: i64 = 20;
+
+lazy_static! {
+    /// Quality multiplier for committed capacity (no deals) in a sector
+    pub static ref QUALITY_BASE_MULTIPLIER: BigInt = BigInt::from(10);
+
+    /// Quality multiplier for maximum quality-adjusted power: applied to verified deal
+    /// weight on the legacy path, and to every sector carrying `FULL_QA_POWER`.
+    pub static ref MAX_QUALITY_MULTIPLIER: BigInt = BigInt::from(100);
+}
+
+/// The maximum number of partitions that may be required to be loaded in a single invocation,
+/// when all the sector infos for the partitions will be loaded.
+pub fn load_partitions_sectors_max(policy: &Policy, partition_sector_count: u64) -> u64 {
+    cmp::min(
+        policy.addressed_sectors_max / partition_sector_count,
+        policy.addressed_partitions_max,
+    )
+}
+
+/// Prefix for sealed sector CIDs (CommR).
+pub fn is_sealed_sector(c: &Cid) -> bool {
+    // TODO: Move FIL_COMMITMENT etc, into a better place
+    c.version() == Version::V1
+        && c.codec() == FIL_COMMITMENT_SEALED
+        && c.hash().code() == POSEIDON_BLS12_381_A1_FC1
+        && c.hash().size() == 32
+}
+
+/// List of proof types which can be used when creating new miner actors
+pub fn can_pre_commit_seal_proof(policy: &Policy, proof: RegisteredSealProof) -> bool {
+    policy.valid_pre_commit_proof_type.contains(proof)
+}
+
+pub fn can_prove_commit_ni_seal_proof(policy: &Policy, proof: RegisteredSealProof) -> bool {
+    policy.valid_prove_commit_ni_proof_type.contains(proof)
+}
+
+/// Checks whether a seal proof type is supported for new miners and sectors.
+pub fn can_extend_seal_proof_type(_proof: RegisteredSealProof) -> bool {
+    true
+}
+
+/// Maximum duration to allow for the sealing process for seal algorithms.
+/// Dependent on algorithm and sector size
+pub fn max_prove_commit_duration(
+    policy: &Policy,
+    proof: RegisteredSealProof,
+) -> Option<ChainEpoch> {
+    use RegisteredSealProof::*;
+    match proof {
+        StackedDRG32GiBV1 | StackedDRG2KiBV1 | StackedDRG8MiBV1 | StackedDRG512MiBV1
+        | StackedDRG64GiBV1 => Some(EPOCHS_IN_DAY + policy.pre_commit_challenge_delay),
+        StackedDRG32GiBV1P1
+        | StackedDRG64GiBV1P1
+        | StackedDRG512MiBV1P1
+        | StackedDRG8MiBV1P1
+        | StackedDRG2KiBV1P1
+        | StackedDRG32GiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG64GiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG512MiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG8MiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG2KiBV1P1_Feat_SyntheticPoRep => {
+            Some(30 * EPOCHS_IN_DAY + policy.pre_commit_challenge_delay)
+        }
+        _ => None,
+    }
+}
+
+/// Maximum duration to allow for the sealing process for seal algorithms.
+/// Dependent on algorithm and sector size
+pub fn seal_proof_sector_maximum_lifetime(proof: RegisteredSealProof) -> Option<ChainEpoch> {
+    use RegisteredSealProof::*;
+    match proof {
+        StackedDRG32GiBV1 | StackedDRG2KiBV1 | StackedDRG8MiBV1 | StackedDRG512MiBV1
+        | StackedDRG64GiBV1 => Some(EPOCHS_IN_DAY * 540),
+        StackedDRG32GiBV1P1
+        | StackedDRG2KiBV1P1
+        | StackedDRG8MiBV1P1
+        | StackedDRG512MiBV1P1
+        | StackedDRG64GiBV1P1
+        | StackedDRG32GiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG2KiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG8MiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG512MiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG64GiBV1P1_Feat_SyntheticPoRep
+        | StackedDRG32GiBV1P2_Feat_NiPoRep
+        | StackedDRG2KiBV1P2_Feat_NiPoRep
+        | StackedDRG8MiBV1P2_Feat_NiPoRep
+        | StackedDRG512MiBV1P2_Feat_NiPoRep
+        | StackedDRG64GiBV1P2_Feat_NiPoRep => Some(EPOCHS_IN_YEAR * 5),
+        _ => None,
+    }
+}
+
+/// minimum number of epochs past the current epoch a sector may be set to expire
+pub const MIN_SECTOR_EXPIRATION: i64 = 180 * EPOCHS_IN_DAY;
+
+/// Sector quality derived from verified deal weight, for sectors without `FULL_QA_POWER`.
+/// `verified_weight` is the spacetime occupied by verified pieces and is at most the
+/// sector's total spacetime. A fully verified sector reaches
+/// `MAX_QUALITY_MULTIPLIER / QUALITY_BASE_MULTIPLIER`, an unverified one
+/// `QUALITY_BASE_MULTIPLIER / QUALITY_BASE_MULTIPLIER`, and a partially verified one the
+/// weighted average of the two in proportion to the verified share.
+pub fn quality_for_weight(
+    size: SectorSize,
+    duration: ChainEpoch,
+    verified_weight: &DealWeight,
+) -> BigInt {
+    let sector_space_time = BigInt::from(size as u64) * BigInt::from(duration);
+
+    let weighted_base_space_time =
+        (&sector_space_time - verified_weight) * &*QUALITY_BASE_MULTIPLIER;
+    let weighted_verified_space_time = verified_weight * &*MAX_QUALITY_MULTIPLIER;
+    let weighted_sum_space_time = weighted_base_space_time + weighted_verified_space_time;
+    let scaled_up_weighted_sum_space_time: BigInt =
+        weighted_sum_space_time << SECTOR_QUALITY_PRECISION;
+
+    scaled_up_weighted_sum_space_time
+        .div_floor(&sector_space_time)
+        .div_floor(&QUALITY_BASE_MULTIPLIER)
+}
+
+/// Returns maximum achievable QA power.
+pub fn qa_power_max(size: SectorSize) -> StoragePower {
+    (BigInt::from(size as u64) * &*MAX_QUALITY_MULTIPLIER).div_floor(&QUALITY_BASE_MULTIPLIER)
+}
+
+/// Returns the quality-adjusted power for a sector.
+/// Sectors with the FULL_QA_POWER flag always receive maximum QA power (10x).
+pub fn qa_power_for_sector(size: SectorSize, sector: &SectorOnChainInfo) -> StoragePower {
+    if sector.flags.contains(SectorOnChainInfoFlags::FULL_QA_POWER) {
+        return qa_power_max(size);
+    }
+    let duration = sector.expiration - sector.power_base_epoch;
+    let quality = quality_for_weight(size, duration, &sector.verified_deal_weight);
+    (BigInt::from(size as u64) * quality) >> SECTOR_QUALITY_PRECISION
+}
+
+pub fn raw_power_for_sector(size: SectorSize) -> StoragePower {
+    BigInt::from(size as u64)
+}
+
+/// Specification for a linear vesting schedule.
+pub struct VestSpec {
+    /// Delay before any amount starts vesting.
+    pub initial_delay: ChainEpoch,
+    /// Period over which the total should vest, after the initial delay.
+    pub vest_period: ChainEpoch,
+    /// Duration between successive incremental vests (independent of vesting period).
+    pub step_duration: ChainEpoch,
+    /// Maximum precision of vesting table (limits cardinality of table).
+    pub quantization: ChainEpoch,
+}
+
+pub const REWARD_VESTING_SPEC: VestSpec = VestSpec {
+    initial_delay: 0,                  // PARAM_FINISH
+    vest_period: 180 * EPOCHS_IN_DAY,  // PARAM_FINISH
+    step_duration: EPOCHS_IN_DAY,      // PARAM_FINISH
+    quantization: 12 * EPOCHS_IN_HOUR, // PARAM_FINISH
+};
+
+// Default share of block reward allocated as reward to the consensus fault reporter.
+// Applied as epochReward / (expectedLeadersPerEpoch * consensusFaultReporterDefaultShare)
+pub const CONSENSUS_FAULT_REPORTER_DEFAULT_SHARE: u64 = 4;
+
+pub fn reward_for_consensus_slash_report(epoch_reward: &TokenAmount) -> TokenAmount {
+    epoch_reward.div_floor(EXPECTED_LEADERS_PER_EPOCH * CONSENSUS_FAULT_REPORTER_DEFAULT_SHARE)
+}
+
+// The reward given for successfully disputing a window post.
+pub fn reward_for_disputed_window_post(
+    _proof_type: RegisteredPoStProof,
+    _disputed_power: PowerPair,
+) -> TokenAmount {
+    // This is currently just the base. In the future, the fee may scale based on the disputed power.
+    BASE_REWARD_FOR_DISPUTED_WINDOW_POST.clone()
+}
+
+// Calculate the daily fee for a sector's quality-adjusted power based on the current circulating
+// supply.
+pub fn daily_proof_fee(
+    policy: &Policy,
+    circulating_supply: &TokenAmount,
+    qa_power: &StoragePower,
+) -> TokenAmount {
+    // daily_fee_circulating_supply_qap_multiplier{num/denom} gives us the fraction of the
+    // circulating supply that should be paid as a fee per byte of quality-adjusted power.
+    TokenAmount::from_atto(
+        (&policy.daily_fee_circulating_supply_qap_multiplier_num
+            * circulating_supply.atto()
+            * qa_power)
+            .div_floor(&policy.daily_fee_circulating_supply_qap_multiplier_denom),
+    )
+}
+
+// Adjust the daily fee based on the change in quality-adjusted power.
+pub fn daily_proof_fee_adjust(
+    daily_fee: &TokenAmount,
+    old_qa_power: &StoragePower,
+    new_qa_power: &StoragePower,
+) -> TokenAmount {
+    if old_qa_power == new_qa_power {
+        return daily_fee.clone();
+    }
+    TokenAmount::from_atto((daily_fee.atto() * new_qa_power).div_floor(old_qa_power))
+}
+
+// Given a daily fee payable and an estimated BR for the sector(s) the fee is being paid for,
+// calculate the fee payable for the sector(s) by applying the appropriate BR cap.
+pub fn daily_proof_fee_payable(
+    policy: &Policy,
+    daily_fee: &TokenAmount,
+    estimated_day_reward: &TokenAmount,
+) -> TokenAmount {
+    let cap_denom = BigInt::from(policy.daily_fee_block_reward_cap_denom);
+    let cap = estimated_day_reward.div_floor(cap_denom);
+    std::cmp::min(&cap, daily_fee).clone()
+}

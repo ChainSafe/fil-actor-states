@@ -91,23 +91,12 @@ description = "Set dependencies of Forest to this repository for local developme
 shell = "bash -c"
 run = '''
 set -eu
-sed -i -E 's|fil_actors_shared = \{ version = "[^"]*", features = \[(.*)\] \}|fil_actors_shared = { path = "../fil_actors_shared", features = [\1] }|g' ./forest/Cargo.toml
-sed -i -E 's|(fil_actors_shared = \{).*git =.*branch =.*,(.*features =.*)|\1 path = "../fil_actors_shared",\2|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_account_state =.*|fil_actor_account_state = { path = "../actors/account" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_init_state =.*|fil_actor_init_state = { path = "../actors/init" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_miner_state =.*|fil_actor_miner_state = { path = "../actors/miner" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_evm_state =.*|fil_actor_evm_state = { path = "../actors/evm" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_eam_state =.*|fil_actor_eam_state = { path = "../actors/eam" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_ethaccount_state =.*|fil_actor_ethaccount_state = { path = "../actors/ethaccount" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_multisig_state =.*|fil_actor_multisig_state = { path = "../actors/multisig" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_paych_state =.*|fil_actor_paych_state = { path = "../actors/paych" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_power_state =.*|fil_actor_power_state = { path = "../actors/power" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_system_state =.*|fil_actor_system_state = { path = "../actors/system" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_datacap_state =.*|fil_actor_datacap_state = { path = "../actors/datacap" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_cron_state =.*|fil_actor_cron_state = { path = "../actors/cron" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_reward_state =.*|fil_actor_reward_state = { path = "../actors/reward" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_verifreg_state =.*|fil_actor_verifreg_state = { path = "../actors/verifreg" }|g' ./forest/Cargo.toml
-sed -i -e 's|fil_actor_market_state =.*|fil_actor_market_state = { path = "../actors/market" }|g' ./forest/Cargo.toml
+# `cargo add` on an existing dependency swaps its source for the local path (whether it was
+# a crates.io version or a git branch/rev) and keeps the features list as is.
+cargo add --manifest-path forest/Cargo.toml fil_actors_shared --path fil_actors_shared
+for actor in account cron datacap eam ethaccount evm init market miner multisig paych power reward system verifreg; do
+  cargo add --manifest-path forest/Cargo.toml "fil_actor_${actor}_state" --path "actors/${actor}"
+done
 '''
 
 [tasks.clean]
