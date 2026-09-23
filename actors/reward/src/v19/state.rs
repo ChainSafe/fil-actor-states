@@ -39,7 +39,7 @@ lazy_static! {
 }
 
 /// Reward actor state
-#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone)]
+#[derive(Serialize_tuple, Deserialize_tuple, Debug, Clone, PartialEq)]
 pub struct State {
     // ---- Baseline and per-epoch block reward ----
     //
