@@ -387,7 +387,7 @@ pub struct ExplicitDistribution {
 #[allow(dead_code)]
 impl ExplicitDistribution {
     /// The stored shares' total, which the structure invariant holds within `DENOM`.
-    pub(crate) fn share_total(&self) -> u64 {
+    pub fn share_total(&self) -> u64 {
         self.shares.iter().map(|row| row.share).sum()
     }
 }
