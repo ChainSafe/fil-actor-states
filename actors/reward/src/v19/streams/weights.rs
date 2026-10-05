@@ -34,7 +34,7 @@ use crate::v19::state::{DENOM, WeightRecord};
 use crate::v19::types::WeightRecordUpdate;
 
 /// Evaluates a weight at `epoch`, clamped to its inclusive floor and cap.
-pub(super) fn compute_weight(record: &WeightRecord, epoch: ChainEpoch) -> u64 {
+pub fn compute_weight(record: &WeightRecord, epoch: ChainEpoch) -> u64 {
     let delta = i128::from(epoch) - i128::from(record.t_start);
     // |delta| <= 2^64 - 1 and |slope| <= 2^63, so the product fits i128.
     let product = i128::from(record.slope) * delta;
