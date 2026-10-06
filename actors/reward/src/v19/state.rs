@@ -266,25 +266,25 @@ pub struct StreamsState {
 /// Lookups by stream ID. The tables are bounded, so a linear scan is fine.
 #[allow(dead_code)]
 impl StreamsState {
-    pub(crate) fn stream(&self, id: StreamId) -> Option<&Stream> {
+    pub fn stream(&self, id: StreamId) -> Option<&Stream> {
         self.streams.iter().find(|stream| stream.id == id)
     }
 
-    pub(crate) fn stream_mut(&mut self, id: StreamId) -> Option<&mut Stream> {
+    pub fn stream_mut(&mut self, id: StreamId) -> Option<&mut Stream> {
         self.streams.iter_mut().find(|stream| stream.id == id)
     }
 
     /// The stored writer and recipient tables of a live explicit stream.
-    pub(crate) fn explicit(&self, id: StreamId) -> Option<&ExplicitDistribution> {
+    pub fn explicit(&self, id: StreamId) -> Option<&ExplicitDistribution> {
         self.stream(id).and_then(Stream::explicit)
     }
 
-    pub(crate) fn has_stream(&self, id: StreamId) -> bool {
+    pub fn has_stream(&self, id: StreamId) -> bool {
         self.stream(id).is_some()
     }
 
     /// Files a live stream, keeping the table ascending by stream ID.
-    pub(crate) fn insert_stream(&mut self, stream: Stream) {
+    pub fn insert_stream(&mut self, stream: Stream) {
         let idx = self
             .streams
             .binary_search_by_key(&stream.id, |live| live.id)
@@ -293,23 +293,23 @@ impl StreamsState {
     }
 
     /// Removes the live stream with this ID and hands it over.
-    pub(crate) fn take_stream(&mut self, id: StreamId) -> Option<Stream> {
+    pub fn take_stream(&mut self, id: StreamId) -> Option<Stream> {
         let idx = self.streams.iter().position(|stream| stream.id == id)?;
         Some(self.streams.remove(idx))
     }
 
-    pub(crate) fn tombstone_mut(&mut self, id: StreamId) -> Option<&mut Tombstone> {
+    pub fn tombstone_mut(&mut self, id: StreamId) -> Option<&mut Tombstone> {
         self.tombstones
             .iter_mut()
             .find(|tombstone| tombstone.id == id)
     }
 
-    pub(crate) fn has_tombstone(&self, id: StreamId) -> bool {
+    pub fn has_tombstone(&self, id: StreamId) -> bool {
         self.tombstones.iter().any(|tombstone| tombstone.id == id)
     }
 
     /// Files a removed stream's unpaid rows, keeping the tombstones ascending by stream ID.
-    pub(crate) fn insert_tombstone(&mut self, id: StreamId, payable: RecipientTable) {
+    pub fn insert_tombstone(&mut self, id: StreamId, payable: RecipientTable) {
         let idx = self
             .tombstones
             .binary_search_by_key(&id, |tombstone| tombstone.id)
@@ -318,7 +318,7 @@ impl StreamsState {
     }
 
     /// Removes a drained tombstone.
-    pub(crate) fn take_tombstone(&mut self, id: StreamId) -> Option<Tombstone> {
+    pub fn take_tombstone(&mut self, id: StreamId) -> Option<Tombstone> {
         let idx = self
             .tombstones
             .iter()
@@ -342,16 +342,16 @@ pub struct Stream {
 #[allow(dead_code)]
 impl Stream {
     /// True for the consensus stream, whose portion pays the block winner directly.
-    pub(crate) fn is_implicit(&self) -> bool {
+    pub fn is_implicit(&self) -> bool {
         self.distribution.is_none()
     }
 
     /// The stored writer and recipient tables, for an explicit stream.
-    pub(crate) fn explicit(&self) -> Option<&ExplicitDistribution> {
+    pub fn explicit(&self) -> Option<&ExplicitDistribution> {
         self.distribution.as_ref()
     }
 
-    pub(crate) fn explicit_mut(&mut self) -> Option<&mut ExplicitDistribution> {
+    pub fn explicit_mut(&mut self) -> Option<&mut ExplicitDistribution> {
         self.distribution.as_mut()
     }
 }
@@ -425,7 +425,7 @@ impl RecipientTable {
     }
 
     /// Credits the recipient, inserting a row in order or accumulating onto its existing one.
-    pub(crate) fn add(&mut self, recipient: Address, amount: TokenAmount) {
+    pub fn add(&mut self, recipient: Address, amount: TokenAmount) {
         if amount.is_zero() {
             return;
         }
@@ -436,14 +436,14 @@ impl RecipientTable {
     }
 
     /// Removes the recipient's row and returns its balance, or zero when it holds none.
-    pub(crate) fn take(&mut self, recipient: &Address) -> TokenAmount {
+    pub fn take(&mut self, recipient: &Address) -> TokenAmount {
         self.0
             .binary_search_by(|row| row.recipient.cmp(recipient))
             .map_or_else(|_| TokenAmount::zero(), |idx| self.0.remove(idx).amount)
     }
 
     /// The number of rows this table would hold after folding a period under `shares`.
-    pub(crate) fn union_len(&self, shares: &[RecipientShare]) -> usize {
+    pub fn union_len(&self, shares: &[RecipientShare]) -> usize {
         let mut row_idx = 0;
         let mut share_idx = 0;
         let mut count = 0;
@@ -461,7 +461,7 @@ impl RecipientTable {
         count + self.0.len() - row_idx + shares.len() - share_idx
     }
 
-    pub(crate) fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.0.len()
     }
 
@@ -473,7 +473,7 @@ impl RecipientTable {
         self.0.iter()
     }
 
-    pub(crate) fn clear(&mut self) {
+    pub fn clear(&mut self) {
         self.0.clear();
     }
 }
@@ -520,7 +520,7 @@ pub enum PendingWriteOp {
 #[allow(dead_code)]
 impl PendingWriteOp {
     /// Schedule-wide operations act on the whole weight schedule and carry no stream ID.
-    pub(crate) fn is_schedule_wide(self) -> bool {
+    pub fn is_schedule_wide(self) -> bool {
         matches!(
             self,
             PendingWriteOp::SetWeightRecords | PendingWriteOp::StepWeightRecords
