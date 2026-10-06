@@ -32,6 +32,7 @@ pub(crate) use self::award::{FullAward, plan_award};
 pub(crate) use self::distribution::{Fold, FoldCause, SharesInstalled, admit_shares};
 pub use self::invariants::validate_streams_state;
 pub(crate) use self::queue::{ApplyResult, QueuedCall, WriteKey};
+pub use self::weights::compute_weight;
 
 /// Stream state that has passed the structure and accounting invariants.
 ///
@@ -53,7 +54,7 @@ pub(crate) use self::queue::{ApplyResult, QueuedCall, WriteKey};
 /// `claim`, `remove_stream` and `replace_writer` in `distribution.rs`; `liability`, `allocate`
 /// and `accrue` in `award.rs`.
 #[derive(Clone)]
-pub(crate) struct Ledger {
+pub struct Ledger {
     streams: StreamsState,
     accrued: Vec<StreamAccrual>,
     /// Set by the paths that can change the streams block, which [`Ledger::store`] then writes.
@@ -92,7 +93,7 @@ impl Ledger {
     }
 
     /// Decodes and validates the streams block for the award, whose every failure pays gas only.
-    pub(crate) fn decode_for_award(bytes: &[u8], accrued: &[StreamAccrual]) -> Result<Ledger> {
+    pub fn decode_for_award(bytes: &[u8], accrued: &[StreamAccrual]) -> Result<Ledger> {
         Ledger::checked(from_slice(bytes)?, accrued.to_vec())
     }
 
@@ -143,7 +144,7 @@ impl Ledger {
         Ok(())
     }
 
-    pub(crate) fn streams(&self) -> &StreamsState {
+    pub fn streams(&self) -> &StreamsState {
         &self.streams
     }
 
