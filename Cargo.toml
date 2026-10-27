@@ -62,7 +62,7 @@ num = "0.4"
 num-bigint = { version = "0.4", features = ["serde"] }
 num-derive = "0.5"
 num-traits = "0.2"
-parking_lot = "0.12"
+parking_lot = "0.13"
 pastey = "0.2"
 pretty_assertions = "1"
 quickcheck = "1"
