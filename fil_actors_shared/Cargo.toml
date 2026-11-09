@@ -25,7 +25,6 @@ integer-encoding = { workspace = true }
 itertools = { workspace = true }
 lazy_static = { workspace = true }
 multihash-codetable = { workspace = true }
-num = { workspace = true }
 num-bigint = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
@@ -43,9 +42,6 @@ default = []
 json = ["fvm_ipld_bitfield/json"]
 arb = ["quickcheck"]
 
-[package.metadata.cargo-udeps.ignore]
-normal = ["num"]
-
 [dev-dependencies]
 fil_actors_test_utils.workspace = true
 hex.workspace = true
@@ -55,3 +51,7 @@ quickcheck_macros.workspace = true
 [build-dependencies]
 regex = { workspace = true }
 walkdir = "2.5.0"
+
+[package.metadata.cargo-shear]
+# Declared only to enable its `serde` feature for `StoragePower` (de)serialization.
+ignored = ["num-bigint"]

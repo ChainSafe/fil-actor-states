@@ -78,7 +78,7 @@ jobs:
 
   lint-all:
     name: All lint checks
-    runs-on: ubuntu-24.04 # can't use arm64 due to dependency issues with udeps running on nightly
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v7
