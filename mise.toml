@@ -20,7 +20,7 @@ RUST_MIN_STACK=8388608 cargo test --workspace --all-features --all-targets
 [tasks.install-lint-tools]
 description = "Installs linting tools for CI"
 tools.cargo-binstall = "1.19.0"
-run = "cargo binstall --no-confirm taplo-cli cargo-spellcheck cargo-deny cargo-udeps"
+run = "cargo binstall --no-confirm taplo-cli cargo-spellcheck cargo-deny cargo-shear@1.14.0"
 
 [tasks."lint:deny"]
 description = "Run cargo-deny to check for license and security issues."
@@ -34,10 +34,10 @@ run = '''
 cargo deny check advisories || (echo "See deny.toml"; false)
 '''
 
-[tasks."lint:udeps"]
-description = "Run cargo-udeps to check for unused dependencies."
+[tasks."lint:shear"]
+description = "Run cargo-shear to check for unused dependencies."
 run = '''
-cargo +nightly udeps
+cargo shear --deny-warnings
 '''
 
 [tasks."lint:clippy"]
@@ -52,13 +52,12 @@ run = '''
 cargo fmt --all -- --check && taplo fmt --check && taplo lint
 '''
 
-[tasks."lint:unused-deps-script"]
-description = "Check for unused dependencies via Ruby script."
+[tasks."lint:duplicate-deps"]
+description = "Check for dependencies duplicated across crates instead of inherited from the workspace."
 tools.ruby = "3.4.8"
 run = '''
 gem install --no-document toml-rb && \
-ruby scripts/find_duplicate_deps.rb && \
-ruby scripts/find_unused_deps.rb --ignore serde --ignore num --ignore num-bigint --ignore num-traits --ignore fvm_ipld_bitfield
+ruby scripts/find_duplicate_deps.rb
 '''
 
 [tasks.format]

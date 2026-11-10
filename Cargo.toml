@@ -32,13 +32,17 @@ authors = [
 edition = "2024"
 keywords = ["filecoin", "web3", "wasm"]
 
+[workspace.metadata.cargo-shear]
+# Referenced only from `num_derive` and `fvm_ipld_encoding` derive macro expansions.
+ignored = ["num-traits", "serde"]
+
 [workspace.dependencies]
-ahash = "0.8"
 anyhow = "1"
-base64 = "0.22"
 bitflags = "2"
-byteorder = "1"
 cid = { version = "0.11", default-features = false, features = ["std"] }
+fil_actor_evm_state = { version = "27.2.0", path = "./actors/evm" }
+fil_actor_verifreg_state = { version = "27.2.0", path = "./actors/verifreg" }
+fil_actors_shared = { version = "27.2.0", path = "./fil_actors_shared" }
 frc42_dispatch = "11"
 frc46_token = "15"
 fvm_ipld_amt = "0.7"
@@ -67,31 +71,11 @@ pastey = "0.2"
 pretty_assertions = "1"
 quickcheck = "1"
 quickcheck_macros = "1"
-rand = "0.10"
 regex = "1"
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
 serde_repr = "0.1"
-serde_tuple = "1"
-serde_yaml = "0.9"
-sha2 = "0.11"
 thiserror = "2"
-toml = "1.0"
 uint = { version = "0.10", default-features = false }
 unsigned-varint = "0.8"
-
-fil_actor_account_state = { version = "27.2.0", path = "./actors/account" }
-fil_actor_cron_state = { version = "27.2.0", path = "./actors/cron" }
-fil_actor_datacap_state = { version = "27.2.0", path = "./actors/datacap" }
-fil_actor_evm_state = { version = "27.2.0", path = "./actors/evm" }
-fil_actor_init_state = { version = "27.2.0", path = "./actors/init" }
-fil_actor_market_state = { version = "27.2.0", path = "./actors/market" }
-fil_actor_miner_state = { version = "27.2.0", path = "./actors/miner" }
-fil_actor_multisig_state = { version = "27.2.0", path = "./actors/multisig" }
-fil_actor_power_state = { version = "27.2.0", path = "./actors/power" }
-fil_actor_reward_state = { version = "27.2.0", path = "./actors/reward" }
-fil_actor_system_state = { version = "27.2.0", path = "./actors/system" }
-fil_actor_verifreg_state = { version = "27.2.0", path = "./actors/verifreg" }
-fil_actors_shared = { version = "27.2.0", path = "./fil_actors_shared" }
 
 fil_actors_test_utils = { path = "./fil_actors_test_utils" }
